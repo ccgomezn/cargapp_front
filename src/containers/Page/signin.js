@@ -62,8 +62,6 @@ class SignIn extends Component {
                   </Col>
                 </Row>
               </div>
-
-
             </div>
 
             <div className="isoSignInForm">
@@ -71,7 +69,7 @@ class SignIn extends Component {
                 <label>
                   <IntlMessages id="page.email" />
                 </label>
-                <Input size="large" placeholder="Email" />
+                <Input size="large" placeholder="Correo electrónico" />
               </div>
 
               <div className="isoInputWrapper">
@@ -94,13 +92,13 @@ class SignIn extends Component {
 
 
 
-                <Input size="large" type="password" placeholder="Password" />
+                <Input size="large" type="password" placeholder="Contraseña" />
               </div>
 
               <div className="isoInputWrapper">
 
                 <Button type="primary" onClick={this.handleLogin} block style={{
-                  height: 50,
+                  height: 45,
                   marginTop: 8
                 }}>
                   <IntlMessages id="page.signInButton" />
@@ -112,18 +110,18 @@ class SignIn extends Component {
 
               <div className="isoCenterComponent isoHelperWrapper">
                 <div>
-                    <p>
+                  <p>
 
-                      <IntlMessages id="page.notMember" />{' '}
-                      <Link to="/signup">
-                        <IntlMessages id="page.signUpButton" />
-                      </Link>
-                    </p>
-                    
-                
+                    <IntlMessages id="page.notMember" />{' '}
                     <Link to="/signup">
-                      <IntlMessages id="page.aboutUs" />
+                      <IntlMessages id="page.signUpButton" />
                     </Link>
+                  </p>
+
+
+                  <Link to="/signup">
+                    <IntlMessages id="page.aboutUs" />
+                  </Link>
                 </div>
               </div>
             </div>
