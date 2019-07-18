@@ -1,2 +1,1 @@
-# React - Admin front cargAPP  `Version 2.9.4`
-
+# Isomorphic - React Redux Admin Dashboard `Version 2.9.4`
