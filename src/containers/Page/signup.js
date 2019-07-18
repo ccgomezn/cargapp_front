@@ -130,8 +130,7 @@ class SignUp extends Component {
               </div>
 
 
-
-              <div className="isoInputWrapper">
+                  <div className="isoInputWrapper">
                 <Button type="primary" className="signUp" style={{
                   height: 45
                 }}>
@@ -150,6 +149,7 @@ class SignUp extends Component {
                   </p>
                 </div>
               </div>
+                
             </div>
           </div>
         </div>
