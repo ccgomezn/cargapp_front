@@ -672,9 +672,14 @@
   "themeSwitcher.purchase": "Compra ahora",
   "themeSwitcher.settings": "AJUSTES",
   "sidebar.frappeChart": "Frappe Charts",
+  "sidebar.home": "Home",
+  "sidebar.settings": "Configuraciones",
+  "sidebar.analytics": "Analytics",
   "topbar.help": "Ayuda",
   "topbar.logout": "Cerrar sesión",
   "topbar.viewAll": "Ver todo",
   "topbar.viewCart": "Ver carro",
+  "sidebar.travels": "Viajes",
+  "sidebar.map": "Mapa",
   "topbar.totalPrice": "Precio total"
 }

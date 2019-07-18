@@ -44,14 +44,14 @@ class SignUpCompany extends Component {
                 <Row>
                   <Col span={24}>
                     <Link to="/dashboard">
-                      <IntlMessages id="page.signUnTitleCompany" />
+                      <IntlMessages id="page.signUpTitleCompany" />
                     </Link>
                   </Col>
                 </Row>
                 <Row>
                   <Col span={24} >
                     <p>
-                      <IntlMessages id="page.signUnSubTitleCompany" />
+                      <IntlMessages id="page.signUpSubTitleCompany" />
                     </p>
                   </Col>
                 </Row>
@@ -111,7 +111,7 @@ class SignUpCompany extends Component {
               </div>
 
 
-              <div className="isoInputWrapper" style={{marginTop: 20}}>
+              <div className="isoInputWrapper" style={{marginTop: 33}}>
                 <Button type="primary" className="signUp" style={{
                   height: 45
                 }}>

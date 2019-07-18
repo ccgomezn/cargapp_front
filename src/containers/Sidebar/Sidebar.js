@@ -128,14 +128,14 @@ class Sidebar extends Component {
       return;
     };
     const styling = {
-      backgroundColor: customizedTheme.backgroundColor
+      backgroundColor: "white"
     };
     const submenuStyle = {
-      backgroundColor: "rgba(0,0,0,0.3)",
+      backgroundColor: customizedTheme.textColor,
       color: customizedTheme.textColor
     };
     const submenuColor = {
-      color: customizedTheme.textColor
+      color: "rgb(178, 186, 200)"
     };
     return (
       <SidebarWrapper>
@@ -164,40 +164,7 @@ class Sidebar extends Component {
                 this.getMenuItem({ submenuStyle, submenuColor, singleOption })
               )}
               {/* Demo Menu */}
-              <SubMenu
-                key="sub1"
-                title={
-                  <span className="isoMenuHolder" style={submenuColor}>
-                    <i className="ion-android-options" />
-                    <span className="nav-text">
-                      <IntlMessages id="sidebar.menuLevels" />
-                    </span>
-                  </span>
-                }
-              >
-                <MenuItemGroup
-                  key="g1"
-                  title={<IntlMessages id="sidebar.item1" />}
-                >
-                  <Menu.Item style={submenuStyle} key="1">
-                    <IntlMessages id="sidebar.option1" />
-                  </Menu.Item>
-                  <Menu.Item style={submenuStyle} key="2">
-                    <IntlMessages id="sidebar.option2" />
-                  </Menu.Item>
-                </MenuItemGroup>
-                <MenuItemGroup
-                  key="g2"
-                  title={<IntlMessages id="sidebar.item2" />}
-                >
-                  <Menu.Item style={submenuStyle} key="3">
-                    <IntlMessages id="sidebar.option3" />
-                  </Menu.Item>
-                  <Menu.Item style={submenuStyle} key="4">
-                    <IntlMessages id="sidebar.option4" />
-                  </Menu.Item>
-                </MenuItemGroup>
-              </SubMenu>
+
             </Menu>
           </Scrollbars>
         </Sider>

@@ -59,24 +59,14 @@ export class App extends Component {
                       style={{
                         padding: '70px 0 0',
                         flexShrink: '0',
-                        background: '#f1f3f6',
+                        background: 'rgba(244, 246, 251)',
                         position: 'relative'
                       }}
                     >
                       <AppRouter url={url} />
                     </Content>
-                    <Footer
-                      style={{
-                        background: '#ffffff',
-                        textAlign: 'center',
-                        borderTop: '1px solid #ededed'
-                      }}
-                    >
-                      {siteConfig.footerText}
-                    </Footer>
                   </Layout>
                 </Layout>
-                <ThemeSwitcher />
               </Layout>
             </AppHolder>
           </ThemeProvider>

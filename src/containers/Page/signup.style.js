@@ -89,9 +89,8 @@ const SignUpStyleWrapper = styled.div`
 
         .signUp {
           background-color: rgb(50,95,246	)
-          position: absolute;
-          bottom: 0;
-          left: 0;
+          position: absolute; 
+           bottom: 0px; 
         }
 
         button {

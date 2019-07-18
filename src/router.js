@@ -54,7 +54,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         <Route
           exact
           path={"/signupcompany"}
-          component={asyncComponent(() => import("./containers/Page/signupCompnay"))}
+          component={asyncComponent(() => import("./containers/Page/signupCompany"))}
         />
         <Route
           exact
@@ -77,7 +77,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         />
 
        
-        <RestrictedRoute
+        <Route
           path="/dashboard"
           component={App}
           isLoggedIn={isLoggedIn}

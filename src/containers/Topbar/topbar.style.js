@@ -273,7 +273,7 @@ const TopbarWrapper = styled.div`
             display: flex;
             flex-direction: column;
             margin-bottom: 10px;
-            background-color: ${palette('grayscale', 6)};
+            background-color: white;
 
             .isoDropdownListItem {
               padding: 15px 30px;

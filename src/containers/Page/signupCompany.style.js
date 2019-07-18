@@ -107,6 +107,7 @@ const SignUpStyleWrapper = styled.div`
 
         .signUp {
           background-color: rgb(50,95,246	)
+          padding-top: 100000px;
         }
 
         button {
