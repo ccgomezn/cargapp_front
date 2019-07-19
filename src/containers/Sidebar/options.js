@@ -1,6 +1,6 @@
 const options = [
   {
-    key: 'home',
+    key: '',
     label: 'sidebar.home',
     leftIcon: 'ion-android-apps',
   },
