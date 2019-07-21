@@ -1,6 +1,6 @@
 const options = [
   {
-    key: 'home',
+    key: '',
     label: 'sidebar.home',
     leftIcon: 'ion-android-apps',
   },
@@ -10,7 +10,7 @@ const options = [
     leftIcon: 'ion-stats-bars',
   },
   {
-    key: 'travels',
+    key: 'tracking',
     label: 'sidebar.travels',
     leftIcon: 'ion-android-car',
   },

@@ -85,6 +85,8 @@ const SidebarWrapper = styled.div`
         margin: 0;
       }
 
+      .ant-menu-
+
       .isoMenuHolder {
         display: flex;
         align-items: center;
@@ -93,7 +95,7 @@ const SidebarWrapper = styled.div`
           font-size: 19px;
           color: inherit;
           margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 0 0 30px' : '0 30px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 30px' : '0 30px 0 0'};
           width: 18px;
           ${transition()};
         }
@@ -107,6 +109,7 @@ const SidebarWrapper = styled.div`
       }
 
       .nav-text {
+        padding-left: 5px;
         font-size: 14px;
         color: inherit;
         font-weight: 400;
@@ -114,6 +117,15 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item-selected {
+        padding-left: 0px !important;
+        &:before {
+            content: '';
+            width: 5px;
+            height: 40px;
+            background-color: rgba(52	96	246	);
+            display: flex;
+            
+          }
         background-color: rgba(235, 238, 253	) !important;
         .anticon {
           color: #fff;
@@ -122,9 +134,10 @@ const SidebarWrapper = styled.div`
           color:rgba(52	96	246	)
         }
         i {
+          padding-left: 20px;
           color: rgba(202,	207,	221	);
         }
-
+        
         .nav-text {
           color: #fff;
         }
@@ -200,9 +213,9 @@ const SidebarWrapper = styled.div`
       .ant-menu-submenu-vertical {
         > li:not(.ant-menu-item-group) {
           padding-left: ${props =>
-            props['data-rtl'] === 'rtl' ? '0px !important' : '74px !important'};
+    props['data-rtl'] === 'rtl' ? '0px !important' : '74px !important'};
           padding-right: ${props =>
-            props['data-rtl'] === 'rtl' ? '74px !important' : '0px !important'};
+    props['data-rtl'] === 'rtl' ? '74px !important' : '0px !important'};
           font-size: 13px;
           font-weight: 400;
           margin: 0;

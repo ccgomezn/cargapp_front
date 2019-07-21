@@ -48,6 +48,12 @@ const AppHolder = styled.div`
     border: 1px solid ${palette('border', 0)};
     height: 100%;
   }
+  .isoLayoutEditedContent {
+    width: 100%;
+    padding: 35px;
+    background-color: #ffffff;
+    border: 1px solid ${palette('border', 0)};
+  }
 
   .isomorphicLayout {
     width: calc(100% - 240px);
