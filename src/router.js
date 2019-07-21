@@ -53,6 +53,16 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         />
         <Route
           exact
+          path={"/signupcompany"}
+          component={asyncComponent(() => import("./containers/Page/signupCompany"))}
+        />
+        <Route
+          exact
+          path={"/signupfinancial"}
+          component={asyncComponent(() => import("./containers/Page/signupFinancial"))}
+        />
+        <Route
+          exact
           path={"/forgotpassword"}
           component={asyncComponent(() =>
             import("./containers/Page/forgotPassword")
@@ -67,7 +77,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         />
 
        
-        <RestrictedRoute
+        <Route
           path="/dashboard"
           component={App}
           isLoggedIn={isLoggedIn}

@@ -30,7 +30,7 @@ const SidebarWrapper = styled.div`
 
     .isoLogoWrapper {
       height: 70px;
-      background: rgba(0, 0, 0, 0.3);
+      background: white;
       margin: 0;
       padding: 0 10px;
       text-align: center;
@@ -44,7 +44,7 @@ const SidebarWrapper = styled.div`
           line-height: 70px;
           letter-spacing: 3px;
           text-transform: uppercase;
-          color: ${palette('grayscale', 6)};
+          color: black;
           display: block;
           text-decoration: none;
         }
@@ -114,13 +114,15 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item-selected {
-        background-color: rgba(0, 0, 0, 0.4) !important;
+        background-color: rgba(235, 238, 253	) !important;
         .anticon {
           color: #fff;
         }
-
+        span {
+          color:rgba(52	96	246	)
+        }
         i {
-          color: #fff;
+          color: rgba(202,	207,	221	);
         }
 
         .nav-text {
@@ -130,9 +132,9 @@ const SidebarWrapper = styled.div`
 
       > li {
         &:hover {
-          i,
-          .nav-text {
-            color: #ffffff;
+          
+          span {
+            color: rgba(52,96,246);
           }
         }
       }

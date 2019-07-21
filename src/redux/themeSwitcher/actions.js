@@ -11,7 +11,7 @@ const actions = {
       document.getElementsByClassName(
         'isomorphicContent'
       )[0].style.backgroundColor =
-        theme.backgroundColor;
+        'rgba(244, 246, 251)';
     }
     return {
       type: actions.CHANGE_THEME,

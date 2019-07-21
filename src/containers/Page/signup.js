@@ -129,27 +129,29 @@ class SignUp extends Component {
                   placeholder="Contraseña" />
               </div>
 
+              <div className="positionSignup">
+                <div className="isoInputWrapper">
+                  <Button type="primary" className="signUp" style={{
+                    height: 45
+                  }}>
+                    <IntlMessages id="page.signUpButton" />
+                  </Button>
+                </div>
 
+                <div className="isoCenterComponent isoHelperWrapper">
+                  <div>
+                    <p>
 
-              <div className="isoInputWrapper">
-                <Button type="primary" className="signUp" style={{
-                  height: 45
-                }}>
-                  <IntlMessages id="page.signUpButton" />
-                </Button>
-              </div>
-
-              <div className="isoCenterComponent isoHelperWrapper">
-                <div>
-                  <p>
-
-                    <IntlMessages id="page.member" />{' '}
-                    <Link to="/signup">
-                      <IntlMessages id="page.signInButton" />
-                    </Link>
-                  </p>
+                      <IntlMessages id="page.member" />{' '}
+                      <Link to="/signup">
+                        <IntlMessages id="page.signInButton" />
+                      </Link>
+                    </p>
+                  </div>
                 </div>
               </div>
+              
+                
             </div>
           </div>
         </div>

@@ -54,7 +54,7 @@ const SignUpStyleWrapper = styled.div`
       padding-top: 25%;
       width: 100%;
       display: flex;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       justify-content: start;
       flex-shrink: 0;
 
@@ -67,6 +67,24 @@ const SignUpStyleWrapper = styled.div`
       p {
         font-size: 14px;
         color: rgb(162,173,188);
+      }
+    }
+
+    .isoLogoWrapper2 {
+      width: 100%;
+      display: flex;
+      margin-bottom: 25px;
+      justify-content: start;
+      flex-shrink: 0;
+
+      .title {
+        font-size: 14px;
+        color: rgb(162,173,188);
+        text-transform: uppercase;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: black;
       }
     }
 
@@ -89,8 +107,6 @@ const SignUpStyleWrapper = styled.div`
 
         .signUp {
           background-color: rgb(50,95,246	)
-          position: absolute; 
-           bottom: 0px; 
         }
 
         button {
@@ -139,10 +155,7 @@ const SignUpStyleWrapper = styled.div`
           }
         }
       }
-      .signupFooter {
-          position: absolute;
-          bottom: 0px;
-      }
+
       .isoHelperWrapper {
         margin-top: 10px;
         flex-direction: column;
