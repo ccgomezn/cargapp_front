@@ -662,6 +662,8 @@
   "antTable.title.initialDate": "Fecha de recogida",
   "antTable.title.destiny": "Destino",
   "antTable.title.state": "Estado",
+  "trackings.map.title": "Viajes en curso",
+  "trackings.filter": "Filtrar",
   "antTable.title.lastName": "Apellido",
   "antTable.title.city": "Ciudad",
   "antTable.title.street": "Calle",

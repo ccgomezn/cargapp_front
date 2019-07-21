@@ -9,7 +9,6 @@ h1{
   color: black;
   width: 100%;
   margin-right: 17px;
-  margin-bottom: 30px;
   display: flex;
   align-items: center;
   white-space: nowrap;

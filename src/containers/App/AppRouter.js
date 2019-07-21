@@ -12,6 +12,10 @@ const routes = [
     component: asyncComponent(() => import('../Tracking'))
   },
   {
+    path: 'trackingmap',
+    component: asyncComponent(() => import('../TrackingMap'))
+  },
+  {
     path: 'inbox',
     component: asyncComponent(() => import('../Mail')),
   },

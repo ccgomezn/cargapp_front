@@ -10,7 +10,7 @@ const options = [
     leftIcon: 'ion-stats-bars',
   },
   {
-    key: 'travels',
+    key: 'tracking',
     label: 'sidebar.travels',
     leftIcon: 'ion-android-car',
   },
