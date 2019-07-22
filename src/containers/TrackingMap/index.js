@@ -3,40 +3,59 @@ import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import TableDemoStyle from './demo.style';
 import { tableinfos } from './configs';
+import { MapContainer } from '../../components/maps/map'
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../settings/basicStyle';
 import Input from "../../components/uielements/input";
+import Button from "../../components/uielements/button";
 
 export default class Tracking extends Component {
-  render() {
-    const wisgetPageStyle = {
-      display: 'flex',
-      flexFlow: 'row wrap',
-      alignItems: 'flex-start',
-      overflow: 'hidden',
-    };
-    const { rowStyle, colStyle } = basicStyle;
 
+
+  static defaultMapProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
+    zoom: 11
+  };
+
+  render() {
+    
+    const { rowStyle, colStyle } = basicStyle;
     return (
       <LayoutWrapper>
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={18} md={24} sm={24} xs={24} style={colStyle}>
             <Row>
-              <PageHeader>
+              <Col lg={18} md={24} sm={24} xs={24} style={colStyle}>
+                <PageHeader>
 
-                <h1>
-                  <IntlMessages id="trackings.map.title" />
-                  <h2>
-                    <IntlMessages id="trackings.subtitle" />
-                  </h2>
-                </h1>
-              </PageHeader>
+                  <h1>
+                    <IntlMessages id="trackings.title" />
+                    <h2>
+                      <IntlMessages id="trackings.subtitle" />
+                    </h2>
+                  </h1>
+                </PageHeader>
+              </Col>
+              <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
+                <Button block style={{
+                  height: 40,
+                  backgroundColor: 'rgba(50,	95,	245)',
+                  color: '#ffffff'
+                }}
+                  block>
+                  <IntlMessages id="trackings.filter" />
+                    
+                </Button>
+              </Col>
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                  <iframe class="iframe" width="100%" height="500px" src="https://www.openstreetmap.org/export/embed.html?bbox=-82.55264282226564%2C22.971353928229505%2C-82.19009399414064%2C23.200960808078566&layer=mapnik"></iframe>
+                <MapContainer/>
               </Col>
             </Row>
 

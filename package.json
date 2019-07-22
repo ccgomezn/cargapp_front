@@ -17,6 +17,7 @@
     "firebase": "^5.2.0",
     "frappe-charts": "^0.0.8",
     "globalize": "^1.2.3",
+    "google-map-react": "^1.1.4",
     "history": "^4.6.3",
     "immutable": "^3.8.1",
     "js-info-bubble": "git+https://github.com/RedQ/js-info-bubble.git",

@@ -15,7 +15,7 @@ const options = [
     leftIcon: 'ion-android-car',
   },
   {
-    key: 'map',
+    key: 'trackingmap',
     label: 'sidebar.map',
     leftIcon: 'ion-map'
   },
