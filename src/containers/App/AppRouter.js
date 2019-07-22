@@ -5,7 +5,7 @@ import asyncComponent from '../../helpers/AsyncFunc';
 const routes = [
   {
     path: '',
-    component: asyncComponent(() => import('../Widgets/index.js')),
+    component: asyncComponent(() => import('../Dashboard/index.js')),
   },
   {
     path: 'tracking',

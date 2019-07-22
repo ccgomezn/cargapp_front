@@ -78,6 +78,7 @@
     "redux-saga": "^0.16.0",
     "redux-saga-firebase": "0.10.0",
     "redux-thunk": "^2.2.0",
+    "reqwest": "^2.0.5",
     "reselect": "^3.0.0",
     "rheostat": "^2.1.1",
     "rich-marker": "^0.0.1",

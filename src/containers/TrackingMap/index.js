@@ -55,7 +55,7 @@ export default class Tracking extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                <div style={{ height: 500}}>
+                <div style={{ height: 600}}>
                 <MapContainer block />
 
                 </div>
