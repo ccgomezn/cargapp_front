@@ -3,7 +3,7 @@ import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import TableDemoStyle from './demo.style';
 import { tableinfos } from './configs';
-import { MapContainer } from '../../components/maps/map'
+import  MapContainer  from '../../components/maps/map'
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
@@ -55,7 +55,10 @@ export default class Tracking extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                <MapContainer/>
+                <div style={{ height: 500}}>
+                <MapContainer block />
+
+                </div>
               </Col>
             </Row>
 
