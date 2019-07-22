@@ -109,7 +109,7 @@ const SidebarWrapper = styled.div`
       }
 
       .nav-text {
-        padding-left: 5px;
+        padding-left: 20px;
         font-size: 14px;
         color: inherit;
         font-weight: 400;
@@ -134,7 +134,7 @@ const SidebarWrapper = styled.div`
           color:rgba(52	96	246	)
         }
         i {
-          padding-left: 20px;
+          padding-left: 13px;
           color: rgba(202,	207,	221	);
         }
         
