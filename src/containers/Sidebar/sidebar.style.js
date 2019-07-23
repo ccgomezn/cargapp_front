@@ -4,12 +4,58 @@ import { transition, borderRadius } from '../../settings/style-util';
 import WithDirection from '../../settings/withDirection';
 
 const SidebarWrapper = styled.div`
+      .triggerBtn {
+        width: 24px;
+        height: 100%;
+        display: -webkit-inline-flex;
+        display: -ms-inline-flex;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: 0;
+        outline: 0;
+        position: left;
+        cursor: pointer;
+
+        &:before {
+          content: '\f20e';
+          font-family: 'Ionicons';
+          font-size: 26px;
+          color: inherit;
+          line-height: 0;
+          position: absolute;
+        }
+      }
+      
+.ant-menu-inline-collapsed{
+        .ant-menu-item-selected {
+          padding-left: 0px !important;
+          &:before {
+            content: '..' !important;
+            width: 5px !important;
+            height: 40px !important;
+            color: transparent !important;
+            background-color: rgba(52	96	246	) !important;
+            display: flex !important;
+          }
+          i {
+            padding-left: 21px !important;
+            color: rgba(202,	207,	221	);
+          }
+        }
+      }
   .isomorphicSidebar {
+
+
+
     z-index: 1000;
     background: ${palette('secondary', 0)};
     width: 280px;
     flex: 0 0 280px;
 
+
+    
     .scrollarea {
       height: calc(100vh - 70px);
     }
@@ -29,11 +75,11 @@ const SidebarWrapper = styled.div`
     }
 
     .isoLogoWrapper {
+      padding-left: 20px !important;
       height: 70px;
       background: white;
       margin: 0;
       padding: 0 10px;
-      text-align: center;
       overflow: hidden;
       ${borderRadius()};
 
@@ -52,8 +98,10 @@ const SidebarWrapper = styled.div`
     }
 
     &.ant-layout-sider-collapsed {
+      
       .isoLogoWrapper {
         padding: 0;
+        padding-left: 30px !important;
 
         h3 {
           a {
@@ -85,7 +133,6 @@ const SidebarWrapper = styled.div`
         margin: 0;
       }
 
-      .ant-menu-
 
       .isoMenuHolder {
         display: flex;
@@ -109,15 +156,18 @@ const SidebarWrapper = styled.div`
       }
 
       .nav-text {
-        padding-left: 5px;
+        padding-left: 10px;
         font-size: 14px;
         color: inherit;
         font-weight: 400;
         ${transition()};
       }
-
+      
       .ant-menu-item-selected {
         padding-left: 0px !important;
+        .nav-text {
+          padding-left: 28px;
+        }
         &:before {
             content: '';
             width: 5px;
@@ -134,10 +184,9 @@ const SidebarWrapper = styled.div`
           color:rgba(52	96	246	)
         }
         i {
-          padding-left: 20px;
+          padding-left: 15px;
           color: rgba(202,	207,	221	);
         }
-        
         .nav-text {
           color: #fff;
         }
@@ -200,6 +249,7 @@ const SidebarWrapper = styled.div`
         }
 
         &:hover {
+          
           .ant-menu-submenu-arrow {
             &:before,
             &:after {
@@ -211,6 +261,11 @@ const SidebarWrapper = styled.div`
 
       .ant-menu-inline,
       .ant-menu-submenu-vertical {
+
+        .nav-text {
+          left-padding: 0px !important;
+        }
+
         > li:not(.ant-menu-item-group) {
           padding-left: ${props =>
     props['data-rtl'] === 'rtl' ? '0px !important' : '74px !important'};
@@ -253,7 +308,7 @@ const SidebarWrapper = styled.div`
       .nav-text {
         display: none;
       }
-
+      
       .ant-menu-submenu-inline >  {
         .ant-menu-submenu-title:after {
           display: none;

@@ -9,14 +9,23 @@ const TableDemoStyle = styled.div`
 
   .filter {
     padding-bottom: 40px;
+    input {
+      color: rgba(51, 95, 246	)
+    }
     h1 {
       color: rgba(138,	152,	171	);
       font-size: 15px;
       font-weight: 350;
       text-transform: uppercase;
     }
-    input {
-      color: rgba(51, 95, 246	)
+    .ant-slider-track {
+      background-color: rgba(51, 95, 246	)  !important;
+    }
+    .ant-slider-handle {
+      border: solid 4px rgba(51, 95, 246	);
+    }
+    .ant-slider-rail {
+      background-color: rgba(225, 231, 253)
     }
   }
   .content {

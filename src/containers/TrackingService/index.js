@@ -1,30 +1,27 @@
 import React, { Component } from 'react';
-import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import TableDemoStyle from './demo.style';
+import fakeData from './fakeData';
 import { tableinfos } from './configs';
-import  MapContainer  from '../../components/maps/map'
+import SortView from './tableViews/sortView';
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
-import { Row, Col } from 'antd';
+import { Row, Col, Slider } from 'antd';
 import basicStyle from '../../settings/basicStyle';
 import Input from "../../components/uielements/input";
 import Button from "../../components/uielements/button";
 
-export default class Tracking extends Component {
-
-
-  static defaultMapProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
-
+const dataList = new fakeData(10);
+export default class TrackingService extends Component {
   render() {
-    
+    const wisgetPageStyle = {
+      display: 'flex',
+      flexFlow: 'row wrap',
+      alignItems: 'flex-start',
+      overflow: 'hidden',
+    };
     const { rowStyle, colStyle } = basicStyle;
+
     return (
       <LayoutWrapper>
         <Row style={rowStyle} gutter={18} justify="start" block>
@@ -34,7 +31,7 @@ export default class Tracking extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="trackings.title" />
+                    <IntlMessages id="trackingsservice.title" />
                     <h2>
                       <IntlMessages id="trackings.subtitle" />
                     </h2>
@@ -47,18 +44,16 @@ export default class Tracking extends Component {
                   backgroundColor: 'rgba(50,	95,	245)',
                   color: '#ffffff'
                 }}
-                  block>
+                block>
                   <IntlMessages id="trackings.filter" />
-                    
+
                 </Button>
               </Col>
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                <div style={{ height: 600}}>
-                <MapContainer block />
 
-                </div>
+                  <SortView tableInfo={tableinfos[1]} dataList={dataList} />
               </Col>
             </Row>
 
@@ -73,29 +68,22 @@ export default class Tracking extends Component {
                 <div className="content">
                   <div className="isoInputWrapper">
                     <label>
-                      <IntlMessages id="trackings.loadType" />
+                      <IntlMessages id="trackings.freightquantity" />
                     </label>
-                    <Input size="large" placeholder="Tipo de carga" />
+                    <Slider defaultValue={30} />
                   </div>
                   <div className="isoInputWrapper">
                     <label>
-                      <IntlMessages id="trackings.state" />
+                      <IntlMessages id="trackings.truckstate" />
                     </label>
-                    <Input size="large" placeholder="Estado" />
+                    <Input size="large" placeholder="Estado del camion" />
                   </div>
                   <div className="isoInputWrapper">
                     <label>
-                      <IntlMessages id="trackings.destiny" />
+                      <IntlMessages id="trackings.driverrate" />
                     </label>
-                    <Input size="large" placeholder="Destino" />
+                    <Input size="large" placeholder="Calificación conductor" />
                   </div>
-                  <div className="isoInputWrapper">
-                    <label>
-                      <IntlMessages id="trackings.initialDate" />
-                    </label>
-                    <Input size="large" placeholder="Fecha de recogida" />
-                  </div>
-
                 </div>
               </div>
 
@@ -110,3 +98,4 @@ export default class Tracking extends Component {
     );
   }
 }
+export {  tableinfos, dataList };
