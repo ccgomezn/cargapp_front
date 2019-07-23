@@ -1,54 +1,20 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
+import { createPortal } from 'react-dom'
+import { MAP } from 'react-google-maps/lib/constants'
 import PropTypes from 'prop-types'
-import { render } from 'react-dom'
+export default class MapControl extends Component {
 
-class MapControl extends Component {
-  static propTypes = {
-    controlPosition: PropTypes.number,
+  static contextTypes = { [MAP]: PropTypes.object }
+
+  componentWillMount() {
+    this.map = this.context[MAP]
+    this.controlDiv = document.createElement('div')
+    this.map.controls[this.props.position].push(this.controlDiv)
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !this.props.map && nextProps.map
-  }
-
-  componentDidMount() {
-    this._render()
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this._render()
-  }
-
   componentWillUnmount() {
-    const { props } = this
-    if (!props.map) return
-    const index = props.map.controls[props.controlPosition].getArray().indexOf(this.el)
-    props.map.controls[props.controlPosition].removeAt(index)
+    this.map.controls[this.props.position].removeAt(this.divIndex)
   }
-
-  _render() {
-    const { props } = this
-    if (!props.map || !props.controlPosition) return
-    render(
-      <div ref={el => {
-        if (!this.renderedOnce) {
-          this.el = el
-          props.map.controls[props.controlPosition].push(el)
-        } else if (el && this.el && el !== this.el) {
-          this.el.innerHTML = '';
-          [].slice.call(el.childNodes).forEach(child => this.el.appendChild(child))
-        }
-        this.renderedOnce = true
-      }}>
-        {props.children}
-      </div>,
-      document.createElement('div')
-    )
-  }
-
   render() {
-    return <noscript />
+    return createPortal(this.props.children, this.controlDiv)
   }
 }
-
-export default MapControl

@@ -3,7 +3,9 @@
 body {
   -webkit-overflow-scrolling: touch;
 }
-
+.ant-popover-inner-content {
+      display: inline-block !important;
+    }
 html h1,
 html h2,
 html h3,

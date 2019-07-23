@@ -10,14 +10,9 @@ import ProgressWidget from './progress/progress-widget';
 import CircleProgressWidgetBar from './progress/progress-circle';
 import ReportsSmallWidget from './reportsmall/report-widget';
 import ReportMapWidget from './reportmap/report-widget';
-import SaleWidget from './sale/sale-widget';
-import VCardWidget from './vCard/vCard-widget';
-import SocialWidget from './social-widget/social-widget';
-import SocialProfile from './social-widget/social-profile-icon';
-import userpic from '../../image/user1.png';
+
 import { TableViews, tableinfos, dataList } from '../Tables/antTables';
 import * as rechartConfigs from '../Charts/recharts/config';
-import { StackedAreaChart } from '../Charts/recharts/charts/';
 import { GoogleChart } from './googleChart/';
 import * as googleChartConfigs from './googleChart/config';
 import IntlMessages from '../../components/utility/intlMessages';
@@ -85,7 +80,7 @@ export default class extends Component {
       width: window.innerWidth < 450 ? 300 : 500,
     };
     return (
-      <LayoutWrapper>
+      <LayoutWrapper id="area">
         <div style={wisgetPageStyle}>
           <Row style={rowStyle} gutter={0} justify="start" type="flex">
             <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
@@ -199,7 +194,7 @@ export default class extends Component {
                   <div style={{ height: 500, width: '100%' }}>
                     <Row>
                       <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                        <MapContainer block style={{ height: 500 }} />
+                        <MapContainer block style={{ height: 500 }} isFreight={true} />
                       </Col>
 
                     </Row>
