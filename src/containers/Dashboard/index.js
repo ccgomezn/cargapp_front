@@ -202,8 +202,6 @@ export default class extends Component {
                         <MapContainer block style={{ height: 500 }} />
                       </Col>
 
-                      <MapContainer block />
-
                     </Row>
 
                   </div>
