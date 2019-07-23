@@ -101,7 +101,7 @@ class Sidebar extends Component {
       <Menu.Item key={key}>
         <Link to={`${url}/${key}`}>
           <span className="isoMenuHolder" style={submenuColor}>
-            <i className={leftIcon} style={{zoom:1.5}} />
+            <i className={leftIcon} style={{zoom:1.3}} />
             <span className="nav-text">
               <IntlMessages id={label} />
             </span>
@@ -111,6 +111,8 @@ class Sidebar extends Component {
     );
   };
   render() {
+    const { toggleCollapsed } = this.props;
+
     const { app, toggleOpenDrawer, customizedTheme, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
@@ -145,11 +147,9 @@ class Sidebar extends Component {
           collapsed={collapsed}
           width={240}
           className="isomorphicSidebar"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
           style={styling}
         >
-          <Logo collapsed={collapsed} />
+          <Logo collapsed={toggleCollapsed} />
           <Scrollbars style={{ height: height - 70 }}>
             <Menu
               onClick={this.handleClick}

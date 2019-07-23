@@ -15,6 +15,9 @@ const TableDemoStyle = styled.div`
       font-weight: 350;
       text-transform: uppercase;
     }
+    input {
+      color: rgba(51, 95, 246	)
+    }
   }
   .content {
     padding-top: 35px;

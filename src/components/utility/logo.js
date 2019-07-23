@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../../settings';
+import appActions from "../../redux/app/actions";
 
-export default ({ collapsed }) => {
-  return (
-    <div className="isoLogoWrapper">
-      {collapsed ? (
-        <div>
-          <h3>
-            <Link to="/dashboard">
-              <i className={siteConfig.siteIcon} />
-            </Link>
-          </h3>
-        </div>
-      ) : (
-        <h3>
-          <Link to="/dashboard">{siteConfig.siteName}</Link>
-        </h3>
-      )}
-    </div>
-  );
+
+const { toggleCollapsed } = appActions;
+
+
+class TopbarButton extends Component {
+  render() {
+    const { toggleCollapsed } = this.props;
+
+    return (
+
+      <div className="isoLogoWrapper">
+
+        <button
+
+          style={{}}
+          onClick={toggleCollapsed}
+          className="triggerBtn"
+        />
+
+      </div>
+    );
+  }
+  
 };
+
+
+export default connect(
+  state => ({
+    app: state.App,
+    customizedTheme: state.ThemeSwitcher.sidebarTheme,
+    height: state.App.height
+  }),
+  { toggleCollapsed }
+)(TopbarButton);

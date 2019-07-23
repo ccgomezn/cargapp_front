@@ -9,6 +9,9 @@ const TableDemoStyle = styled.div`
 
   .filter {
     padding-bottom: 40px;
+    input {
+      color: rgba(51, 95, 246	)
+    }
     h1 {
       color: rgba(138,	152,	171	);
       font-size: 15px;
