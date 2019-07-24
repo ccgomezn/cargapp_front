@@ -11,7 +11,7 @@ import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
 import { Row, Col } from "antd";
-import { rgb } from "polished";
+import { Radio } from 'antd';
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -43,116 +43,122 @@ class SignUp extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signInTitle" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.welcomeTo" />
+
+                        <div class="text-style-1">
+                          Cargapp
+                      </div>
+                      </div>
+                    </div>
+
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} >
-                    <p>
+                  <Col span={24}>
+                    <div class="Una-solucin-digital">
                       <IntlMessages id="page.signInSubtitle" />
-                    </p>
+                    </div>
                   </Col>
                 </Row>
               </div>
             </div>
 
             <div className="isoSignUpForm">
-
-              <div className="isoInputWrapper">
+              <div className="isoSelectWrapper">
                 <Row>
+                  <Radio.Group >
+
                   <Col span={11}>
-                    <Button style={{ height: 180, border: '1.2px solid #E1E7FD' }} color="#E1E7FD">
+                    <Radio.Button value="a" className="buttonSelect" >
                       <div className="isoCenterComponent">
                         <div>
-                          <Row>
-                            <p className="title">
-                              <IntlMessages id="page.admin" />
-                            </p>
-                          </Row>
-                          <Row style={{ marginTop: 10 }}>
+                          <p className="title">
+                            <IntlMessages id="page.admin" />
+                          </p>
+                           
                             <p className="subtitle">
                               <IntlMessages id="page.adminSub" />
                             </p>
-                          </Row>
                         </div>
 
                       </div>
-                    </Button>
+                    </Radio.Button>
                   </Col>
                   <Col span={2}></Col>
                   <Col span={11}>
-                    <Button style={{ height: 180, border: '1.2px solid #E1E7FD' }} type="#">
+                      <Radio.Button value="b" className="buttonSelect" >
                       <div className="isoCenterComponent">
                         <div>
-                          <Row>
                             <p className="title">
                               <IntlMessages id="page.oper" />
                             </p>
-                          </Row>
-                          <Row style={{ marginTop: 10 }}>
                             <p className="subtitle">
                               <IntlMessages id="page.operSub" />
                             </p>
-                          </Row>
                         </div>
 
                       </div>
-                    </Button>
+                    </Radio.Button>
                   </Col>
+                  </Radio.Group>
                 </Row>
 
               </div>
-
-              <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <label>
-                  <IntlMessages id="page.name" />
-                </label>
-                <Input size="large" placeholder="Nombre" />
-              </div>
-
-
-              <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.email" />
-                </label>
-                <Input size="large" placeholder="Correo electrónico" />
-              </div>
-
-
-              <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.password" />
-                </label>
-                <Input size="large" type="password"
-                  placeholder="Contraseña" />
-              </div>
-
-              <div className="positionSignup">
-                <div className="isoInputWrapper">
-                  <Button type="primary" className="signUp" style={{
-                    height: 45
-                  }}>
-                    <IntlMessages id="page.signUpButton" />
-                  </Button>
-                </div>
-
-                <div className="isoCenterComponent isoHelperWrapper">
-                  <div>
-                    <p>
-
-                      <IntlMessages id="page.member" />{' '}
-                      <Link to="/signup">
-                        <IntlMessages id="page.signInButton" />
-                      </Link>
-                    </p>
+              <div className="formData">
+                <form autoComplete="new-password">
+                  <div className="isoInputWrapper">
+                    <label ><IntlMessages id="page.name" /></label>
+                    <Input size="large" placeholder="Nombre" autoComplete="new-password" />
                   </div>
-                </div>
+                  <div className="isoInputWrapper">
+                    <label for="form-email"><IntlMessages id="page.email" /></label>
+                    <Input size="large" placeholder="Correo eléctronico" id="form-email" autoComplete="new-password" />
+                  </div>
+
+
+
+
+
+                  <div className="isoInputWrapper" >
+                    <label>
+                      <IntlMessages id="page.password" />
+                    </label>
+                    <Input size="large" type="password"
+                      placeholder="Contraseña" autoComplete="new-password" />
+                  </div>
+                </form>
               </div>
               
-                
+              
+
+              <div className="sign-buttons">
+                <Row>
+                  <Col align={'right'}>
+                    <Button className="register">
+                      <IntlMessages id="page.signup" />
+                    </Button>
+                    <Button className="sign-in">
+                      <IntlMessages id="page.start" />
+
+                    </Button>
+
+                  </Col>
+                </Row>
+              </div>
+              
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
+
+                  </Col>
+                </Row>
+
+              </div>  
             </div>
+            
           </div>
         </div>
       </SignUpStyleWrapper>

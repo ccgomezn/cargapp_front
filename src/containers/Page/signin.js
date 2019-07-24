@@ -49,83 +49,111 @@ class SignIn extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signInTitle" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.welcomeTo" />
+                        
+                        <div class="text-style-1">
+                          Cargapp
+                      </div>
+                      </div>
+                    </div>
+                    
                   </Col>
                 </Row>
                 <Row>
                   <Col span={24}>
-                    <p>
+                    <div class="Una-solucin-digital">
                       <IntlMessages id="page.signInSubtitle" />
-                    </p>
+                    </div>
                   </Col>
                 </Row>
               </div>
             </div>
+              <div className="isoSignInForm">
+              <form autoComplete="new-password">
 
-            <div className="isoSignInForm">
-              <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.email" />
-                </label>
-                <Input size="large" placeholder="Correo electrónico" />
-              </div>
+                <div className="isoInputWrapper">
+                  <label for="form-email"><IntlMessages id="page.email" /></label>
+                  <Input size="large" placeholder="Correo eléctronico" id="form-email" autoComplete="new-password" />
+                </div>
 
-              <div className="isoInputWrapper">
-                <div>
-                  <Row style={{ marginTop: 6 }}>
+                <div className="isoInputWrapper">
+
+
+                  <label for="password">
+                    <IntlMessages id="page.password" />
+                  </label>
+
+
+
+
+
+                  <Input size="large" id="password" type="password" placeholder="Contraseña" autoComplete="new-password" />
+                </div>
+                <div className="helper">
+                  <Row>
                     <Col span={12}>
-                      <label>
-                        <IntlMessages id="page.password" />
-                      </label>
+                      <Checkbox className="check"><IntlMessages id="page.remember" /></Checkbox>
                     </Col>
-                    <Col span={12} align={'end'}>
-                      <Link to="/forgotpassword">
-                        <IntlMessages id="page.forgetPassSubTitle" />
+                    <Col span={12} align={'right'}>
+                      <Link to="/dashboard"><IntlMessages id="page.signInForgotPass" /></Link>
+                    </Col>
+                  </Row>
+                </div>
+                <div className="sign-buttons">
+                    <Row>
+                    <Col align={'right'}>
+                      <Button className="register">
+                        <IntlMessages id="page.signup" />                        
+                      </Button>
+                        <Button className="sign-in">
+                          <IntlMessages id="sidebar.signIn" />
 
-                      </Link>
+                        </Button>
+
+                      </Col>
+                    </Row>
+                    <hr/>
+                </div>
+            </form>
+            
+
+
+                <div className="isoHelperWrapper">
+                  <Row>
+                    <Col span={6}>
+                      <div className="isoHelperLogo">
+
+                      </div>
+                    </Col>
+                    <Col span={16}>
+                      <h1 className="title1"><IntlMessages id="page.meetUs" /></h1>
+                      <h1 className="title2"><IntlMessages id="page.invitation" /></h1>
+                      <div class="text-style-1">
+
+                        Cargapp
+                    </div>
                     </Col>
                   </Row>
 
+                
                 </div>
+                
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
 
-
-
-                <Input size="large" type="password" placeholder="Contraseña" />
+                  </Col>
+                </Row>
+                
               </div>
-
-              <div className="isoInputWrapper">
-
-                <Button type="primary" onClick={this.handleLogin} block style={{
-                  height: 45,
-                  marginTop: 8
-                }}>
-                  <IntlMessages id="page.signInButton" />
-                </Button>
-              </div>
-
-
-
-
-              <div className="isoCenterComponent isoHelperWrapper">
-                <div>
-                  <p>
-
-                    <IntlMessages id="page.notMember" />{' '}
-                    <Link to="/signup">
-                      <IntlMessages id="page.signUpButton" />
-                    </Link>
-                  </p>
-
-
-                  <Link to="/signup">
-                    <IntlMessages id="page.aboutUs" />
-                  </Link>
-                </div>
-              </div>
+              
             </div>
+            
           </div>
+          
         </div>
 
       </SignInStyleWrapper>

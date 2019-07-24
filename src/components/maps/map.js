@@ -37,19 +37,19 @@ const MyMapComponent = compose(
     }}
   >
 
-    <MapControl  style={{ position: 'relative' }} id="area" position={google.maps.ControlPosition.RIGHT_BOTTOM}>
-      {props.isFreight && 
+    <MapControl style={{ position: 'relative' }} id="area" position={google.maps.ControlPosition.RIGHT_BOTTOM}>
+      {props.isFreight &&
 
         <Popover
-        style={{ position: 'relative', display: 'inline-block' }}
+          style={{ position: 'relative', display: 'inline-block' }}
           getPopupContainer={() => document.getElementById('area')}
           content={
-          <PopWrapper >
+            <PopWrapper >
 
               <Row gutter={24}>
                 <Col lg={12} md={12} sm={12} xs={12} >
                   <div className="filter">
-                    
+
                     <div className="content">
                       <div className="isoInputWrapper">
                         <label>
@@ -69,14 +69,14 @@ const MyMapComponent = compose(
                         </label>
                         <Input size="large" placeholder="Oferta del flete" />
                       </div>
-                      
+
                     </div>
                   </div>
 
-              </Col>
-              <Col lg={12} md={12} sm={12} xs={12} >
+                </Col>
+                <Col lg={12} md={12} sm={12} xs={12} >
                   <div className="filter">
-                    
+
                     <div className="content">
                       <div className="isoInputWrapper">
                         <label>
@@ -96,29 +96,33 @@ const MyMapComponent = compose(
                         </label>
                         <Input size="large" placeholder="Fecha de recogida" />
                       </div>
-                      
+
                     </div>
                   </div>
 
-              </Col>
+                </Col>
               </Row>
-    </PopWrapper>
 
-        }
-        trigger="click"
-        placement="leftBottom"
-      >
-        <Button style={{ height: 60, 
-                                           width: 60, 
-                                           margin:10, 
-                                           backgroundColor: 'rgba(51,95,246)',
-                                           borderColor: 'rgba(51,95,246)'}} 
-                                  type="primary" 
-                                  shape="circle" 
-                                  icon="plus" />
-      </Popover>
+              
+            </PopWrapper>
 
-}
+          }
+          trigger="click"
+          placement="leftBottom"
+        >
+          <Button style={{
+            height: 60,
+            width: 60,
+            margin: 10,
+            backgroundColor: 'rgba(51,95,246)',
+            borderColor: 'rgba(51,95,246)'
+          }}
+            type="primary"
+            shape="circle"
+            icon="plus" />
+        </Popover>
+
+      }
 
     </MapControl>
 
@@ -127,7 +131,7 @@ const MyMapComponent = compose(
 
 export class MapContainer extends Component {
 
- 
+
   state = {
     isMarkerShown: false,
   }
@@ -152,7 +156,7 @@ export class MapContainer extends Component {
       <MyMapComponent
         isFreight={this.props.isFreight}
         onMarkerClick={this.handleMarkerClick}
-        height= {this.props.style.height}
+        height={this.props.style.height}
 
       />
     )
