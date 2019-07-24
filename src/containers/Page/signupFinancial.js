@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Input from "../../components/uielements/input";
-import Checkbox from "../../components/uielements/checkbox";
+import Select from "../../components/uielements/select";
 import Button from "../../components/uielements/button";
 import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
@@ -43,27 +43,38 @@ class SignUpFinancial extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signUpTitleCompany" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.closer" />
+
+                        <div class="text-style-1">
+                          <IntlMessages id="page.future" />
+                        </div>
+                      </div>
+                    </div>
+
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} >
-                    <p>
-                      <IntlMessages id="page.signUpSubTitleCompany" />
-                    </p>
+                  <Col span={24}>
+                    <div class="Una-solucin-digital">
+                      <IntlMessages id="page.relation" />
+                    </div>
                   </Col>
                 </Row>
+
               </div>
+
             </div>
 
             <div className="isoLogoWrapper2">
+              <hr />
+
               <div>
                 <Row>
                   <Col span={24}>
                     <p className="title">
-                      <IntlMessages id="page.company.title" />
+                      <IntlMessages id="page.financial.title" />
                     </p>
                   </Col>
                 </Row>
@@ -76,13 +87,18 @@ class SignUpFinancial extends Component {
                 </Row>
               </div>
             </div>
-
             <div className="isoSignUpForm">
               <div className="isoInputWrapper" style={{ marginTop: 16 }}>
                 <label>
                   <IntlMessages id="page.paymentMethod" />
                 </label>
-                <Input size="large" placeholder="Medio de pago" />
+                <Select
+                  labelInValue
+                  placeholder="Medio de pago"
+                  block
+                >
+                  <option value="Cuenta de ahorros">Cuenta de ahorros</option>
+                </Select>
               </div>
 
 
@@ -94,23 +110,42 @@ class SignUpFinancial extends Component {
               </div>
 
 
-              <div className="isoInputWrapper" >
+              <div className="isoInputWrapper">
                 <label>
                   <IntlMessages id="page.bank" />
                 </label>
-                <Input size="large"
-                  placeholder="Banco" />
+                <Select
+                  labelInValue
+                  placeholder="Banco"
+                  block
+                >
+                  <option value="Davivienda">Davivienda</option>
+                </Select>
               </div>
 
               
 
-              <div className="isoInputWrapper" style={{ marginTop: 91 }}>
-                <Button type="primary" className="signUp" style={{
-                  height: 45
-                }}>
-                  <IntlMessages id="page.endButton" />
-                </Button>
+              <div className="sign-buttons">
+                <Row>
+                  <Col align={'right'}>
+
+                    <Button className="sign-in">
+                      <IntlMessages id="page.end" />
+
+                    </Button>
+
+                  </Col>
+                </Row>
               </div>
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
+
+                  </Col>
+                </Row>
+
+              </div>  
 
             </div>
           </div>

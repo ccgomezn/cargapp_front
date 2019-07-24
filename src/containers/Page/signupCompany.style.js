@@ -309,7 +309,8 @@ const SignUpStyleWrapper = styled.div`
         button {
           background-color: rgb(51, 95, 246)
         }
-        
+        select,
+        .ant-select-selection,
         input
         {
           
@@ -343,8 +344,14 @@ const SignUpStyleWrapper = styled.div`
             background-color: red !important;
         }
         
-          
+         .ant-select-selection-selected-value, .ant-select-selection__placeholder {
+           width: 366px;
+            height:55px;
+          padding: 16px 12px 13px 0px; 
+         }
         input, textarea {
+              width: 366px;
+            height:55px;
           padding: 26px 12px 13px 10px; 
         }
 
