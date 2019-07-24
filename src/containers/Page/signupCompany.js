@@ -43,22 +43,33 @@ class SignUpCompany extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signUpTitleCompany" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.closer" />
+
+                        <div class="text-style-1">
+                          <IntlMessages id="page.future" />
+                      </div>
+                      </div>
+                    </div>
+
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} >
-                    <p>
-                      <IntlMessages id="page.signUpSubTitleCompany" />
-                    </p>
+                  <Col span={24}>
+                    <div class="Una-solucin-digital">
+                      <IntlMessages id="page.relation" />
+                    </div>
                   </Col>
                 </Row>
+
               </div>
+
             </div>
 
             <div className="isoLogoWrapper2">
+              <hr />
+
               <div>
                 <Row>
                   <Col span={24}>
@@ -78,7 +89,7 @@ class SignUpCompany extends Component {
             </div>
 
             <div className="isoSignUpForm">
-              <div className="isoInputWrapper" style={{ marginTop: 16 }}>
+              <div className="isoInputWrapper" style={{ marginTop: 15 }}>
                 <label>
                   <IntlMessages id="page.companyName" />
                 </label>
@@ -111,14 +122,27 @@ class SignUpCompany extends Component {
               </div>
 
 
-              <div className="isoInputWrapper" style={{marginTop: 33}}>
-                <Button type="primary" className="signUp" style={{
-                  height: 45
-                }}>
-                  <IntlMessages id="page.continueButton" />
-                </Button>
-              </div>
+              <div className="sign-buttons">
+                <Row>
+                  <Col align={'right'}>
+                    
+                    <Button className="sign-in">
+                      <IntlMessages id="page.continue" />
 
+                    </Button>
+
+                  </Col>
+                </Row>
+              </div>
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
+
+                  </Col>
+                </Row>
+
+              </div>  
             </div>
           </div>
         </div>
