@@ -3,7 +3,7 @@ import { Progress } from 'antd';
 import { CircleProgressWidgetBar } from './style';
 import 'antd/dist/antd.css';
 
-export default class CircleProgressWidget extends Component {
+export default class ColorCircleProgress extends Component {
   render() {
     const { label, percent, barHeight, status, info, fontColor } = this.props;
     return (
@@ -12,8 +12,8 @@ export default class CircleProgressWidget extends Component {
         <svg width="0" height="0">
           <defs>
             <linearGradient id="grad1">
-                <stop offset="0%" stop-color="#007aff"/>
-                <stop offset="100%" stop-color="#00ff77"/>
+              <stop offset="0%" stop-color="#007aff" />
+              <stop offset="100%" stop-color="#00ff77" />
             </linearGradient>
           </defs>
         </svg>
@@ -24,15 +24,15 @@ export default class CircleProgressWidget extends Component {
           strokeWidth={barHeight}
           status={status}
           showInfo={info}
-          format={percent => 
-            
-          <div className="content">
-              
-            <h1>{percent}</h1>
-            <h2>CARGAPP SAS</h2>
-          </div>}
+          format={percent =>
+
+            <div className="content">
+
+              <h1>{percent}</h1>
+              <h2>CARGAPP SAS</h2>
+            </div>}
         />
-        
+
       </CircleProgressWidgetBar>
     );
   }

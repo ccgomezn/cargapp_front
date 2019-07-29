@@ -117,18 +117,7 @@ class Sidebar extends Component {
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
     const mode = collapsed === true ? "vertical" : "inline";
-    const onMouseEnter = event => {
-      if (openDrawer === false) {
-        toggleOpenDrawer();
-      }
-      return;
-    };
-    const onMouseLeave = () => {
-      if (openDrawer === true) {
-        toggleOpenDrawer();
-      }
-      return;
-    };
+    
     const styling = {
       backgroundColor: "white"
     };
@@ -140,7 +129,7 @@ class Sidebar extends Component {
       color: "rgb(178, 186, 200)"
     };
     return (
-      <SidebarWrapper>
+      <SidebarWrapper className="RealSide">
         <Sider
           trigger={null}
           collapsible={true}

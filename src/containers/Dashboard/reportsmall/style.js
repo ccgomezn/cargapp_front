@@ -5,7 +5,9 @@ const ReportWidgetWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding-left: 19px;
+  padding-right: 19px;
+  padding-top: 28px;
   background-color: #ffffff;
   border: 1px solid ${palette('border', 2)};
   height: 100% !important;

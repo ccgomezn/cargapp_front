@@ -9,6 +9,9 @@ import appActions from "../../redux/app/actions";
 import Firebase from "../../helpers/firebase";
 import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
+import TextInputCustom from '../../components/custom/input/text'
+import PrimaryButton from '../../components/custom/button/primary'
+
 import SignUpStyleWrapper from "./signupCompany.style";
 import { Row, Col } from "antd";
 import { rgb } from "polished";
@@ -90,46 +93,32 @@ class SignUpCompany extends Component {
 
             <div className="isoSignUpForm">
               <div className="isoInputWrapper" style={{ marginTop: 15 }}>
-                <label>
-                  <IntlMessages id="page.companyName" />
-                </label>
-                <Input size="large" placeholder="Nombre de la empresa" />
+                <TextInputCustom label_id='page.comapnyName' placeholder='Nombre de la empresa' />
+               
               </div>
 
 
               <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.nit" />
-                </label>
-                <Input size="large" placeholder="NIT" />
+                <TextInputCustom label_id='page.nit' placeholder='NIT' />
+
               </div>
 
 
               <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.contactPhone" />
-                </label>
-                <Input size="large"
-                  placeholder="Teléfono de contacto" />
+                <TextInputCustom label_id='page.contactPhone' placeholder='Teléfono de contacto' />
+                
               </div>
 
               <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.dato1" />
-                </label>
-                <Input size="large"
-                  placeholder="Dato 1" />
+                <TextInputCustom label_id='page.dato1' placeholder='Dato 1' />
               </div>
 
 
               <div className="sign-buttons">
                 <Row>
                   <Col align={'right'}>
+                    <PrimaryButton message_id="page.continue" />
                     
-                    <Button className="sign-in">
-                      <IntlMessages id="page.continue" />
-
-                    </Button>
 
                   </Col>
                 </Row>

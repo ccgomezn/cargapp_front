@@ -4,6 +4,32 @@ import { transition, borderRadius } from '../../settings/style-util';
 import WithDirection from '../../settings/withDirection';
 
 const SidebarWrapper = styled.div`
+
+    
+      .ant-layout-sider-collapsed{
+          .isoLogoWrapper {
+          padding-left: 26px !important;
+          height: 70px;
+          background: white;
+          margin: 0;
+          padding: 0 10px;
+          overflow: hidden;
+          ${borderRadius()};
+          
+          h3 {
+            a {
+              font-size: 21px;
+              font-weight: 300;
+              line-height: 70px;
+              letter-spacing: 3px;
+              text-transform: uppercase;
+              color: black;
+              display: block;
+              text-decoration: none;
+            }
+          }
+        }
+      }
       .triggerBtn {
         width: 24px;
         height: 100%;
@@ -28,35 +54,22 @@ const SidebarWrapper = styled.div`
         }
       }
       
-.ant-menu-inline-collapsed{
-        .ant-menu-item-selected {
-          padding-left: 0px !important;
-          &:before {
-            content: '..' !important;
-            width: 5px !important;
-            height: 40px !important;
-            color: transparent !important;
-            background-color: rgba(52	96	246	) !important;
-            display: flex !important;
-          }
-          i {
-            padding-left: 21px !important;
-            color: rgba(202,	207,	221	);
-          }
-        }
+    .ant-menu-inline-collapsed{
+        width: 71px !important;
       }
   .isomorphicSidebar {
-
+     width: 71px !important;
 
 
     z-index: 1000;
-    background: ${palette('secondary', 0)};
+    background-image: radial-gradient(circle at 0px 0px, #007aff, #00ff77);
     width: 280px;
     flex: 0 0 280px;
 
-
+    
     
     .scrollarea {
+      width: 71px !important;
       height: calc(100vh - 70px);
     }
 
@@ -66,6 +79,8 @@ const SidebarWrapper = styled.div`
     }
 
     &.ant-layout-sider-collapsed {
+       min-width: 71px !important;
+        max-width: 71px !important;
       @media only screen and (max-width: 767px) {
         width: 0;
         min-width: 0 !important;
@@ -75,14 +90,14 @@ const SidebarWrapper = styled.div`
     }
 
     .isoLogoWrapper {
-      padding-left: 20px !important;
+      padding-left: 26px !important;
       height: 70px;
       background: white;
       margin: 0;
       padding: 0 10px;
       overflow: hidden;
       ${borderRadius()};
-
+      
       h3 {
         a {
           font-size: 21px;
@@ -98,10 +113,13 @@ const SidebarWrapper = styled.div`
     }
 
     &.ant-layout-sider-collapsed {
-      
+      min-width: 76 !important;
+      max-width: 76 !important;
+      width: 76 !important;
+
       .isoLogoWrapper {
         padding: 0;
-        padding-left: 30px !important;
+        padding-left: 26px !important;
 
         h3 {
           a {
@@ -129,21 +147,25 @@ const SidebarWrapper = styled.div`
         display: flex;
         -ms-flex-align: center;
         align-items: center;
-        padding: 0 24px;
+        padding: 0 26px !important;
         margin: 0;
+        i {
+            opacity: 0.6 !important; 
+
+        }
       }
 
 
       .isoMenuHolder {
         display: flex;
-        align-items: center;
 
         i {
+          padding-left: 26px important!;
           font-size: 19px;
-          color: inherit;
+          color: white;
           margin: ${props =>
     props['data-rtl'] === 'rtl' ? '0 0 0 30px' : '0 30px 0 0'};
-          width: 18px;
+          width: 18.2px;
           ${transition()};
         }
       }
@@ -158,46 +180,29 @@ const SidebarWrapper = styled.div`
       .nav-text {
         padding-left: 10px;
         font-size: 14px;
-        color: inherit;
+        opacity: 0.6 !important; 
+        color: white !important; 
         font-weight: 400;
         ${transition()};
       }
       
       .ant-menu-item-selected {
-        padding-left: 0px !important;
-        .nav-text {
-          padding-left: 28px;
-        }
-        &:before {
-            content: '';
-            width: 5px;
-            height: 40px;
-            background-color: rgba(52	96	246	);
-            display: flex;
-            
-          }
-        background-color: rgba(235, 238, 253	) !important;
-        .anticon {
-          color: #fff;
+        i {
+            opacity: 1 !important; 
+
         }
         span {
-          color:rgba(52	96	246	)
+            opacity: 1 !important; 
+
         }
-        i {
-          padding-left: 15px;
-          color: rgba(202,	207,	221	);
-        }
-        .nav-text {
-          color: #fff;
-        }
+        background-color: transparent !important;
+        
       }
 
       > li {
         &:hover {
           
-          span {
-            color: rgba(52,96,246);
-          }
+          
         }
       }
     }
@@ -305,6 +310,8 @@ const SidebarWrapper = styled.div`
     }
 
     &.ant-layout-sider-collapsed {
+      min-width: 76 !important;
+        max-width: 76 !important;
       .nav-text {
         display: none;
       }

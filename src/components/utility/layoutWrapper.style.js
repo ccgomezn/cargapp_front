@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const LayoutContentWrapper = styled.div`
-  padding: 40px 75px;
+  padding: 29px 16px;
   display: flex;
   flex-flow: row wrap;
   overflow: hidden;

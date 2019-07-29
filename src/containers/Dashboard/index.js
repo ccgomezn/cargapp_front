@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import clone from 'clone';
-import { Row, Col } from 'antd';
+import { Row, Col, Icon } from 'antd';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import basicStyle from '../../settings/basicStyle';
+import IsoWidgetsCircleWrapper from './widgets-circle-wrapper';
 import IsoWidgetsWrapper from './widgets-wrapper';
-import IsoWidgetBox from './widget-box';
-import CardWidget from './card/card-widgets';
-import ProgressWidget from './progress/progress-widget';
-import CircleProgressWidgetBar from './progress/progress-circle';
+import ColorCircleProgress from '../../components/custom/progress/colorCircle';
 import ReportsSmallWidget from './reportsmall/report-widget';
 import ReportMapWidget from './reportmap/report-widget';
+import { Divider } from 'antd';
 
 import { TableViews, tableinfos, dataList } from '../Tables/antTables';
 import * as rechartConfigs from '../Charts/recharts/config';
@@ -83,18 +82,18 @@ export default class extends Component {
       <LayoutWrapper id="area">
         <div style={wisgetPageStyle}>
           <Row style={rowStyle} gutter={0} justify="start" type="flex">
-            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
+            <Col lg={8} md={8} sm={24} xs={24} style={colStyle}>
               <Row >
-                <IsoWidgetsWrapper>
+                <IsoWidgetsCircleWrapper>
                   {/* Report Widget */}
                   <ReportsSmallWidget
                   >
                     <Row>
-                      <Col span={12}>
-                        <CircleProgressWidgetBar
+                      <Col lg={10} md={10} sm={24} xs={24}>
+                        <ColorCircleProgress
 
                           percent={70}
-                          barHeight={7}
+                          barHeight={6}
                           status="active"
                           info={true} // Boolean: true, false
                         />
@@ -109,10 +108,51 @@ export default class extends Component {
                           </h2>
                         </div>
                       </Col>
-                    </Row>
+                    </Row >
+                    <Divider orientation="left"></Divider>
 
+                    <Row style={{ marginTop: 34 }}>
+                      
+                      <Col span={12}>
+                        <div className="titleDataReport">
+                          <h1>
+                            <IntlMessages id="widget.reportswidget.vehiculesonroad" />
+                          </h1>
+                          <div>
+                            <div className="subOrder">
+                              <h2>
+                                1.428
+                            </h2>
+                            </div>
+                            <div className="subOrder">
+                              <p>{" "}</p>
+
+                              <p>
+                                <IntlMessages id="widget.reportswidget.vehicules" />
+                              </p>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </Col>
+                      <Col span={12} align={'right'}>
+                        <Tag color="#ff2557" style={{
+                          opacity: 0.25,
+                          width: 76.8,
+                          height: 26.4,
+                          opacity: 0.25,
+                          borderRadius: 2.4,
+                        }}><Icon type="fall" style={{
+                          width: 8.4px;
+                          height: 8.4px;
+                          border: solid 1.8px #ff2557;}}/> -7,6%</Tag>
+
+                      </Col>
+                    </Row>
                   </ReportsSmallWidget>
-                </IsoWidgetsWrapper>
+
+                </IsoWidgetsCircleWrapper>
               </Row>
               <Row style={{ paddingTop: 20 }}>
                 <Col span={12}>

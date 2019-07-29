@@ -14,7 +14,9 @@ const AppHolder = styled.div`
   .trigger:hover {
     color: ${palette('primary', 0)};
   }
-
+  .ant-layout-sider-collapsed  {
+    width: 76px !important;
+  }
   .ant-layout-sider-collapsed .anticon {
     font-size: 16px;
   }

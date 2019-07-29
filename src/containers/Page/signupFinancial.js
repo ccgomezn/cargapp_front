@@ -10,8 +10,11 @@ import Firebase from "../../helpers/firebase";
 import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
+import SelectInputCustom from "../../components/custom/input/select"
+import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
 import { rgb } from "polished";
+import PrimaryButton from '../../components/custom/button/primary'
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -89,38 +92,24 @@ class SignUpFinancial extends Component {
             </div>
             <div className="isoSignUpForm">
               <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <label>
-                  <IntlMessages id="page.paymentMethod" />
-                </label>
-                <Select
-                  labelInValue
-                  placeholder="Medio de pago"
-                  block
-                >
+                <SelectInputCustom label_id='page.paymentMethod' placeholder='Medio de pago' options={
                   <option value="Cuenta de ahorros">Cuenta de ahorros</option>
-                </Select>
+                }/>
+                
               </div>
 
 
               <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.accountNumber" />
-                </label>
-                <Input size="large" placeholder="Número de cuenta" />
+                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta' />
+
+               
               </div>
 
 
               <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.bank" />
-                </label>
-                <Select
-                  labelInValue
-                  placeholder="Banco"
-                  block
-                >
+                <SelectInputCustom label_id='page.bank' placeholder='Banco' options={
                   <option value="Davivienda">Davivienda</option>
-                </Select>
+                } />
               </div>
 
               
@@ -129,10 +118,8 @@ class SignUpFinancial extends Component {
                 <Row>
                   <Col align={'right'}>
 
-                    <Button className="sign-in">
-                      <IntlMessages id="page.end" />
+                    <PrimaryButton message_id="page.end" />
 
-                    </Button>
 
                   </Col>
                 </Row>

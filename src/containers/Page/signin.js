@@ -11,7 +11,9 @@ import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignInStyleWrapper from "./signin.style";
 import { Row, Col } from "antd";
-
+import PrimaryButton from '../../components/custom/button/primary'
+import SecondaryButton from '../../components/custom/button/secondary'
+import TextInputCustom from '../../components/custom/input/text'
 const { login } = authAction;
 const { clearMenu } = appAction;
 
@@ -74,22 +76,11 @@ class SignIn extends Component {
               <form autoComplete="new-password">
 
                 <div className="isoInputWrapper">
-                  <label for="form-email"><IntlMessages id="page.email" /></label>
-                  <Input size="large" placeholder="Correo eléctronico" id="form-email" autoComplete="new-password" />
+                  <TextInputCustom label_id='page.email' placeholder='Correo eléctronico'/>
                 </div>
 
                 <div className="isoInputWrapper">
-
-
-                  <label for="password">
-                    <IntlMessages id="page.password" />
-                  </label>
-
-
-
-
-
-                  <Input size="large" id="password" type="password" placeholder="Contraseña" autoComplete="new-password" />
+                  <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' />
                 </div>
                 <div className="helper">
                   <Row>
@@ -104,13 +95,15 @@ class SignIn extends Component {
                 <div className="sign-buttons">
                     <Row>
                     <Col align={'right'}>
-                      <Button className="register">
-                        <IntlMessages id="page.signup" />                        
-                      </Button>
-                        <Button className="sign-in">
-                          <IntlMessages id="sidebar.signIn" />
+                      <div className="button-sign" style={{ marginRight: '10px' }}>
+                        <SecondaryButton message_id="page.signup" />
 
-                        </Button>
+                      </div>
+
+                      <div className="button-sign">
+
+                        <PrimaryButton message_id="sidebar.signIn" />
+                      </div>
 
                       </Col>
                     </Row>

@@ -2,14 +2,54 @@ import styled from 'styled-components';
 import { palette } from 'styled-theme';
 
 const WidgetWrapper = styled.div`
-    
+  
   margin: 0 10px;
   height: 100% !important;
   @media only screen and (max-width: 767) {
     margin-right: 0 !important;
   }
-
   .titleDataReport {
+    .subOrder {
+      display: inline-block;
+    }
+    h1 {
+     font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #010935;
+}
+    
+
+    h2 {
+      margin-top: 8px;
+      opacity: 1 !important;
+      font-family: Roboto;
+  font-size: 28px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.93;
+  letter-spacing: -0.3px;
+  color: #010935;
+    }
+
+    p {
+        opacity: 0.5;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.36;
+  letter-spacing: -0.2px;
+  color: #010935;
+    }
+  }
+  .titleReport {
     h1 {
      font-family: Roboto;
   font-size: 22px;
@@ -20,7 +60,7 @@ const WidgetWrapper = styled.div`
   letter-spacing: -0.55px;
   color: #010935;
 }
-    
+    }
 
     h2 {
       opacity: 0.5;
@@ -34,8 +74,6 @@ const WidgetWrapper = styled.div`
   color: #010935;
     }
   }
-  
-
 
   .vehiclesOnTrack {
     h3 {

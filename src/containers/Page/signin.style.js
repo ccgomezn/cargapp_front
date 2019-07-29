@@ -41,8 +41,8 @@ const SignInStyleWrapper = styled.div`
     flex-direction: column;
     position: relative;
     background-color: #ffffff;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 15%;
+    padding-right: 15%;
     vertical-align: middle
     @media only screen and (max-width: 767px) {
       width: 100%;
@@ -124,54 +124,11 @@ const SignInStyleWrapper = styled.div`
           background-color: #ecf0f1;
           border: 0px solid transparent;
         }
-        .register {
-          margin-right: 10px;
-         width: 130px;
-          height: 45px;
-          border-radius: 2px;
-          border: solid 1.2px #0068ff;
-          background-color: var(--white);
-          font-family: Roboto;
-          font-size: 14px;
-          font-weight: 500;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.35px;
-          color: #0068ff;
+        .button-sign{
+          display: inline-block;
         }
         
-        .sign-in {
-          width: 130px;
-          height: 45px;
-          border-radius: 2px;
-          border: 0px solid transparent;
-          background-image: radial-gradient(circle at 10% 12%, #007aff, #00ff77);
-          font-family: Roboto;
-          font-size: 14px;
-          font-weight: 500;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.35px;
-          text-align: center;
-          color: white;
-          z-index: 2;
-          :after {
-            content: '';
-            position: absolute;
-            left: 9px; 
-            top: 13px; 
-            width: 112px;
-            z-index: -1;
-            height: 39px;
-            opacity: 0.44;
-            border-radius: 2px;
-            -webkit-filter: blur(10px);
-            filter: blur(10px);
-            background-image: radial-gradient(circle at 12% 15%, #007aff, #00ff77);
-          }
-        }
+        
       }
 
 
@@ -246,68 +203,7 @@ const SignInStyleWrapper = styled.div`
           background-color: rgb(51, 95, 246)
         }
         
-        input
-        {
-          
-          width: 366px;
-          height: 55px;
-          border-radius: 2px;
-          border: solid 1.2px #ecf0f1;
-          background-color: var(--white) !important;
-          font-family: Roboto;
-          font-size: 14px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.35px;
-          color: #010935;
-          :focus {
-            border-left: 2px solid transparent;
-            background-image: radial-gradient(circle at 236% 0, #ff2557, #320d8e);
-            background-size: 2px calc(100% + 4px); /* 4px extra to cater for 2px border on right + 2px on left */
-            background-repeat: no-repeat;
-            background-origin: border-box; /* make background start from border area itself instead of content/padding area */
-            background-position: bottom left;
-            box-sizing: border-box !important;
-  
-          }
-          
-        }
         
-        input:-webkit-autofill {
-            background-color: red !important;
-        }
-        
-          
-        input, textarea {
-          padding: 26px 12px 13px 10px; 
-        }
-
-        
-        
-        
-        label {
-          transition: // not padding
-            background 0.2s,
-            color 0.2s,
-            top 0.2s,
-            bottom 0.2s,
-            right 0.2s,
-            left 0.2s;
-          position: absolute;
-          opacity: 0.5;
-          font-family: Roboto;
-          font-size: 11px;
-          font-weight: 500;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.28px;
-          color: #010935;
-          padding-left: 12px;
-          padding-top: 10px;
-        }
       }
 
       .isoHelperText {

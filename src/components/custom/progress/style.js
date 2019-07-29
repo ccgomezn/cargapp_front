@@ -78,6 +78,18 @@ const CircleProgressWidgetBar = styled.div`
         letter-spacing: -0.18px;
         color: #010935;
       }
+      :after {
+            content: '';
+            position: absolute;
+            left: 13px; 
+            top: -25px;
+            width: 94px;
+            height: 94px;
+            background-color: rgba(0, 104, 255, 0.05);
+            z-index: -1;
+            opacity: 1;
+            border-radius: 50%;
+          }
     }
   }
 `;

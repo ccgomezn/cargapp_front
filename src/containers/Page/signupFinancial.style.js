@@ -125,6 +125,7 @@ const SignUpStyleWrapper = styled.div`
             color: rgb(138, 152, 171	);
           }
         }
+        
         input {
           &::-webkit-input-placeholder {
             color: ${palette('grayscale', 0)};

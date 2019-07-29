@@ -309,76 +309,33 @@ const SignUpStyleWrapper = styled.div`
         button {
           background-color: rgb(51, 95, 246)
         }
-        select,
-        .ant-select-selection,
-        input
-        {
-          
-          width: 366px;
-          height: 55px;
-          border-radius: 2px;
-          border: solid 1.2px #ecf0f1;
-          background-color: var(--white) !important;
-          font-family: Roboto;
-          font-size: 14px;
-          font-weight: normal;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.35px;
-          color: #010935;
-          :focus {
-            border-left: 2px solid transparent;
-            background-image: radial-gradient(circle at 236% 0, #ff2557, #320d8e);
-            background-size: 2px calc(100% + 4px); /* 4px extra to cater for 2px border on right + 2px on left */
-            background-repeat: no-repeat;
-            background-origin: border-box; /* make background start from border area itself instead of content/padding area */
-            background-position: bottom left;
-            box-sizing: border-box !important;
-  
-          }
-          
-        }
-        
-        input:-webkit-autofill {
-            background-color: red !important;
-        }
-        
-         .ant-select-selection-selected-value, .ant-select-selection__placeholder {
-           width: 366px;
-            height:55px;
-          padding: 16px 12px 13px 0px; 
-         }
-        input, textarea {
-              width: 366px;
-            height:55px;
-          padding: 26px 12px 13px 10px; 
-        }
 
+    
+
+
+
+label {
+  transition: // not padding
+  background 0.2s,
+    color 0.2s,
+      top 0.2s,
+        bottom 0.2s,
+          right 0.2s,
+            left 0.2s !important;
+  position: absolute !important;
+  opacity: 0.5 !important;
+  font-family: Roboto !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-stretch: normal !important;
+  line-height: normal !important;
+  letter-spacing: -0.28px !important;
+  color: #010935 !important;
+  padding-left: 12px !important;
+  padding-top: 10px !important;
+}
         
-        
-        
-        label {
-          transition: // not padding
-            background 0.2s,
-            color 0.2s,
-            top 0.2s,
-            bottom 0.2s,
-            right 0.2s,
-            left 0.2s;
-          position: absolute;
-          opacity: 0.5;
-          font-family: Roboto;
-          font-size: 11px;
-          font-weight: 500;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: -0.28px;
-          color: #010935;
-          padding-left: 12px;
-          padding-top: 10px;
-        }
       }
 
       .isoLeftRightComponent {

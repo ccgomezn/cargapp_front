@@ -12,6 +12,9 @@ import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
 import { Row, Col } from "antd";
 import { Radio } from 'antd';
+import PrimaryButton from '../../components/custom/button/primary'
+import SecondaryButton from "../../components/custom/button/secondary";
+import TextInputCustom from '../../components/custom/input/text'
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -109,12 +112,10 @@ class SignUp extends Component {
               <div className="formData">
                 <form autoComplete="new-password">
                   <div className="isoInputWrapper">
-                    <label ><IntlMessages id="page.name" /></label>
-                    <Input size="large" placeholder="Nombre" autoComplete="new-password" />
+                    <TextInputCustom label_id='page.name' placeholder='Nombre' />
                   </div>
                   <div className="isoInputWrapper">
-                    <label for="form-email"><IntlMessages id="page.email" /></label>
-                    <Input size="large" placeholder="Correo eléctronico" id="form-email" autoComplete="new-password" />
+                    <TextInputCustom label_id='page.email' placeholder='Correo eléctronico' />
                   </div>
 
 
@@ -122,11 +123,9 @@ class SignUp extends Component {
 
 
                   <div className="isoInputWrapper" >
-                    <label>
-                      <IntlMessages id="page.password" />
-                    </label>
-                    <Input size="large" type="password"
-                      placeholder="Contraseña" autoComplete="new-password" />
+                    <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' />
+
+                    
                   </div>
                 </form>
               </div>
@@ -135,15 +134,16 @@ class SignUp extends Component {
 
               <div className="sign-buttons">
                 <Row>
-                  <Col align={'right'}>
-                    <Button className="register">
-                      <IntlMessages id="page.signup" />
-                    </Button>
-                    <Button className="sign-in">
-                      <IntlMessages id="page.start" />
+                  <Col span={24} align={'right'}>
+                    <div className="button-sign" style={{ marginRight: '10px' }}>
+                      <SecondaryButton message_id="page.signup"  />
 
-                    </Button>
+                    </div>
 
+                    <div className="button-sign">
+
+                      <PrimaryButton message_id="page.start"/>
+                    </div>
                   </Col>
                 </Row>
               </div>
