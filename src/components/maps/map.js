@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 
 import { compose, withProps } from "recompose"
 import MapControl from "./map_control"

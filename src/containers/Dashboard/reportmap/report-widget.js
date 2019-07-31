@@ -3,7 +3,7 @@ import { ReportWidgetWrapper } from './style';
 
 export default class extends Component {
   render() {
-    const { label, details, children } = this.props;
+    const { label, children } = this.props;
     return (
       <ReportWidgetWrapper className="isoReportsWidget">
         <h3 className="isoWidgetLabel">{label}</h3>

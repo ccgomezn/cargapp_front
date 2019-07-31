@@ -12,7 +12,7 @@ const { toggleCollapsed } = appActions;
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed, url, customizedTheme, locale } = this.props;
+    const { locale } = this.props;
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: "white",

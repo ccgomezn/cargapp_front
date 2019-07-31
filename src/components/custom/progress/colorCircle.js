@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 
 export default class ColorCircleProgress extends Component {
   render() {
-    const { label, percent, barHeight, status, info, fontColor } = this.props;
+    const {  percent, barHeight, status, info } = this.props;
     return (
 
       <CircleProgressWidgetBar className="isoCircleProgress">

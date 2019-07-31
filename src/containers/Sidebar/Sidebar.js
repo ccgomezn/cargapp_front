@@ -12,7 +12,6 @@ import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
 
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 const { Sider } = Layout;
 
 const {
@@ -113,9 +112,8 @@ class Sidebar extends Component {
   render() {
     const { toggleCollapsed } = this.props;
 
-    const { app, toggleOpenDrawer, customizedTheme, height } = this.props;
+    const { app, customizedTheme, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
-    const { openDrawer } = app;
     const mode = collapsed === true ? "vertical" : "inline";
     
     const styling = {

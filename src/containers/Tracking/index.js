@@ -3,7 +3,7 @@ import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import TableDemoStyle from './demo.style';
 import fakeData from './fakeData';
 import { tableinfos } from './configs';
-import SortView from './tableViews/sortView';
+import SortView from '../../components/custom/table/sortView';
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
@@ -14,12 +14,6 @@ import Button from "../../components/uielements/button";
 const dataList = new fakeData(10);
 export default class Tracking extends Component {
   render() {
-    const wisgetPageStyle = {
-      display: 'flex',
-      flexFlow: 'row wrap',
-      alignItems: 'flex-start',
-      overflow: 'hidden',
-    };
     const { rowStyle, colStyle } = basicStyle;
 
     return (
@@ -43,8 +37,7 @@ export default class Tracking extends Component {
                   height: 40,
                   backgroundColor: 'rgba(50,	95,	245)',
                   color: '#ffffff'
-                }}
-                block>
+                }}>
                   <IntlMessages id="trackings.filter" />
 
                 </Button>

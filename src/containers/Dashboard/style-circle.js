@@ -50,7 +50,10 @@ const WidgetWrapper = styled.div`
     }
   }
   .titleReport {
+          border-left: 1px solid #e8e8e8;
+
     h1 {
+      padding-left: 19px;
      font-family: Roboto;
   font-size: 22px;
   font-weight: bold;
@@ -63,6 +66,8 @@ const WidgetWrapper = styled.div`
     }
 
     h2 {
+      padding-left: 19px;
+
       opacity: 0.5;
   font-family: Roboto;
   font-size: 14px;

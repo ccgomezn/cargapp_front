@@ -441,6 +441,12 @@
   "uiElements.tooltip.placementTitle": "Colocación",
   "uiElements.tooltip.placementSubTitle":
     "La herramienta tiene 12 opciones de ubicación.",
+  "antTable.title.date": "Fecha",
+  "antTable.title.name": "Nombre",
+  "widget.reportswidget.analitycs": "Analíticas",
+  "antTable.title.origin": "Remite",
+  "antTable.title.destination": "Destino",
+  "antTable.title.status": "Status",
   "uiElements.tooltip.TL": "TL",
   "uiElements.tooltip.TR": "TR",
   "uiElements.tooltip.LT": "LT",
@@ -683,14 +689,12 @@
     "Apartamento   suite   unidad   etc. (opcional  ",
   "checkout.billingform.checkbox": "¿Crea una cuenta?",
   "antTable.title.image": "Imagen",
-  "antTable.title.image": "Imagen",
   "antTable.title.nameId": "Nombre y ID",
   "antTable.title.loadType": "Tipo de carga",
   "antTable.title.initialDate": "Fecha de recogida",
   "antTable.title.destiny": "Destino",
   "antTable.title.state": "Estado",
   "trackings.map.title": "Viajes en curso",
-  "trackings.filter": "Filtrar",
   "antTable.title.lastName": "Apellido",
   "antTable.title.city": "Ciudad",
   "widget.reportswidget.titledashboard": "que bueno tenerlo de regreso",
@@ -698,6 +702,7 @@
   "widget.reportswidget.titlevehiclesontrack": "Vehiculos en la via",
   "widget.reportswidget.titleservice": "Solicitar un servicio",
   "widget.reportswidget.titleactualtravels": "Viajes en curso",
+  "dashboard.onroad.showall": "Ver todos",
   "widget.reportswidget.activeusers": "Cuentas activas",
   "widget.reportswidget.datavehiclesontrack": "carros",
   "widget.reportswidget.booked": "Servicios agendados",
@@ -732,5 +737,6 @@
   "topbar.viewCart": "Ver carro",
   "sidebar.travels": "Viajes",
   "sidebar.map": "Mapa",
-  "topbar.totalPrice": "Precio total"
+  "topbar.totalPrice": "Precio total",
+  "general.kilometer": "km"
 }

@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Input from "../../components/uielements/input";
-import Checkbox from "../../components/uielements/checkbox";
-import Button from "../../components/uielements/button";
 import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
-import Firebase from "../../helpers/firebase";
-import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
 import { Row, Col } from "antd";

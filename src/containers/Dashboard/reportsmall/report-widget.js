@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { ReportWidgetWrapper } from './style';
+import {Row, Col} from 'antd'
 
 export default class extends Component {
   render() {
-    const { label, details, children } = this.props;
+    const { label, children, options, hr } = this.props;
     return (
       <ReportWidgetWrapper className="isoReportsWidget">
-        <h3 className="isoWidgetLabel">{label}</h3>
-
+        <Row className="titleHead">
+          <Col span={12}>
+            <h3 className="isoWidgetLabel">{label}</h3>
+          </Col>
+          <Col span={12} align={'right'}>
+            {options}
+          </Col>
+        </Row>
+        {hr}
         <div className="isoReportsWidgetBar">{children}</div>
 
       </ReportWidgetWrapper>
