@@ -22,6 +22,12 @@ class Topbar extends Component {
     };
     return (
       <TopbarWrapper>
+        <defs>
+          <linearGradient id="gradUser">
+            <stop offset="0%" stop-color="#007aff" />
+            <stop offset="100%" stop-color="#00ff77" />
+          </linearGradient>
+        </defs>
         <Header
           style={styling}
           className={

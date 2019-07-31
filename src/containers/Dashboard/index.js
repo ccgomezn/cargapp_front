@@ -10,16 +10,15 @@ import ReportMapWidget from './reportmap/report-widget';
 import { Divider } from 'antd';
 import { Link } from "react-router-dom";
 import { tableinfos } from './tablesConfig'
-import { GoogleChart } from './googleChart/';
-import * as googleChartConfigs from './googleChart/config';
 import IntlMessages from '../../components/utility/intlMessages';
 import MapContainer from '../../components/maps/map';
-import { List, Avatar, Skeleton, Checkbox, Tag } from 'antd';
+import { List, Avatar, Skeleton, Checkbox } from 'antd';
 import DashboardRow from '../../components/custom/information_display/dashboardRow';
 import reqwest from 'reqwest';
 import SimpleView from '../../components/custom/table/simpleView'
 import fakeData from '../Tables/fakeData';
 import ResponsiveLineChart from '../../components/custom/chart/responsiveLineChart'
+import RoundBadge from '../../components/custom/information_display/roundBadge'
 
 const tableDataList = new fakeData(10);
 tableDataList.size = 5;
@@ -188,11 +187,12 @@ export default class extends Component {
           </Row>
 
           <Row style={rowStyle} gutter={0} justify="start">
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
+            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
               <IsoWidgetsWrapper style={{ height: '100% !important' }}>
                 <div className="vehiclesOnTrack" style={{ height: '100%' }}>
                   <ReportsSmallWidget
                     label={<IntlMessages id="widget.reportswidget.activeusers" />}
+                    hr={<hr style={{ marginTop: 0 }} />}
                   >
 
                     <List
@@ -219,35 +219,25 @@ export default class extends Component {
 
             </Col>
 
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
-              <IsoWidgetsWrapper >
-                <div className="vehiclesOnTrack" style={{ height: '100%' }}>
+            
 
-                  <ReportsSmallWidget
-                    label={<IntlMessages id="widget.reportswidget.activeusers" />}
-                  >
-                    {/* Google Bar Chart */}
-                    <GoogleChart {...googleChartConfigs.ComboChart} />
-                  </ReportsSmallWidget>
-                </div>
-              </IsoWidgetsWrapper>
-            </Col>
-
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
+            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
               <IsoWidgetsWrapper >
                 <div className="vehiclesOnTrack" style={{ height: '100%' }}>
 
                   <ReportsSmallWidget
                     label={<IntlMessages id="widget.reportswidget.booked" />}
+                    hr={<hr style={{ marginTop: 0 }} />}
                   >
                     <List
                       className="demo-loadmore-list"
                       itemLayout="horizontal"
                       dataSource={list}
                       renderItem={item => (
-                        <List.Item actions={[<div className="optionsBokked"><Tag style={{ zoom: 1.3, border: 'transparent', borderColor: 'transparent' }} color="blue">
-                          12/15/19
-                          </Tag></div>]}>
+                        <List.Item actions={[<RoundBadge color={'rgb(0, 255, 119, 0.25)'} 
+                                                         borderRadius={'15px'} 
+                                                         data={'Inicia hoy'}
+                                                         textColor={'rgb(0, 211, 98)'} />]}>
                           <Skeleton avatar title={false} loading={item.loading} active>
                             <List.Item.Meta
                               avatar={
@@ -256,8 +246,7 @@ export default class extends Component {
                                 </Checkbox>
                               }
                               title={<div className="titleBooked">
-                                <h3>Destino-</h3>
-                                <h2>Carga</h2>
+                                <h3>Destino-Carga</h3>
                               </div>}
                             />
                           </Skeleton>

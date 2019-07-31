@@ -53,7 +53,6 @@ class TopbarUser extends Component {
       >
         <div className="isoImgWrapper">
           <img alt="user" src={userpic} />
-          <span className="userActivity online" />
         </div>
       </Popover>
     );

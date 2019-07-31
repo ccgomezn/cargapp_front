@@ -89,9 +89,14 @@ const TopbarWrapper = styled.div`
         }
 
         i {
-          font-size: 24px;
+          
           color: ${palette('text', 0)};
           line-height: 1;
+
+          svg {
+            width: 18px;
+            height: 18px;
+          }
         }
 
         .isoIconWrapper {
@@ -99,11 +104,17 @@ const TopbarWrapper = styled.div`
           line-height: normal;
 
           span {
-            font-size: 12px;
-            color: #fff;
+            font-family: Roboto;
+            font-size: 10px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: -0.17px;
+            color: white;
             background-color: ${palette('secondary', 1)};
-            width: 20px;
-            height: 20px;
+            width: 13px;
+            height: 13px;
             display: -webkit-inline-flex;
             display: -ms-inline-flex;
             display: inline-flex;
@@ -112,11 +123,8 @@ const TopbarWrapper = styled.div`
             text-align: center;
             line-height: 20px;
             position: absolute;
-            top: -8px;
-            left: ${props =>
-              props['data-rtl'] === 'rtl' ? 'inherit' : '10px'};
-            right: ${props =>
-              props['data-rtl'] === 'rtl' ? '10px' : 'inherit'};
+            top: 10px;
+            left: 12px; 
             ${borderRadius('50%')};
           }
         }
@@ -163,7 +171,19 @@ const TopbarWrapper = styled.div`
             position: relative;
             background-color: ${palette('grayscale', 9)};
             ${borderRadius('50%')};
+            border: 2px solid #FFF;
 
+            /* offset-x | offset-y | blur-radius | spread-radius | color */
+            background-image: 
+        linear-gradient(rgb(16, 130, 253), rgb(179, 216, 255)),
+        linear-gradient(rgb(16, 130, 253),rgb(179, 216, 255));
+        -moz-background-size: 3px 100%;
+        background-size: 4px 100%;
+        background-position: 0 0, 100% 0;
+        background-repeat: no-repeat;
+            box-shadow: -1px 0 2px 1px #ff2557, 1px 0 2px 1px #320d8e;
+            height: 30px;
+            width: 30px;
             img {
               height: 100%;
               object-fit: cover;

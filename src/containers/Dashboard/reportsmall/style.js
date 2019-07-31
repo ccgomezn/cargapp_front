@@ -25,31 +25,73 @@ const ReportWidgetWrapper = styled.div`
     line-height: 1.2;
   }
   .ant-list-item {
+      .ant-list-item-meta {
+        .ant-list-item-meta-content {
+          a {
+            font-family: Roboto !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            font-style: normal !important;
+            font-stretch: normal !important;
+            line-height: normal !important;
+            letter-spacing: -0.2px !important;
+            color: #010935 !important;
+          }
+          .ant-list-item-meta-description {
+            opacity: 0.5;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: -0.2px;
+            color: #010935;
+          }
+        }
+
+        
+      }
       .options {
         text-align: right !important;
 
         a {
-          color: black;
-        }
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: -0.2px;
+            text-align: right;
+            color: #0168ff !important;
+          }
         h3 {
-          font-size: 14px !important;
-          text-transform: none !important;
+          opacity: 0.5;
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: -0.2px;
+          text-align: right;
+          color: #010935;
         }
       }
       
       .titleBooked {
         h3 {
-          color: black;
-          font-size: 15px !important;
-          text-transform: none !important;
-          display: inline;
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: 500;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: -0.2px;
+          color: #010935;
         }
-        h2 {
-          color: black;
-          font-size: 15px !important;
-          text-transform: none !important;
-          display: inline;
-        }
+        
       }
   }
   .isoReportsWidgetBar {

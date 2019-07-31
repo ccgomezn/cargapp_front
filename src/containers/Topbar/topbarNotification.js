@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover } from 'antd';
+import { Popover, Icon } from 'antd';
 import { connect } from 'react-redux';
 import IntlMessages from '../../components/utility/intlMessages';
 import TopbarDropdownWrapper from './topbarDropdown.style';
@@ -77,11 +77,10 @@ class TopbarNotification extends Component {
         placement="bottomLeft"
       >
         <div className="isoIconWrapper">
-          <i
-            className="ion-android-notifications"
-            style={{ color: customizedTheme.textColor }}
-          />
-          <span>{demoNotifications.length}</span>
+          
+          <Icon type="bell" style={{
+            color: 'rgb(1, 104, 255)' }}/>
+          <span style={{backgroundColor:'rgb(255, 37, 87)'}}>{demoNotifications.length}</span>
         </div>
       </Popover>
     );

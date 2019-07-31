@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
 const data = [
@@ -27,27 +27,35 @@ const data = [
   },
 ];
 
-export default class Example extends PureComponent {
-  static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
-
+export default class ResponsiveLineChart extends PureComponent {
   render() {
     return (
       <ResponsiveContainer width={"100%"} height={300}>
 
-        <LineChart
+        <AreaChart
           data={data}
           margin={{
             top: 5, right: 30, left: 20, bottom: 5,
           }}
         >
+          <defs>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#ff2557" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#2e5bff00" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#0068ff" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#2e5bff00" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
+          <Area type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} fill="url(#colorUv)" />
+          <Area type="monotone" dataKey="uv" stroke="#82ca9d" fill="url(#colorPv)"/>
+        </AreaChart>
       </ResponsiveContainer>
     );
   }
