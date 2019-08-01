@@ -54,7 +54,6 @@ class TopbarMessage extends Component {
     this.setState({ visible: !this.state.visible });
   }
   render() {
-    const { customizedTheme } = this.props;
     const content = (
       <TopbarDropdownWrapper className="topbarMessage withImg">
         <div className="isoDropdownHeader">

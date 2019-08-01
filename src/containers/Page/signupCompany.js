@@ -42,13 +42,11 @@ class SignUpCompany extends Component {
                     <div>
                       <div class="Bienvenido-a-Cargapp">
                         <IntlMessages id="page.closer" />
-
                         <div class="text-style-1">
                           <IntlMessages id="page.future" />
-                      </div>
+                        </div>
                       </div>
                     </div>
-
                   </Col>
                 </Row>
                 <Row>
@@ -58,14 +56,10 @@ class SignUpCompany extends Component {
                     </div>
                   </Col>
                 </Row>
-
               </div>
-
             </div>
-
             <div className="isoLogoWrapper2">
               <hr />
-
               <div>
                 <Row>
                   <Col span={24}>
@@ -83,36 +77,23 @@ class SignUpCompany extends Component {
                 </Row>
               </div>
             </div>
-
             <div className="isoSignUpForm">
               <div className="isoInputWrapper" style={{ marginTop: 15 }}>
                 <TextInputCustom label_id='page.comapnyName' placeholder='Nombre de la empresa' />
-               
               </div>
-
-
               <div className="isoInputWrapper">
                 <TextInputCustom label_id='page.nit' placeholder='NIT' />
-
               </div>
-
-
               <div className="isoInputWrapper" >
                 <TextInputCustom label_id='page.contactPhone' placeholder='Teléfono de contacto' />
-                
               </div>
-
               <div className="isoInputWrapper" >
                 <TextInputCustom label_id='page.dato1' placeholder='Dato 1' />
               </div>
-
-
               <div className="sign-buttons">
                 <Row>
                   <Col align={'right'}>
                     <PrimaryButton message_id="page.continue" />
-                    
-
                   </Col>
                 </Row>
               </div>
@@ -120,11 +101,9 @@ class SignUpCompany extends Component {
                 <Row>
                   <Col span={24} align={'center'}>
                     <IntlMessages id="app.footer" />
-
                   </Col>
                 </Row>
-
-              </div>  
+              </div>
             </div>
           </div>
         </div>

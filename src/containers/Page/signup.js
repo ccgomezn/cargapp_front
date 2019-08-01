@@ -111,11 +111,6 @@ class SignUp extends Component {
                   <div className="isoInputWrapper">
                     <TextInputCustom label_id='page.email' placeholder='Correo eléctronico' />
                   </div>
-
-
-
-
-
                   <div className="isoInputWrapper" >
                     <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' />
 

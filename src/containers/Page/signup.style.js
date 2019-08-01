@@ -4,6 +4,9 @@ import bgImage from '../../image/work.jpg';
 import WithDirection from '../../settings/withDirection';
 
 const SignUpStyleWrapper = styled.div`
+[ant-click-animating-without-extra-node]:after {
+	animation: 1s !important;
+}
   width: 100%;
   min-height: 100vh;
   height: 100vh;
@@ -132,8 +135,11 @@ const SignUpStyleWrapper = styled.div`
       .isoSelectWrapper {
         margin-bottom: 15px;
         animation-duration: 0s !important;
-
+        .ant-radio-button-wrapper {
+          animation-duration: 0s !important;
+        }
         .ant-radio-button-wrapper-checked {
+          animation-duration: 0s !important;
 
             background-color: #0068ff !important;
             z-index: 0;
@@ -158,6 +164,7 @@ const SignUpStyleWrapper = styled.div`
               border-radius: 50%;
               background-color: white;
               display: block;
+              opacity: 1 !important;
             }
             &:before {
               content: '';
