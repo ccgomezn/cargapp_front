@@ -8,7 +8,7 @@ const PrimaryButtonWrapper = styled.div`
 .primary {
           
           border: 0px solid transparent !important;
-         width: 130px !important;
+         width: 130px;
           height: 45px !important;
           border-radius: 2px !important; 
           background-image: radial-gradient(circle at 10% 12%, #007aff, #00ff77) !important;
@@ -27,7 +27,7 @@ const PrimaryButtonWrapper = styled.div`
             position: absolute !important;
             left: 9px !important; 
             top: 13px !important; 
-            width: 112px !important;
+            width: 90% !important;
             z-index: -1 !important;
             height: 39px !important;
             opacity: 0.44 !important;

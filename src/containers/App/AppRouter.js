@@ -12,6 +12,18 @@ const routes = [
     component: asyncComponent(() => import('../Tracking'))
   },
   {
+    path: 'admin/roles',
+    component: asyncComponent(() => import('../AdminCargapp/Roles'))
+  },
+  {
+    path: 'admin/roles-add',
+    component: asyncComponent(() => import('../AdminCargapp/Roles/create'))
+  },
+  {
+    path: 'admin/roles/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Roles/edit'))
+  },
+  {
     path: 'trackingmap',
     component: asyncComponent(() => import('../TrackingMap'))
   },
