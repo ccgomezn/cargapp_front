@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import Input from "../../components/uielements/input";
 import Checkbox from "../../components/uielements/checkbox";
-import Button from "../../components/uielements/button";
 import authAction from "../../redux/auth/actions";
 import appAction from "../../redux/app/actions";
-import Firebase from "../../helpers/firebase";
-import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignInStyleWrapper from "./signin.style";
 import { Row, Col } from "antd";
-
+import PrimaryButton from '../../components/custom/button/primary'
+import SecondaryButton from '../../components/custom/button/secondary'
+import TextInputCustom from '../../components/custom/input/text'
 const { login } = authAction;
 const { clearMenu } = appAction;
 
@@ -49,83 +47,102 @@ class SignIn extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signInTitle" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.welcomeTo" />
+                        
+                        <div class="text-style-1">
+                          Cargapp
+                      </div>
+                      </div>
+                    </div>
+                    
                   </Col>
                 </Row>
                 <Row>
                   <Col span={24}>
-                    <p>
+                    <div class="Una-solucin-digital">
                       <IntlMessages id="page.signInSubtitle" />
-                    </p>
+                    </div>
                   </Col>
                 </Row>
               </div>
             </div>
+              <div className="isoSignInForm">
+              <form autoComplete="new-password">
 
-            <div className="isoSignInForm">
-              <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.email" />
-                </label>
-                <Input size="large" placeholder="Correo electrónico" />
-              </div>
+                <div className="isoInputWrapper">
+                  <TextInputCustom label_id='page.email' placeholder='Correo eléctronico'/>
+                </div>
 
-              <div className="isoInputWrapper">
-                <div>
-                  <Row style={{ marginTop: 6 }}>
+                <div className="isoInputWrapper">
+                  <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' />
+                </div>
+                <div className="helper">
+                  <Row>
                     <Col span={12}>
-                      <label>
-                        <IntlMessages id="page.password" />
-                      </label>
+                      <Checkbox className="check"><IntlMessages id="page.remember" /></Checkbox>
                     </Col>
-                    <Col span={12} align={'end'}>
-                      <Link to="/forgotpassword">
-                        <IntlMessages id="page.forgetPassSubTitle" />
+                    <Col span={12} align={'right'}>
+                      <Link to="/dashboard"><IntlMessages id="page.signInForgotPass" /></Link>
+                    </Col>
+                  </Row>
+                </div>
+                <div className="sign-buttons">
+                    <Row>
+                    <Col align={'right'}>
+                      <div className="button-sign" style={{ marginRight: '10px' }}>
+                        <SecondaryButton message_id="page.signup" />
 
-                      </Link>
+                      </div>
+
+                      <div className="button-sign">
+
+                        <PrimaryButton message_id="sidebar.signIn" />
+                      </div>
+
+                      </Col>
+                    </Row>
+                    <hr/>
+                </div>
+            </form>
+            
+
+
+                <div className="isoHelperWrapper">
+                  <Row>
+                    <Col span={6}>
+                      <div className="isoHelperLogo">
+
+                      </div>
+                    </Col>
+                    <Col span={16}>
+                      <h1 className="title1"><IntlMessages id="page.meetUs" /></h1>
+                      <h1 className="title2"><IntlMessages id="page.invitation" /></h1>
+                      <div class="text-style-1">
+
+                        Cargapp
+                    </div>
                     </Col>
                   </Row>
 
+                
                 </div>
+                
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
 
-
-
-                <Input size="large" type="password" placeholder="Contraseña" />
+                  </Col>
+                </Row>
+                
               </div>
-
-              <div className="isoInputWrapper">
-
-                <Button type="primary" onClick={this.handleLogin} block style={{
-                  height: 45,
-                  marginTop: 8
-                }}>
-                  <IntlMessages id="page.signInButton" />
-                </Button>
-              </div>
-
-
-
-
-              <div className="isoCenterComponent isoHelperWrapper">
-                <div>
-                  <p>
-
-                    <IntlMessages id="page.notMember" />{' '}
-                    <Link to="/signup">
-                      <IntlMessages id="page.signUpButton" />
-                    </Link>
-                  </p>
-
-
-                  <Link to="/signup">
-                    <IntlMessages id="page.aboutUs" />
-                  </Link>
-                </div>
-              </div>
+              
             </div>
+            
           </div>
+          
         </div>
 
       </SignInStyleWrapper>

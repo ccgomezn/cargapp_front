@@ -1,17 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Input from "../../components/uielements/input";
-import Checkbox from "../../components/uielements/checkbox";
-import Button from "../../components/uielements/button";
 import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
-import Firebase from "../../helpers/firebase";
-import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
+import TextInputCustom from '../../components/custom/input/text'
+import PrimaryButton from '../../components/custom/button/primary'
+
 import SignUpStyleWrapper from "./signupCompany.style";
 import { Row, Col } from "antd";
-import { rgb } from "polished";
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -43,22 +39,27 @@ class SignUpCompany extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signUpTitleCompany" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.closer" />
+                        <div class="text-style-1">
+                          <IntlMessages id="page.future" />
+                        </div>
+                      </div>
+                    </div>
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} >
-                    <p>
-                      <IntlMessages id="page.signUpSubTitleCompany" />
-                    </p>
+                  <Col span={24}>
+                    <div class="Una-solucin-digital">
+                      <IntlMessages id="page.relation" />
+                    </div>
                   </Col>
                 </Row>
               </div>
             </div>
-
             <div className="isoLogoWrapper2">
+              <hr />
               <div>
                 <Row>
                   <Col span={24}>
@@ -76,49 +77,33 @@ class SignUpCompany extends Component {
                 </Row>
               </div>
             </div>
-
             <div className="isoSignUpForm">
-              <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <label>
-                  <IntlMessages id="page.companyName" />
-                </label>
-                <Input size="large" placeholder="Nombre de la empresa" />
+              <div className="isoInputWrapper" style={{ marginTop: 15 }}>
+                <TextInputCustom label_id='page.comapnyName' placeholder='Nombre de la empresa' />
               </div>
-
-
               <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.nit" />
-                </label>
-                <Input size="large" placeholder="NIT" />
+                <TextInputCustom label_id='page.nit' placeholder='NIT' />
               </div>
-
-
               <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.contactPhone" />
-                </label>
-                <Input size="large"
-                  placeholder="Teléfono de contacto" />
+                <TextInputCustom label_id='page.contactPhone' placeholder='Teléfono de contacto' />
               </div>
-
               <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.dato1" />
-                </label>
-                <Input size="large"
-                  placeholder="Dato 1" />
+                <TextInputCustom label_id='page.dato1' placeholder='Dato 1' />
               </div>
-
-
-              <div className="isoInputWrapper" style={{marginTop: 33}}>
-                <Button type="primary" className="signUp" style={{
-                  height: 45
-                }}>
-                  <IntlMessages id="page.continueButton" />
-                </Button>
+              <div className="sign-buttons">
+                <Row>
+                  <Col align={'right'}>
+                    <PrimaryButton message_id="page.continue" />
+                  </Col>
+                </Row>
               </div>
-
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
+                  </Col>
+                </Row>
+              </div>
             </div>
           </div>
         </div>

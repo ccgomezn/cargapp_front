@@ -1,17 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Input from "../../components/uielements/input";
-import Checkbox from "../../components/uielements/checkbox";
-import Button from "../../components/uielements/button";
 import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
-import Firebase from "../../helpers/firebase";
-import FirebaseLogin from "../../components/firebase";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
+import SelectInputCustom from "../../components/custom/input/select"
+import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
-import { rgb } from "polished";
+import PrimaryButton from '../../components/custom/button/primary'
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -43,27 +39,38 @@ class SignUpFinancial extends Component {
               <div>
                 <Row>
                   <Col span={24}>
-                    <Link to="/dashboard">
-                      <IntlMessages id="page.signUpTitleCompany" />
-                    </Link>
+                    <div>
+                      <div class="Bienvenido-a-Cargapp">
+                        <IntlMessages id="page.closer" />
+
+                        <div class="text-style-1">
+                          <IntlMessages id="page.future" />
+                        </div>
+                      </div>
+                    </div>
+
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} >
-                    <p>
-                      <IntlMessages id="page.signUpSubTitleCompany" />
-                    </p>
+                  <Col span={24}>
+                    <div class="Una-solucin-digital">
+                      <IntlMessages id="page.relation" />
+                    </div>
                   </Col>
                 </Row>
+
               </div>
+
             </div>
 
             <div className="isoLogoWrapper2">
+              <hr />
+
               <div>
                 <Row>
                   <Col span={24}>
                     <p className="title">
-                      <IntlMessages id="page.company.title" />
+                      <IntlMessages id="page.financial.title" />
                     </p>
                   </Col>
                 </Row>
@@ -76,41 +83,49 @@ class SignUpFinancial extends Component {
                 </Row>
               </div>
             </div>
-
             <div className="isoSignUpForm">
               <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <label>
-                  <IntlMessages id="page.paymentMethod" />
-                </label>
-                <Input size="large" placeholder="Medio de pago" />
+                <SelectInputCustom label_id='page.paymentMethod' placeholder='Medio de pago' options={
+                  <option value="Cuenta de ahorros">Cuenta de ahorros</option>
+                }/>
+                
               </div>
 
 
               <div className="isoInputWrapper">
-                <label>
-                  <IntlMessages id="page.accountNumber" />
-                </label>
-                <Input size="large" placeholder="Número de cuenta" />
+                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta' />
+
+               
               </div>
 
 
-              <div className="isoInputWrapper" >
-                <label>
-                  <IntlMessages id="page.bank" />
-                </label>
-                <Input size="large"
-                  placeholder="Banco" />
+              <div className="isoInputWrapper">
+                <SelectInputCustom label_id='page.bank' placeholder='Banco' options={
+                  <option value="Davivienda">Davivienda</option>
+                } />
               </div>
 
               
 
-              <div className="isoInputWrapper" style={{ marginTop: 91 }}>
-                <Button type="primary" className="signUp" style={{
-                  height: 45
-                }}>
-                  <IntlMessages id="page.endButton" />
-                </Button>
+              <div className="sign-buttons">
+                <Row>
+                  <Col align={'right'}>
+
+                    <PrimaryButton message_id="page.end" />
+
+
+                  </Col>
+                </Row>
               </div>
+              <div className="footer">
+                <Row>
+                  <Col span={24} align={'center'}>
+                    <IntlMessages id="app.footer" />
+
+                  </Col>
+                </Row>
+
+              </div>  
 
             </div>
           </div>

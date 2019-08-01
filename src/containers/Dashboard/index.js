@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import clone from 'clone';
 import { Row, Col } from 'antd';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import basicStyle from '../../settings/basicStyle';
+import IsoWidgetsCircleWrapper from './widgets-circle-wrapper';
 import IsoWidgetsWrapper from './widgets-wrapper';
-import IsoWidgetBox from './widget-box';
-import CardWidget from './card/card-widgets';
-import ProgressWidget from './progress/progress-widget';
-import CircleProgressWidgetBar from './progress/progress-circle';
+import ColorCircleProgress from '../../components/custom/progress/colorCircle';
 import ReportsSmallWidget from './reportsmall/report-widget';
 import ReportMapWidget from './reportmap/report-widget';
-
-import { TableViews, tableinfos, dataList } from '../Tables/antTables';
-import * as rechartConfigs from '../Charts/recharts/config';
-import { GoogleChart } from './googleChart/';
-import * as googleChartConfigs from './googleChart/config';
+import { Divider } from 'antd';
+import { Link } from "react-router-dom";
+import { tableinfos } from './tablesConfig'
 import IntlMessages from '../../components/utility/intlMessages';
 import MapContainer from '../../components/maps/map';
-import { List, Avatar, Skeleton, Checkbox, Tag } from 'antd';
+import { List, Avatar, Skeleton, Checkbox } from 'antd';
+import DashboardRow from '../../components/custom/information_display/dashboardRow';
 import reqwest from 'reqwest';
+import SimpleView from '../../components/custom/table/simpleView'
+import fakeData from '../Tables/fakeData';
+import ResponsiveLineChart from '../../components/custom/chart/responsiveLineChart'
+import RoundBadge from '../../components/custom/information_display/roundBadge'
 
-const tableDataList = clone(dataList);
+const tableDataList = new fakeData(10);
 tableDataList.size = 5;
 const count = 3;
 
@@ -58,7 +58,7 @@ export default class extends Component {
 
 
   render() {
-    const { initLoading, loading, list } = this.state;
+    const { list } = this.state;
 
     const { rowStyle, colStyle } = basicStyle;
     const wisgetPageStyle = {
@@ -68,33 +68,21 @@ export default class extends Component {
       overflow: 'hidden',
     };
 
-    const chartEvents = [
-      {
-        eventName: 'select',
-        callback(Chart) { },
-      },
-    ];
-
-    const stackConfig = {
-      ...rechartConfigs.StackedAreaChart,
-      width: window.innerWidth < 450 ? 300 : 500,
-    };
     return (
       <LayoutWrapper id="area">
         <div style={wisgetPageStyle}>
           <Row style={rowStyle} gutter={0} justify="start" type="flex">
-            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
+            <Col lg={8} md={8} sm={24} xs={24} style={colStyle}>
               <Row >
-                <IsoWidgetsWrapper>
+                <IsoWidgetsCircleWrapper>
                   {/* Report Widget */}
-                  <ReportsSmallWidget
-                  >
+                  <ReportsSmallWidget>
                     <Row>
-                      <Col span={12}>
-                        <CircleProgressWidgetBar
+                      <Col lg={10} md={10} sm={24} xs={24}>
+                        <ColorCircleProgress
 
                           percent={70}
-                          barHeight={7}
+                          barHeight={6}
                           status="active"
                           info={true} // Boolean: true, false
                         />
@@ -104,78 +92,49 @@ export default class extends Component {
                           <h1>
                             <IntlMessages id="widget.reportswidget.titledashboard" />
                           </h1>
-                          <h2>
+                          <h2 style={{ paddingBottom: '30px' }}>
                             <IntlMessages id="widget.reportswidget.subtitledashboard" />
                           </h2>
                         </div>
                       </Col>
-                    </Row>
-
+                    </Row >
+                    <Divider orientation="left" style={{ marginTop: '0px' }}></Divider>
+                    <DashboardRow mainInfo={'1.428'}
+                      mainInfoSubId={'widget.reportswidget.vehicules'}
+                      subIcon={'fall'}
+                      subInfo={'-7,6%'}
+                      backgroundColor={'rgb(255, 37, 87, 0.25)'}
+                      color={'rgb(255, 37, 87)'}
+                      botMargin={4} />
+                    <Divider orientation="left"></Divider>
+                    <DashboardRow mainInfo={'158.2'}
+                      mainInfoSubId={'general.kilometer'}
+                      subIcon={'rise'}
+                      subInfo={'+2,4%'}
+                      backgroundColor={'rgb(0, 255, 119, 0.25)'}
+                      color={'rgb(0, 211, 98)'}
+                      botMargin={37} />
                   </ReportsSmallWidget>
-                </IsoWidgetsWrapper>
-              </Row>
-              <Row style={{ paddingTop: 20 }}>
-                <Col span={12}>
-                  <IsoWidgetsWrapper>
-                    <div className="vehiclesOnTrack">
-                      <ReportsSmallWidget
-                        label={<IntlMessages id="widget.reportswidget.titlevehiclesontrack" />}
-                      >
-                        <div className="data">
 
-                          <h4>1,428 </h4>
-                          <h5>
-                            <IntlMessages id="widget.reportswidget.datavehiclesontrack" />
-                          </h5>
-                        </div>
-                      </ReportsSmallWidget>
-                    </div>
-                  </IsoWidgetsWrapper>
-                </Col>
-                <Col span={12}>
-                  <IsoWidgetsWrapper>
-                    <div className="vehiclesOnTrack">
-                      <ReportsSmallWidget
-                        label={<IntlMessages id="widget.reportswidget.titledistance" />}
-                      >
-                        <div className="data">
-
-                          <h4>158.3 </h4>
-                          <h5>
-                            <IntlMessages id="widget.reportswidget.milles" />
-                          </h5>
-                        </div>
-                      </ReportsSmallWidget>
-                    </div>
-                  </IsoWidgetsWrapper>
-                </Col>
+                </IsoWidgetsCircleWrapper>
               </Row>
+
             </Col>
-            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
+            <Col lg={16} md={16} sm={24} xs={24} style={colStyle}>
               <IsoWidgetsWrapper style={{ height: '100% !important' }}>
                 <div className="vehiclesOnTrack" style={{ height: '100%' }}>
                   <ReportsSmallWidget
                     label={<IntlMessages id="widget.reportswidget.titleactualtravels" />}
+                    options={
+                      <Link style={{
+                        color: '#0168ff', textTransform: 'uppercase'
+                      }} to="/dashboard"><IntlMessages id="dashboard.onroad.showall" /></Link>
+
+                    }
+                    hr={<hr style={{ marginTop: 0 }} />}
                   >
 
-                    <List
-                      className="demo-loadmore-list"
-                      itemLayout="horizontal"
-                      dataSource={list}
-                      renderItem={item => (
-                        <List.Item actions={[<div className="options"><a>ver en mapa</a><h3>llega en 2 dias</h3></div>]}>
-                          <Skeleton avatar title={false} loading={item.loading} active>
-                            <List.Item.Meta
-                              avatar={
-                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                              }
-                              title={<a href="https://ant.design">{item.name.last}</a>}
-                              description="Destino-carga"
-                            />
-                          </Skeleton>
-                        </List.Item>
-                      )}
-                    />
+                    <SimpleView tableInfo={tableinfos[0]} dataList={tableDataList} />
                   </ReportsSmallWidget>
                 </div>
               </IsoWidgetsWrapper>
@@ -207,11 +166,33 @@ export default class extends Component {
           </Row>
 
           <Row style={rowStyle} gutter={0} justify="start">
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
+            <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+              <IsoWidgetsWrapper>
+                <ReportsSmallWidget
+                  label={<IntlMessages id="widget.reportswidget.analitycs" />}
+                  
+                  hr={<hr style={{ marginTop: 0 }} />}
+                >
+                  <ResponsiveLineChart data={
+                    [
+                      { x: 1, y: 130 },
+                      { x: 2, y: 165 },
+                      { x: 3, y: -142 },
+                      { x: 4, y: 19 }
+                    ]
+                  } style={{width: '100%'}}/>
+                </ReportsSmallWidget>
+              </IsoWidgetsWrapper>
+            </Col>
+          </Row>
+
+          <Row style={rowStyle} gutter={0} justify="start">
+            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
               <IsoWidgetsWrapper style={{ height: '100% !important' }}>
                 <div className="vehiclesOnTrack" style={{ height: '100%' }}>
                   <ReportsSmallWidget
                     label={<IntlMessages id="widget.reportswidget.activeusers" />}
+                    hr={<hr style={{ marginTop: 0 }} />}
                   >
 
                     <List
@@ -219,7 +200,7 @@ export default class extends Component {
                       itemLayout="horizontal"
                       dataSource={list}
                       renderItem={item => (
-                        <List.Item actions={[<div className="options"><a>ver permisos</a><h3>3 servicios</h3></div>]}>
+                        <List.Item actions={[<div className="options"><a href='/'>ver permisos</a><h3>3 servicios</h3></div>]}>
                           <Skeleton avatar title={false} loading={item.loading} active>
                             <List.Item.Meta
                               avatar={
@@ -238,35 +219,25 @@ export default class extends Component {
 
             </Col>
 
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
-              <IsoWidgetsWrapper >
-                <div className="vehiclesOnTrack" style={{ height: '100%' }}>
+            
 
-                  <ReportsSmallWidget
-                    label={<IntlMessages id="widget.reportswidget.activeusers" />}
-                  >
-                    {/* Google Bar Chart */}
-                    <GoogleChart {...googleChartConfigs.ComboChart} />
-                  </ReportsSmallWidget>
-                </div>
-              </IsoWidgetsWrapper>
-            </Col>
-
-            <Col lg={8} md={8} sm={8} xs={24} style={colStyle}>
+            <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
               <IsoWidgetsWrapper >
                 <div className="vehiclesOnTrack" style={{ height: '100%' }}>
 
                   <ReportsSmallWidget
                     label={<IntlMessages id="widget.reportswidget.booked" />}
+                    hr={<hr style={{ marginTop: 0 }} />}
                   >
                     <List
                       className="demo-loadmore-list"
                       itemLayout="horizontal"
                       dataSource={list}
                       renderItem={item => (
-                        <List.Item actions={[<div className="optionsBokked"><Tag style={{ zoom: 1.3, border: 'transparent', borderColor: 'transparent' }} color="blue">
-                          12/15/19
-                          </Tag></div>]}>
+                        <List.Item actions={[<RoundBadge color={'rgb(0, 255, 119, 0.25)'} 
+                                                         borderRadius={'15px'} 
+                                                         data={'Inicia hoy'}
+                                                         textColor={'rgb(0, 211, 98)'} />]}>
                           <Skeleton avatar title={false} loading={item.loading} active>
                             <List.Item.Meta
                               avatar={
@@ -275,8 +246,7 @@ export default class extends Component {
                                 </Checkbox>
                               }
                               title={<div className="titleBooked">
-                                <h3>Destino-</h3>
-                                <h2>Carga</h2>
+                                <h3>Destino-Carga</h3>
                               </div>}
                             />
                           </Skeleton>

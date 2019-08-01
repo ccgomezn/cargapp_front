@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
 import TableDemoStyle from './demo.style';
-import { tableinfos } from './configs';
 import  MapContainer  from '../../components/maps/map'
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
@@ -46,8 +44,7 @@ export default class Tracking extends Component {
                   height: 40,
                   backgroundColor: 'rgba(50,	95,	245)',
                   color: '#ffffff'
-                }}
-                  block>
+                }}>
                   <IntlMessages id="trackings.filter" />
                     
                 </Button>

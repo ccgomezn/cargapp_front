@@ -36,8 +36,7 @@ const CircleProgressWidgetBar = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-
+  
   h3 {
     font-size: 14px;
     font-weight: 500;
@@ -45,20 +44,39 @@ const CircleProgressWidgetBar = styled.div`
     color: ${palette('text', 2)};
     margin: 15px 0 0;
   }
-
+  .ant-progress {
+    margin-right: 22px !important;
+   
+  }
+  
   .ant-progress.ant-progress-circle {
+     
+    
+    .ant-progress-circle-path {
+      stroke: url(#grad1) !important;
+    }
+
     .ant-progress-text {
       h1 {
-        font-size: 35px;
-      font-weight: 400;
-      line-height: 1.2;
-      color: black;
+        font-family: Roboto;
+          font-size: 28px;
+          font-weight: 500;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 0.93;
+          letter-spacing: -0.7px;
+          color: #010935;
       }
       h2 {
-        font-size: 10px;
-        font-weight: 400;
-      line-height: 1.2;
-      color: rgba(151, 164, 181	);
+        opacity: 0.5;
+        font-family: Roboto;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.58;
+        letter-spacing: -0.18px;
+        color: #010935;
       }
     }
   }
@@ -68,12 +86,12 @@ const ProgressWidgetWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
-  background-color: #ffffff;
   overflow: hidden;
   border: 1px solid ${palette('border', 2)};
 
+  
   .isoProgressWidgetTopbar {
+    
     width: 100%;
     display: flex;
     align-items: center;

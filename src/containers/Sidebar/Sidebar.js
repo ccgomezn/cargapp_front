@@ -12,7 +12,6 @@ import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
 
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 const { Sider } = Layout;
 
 const {
@@ -113,22 +112,10 @@ class Sidebar extends Component {
   render() {
     const { toggleCollapsed } = this.props;
 
-    const { app, toggleOpenDrawer, customizedTheme, height } = this.props;
+    const { app, customizedTheme, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
-    const { openDrawer } = app;
     const mode = collapsed === true ? "vertical" : "inline";
-    const onMouseEnter = event => {
-      if (openDrawer === false) {
-        toggleOpenDrawer();
-      }
-      return;
-    };
-    const onMouseLeave = () => {
-      if (openDrawer === true) {
-        toggleOpenDrawer();
-      }
-      return;
-    };
+    
     const styling = {
       backgroundColor: "white"
     };
@@ -140,7 +127,7 @@ class Sidebar extends Component {
       color: "rgb(178, 186, 200)"
     };
     return (
-      <SidebarWrapper>
+      <SidebarWrapper className="RealSide">
         <Sider
           trigger={null}
           collapsible={true}

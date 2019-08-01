@@ -12,6 +12,30 @@ const routes = [
     component: asyncComponent(() => import('../Tracking'))
   },
   {
+    path: 'admin/roles',
+    component: asyncComponent(() => import('../AdminCargapp/Roles'))
+  },
+  {
+    path: 'admin/roles_add',
+    component: asyncComponent(() => import('../AdminCargapp/Roles/create'))
+  },
+  {
+    path: 'admin/roles/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Roles/edit'))
+  },
+  {
+    path: 'admin/cargapp_models',
+    component: asyncComponent(() => import('../AdminCargapp/CargappModels'))
+  },
+  {
+    path: 'admin/cargapp_models/:id',
+    component: asyncComponent(() => import('../AdminCargapp/CargappModels/edit'))
+  },
+  {
+    path: 'admin/cargapp_models_add',
+    component: asyncComponent(() => import('../AdminCargapp/CargappModels/create'))
+  },
+  {
     path: 'trackingmap',
     component: asyncComponent(() => import('../TrackingMap'))
   },

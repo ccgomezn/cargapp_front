@@ -34,7 +34,9 @@ html ul {
   list-style: none;
   margin-bottom: 0;
 }
-
+.ant-layout-sider-collapsed {
+  width: 71px !important;
+}
 .scrollbar-track-y,
 .scrollbar-thumb-y {
   width: 5px !important;

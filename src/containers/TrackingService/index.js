@@ -14,12 +14,7 @@ import Button from "../../components/uielements/button";
 const dataList = new fakeData(10);
 export default class TrackingService extends Component {
   render() {
-    const wisgetPageStyle = {
-      display: 'flex',
-      flexFlow: 'row wrap',
-      alignItems: 'flex-start',
-      overflow: 'hidden',
-    };
+    
     const { rowStyle, colStyle } = basicStyle;
 
     return (
@@ -43,8 +38,7 @@ export default class TrackingService extends Component {
                   height: 40,
                   backgroundColor: 'rgba(50,	95,	245)',
                   color: '#ffffff'
-                }}
-                block>
+                }}>
                   <IntlMessages id="trackings.filter" />
 
                 </Button>

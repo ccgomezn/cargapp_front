@@ -3,11 +3,37 @@ import ImageCellView from './imageCell';
 import DeleteCell from './deleteCell';
 import EditableCell from './editableCell';
 import FilterDropdown from './filterDropdown';
+import { Button, Popconfirm } from 'antd';
 
 const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
+const MultipleCell = (text1, text2) => <div><h1>{text1}</h1><h2>{text2}</h2></div>;
+const MultipleLinkedCell = (text1, text2, href) => <div style={{ textAlign: 'right' }}><a href={href}>{text1}</a><h2>{text2}</h2></div>;
+const MultipleButtonCell = (text1, text2, function1, function2, type1, type2) => {
+  return (
+    <div style={{ textAlign: 'right' }}>
+      <Button type={type1} onClick={function1}>
+        {text1}
+      </Button>
+      <Popconfirm
+        title="Esta seguro?"
+        onConfirm={function2}
+        okText="Si"
+        cancelText="No"
+      >
+        <Button type={type2}>
+          {text2}
+        </Button>      
+        </Popconfirm>
+      
+    </div>
+
+  )
+};
+
+const TextColorCell = (text, color) => <p style={{color: color}}>{text}</p>;
 
 export {
   DateCell,
@@ -16,5 +42,9 @@ export {
   TextCell,
   EditableCell,
   DeleteCell,
-  FilterDropdown
+  FilterDropdown,
+  MultipleCell,
+  MultipleLinkedCell,
+  MultipleButtonCell,
+  TextColorCell
 };

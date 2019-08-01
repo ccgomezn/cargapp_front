@@ -12,7 +12,7 @@ const { toggleCollapsed } = appActions;
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed, url, customizedTheme, locale } = this.props;
+    const { locale } = this.props;
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: "white",
@@ -22,6 +22,12 @@ class Topbar extends Component {
     };
     return (
       <TopbarWrapper>
+        <defs>
+          <linearGradient id="gradUser">
+            <stop offset="0%" stop-color="#007aff" />
+            <stop offset="100%" stop-color="#00ff77" />
+          </linearGradient>
+        </defs>
         <Header
           style={styling}
           className={

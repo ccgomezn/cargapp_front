@@ -9,7 +9,6 @@ const ReportWidgetWrapper = styled.div`
   background-color: #ffffff;
   border: 1px solid ${palette('border', 2)};
   h3 {
-      padding-left: 30px;
       font-size: 13px !important;
       font-weight: 400 !important;
       color: rgba(140,	154,	173	) !important;

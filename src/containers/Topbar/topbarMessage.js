@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover } from 'antd';
+import { Popover, Icon } from 'antd';
 import { connect } from 'react-redux';
 import IntlMessages from '../../components/utility/intlMessages';
 import Scrollbar from '../../components/utility/customScrollBar';
@@ -54,7 +54,6 @@ class TopbarMessage extends Component {
     this.setState({ visible: !this.state.visible });
   }
   render() {
-    const { customizedTheme } = this.props;
     const content = (
       <TopbarDropdownWrapper className="topbarMessage withImg">
         <div className="isoDropdownHeader">
@@ -95,11 +94,8 @@ class TopbarMessage extends Component {
         placement="bottomLeft"
       >
         <div className="isoIconWrapper">
-          <i
-            className="ion-chatbubbles"
-            style={{ color: customizedTheme.textColor }}
-          />
-          <span>{demoMassage.length}</span>
+          <Icon type="mail" style={{ color: 'rgb(1, 104, 255)'}}/>
+          <span style={{ backgroundColor: 'rgb(255, 37, 87)'}}>{demoMassage.length}</span>
         </div>
       </Popover>
     );
