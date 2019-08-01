@@ -13,7 +13,7 @@ import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
-export default class RoleEdit extends Component {
+export default class CargappModelEdit extends Component {
 
 
   constructor(props) {
@@ -28,7 +28,7 @@ export default class RoleEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/roles/`+this.props.match.params.id)
+    axios.get(httpAddr + `/cargapp_models/`+this.props.match.params.id)
       .then((response) => {
 
         
@@ -36,6 +36,7 @@ export default class RoleEdit extends Component {
           code: response.data.code,
           name: response.data.name,
           description: response.data.description,
+          value: response.data.value,
           active: response.data.active,
         });
       }).catch((error) => {
@@ -51,12 +52,13 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/roles/' + this.props.match.params.id,
+    axios.put(httpAddr + '/cargapp_models/' + this.props.match.params.id,
       {
-        role: {
+        cargapp_model: {
           name: this.state.name,
           code: this.state.code,
           description: this.state.description,
+          value: this.state.value,
           active: this.state.active,
         }
 
@@ -70,7 +72,7 @@ export default class RoleEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/roles' />
+      return <Redirect to='/dashboard/admin/cargapp_models' />
     }
     return (
 
@@ -84,7 +86,7 @@ export default class RoleEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="cargappModel.title" />
 
                   </h1>
                 </PageHeader>
@@ -105,7 +107,12 @@ export default class RoleEdit extends Component {
                   </Col>
                 </Row>
                 <Row gutter={10}>
-                  <Col span={24}>
+                  <Col span={12}>
+                    <Form.Item label="Valor">
+                      <Input value={this.state.value} onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
                     <Form.Item label="Descripción">
                       <Input value={this.state.description} onChange={(e) => this.handleChange(e.target.value, 'description')} />
                     </Form.Item>

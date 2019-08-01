@@ -3,9 +3,14 @@ import WithDirection from '../../settings/withDirection';
 
 const WDComponentTitleWrapper = styled.div`
 h1{
-  font-size: 23px;
-  font-weight: 300;
-  color: black;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.3px;
+  color: rgb(1, 9, 53);
   width: 100%;
   margin-right: 17px;
   display: flex;

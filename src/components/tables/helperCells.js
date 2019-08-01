@@ -33,6 +33,8 @@ const MultipleButtonCell = (text1, text2, function1, function2, type1, type2) =>
   )
 };
 
+const TextColorCell = (text, color) => <p style={{color: color}}>{text}</p>;
+
 export {
   DateCell,
   ImageCell,
@@ -43,5 +45,6 @@ export {
   FilterDropdown,
   MultipleCell,
   MultipleLinkedCell,
-  MultipleButtonCell
+  MultipleButtonCell,
+  TextColorCell
 };

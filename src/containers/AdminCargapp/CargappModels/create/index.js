@@ -9,11 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
-const { Option } = Select;
-export default class RoleEdit extends Component {
+export default class CargappModelCreate extends Component {
 
 
   constructor(props) {
@@ -22,46 +20,32 @@ export default class RoleEdit extends Component {
       code: '',
       name: '',
       description: '',
-      active: false,
+      value: '',
       redirect: false
     }
   }
-  componentWillMount() {
-    console.log(this.props);
-    axios.get(httpAddr + `/roles/`+this.props.match.params.id)
-      .then((response) => {
 
-        
-        this.setState({
-          code: response.data.code,
-          name: response.data.name,
-          description: response.data.description,
-          active: response.data.active,
-        });
-      }).catch((error) => {
-        console.error(error);
-      });
-  }
-  handleChange(value, type) {
+  handleChange(e, type) {
 
     this.setState(
       {
-        [type]: value
+        [type]: e.target.value
       }
     )
   }
-  handlePut() {
-    axios.put(httpAddr + '/roles/' + this.props.match.params.id,
+  handlePost() {
+    axios.post(httpAddr + '/cargapp_models',
       {
-        role: {
+        cargapp_model: {
           name: this.state.name,
           code: this.state.code,
           description: this.state.description,
-          active: this.state.active,
+          value: this.state.value,
+          active: true,
         }
 
       }).then(() => {
-        this.setState({ redirect: true })
+        this.setState({redirect: true})
       })
   }
 
@@ -70,10 +54,10 @@ export default class RoleEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/roles' />
+      return <Redirect to='/dashboard/admin/cargapp_models' />
     }
     return (
-
+      
       <LayoutWrapper>
 
 
@@ -84,7 +68,7 @@ export default class RoleEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="cargappModel.title" />
 
                   </h1>
                 </PageHeader>
@@ -95,39 +79,32 @@ export default class RoleEdit extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <Input value={this.state.name} onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                      <Input value={this.state.name} onChange={(e) => this.handleChange(e, 'name')} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Codigo">
-                      <Input value={this.state.code} onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                      <Input value={this.state.code} onChange={(e) => this.handleChange(e, 'code')} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
-                  <Col span={24}>
+                  <Col span={12}>
+                    <Form.Item label="Valor">
+                      <Input value={this.state.value} onChange={(e) => this.handleChange(e, 'value')} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
                     <Form.Item label="Descripción">
-                      <Input value={this.state.description} onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                      <Input value={this.state.description} onChange={(e) => this.handleChange(e, 'description')} />
                     </Form.Item>
                   </Col>
-
                 </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
-                    <Form.Item label="Estado">
-                      <Select value={this.state.active} style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
-                        <Option value={true}>Activo</Option>
-                        <Option value={false}>Desactivado</Option>
-                  
-                      </Select>
-                    </Form.Item>
-                  </Col>
 
-                </Row>
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
+                      <PrimaryButton message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
                     </Form.Item>
                   </Col>
                 </Row>

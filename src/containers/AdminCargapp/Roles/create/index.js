@@ -9,8 +9,10 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import httpAddr from "../../../../helpers/http_helper"
 
-export default class Roles extends Component {
+
+export default class RoleCreate extends Component {
 
 
   constructor(props) {
@@ -32,7 +34,7 @@ export default class Roles extends Component {
     )
   }
   handlePost() {
-    axios.post('https://cors-anywhere.herokuapp.com/http://api.cargapp.co/api/v1/roles',
+    axios.post(httpAddr + '/roles',
       {
         role: {
           name: this.state.name,

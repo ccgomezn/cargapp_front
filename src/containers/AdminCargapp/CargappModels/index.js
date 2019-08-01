@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
-export default class Role extends Component {
+export default class CargappModel extends Component {
 
 
   constructor(props) {
@@ -20,18 +20,17 @@ export default class Role extends Component {
   }
   
   componentWillMount() {
-    axios.get(httpAddr + `/roles`)
+    axios.get(httpAddr + `/cargapp_models`)
       .then((response) => {
         
-        response.data.map((item) => {
-          if (item.active) {
+        response.data.map(function (item) {
+          if(item.active){
             item.active = 'Activo';
             item.color = '#00BFBF';
-          } else {
+          }else{
             item.active = 'Desactivado';
             item.color = '#ff2557';
           }
-          return item;
         })
         this.setState({
           roles: response.data
@@ -41,9 +40,8 @@ export default class Role extends Component {
       });
   }
 
-  
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/roles-add')
+    this.props.history.push('/dashboard/admin/cargapp_models_add')
 
   }
   render() {
@@ -60,7 +58,7 @@ export default class Role extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="cargappModel.title" />
 
                   </h1>
                 </PageHeader>

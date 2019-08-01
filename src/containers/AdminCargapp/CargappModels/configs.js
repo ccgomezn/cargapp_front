@@ -10,12 +10,13 @@ import {
 } from '../../../components/tables/helperCells';
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import connectAutoComplete from 'react-instantsearch/src/connectors/connectAutoComplete';
 
 const deleteFunction = (id) => {
   return function(){
-  (axios.delete(httpAddr + `/roles/` + id)
+    (axios.delete(httpAddr+`/cargapp_models/` + id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/roles/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cargapp_models/';
 
     }).catch((error) => {
       console.error(error);
@@ -38,14 +39,14 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/roles/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cargapp_models/' + object['id'];
       }
       
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
     default:
       var color_val = '';
 
-      if (color) {
+      if(color){
         console.log('color yes');
         console.log(object['color']);
         color_val = object['color'];
@@ -58,37 +59,43 @@ const columns = [
   {
     title: "Id",
     key: 'id',
-    width: '25%',
+    width: '15%',
     render: object => renderCell(object, 'TextCell', 'id')
   },
   {
     title: <IntlMessages id="antTable.title.name" />,
     key: 'name',
-    width: '20%',
+    width: '15%',
     render: object => renderCell(object, 'TextCell', 'name')
   },
   {
     title: <IntlMessages id="antTable.title.code" />,
     key: 'code',
-    width: '20%',
+    width: '15%',
     render: object => renderCell(object, 'TextCell', 'code')
+  },
+  {
+    title: <IntlMessages id="antTable.title.value" />,
+    key: 'value',
+    width: '15%',
+    render: object => renderCell(object, 'TextCell', 'value')
   },
   {
     title: <IntlMessages id="antTable.title.description" />,
     key: 'description',
-    width: '20%',
+    width: '15%',
     render: object => renderCell(object, 'TextCell', 'description')
   },
   {
     title: <IntlMessages id="antTable.title.state" />,
     key: 'active',
-    width: '20%',
+    width: '10%',
     render: object => renderCell(object, 'TextCell', 'active', true)
   },
   {
     title: <IntlMessages id="antTable.title.options" />,
     key: 'active',
-    width: '20%',
+    width: '10%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },
 ];
@@ -99,7 +106,8 @@ const sortColumns = [
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[5], sorter: false }
+  { ...columns[5], sorter: true },
+  { ...columns[6], sorter: false }
 
 ];
 const editColumns = [
