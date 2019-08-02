@@ -53,7 +53,11 @@ export default class ParameterCreate extends Component {
 
       }).then(() => {
         this.setState({ redirect: true })
-      })
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
+      });
   }
 
 
@@ -64,7 +68,9 @@ export default class ParameterCreate extends Component {
 
         this.setState({
           users: responses[0].data,
-          models: responses[1].data
+          models: responses[1].data,
+          user_id: responses[0].data[0].id,
+          cargapp_model_id: responses[1].data[0].id
         });
 
       })
@@ -98,67 +104,69 @@ export default class ParameterCreate extends Component {
             </Row>
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Código">
-                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Descripción">
-                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Valor">
-                      <Input value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
-                    <Form.Item label="Usuario">
-                      <Select value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
-                        {this.state && this.state.users &&
+                <Form>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Nombre">
+                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Código">
+                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Descripción">
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Valor">
+                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item label="Usuario">
+                        <Select required value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                          {this.state && this.state.users &&
 
-                          this.state.users.map((item) => {
-                            return <Option value={item.id}>{item.email}</Option>
-                          })
-                        }
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item label="Modelo">
-                      <Select value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
-                        {this.state && this.state.models &&
-                          this.state.models.map((item) => {
-                            return <Option value={item.id}>{item.name}</Option>
-                          })
-                        }
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
+                            this.state.users.map((item) => {
+                              return <Option value={item.id}>{item.email}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
 
-                <Row>
-                  <Col span={24}>
-                    <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                  </Row>
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item label="Modelo">
+                        
+                        <Select required value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
+                          {this.state && this.state.models &&
+                            this.state.models.map((item) => {
+                              return <Option value={item.id}>{item.name}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
 
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item wrapperCol={{ span: 24 }}>
+                        <PrimaryButton htmlType={"submit"} message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
               </Card>
 
 

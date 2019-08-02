@@ -40,6 +40,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Parameters/edit'))
   },
   {
+    path: 'admin/permissions',
+    component: asyncComponent(() => import('../AdminCargapp/Permissions'))
+  },
+  {
+    path: 'admin/permissions/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Permissions/show'))
+  },
+  {
+    path: 'admin/permissions_add',
+    component: asyncComponent(() => import('../AdminCargapp/Permissions/create'))
+  },
+  {
+    path: 'admin/permissions/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Permissions/edit'))
+  },
+  {
     path: 'admin/cargapp_models',
     component: asyncComponent(() => import('../AdminCargapp/CargappModels'))
   },

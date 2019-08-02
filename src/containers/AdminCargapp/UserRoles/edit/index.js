@@ -46,8 +46,10 @@ export default class RoleEdit extends Component {
           role_id: responses[0].data.role_id,
           active: responses[0].data.active,
         });
-      }).catch((error) => {
-        console.error(error);
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
       });
   }
   handleChange(value, type) {
@@ -70,7 +72,11 @@ export default class RoleEdit extends Component {
 
       }).then(() => {
         this.setState({ redirect: true })
-      })
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
+      });
   }
 
   render() {

@@ -4,23 +4,21 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Select } from "antd";
+import { Form, Select, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card, message } from 'antd';
+import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
 
-export default class RoleCreate extends Component {
+export default class ParameterCreate extends Component {
 
 
   constructor(props) {
     super();
     this.state = {
-      user_id: '',
-      role_id: '',
       redirect: false
     }
   }
@@ -28,8 +26,8 @@ export default class RoleCreate extends Component {
     return axios.get(httpAddr + `/users`);
   }
 
-  getRoles() {
-    return axios.get(httpAddr + `/roles`);
+  getCargappModesl() {
+    return axios.get(httpAddr + `/cargapp_models`);
   }
 
   handleChange(value, type) {
@@ -41,35 +39,32 @@ export default class RoleCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_roles',
+    axios.post(httpAddr + '/parameters',
       {
-        user_role: {
+        parameter: {
+          name: this.state.name,
+          code: this.state.code,
+          description: this.state.description,
           user_id: this.state.user_id,
-          role_id: this.state.role_id,
-          admin_id: 1,
+          cargapp_model_id: this.state.cargapp_model_id,
+          value: this.state.value,
           active: true,
         }
 
       }).then(() => {
         this.setState({ redirect: true })
-      }).catch(error => {
-        let errorObject = JSON.parse(JSON.stringify(error));
-
-        message.warning(errorObject.message);
-      });
+      })
   }
 
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getRoles()])
+    axios.all([this.getUsers(), this.getCargappModesl()])
       .then((responses) => {
 
         this.setState({
           users: responses[0].data,
-          roles: responses[1].data,
-          user_id: responses[0].data[0].id,
-          role_id: responses[1].data[0].id,
+          models: responses[1].data
         });
 
       })
@@ -81,7 +76,7 @@ export default class RoleCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/user_roles' />
+      return <Redirect to='/dashboard/admin/parameters' />
     }
     return (
 
@@ -95,7 +90,7 @@ export default class RoleCreate extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="users_roles.title" />
+                    <IntlMessages id="parameters.title" />
 
                   </h1>
                 </PageHeader>
@@ -103,10 +98,36 @@ export default class RoleCreate extends Component {
             </Row>
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
+                <Form>
+
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Nombre">
+                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Código">
+                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Descripción">
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Valor">
+                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                    </Form.Item>
+                  </Col>
+                </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Usuario">
-                      <Select value={this.state.user_id} placeholder="usuario"  style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        <Select required value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
                         {this.state && this.state.users &&
 
                           this.state.users.map((item) => {
@@ -120,10 +141,10 @@ export default class RoleCreate extends Component {
                 </Row>
                 <Row>
                   <Col span={24}>
-                    <Form.Item label="Rol">
-                      <Select value={this.state.role_id} placeholder="rol" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
-                        {this.state && this.state.roles &&
-                          this.state.roles.map((item) => {
+                    <Form.Item label="Modelo">
+                      <Select required value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
+                        {this.state && this.state.models &&
+                          this.state.models.map((item) => {
                             return <Option value={item.id}>{item.name}</Option>
                           })
                         }
@@ -135,11 +156,11 @@ export default class RoleCreate extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
+                      <PrimaryButton htmlType={"submit"} message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
                     </Form.Item>
                   </Col>
                 </Row>
-
+                </Form>
               </Card>
 
 

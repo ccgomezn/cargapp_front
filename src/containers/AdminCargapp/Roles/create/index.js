@@ -44,8 +44,12 @@ export default class RoleCreate extends Component {
         }
 
       }).then(() => {
-        this.setState({redirect: true})
-      })
+        this.setState({ redirect: true })
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
+      });
   }
 
   render() {
@@ -56,7 +60,7 @@ export default class RoleCreate extends Component {
       return <Redirect to='/dashboard/admin/roles' />
     }
     return (
-      
+
       <LayoutWrapper>
 
 
@@ -75,35 +79,36 @@ export default class RoleCreate extends Component {
             </Row>
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e, 'name')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Codigo">
-                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e, 'code')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
-                    <Form.Item label="Descripción">
-                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
-                    </Form.Item>
-                  </Col>
+                <Form>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Nombre">
+                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e, 'name')} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Codigo">
+                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e, 'code')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item label="Descripción">
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
+                      </Form.Item>
+                    </Col>
 
-                </Row>
+                  </Row>
 
-                <Row>
-                  <Col span={24}>
-                    <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item wrapperCol={{ span: 24 }}>
+                        <PrimaryButton htmlType={"submit"} message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
               </Card>
 
 

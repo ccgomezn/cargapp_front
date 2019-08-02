@@ -62,7 +62,11 @@ export default class RoleEdit extends Component {
 
       }).then(() => {
         this.setState({ redirect: true })
-      })
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
+      });
   }
 
   render() {
@@ -92,22 +96,23 @@ export default class RoleEdit extends Component {
             </Row>
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
+                <Form>
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Código">
-                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Descripción">
-                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
                     </Form.Item>
                   </Col>
 
@@ -115,7 +120,7 @@ export default class RoleEdit extends Component {
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">
-                      <Select value={this.state.active} placeholder="estado" style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
+                      <Select required value={this.state.active} placeholder="estado" style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
                         <Option value={true}>Activo</Option>
                         <Option value={false}>Desactivado</Option>
                   
@@ -127,11 +132,11 @@ export default class RoleEdit extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
+                      <PrimaryButton htmlType={"submit"} message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
                     </Form.Item>
                   </Col>
                 </Row>
-
+                </Form>
               </Card>
 
 
