@@ -10,20 +10,43 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
-export default class Role extends Component {
+export default class UserRole extends Component {
 
 
   constructor(props) {
     super();
-    
+
 
   }
-  
+
+
+  transformDataToMap(data, key) {
+    var dataTransformed = {};
+    data.map((item) => {
+      dataTransformed[item.id] = item[key];
+      return item;
+    });
+
+    return dataTransformed
+  }
+
+  getUserRoles() {
+    return axios.get(httpAddr + `/user_roles`);
+  }
+
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
+  getRoles() {
+    return axios.get(httpAddr + `/roles`);
+  }
   componentWillMount() {
-    axios.get(httpAddr + `/roles`)
-      .then((response) => {
-        
-        response.data.map((item) => {
+    axios.all([this.getUserRoles(), this.getUsers(), this.getRoles()])
+      .then((responses) => {
+        var dataUser = this.transformDataToMap(responses[1].data, 'email');
+        var dataRole = this.transformDataToMap(responses[2].data, 'name');
+        responses[0].data.map((item) => {
           if (item.active) {
             item.active = 'Activo';
             item.color = '#00BFBF';
@@ -31,19 +54,22 @@ export default class Role extends Component {
             item.active = 'Desactivado';
             item.color = '#ff2557';
           }
+          item.user = dataUser[item.user_id]
+          item.admin = dataUser[item.admin_id]
+          item.role = dataRole[item.role_id]
+
           return item;
         })
         this.setState({
-          roles: response.data
+          roles: responses[0].data
         });
-      }).catch((error) => {
-        console.error(error);
-      });
+
+      })
   }
 
-  
-  redirectAdd(){
-    this.props.history.push('/dashboard/admin/roles_add')
+
+  redirectAdd() {
+    this.props.history.push('/dashboard/admin/user_roles_add')
 
   }
   render() {
@@ -51,7 +77,7 @@ export default class Role extends Component {
 
     return (
       <LayoutWrapper>
-        
+
 
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
@@ -60,16 +86,16 @@ export default class Role extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="users_roles.title" />
 
                   </h1>
                 </PageHeader>
               </Col>
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                <PrimaryButton 
+                <PrimaryButton
                   message_id={"general.add"}
-                  style={{width: '100%'}}
-                  onClick={() => this.redirectAdd()}/>
+                  style={{ width: '100%' }}
+                  onClick={() => this.redirectAdd()} />
               </Col>
             </Row>
             <Row>

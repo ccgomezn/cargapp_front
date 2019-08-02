@@ -4,49 +4,70 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Input } from "antd";
+import { Form, Select } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
-export default class CargappModelCreate extends Component {
+const { Option } = Select;
+
+export default class RoleCreate extends Component {
 
 
   constructor(props) {
     super();
     this.state = {
-      code: '',
-      name: '',
-      description: '',
-      value: '',
+      user_id: '',
+      role_id: '',
       redirect: false
     }
   }
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
 
-  handleChange(e, type) {
+  getRoles() {
+    return axios.get(httpAddr + `/roles`);
+  }
+
+  handleChange(value, type) {
 
     this.setState(
       {
-        [type]: e.target.value
+        [type]: value
       }
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/cargapp_models',
+    axios.post(httpAddr + '/user_roles',
       {
-        cargapp_model: {
-          name: this.state.name,
-          code: this.state.code,
-          description: this.state.description,
-          value: this.state.value,
+        user_role: {
+          user_id: this.state.user_id,
+          role_id: this.state.role_id,
+          admin_id: 1,
           active: true,
         }
 
       }).then(() => {
-        this.setState({redirect: true})
+        this.setState({ redirect: true })
       })
+  }
+
+
+
+  componentWillMount() {
+    axios.all([this.getUsers(), this.getRoles()])
+      .then((responses) => {
+
+        this.setState({
+          users: responses[0].data,
+          roles: responses[1].data
+        });
+
+      })
+
   }
 
   render() {
@@ -54,10 +75,10 @@ export default class CargappModelCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cargapp_models' />
+      return <Redirect to='/dashboard/admin/user_roles' />
     }
     return (
-      
+
       <LayoutWrapper>
 
 
@@ -68,7 +89,7 @@ export default class CargappModelCreate extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="cargappModel.title" />
+                    <IntlMessages id="users_roles.title" />
 
                   </h1>
                 </PageHeader>
@@ -77,26 +98,30 @@ export default class CargappModelCreate extends Component {
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e, 'name')} />
+                  <Col span={24}>
+                    <Form.Item label="Usuario">
+                      <Select value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        {this.state && this.state.users &&
+
+                          this.state.users.map((item) => {
+                            return <Option value={item.id}>{item.email}</Option>
+                          })
+                        }
+                      </Select>
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
-                    <Form.Item label="Codigo">
-                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e, 'code')} />
-                    </Form.Item>
-                  </Col>
+                  
                 </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Valor">
-                      <Input value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e, 'value')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Descripción">
-                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
+                <Row>
+                  <Col span={24}>
+                    <Form.Item label="Rol">
+                      <Select value={this.state.role_id} style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
+                        {this.state && this.state.roles &&
+                          this.state.roles.map((item) => {
+                            return <Option value={item.id}>{item.name}</Option>
+                          })
+                        }
+                      </Select>
                     </Form.Item>
                   </Col>
                 </Row>

@@ -10,7 +10,6 @@ import {
 } from '../../../components/tables/helperCells';
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
-import connectAutoComplete from 'react-instantsearch/src/connectors/connectAutoComplete';
 
 const deleteFunction = (id) => {
   return function(){
@@ -47,8 +46,6 @@ const renderCell = (object, type, key, color = false) => {
       var color_val = '';
 
       if(color){
-        console.log('color yes');
-        console.log(object['color']);
         color_val = object['color'];
       }
       return TextColorCell(value, color_val);

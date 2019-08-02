@@ -78,19 +78,19 @@ export default class RoleCreate extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <Input value={this.state.name} onChange={(e) => this.handleChange(e, 'name')} />
+                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e, 'name')} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Codigo">
-                      <Input value={this.state.code} onChange={(e) => this.handleChange(e, 'code')} />
+                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e, 'code')} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Descripción">
-                      <Input value={this.state.description} onChange={(e) => this.handleChange(e, 'description')} />
+                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
                     </Form.Item>
                   </Col>
 
