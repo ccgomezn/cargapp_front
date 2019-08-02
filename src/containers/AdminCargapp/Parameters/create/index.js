@@ -6,7 +6,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form, Select, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
@@ -132,7 +132,7 @@ export default class ParameterCreate extends Component {
                   <Row gutter={10}>
                     <Col span={24}>
                       <Form.Item label="Usuario">
-                        <Select required value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        <Select required value={this.state.user_id} placeholder="usuario"  style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
                           {this.state && this.state.users &&
 
                             this.state.users.map((item) => {

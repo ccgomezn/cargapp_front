@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr, {httpAddrNoApi} from "../../../helpers/http_helper"
+import httpAddr from "../../../helpers/http_helper"
 
 export default class Permission extends Component {
 

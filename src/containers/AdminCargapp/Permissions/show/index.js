@@ -9,10 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
-const { Option } = Select;
 export default class ParameterShow extends Component {
 
 

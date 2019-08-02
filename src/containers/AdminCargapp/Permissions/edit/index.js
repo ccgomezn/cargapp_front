@@ -135,7 +135,7 @@ export default class ParameterEdit extends Component {
                   <Row gutter={10}>
                     <Col span={24}>
                       <Form.Item label="Usuario">
-                        <Select  required value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        <Select value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
                           {this.state && this.state.users &&
 
                             this.state.users.map((item) => {
