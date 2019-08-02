@@ -23,10 +23,13 @@ const routes = [
     path: 'admin/roles/:id',
     component: asyncComponent(() => import('../AdminCargapp/Roles/edit'))
   },
-  ,
   {
     path: 'admin/parameters',
     component: asyncComponent(() => import('../AdminCargapp/Parameters'))
+  },
+  {
+    path: 'admin/parameters/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Parameters/show'))
   },
   {
     path: 'admin/parameters_add',

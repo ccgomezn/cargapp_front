@@ -92,7 +92,7 @@ export default class RoleEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="users_roles.title" />
 
                   </h1>
                 </PageHeader>
@@ -131,7 +131,7 @@ export default class RoleEdit extends Component {
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">
-                      <Select value={this.state.active} style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'active') }}>
+                      <Select value={this.state.active} placeholder="estado" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'active') }}>
                         <Option value={true}>Activo</Option>
                         <Option value={false}>Desactivado</Option>
 

@@ -13,7 +13,7 @@ import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
-export default class ParameterEdit extends Component {
+export default class ParameterShow extends Component {
 
 
   constructor(props) {
@@ -22,34 +22,56 @@ export default class ParameterEdit extends Component {
       redirect: false
     }
   }
+  transformDataToMap(data, key) {
+    var dataTransformed = {};
+    data.map((item) => {
+      dataTransformed[item.id] = item[key];
+      return item;
+    });
 
+    return dataTransformed
+  }
   getMainData() {
     return axios.get(httpAddr + `/parameters/` + this.props.match.params.id)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return axios.get(httpAddr + `/users/`);
   }
 
-  getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models`);
+  getCargappModel(id) {
+    return axios.get(httpAddr + `/cargapp_models/` + id);
   }
+
   componentWillMount() {
-    console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModesl()])
+    axios.all([this.getMainData()])
       .then((responses) => {
+        axios.all([this.getUsers(), this.getCargappModel(responses[0].data.cargapp_model_id)])
+          .then((responses_full) => {
+            if (responses[0].data.active){
+              responses[0].data.active = 'Activo';
+            }else{
+              responses[0].data.active = 'Desactivado';
+            }
+            console.log()
+            for (var i = 0; i < responses_full[0].data.length; i++) {
+              
+              if (responses_full[0].data[i].id === responses[0].data.user_id) {
+                responses[0].data.user = responses_full[0].data[i].email;
+                break;
+              } 
+            }
+            
+            this.setState({
+              name: responses[0].data.name,
+              code: responses[0].data.code,
+              description: responses[0].data.description,
+              user: responses[0].data.user,
+              cargapp_model: responses_full[1].data.name,
+              value: responses[0].data.value,
+              active: responses[0].data.active,
+            });
+          })
 
-
-        this.setState({
-          users: responses[1].data,
-          models: responses[2].data,
-          name: responses[0].data.name,
-          code: responses[0].data.code,
-          description: responses[0].data.description,
-          user_id: responses[0].data.user_id,
-          cargapp_model_id: responses[0].data.cargapp_model_id,
-          value: responses[0].data.value,
-          active: responses[0].data.active,
-        });
       }).catch((error) => {
         console.error(error);
       });
@@ -62,23 +84,11 @@ export default class ParameterEdit extends Component {
       }
     )
   }
-  handlePut() {
-    axios.put(httpAddr + '/parameters/' + this.props.match.params.id,
-      {
-        parameter: {
-          name: this.state.name,
-          code: this.state.code,
-          description: this.state.description,
-          user_id: this.state.user_id,
-          cargapp_model_id: this.state.cargapp_model_id,
-          value: this.state.value,
-          active: this.state.active,
-        }
 
-      }).then(() => {
-        this.setState({ redirect: true })
-      })
+  goBack() {
+    this.props.history.push('/dashboard/admin/parameters')
   }
+
 
   render() {
     const { rowStyle, colStyle } = basicStyle;
@@ -99,7 +109,7 @@ export default class ParameterEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="parameters.title" />
+                    <IntlMessages id="roles.title" />
 
                   </h1>
                 </PageHeader>
@@ -110,38 +120,31 @@ export default class ParameterEdit extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                      <p>{this.state.name}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Código">
-                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                      <p>{this.state.code}</p>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Descripción">
-                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                      <p>{this.state.description}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Valor">
-                      <Input value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                      <p>{this.state.value}</p>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Usuario">
-                      <Select value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
-                        {this.state && this.state.users &&
-
-                          this.state.users.map((item) => {
-                            return <Option value={item.id}>{item.email}</Option>
-                          })
-                        }
-                      </Select>
+                      <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
 
@@ -149,24 +152,15 @@ export default class ParameterEdit extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item label="Modelo">
-                      <Select value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
-                        {this.state && this.state.models &&
-                          this.state.models.map((item) => {
-                            return <Option value={item.id}>{item.name}</Option>
-                          })
-                        }
-                      </Select>
+                      <p>{this.state.cargapp_model}</p>
+
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">
-                      <Select value={this.state.active} placeholder="estado" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'active') }}>
-                        <Option value={true}>Activo</Option>
-                        <Option value={false}>Desactivado</Option>
-
-                      </Select>
+                      <p>{this.state.active}</p>
                     </Form.Item>
                   </Col>
 
@@ -174,11 +168,10 @@ export default class ParameterEdit extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
+                      <PrimaryButton message_id={"general.back"} style={{ width: '200px' }} onClick={() => this.goBack()} />
                     </Form.Item>
                   </Col>
                 </Row>
-
               </Card>
 
 

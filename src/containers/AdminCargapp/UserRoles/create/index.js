@@ -115,7 +115,7 @@ export default class RoleCreate extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item label="Rol">
-                      <Select value={this.state.role_id} style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
+                      <Select value={this.state.role_id} placeholder="rol" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
                         {this.state && this.state.roles &&
                           this.state.roles.map((item) => {
                             return <Option value={item.id}>{item.name}</Option>

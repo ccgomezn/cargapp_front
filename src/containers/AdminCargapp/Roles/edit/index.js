@@ -95,19 +95,19 @@ export default class RoleEdit extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <Input value={this.state.name} onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                      <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Codigo">
-                      <Input value={this.state.code} onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                    <Form.Item label="Código">
+                      <Input value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Descripción">
-                      <Input value={this.state.description} onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                      <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
                     </Form.Item>
                   </Col>
 
@@ -115,7 +115,7 @@ export default class RoleEdit extends Component {
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">
-                      <Select value={this.state.active} style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
+                      <Select value={this.state.active} placeholder="estado" style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
                         <Option value={true}>Activo</Option>
                         <Option value={false}>Desactivado</Option>
                   

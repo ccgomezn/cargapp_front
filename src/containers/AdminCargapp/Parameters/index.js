@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
-export default class UserRole extends Component {
+export default class Parameter extends Component {
 
 
   constructor(props) {
@@ -30,22 +30,22 @@ export default class UserRole extends Component {
     return dataTransformed
   }
 
-  getUserRoles() {
-    return axios.get(httpAddr + `/user_roles`);
+  getParameters() {
+    return axios.get(httpAddr + `/parameters`);
   }
 
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
-  getRoles() {
-    return axios.get(httpAddr + `/roles`);
+  getCargappModesl() {
+    return axios.get(httpAddr + `/cargapp_models`);
   }
   componentWillMount() {
-    axios.all([this.getUserRoles(), this.getUsers(), this.getRoles()])
+    axios.all([this.getParameters(), this.getUsers(), this.getCargappModesl()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
-        var dataRole = this.transformDataToMap(responses[2].data, 'name');
+        var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');
         responses[0].data.map((item) => {
           if (item.active) {
             item.active = 'Activo';
@@ -55,13 +55,12 @@ export default class UserRole extends Component {
             item.color = '#ff2557';
           }
           item.user = dataUser[item.user_id]
-          item.admin = dataUser[item.admin_id]
-          item.role = dataRole[item.role_id]
+          item.model = dataCargappModels[item.cargapp_model_id]
 
           return item;
         })
         this.setState({
-          roles: responses[0].data
+          parameters: responses[0].data
         });
 
       })
@@ -69,7 +68,7 @@ export default class UserRole extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/user_roles_add')
+    this.props.history.push('/dashboard/admin/parameters_add')
 
   }
   render() {
@@ -86,7 +85,7 @@ export default class UserRole extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="users_roles.title" />
+                    <IntlMessages id="parameters.title" />
 
                   </h1>
                 </PageHeader>
@@ -100,8 +99,8 @@ export default class UserRole extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.roles &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.roles} />
+                {this.state && this.state.parameters &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.parameters} />
                 }
               </Col>
             </Row>
