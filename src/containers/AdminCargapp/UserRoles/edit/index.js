@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
@@ -19,27 +19,37 @@ export default class RoleEdit extends Component {
   constructor(props) {
     super();
     this.state = {
-      code: '',
-      name: '',
-      description: '',
-      active: false,
       redirect: false
     }
   }
+
+  getMainData() {
+    return axios.get(httpAddr + `/user_roles/` + this.props.match.params.id)
+  }
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
+  getRoles() {
+    return axios.get(httpAddr + `/roles`);
+  }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/roles/`+this.props.match.params.id)
-      .then((response) => {
+    axios.all([this.getMainData(), this.getUsers(), this.getRoles()])
+      .then((responses) => {
 
-        
+
         this.setState({
-          code: response.data.code,
-          name: response.data.name,
-          description: response.data.description,
-          active: response.data.active,
+          users: responses[1].data,
+          roles: responses[2].data,
+          user_id: responses[0].data.user_id,
+          role_id: responses[0].data.role_id,
+          active: responses[0].data.active,
         });
-      }).catch((error) => {
-        console.error(error);
+      }).catch(error => {
+        let errorObject = JSON.parse(JSON.stringify(error));
+
+        message.warning(errorObject.message);
       });
   }
   handleChange(value, type) {
@@ -51,12 +61,12 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/roles/' + this.props.match.params.id,
+    axios.put(httpAddr + '/user_roles/' + this.props.match.params.id,
       {
-        role: {
-          name: this.state.name,
-          code: this.state.code,
-          description: this.state.description,
+        user_role: {
+          user_id: this.state.user_id,
+          role_id: this.state.role_id,
+          admin_id: 1,
           active: this.state.active,
         }
 
@@ -74,7 +84,7 @@ export default class RoleEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/roles' />
+      return <Redirect to='/dashboard/admin/user_roles' />
     }
     return (
 
@@ -88,7 +98,7 @@ export default class RoleEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="users_roles.title" />
 
                   </h1>
                 </PageHeader>
@@ -96,34 +106,41 @@ export default class RoleEdit extends Component {
             </Row>
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
-                <Form>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Código">
-                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
                 <Row gutter={10}>
                   <Col span={24}>
-                    <Form.Item label="Descripción">
-                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
+                    <Form.Item label="Usuario">
+                      <Select value={this.state.user_id} placeholder="usuario" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        {this.state && this.state.users &&
+
+                          this.state.users.map((item) => {
+                            return <Option value={item.id}>{item.email}</Option>
+                          })
+                        }
+                      </Select>
                     </Form.Item>
                   </Col>
 
                 </Row>
+                <Row>
+                  <Col span={24}>
+                    <Form.Item label="Rol">
+                      <Select value={this.state.role_id} placeholder="rol" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
+                        {this.state && this.state.roles &&
+                          this.state.roles.map((item) => {
+                            return <Option value={item.id}>{item.name}</Option>
+                          })
+                        }
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">
-                      <Select required value={this.state.active} placeholder="estado" style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active')}}>
+                      <Select value={this.state.active} placeholder="estado" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'active') }}>
                         <Option value={true}>Activo</Option>
                         <Option value={false}>Desactivado</Option>
-                  
+
                       </Select>
                     </Form.Item>
                   </Col>
@@ -132,11 +149,11 @@ export default class RoleEdit extends Component {
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton htmlType={"submit"} message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
+                      <PrimaryButton message_id={"general.edit"} style={{ width: '200px' }} onClick={() => this.handlePut()} />
                     </Form.Item>
                   </Col>
                 </Row>
-                </Form>
+
               </Card>
 
 

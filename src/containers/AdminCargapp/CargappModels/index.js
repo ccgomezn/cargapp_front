@@ -31,6 +31,7 @@ export default class CargappModel extends Component {
             item.active = 'Desactivado';
             item.color = '#ff2557';
           }
+          return item;
         })
         this.setState({
           roles: response.data

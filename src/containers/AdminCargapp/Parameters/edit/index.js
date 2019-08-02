@@ -4,40 +4,51 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Input } from "antd";
+import { Form } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { Select } from 'antd';
+import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
-export default class CargappModelEdit extends Component {
+export default class ParameterEdit extends Component {
 
 
   constructor(props) {
     super();
     this.state = {
-      code: '',
-      name: '',
-      description: '',
-      active: false,
       redirect: false
     }
   }
+
+  getMainData() {
+    return axios.get(httpAddr + `/parameters/` + this.props.match.params.id)
+  }
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
+  getCargappModesl() {
+    return axios.get(httpAddr + `/cargapp_models`);
+  }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/cargapp_models/`+this.props.match.params.id)
-      .then((response) => {
+    axios.all([this.getMainData(), this.getUsers(), this.getCargappModesl()])
+      .then((responses) => {
 
-        
+
         this.setState({
-          code: response.data.code,
-          name: response.data.name,
-          description: response.data.description,
-          value: response.data.value,
-          active: response.data.active,
+          users: responses[1].data,
+          models: responses[2].data,
+          name: responses[0].data.name,
+          code: responses[0].data.code,
+          description: responses[0].data.description,
+          user_id: responses[0].data.user_id,
+          cargapp_model_id: responses[0].data.cargapp_model_id,
+          value: responses[0].data.value,
+          active: responses[0].data.active,
         });
       }).catch((error) => {
         console.error(error);
@@ -52,12 +63,14 @@ export default class CargappModelEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cargapp_models/' + this.props.match.params.id,
+    axios.put(httpAddr + '/parameters/' + this.props.match.params.id,
       {
-        cargapp_model: {
+        parameter: {
           name: this.state.name,
           code: this.state.code,
           description: this.state.description,
+          user_id: this.state.user_id,
+          cargapp_model_id: this.state.cargapp_model_id,
           value: this.state.value,
           active: this.state.active,
         }
@@ -76,7 +89,7 @@ export default class CargappModelEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cargapp_models' />
+      return <Redirect to='/dashboard/admin/parameters' />
     }
     return (
 
@@ -90,7 +103,7 @@ export default class CargappModelEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="cargappModel.title" />
+                    <IntlMessages id="parameters.title" />
 
                   </h1>
                 </PageHeader>
@@ -106,28 +119,55 @@ export default class CargappModelEdit extends Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Codigo">
-                        <Input required value={this.state.code} placeholder="codigo" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                      <Form.Item label="Código">
+                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={10}>
-                    <Col span={12}>
-                      <Form.Item label="Valor">
-                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
-                      </Form.Item>
-                    </Col>
                     <Col span={12}>
                       <Form.Item label="Descripción">
                         <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
                       </Form.Item>
                     </Col>
+                    <Col span={12}>
+                      <Form.Item label="Valor">
+                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item label="Usuario">
+                        <Select value={this.state.user_id} placeholder="usuario" required style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                          {this.state && this.state.users &&
 
+                            this.state.users.map((item) => {
+                              return <Option value={item.id}>{item.email}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                  </Row>
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item label="Modelo">
+                        <Select required value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
+                          {this.state && this.state.models &&
+                            this.state.models.map((item) => {
+                              return <Option value={item.id}>{item.name}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
                   </Row>
                   <Row gutter={10}>
                     <Col span={24}>
                       <Form.Item label="Estado">
-                        <Select required value={this.state.active} placeholder="estado" style={{ width: 120 }} onChange={(e) => { this.handleChange(e, 'active') }}>
+                        <Select required value={this.state.active} placeholder="estado" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'active') }}>
                           <Option value={true}>Activo</Option>
                           <Option value={false}>Desactivado</Option>
 
@@ -144,8 +184,6 @@ export default class CargappModelEdit extends Component {
                     </Col>
                   </Row>
                 </Form>
-                
-
               </Card>
 
 

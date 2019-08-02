@@ -10,20 +10,51 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
-export default class Role extends Component {
+export default class Permission extends Component {
 
 
   constructor(props) {
     super();
-    
+
 
   }
-  
+
+
+  transformDataToMap(data, key) {
+    var dataTransformed = {};
+    data.map((item) => {
+      dataTransformed[item.id] = item[key];
+      return item;
+    });
+
+    return dataTransformed
+  }
+
+  getPermissions() {
+    return axios.get(httpAddr + `/permissions`);
+  }
+
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
+  getCargappModels() {
+    return axios.get(httpAddr + `/cargapp_models`);
+  }
+
+  getRoles() {
+    return axios.get(httpAddr + `/roles`);
+  }
   componentWillMount() {
-    axios.get(httpAddr + `/roles`)
-      .then((response) => {
-        
-        response.data.map((item) => {
+    axios.all([this.getPermissions(), 
+               this.getUsers(),
+               this.getCargappModels(),
+               this.getRoles()])
+      .then((responses) => {
+        var dataUser = this.transformDataToMap(responses[1].data, 'email');
+        var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');
+        var dataRoles = this.transformDataToMap(responses[3].data, 'name');
+        responses[0].data.map((item) => {
           if (item.active) {
             item.active = 'Activo';
             item.color = '#00BFBF';
@@ -31,27 +62,29 @@ export default class Role extends Component {
             item.active = 'Desactivado';
             item.color = '#ff2557';
           }
+          item.user = dataUser[item.user_id]
+          item.model = dataCargappModels[item.cargapp_model_id]
+          item.role = dataRoles[item.role_id]
+
           return item;
         })
         this.setState({
-          roles: response.data
+          parameters: responses[0].data
         });
-      }).catch((error) => {
-        console.error(error);
-      });
+
+      })
   }
 
-  
-  redirectAdd(){
-    this.props.history.push('/dashboard/admin/roles_add')
 
+  redirectAdd() {
+    this.props.history.push('/dashboard/admin/permissions_add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
 
     return (
       <LayoutWrapper>
-        
+
 
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
@@ -60,22 +93,22 @@ export default class Role extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="roles.title" />
+                    <IntlMessages id="parameters.title" />
 
                   </h1>
                 </PageHeader>
               </Col>
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                <PrimaryButton 
+                <PrimaryButton
                   message_id={"general.add"}
-                  style={{width: '100%'}}
-                  onClick={() => this.redirectAdd()}/>
+                  style={{ width: '100%' }}
+                  onClick={() => this.redirectAdd()} />
               </Col>
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.roles &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.roles} />
+                {this.state && this.state.parameters &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.parameters} />
                 }
               </Col>
             </Row>

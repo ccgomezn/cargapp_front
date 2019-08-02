@@ -7,7 +7,7 @@ export default class PrimaryButton extends Component {
   render() {
     return (
       <PrimaryButtonWrapper>
-        <Button className="primary" style={this.props.style} onClick={this.props.onClick}>
+        <Button className="primary" style={this.props.style} onClick={this.props.onClick} htmlType={this.props.htmlType}>
           <IntlMessages id={this.props.message_id} />
 
         </Button>
