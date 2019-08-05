@@ -97,6 +97,8 @@
   "status.title": "Estatus",
   "antTable.title.cioc": "Cioc",
   "countries.title": "Países",
+  "states.title": "Estados",
+  "antTable.title.country": "País",
   "general.migrate": "Migrar",
   "antTable.title.admin_email": "Correo administrador",
   "antTable.title.role": "Rol",
