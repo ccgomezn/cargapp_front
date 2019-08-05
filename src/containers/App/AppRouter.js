@@ -84,6 +84,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Status/show'))
   },
   {
+    path: 'admin/countries',
+    component: asyncComponent(() => import('../AdminCargapp/Countries'))
+  },
+  {
+    path: 'admin/countries/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/edit'))
+  },
+  {
+    path: 'admin/countries_add',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/create'))
+  },
+  {
+    path: 'admin/countries/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/show'))
+  },
+  {
     path: 'admin/cargapp_models/:id',
     component: asyncComponent(() => import('../AdminCargapp/CargappModels/edit'))
   },

@@ -91,7 +91,7 @@ const columns = [
   },
   {
     title: <IntlMessages id="antTable.title.options" />,
-    key: 'active',
+    key: 'option',
     width: '10%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },

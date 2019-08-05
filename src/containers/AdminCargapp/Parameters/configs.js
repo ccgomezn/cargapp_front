@@ -78,7 +78,7 @@ const columns = [
   },
   {
     title: <IntlMessages id="antTable.title.model" />,
-    key: 'role',
+    key: 'model',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'model')
   },
