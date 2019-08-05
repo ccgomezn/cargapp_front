@@ -93,6 +93,7 @@
   "antTable.title.user_email": "Correo usuario",
   "antTable.title.model": "Modelo",
   "general.back": "Regresar",
+  "permissions.title": "Permisos",
   "antTable.title.admin_email": "Correo administrador",
   "antTable.title.role": "Rol",
   "users_roles.title": "Roles de usuarios",

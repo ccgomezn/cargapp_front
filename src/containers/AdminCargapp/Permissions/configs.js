@@ -13,9 +13,9 @@ import httpAddr from "../../../helpers/http_helper"
 
 const deleteFunction = (id) => {
   return function(){
-  (axios.delete(httpAddr + `/parameters/` + id)
+    (axios.delete(httpAddr + `/permissions/` + id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/';
 
     }).catch((error) => {
       console.error(error);
@@ -40,10 +40,10 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/' + object['id'];
       }
       var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/show/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/show/' + object['id'];
       }
       
       return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
@@ -65,10 +65,10 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'id')
   },
   {
-    title: <IntlMessages id="antTable.title.name" />,
+    title: <IntlMessages id="antTable.title.role" />,
     key: 'name',
     width: '20%',
-    render: object => renderCell(object, 'TextCell', 'name')
+    render: object => renderCell(object, 'TextCell', 'role')
   },
   {
     title: <IntlMessages id="antTable.title.user_email" />,

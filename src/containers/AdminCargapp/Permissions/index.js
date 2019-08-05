@@ -93,7 +93,7 @@ export default class Permission extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="parameters.title" />
+                    <IntlMessages id="permissions.title" />
 
                   </h1>
                 </PageHeader>

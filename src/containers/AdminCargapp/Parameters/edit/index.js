@@ -31,7 +31,7 @@ export default class ParameterEdit extends Component {
   }
 
   getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models`);
+    return axios.get(httpAddr + `/cargapp_models/active`);
   }
   componentWillMount() {
     console.log(this.props);

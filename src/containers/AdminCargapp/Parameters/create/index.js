@@ -27,7 +27,7 @@ export default class ParameterCreate extends Component {
   }
 
   getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models`);
+    return axios.get(httpAddr + `/cargapp_models/active`);
   }
 
   handleChange(value, type) {
