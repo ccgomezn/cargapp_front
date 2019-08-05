@@ -68,8 +68,20 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/UserRoles/edit'))
   },
   {
-    path: 'admin/user_roles_add',
-    component: asyncComponent(() => import('../AdminCargapp/UserRoles/create'))
+    path: 'admin/status',
+    component: asyncComponent(() => import('../AdminCargapp/Status'))
+  },
+  {
+    path: 'admin/status/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Status/edit'))
+  },
+  {
+    path: 'admin/status_add',
+    component: asyncComponent(() => import('../AdminCargapp/Status/create'))
+  },
+  {
+    path: 'admin/status/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Status/show'))
   },
   {
     path: 'admin/cargapp_models/:id',
