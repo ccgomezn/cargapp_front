@@ -65,6 +65,12 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'id')
   },
   {
+    title: "",
+    key: 'image',
+    width: '12%',
+    render: object => renderCell(object, 'ImageCell', 'image')
+  },
+  {
     title: <IntlMessages id="antTable.title.name" />,
     key: 'name',
     width: '12%',
@@ -98,11 +104,12 @@ const columns = [
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
   { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
+  { ...columns[1], sorter: false },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[5], sorter: false }
+  { ...columns[5], sorter: true },
+  { ...columns[6], sorter: false }
 
 ];
 const editColumns = [
