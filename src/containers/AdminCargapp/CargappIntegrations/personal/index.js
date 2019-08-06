@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import LayoutWrapper from '../../../components/utility/layoutWrapper.js';
-import { tableinfos } from './configs';
-import SortView from '../../../components/custom/table/sortView';
-import PageHeader from '../../../components/utility/pageHeader';
-import IntlMessages from '../../../components/utility/intlMessages';
+import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
+import { tableinfos } from '../configs';
+import SortView from '../../../../components/custom/table/sortView';
+import PageHeader from '../../../../components/utility/pageHeader';
+import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
-import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
-import SecondaryButton from "../../../components/custom/button/secondary";
+import basicStyle from '../../../../settings/basicStyle';
+import PrimaryButton from "../../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import httpAddr from "../../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
 
-export default class Country extends Component {
+export default class CargappIntegrationPersonal extends Component {
 
 
   constructor(props) {
@@ -34,21 +33,15 @@ export default class Country extends Component {
     return dataTransformed
   }
 
-  getCountries() {
-    return axios.get(httpAddr + `/countries`);
+  getIntegrations() {
+    return axios.get(httpAddr + `/cargapp_integrations/me/`);
   }
 
-  
-  migrateData() {
-    axios.get(httpAddr + `/countries/migration`).then(
-      () => {
-        window.location.reload();
-      }
-    );
-  }
+
+
 
   componentWillMount() {
-    axios.all([this.getCountries()])
+    axios.all([this.getIntegrations()])
       .then((responses) => {
         responses[0].data.map((item) => {
           if (item.active) {
@@ -61,7 +54,7 @@ export default class Country extends Component {
           return item;
         })
         this.setState({
-          countries: responses[0].data
+          cargapp_integrations: responses[0].data
         });
 
       })
@@ -69,14 +62,14 @@ export default class Country extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/countries/add')
+    this.props.history.push('/dashboard/admin/cargapp_integrations_add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/countries' />
+      return <Redirect to='/dashboard/admin/cargapp_integrations' />
     }
     return (
       <LayoutWrapper>
@@ -85,21 +78,16 @@ export default class Country extends Component {
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row gutter={12}>
-              <Col lg={12} md={24} sm={24} xs={24} style={colStyle}>
+              <Col lg={18} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="countries.title" />
+                    <IntlMessages id="cargappIntegrations.title" />
 
                   </h1>
                 </PageHeader>
               </Col>
-              <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                <SecondaryButton
-                  message_id={"general.migrate"}
-                  style={{ width: '100%' }}
-                  onClick={() => this.migrateData()} />
-              </Col>
+
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 <PrimaryButton
                   message_id={"general.add"}
@@ -109,8 +97,8 @@ export default class Country extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.countries &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.countries} />
+                {this.state && this.state.cargapp_integrations &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.cargapp_integrations} />
                 }
               </Col>
             </Row>

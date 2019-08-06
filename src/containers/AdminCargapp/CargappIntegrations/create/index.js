@@ -172,7 +172,7 @@ export default class CargappIntegrationCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Contraseña">
-                        <Input type={'password'} value={this.state.password} placeholder="contraseña" onChange={(e) => this.handleChange(e.target.value, 'password')} />
+                        <Input type={'password'} secureTextEntry={true}   value={this.state.password} placeholder="contraseña" onChange={(e) => this.handleChange(e.target.value, 'password')} />
                       </Form.Item>
                     </Col>
                     <Col span={12}>

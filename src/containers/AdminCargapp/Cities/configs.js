@@ -38,7 +38,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cities/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cities/edit/' + object['id'];
       }
       
 

@@ -74,7 +74,7 @@ export default class City extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/cities_add')
+    this.props.history.push('/dashboard/admin/cities/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;

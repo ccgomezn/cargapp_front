@@ -7,7 +7,6 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import SecondaryButton from "../../../components/custom/button/secondary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
@@ -63,7 +62,7 @@ export default class CargappIntegration extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/cargapp_integrations_add')
+    this.props.history.push('/dashboard/admin/cargapp_integrations/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;

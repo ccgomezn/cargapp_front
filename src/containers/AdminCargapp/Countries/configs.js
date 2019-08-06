@@ -40,7 +40,7 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/countries/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/countries/edit/' + object['id'];
       }
       var function2 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/countries/show/' + object['id'];
