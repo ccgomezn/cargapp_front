@@ -24,6 +24,18 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Roles/edit'))
   },
   {
+    path: 'admin/document_types',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes'))
+  },
+  {
+    path: 'admin/document_types_add',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes/create'))
+  },
+  {
+    path: 'admin/document_types/:id',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes/edit'))
+  },
+  {
     path: 'admin/parameters',
     component: asyncComponent(() => import('../AdminCargapp/Parameters'))
   },
