@@ -37,15 +37,27 @@ const routes = [
   },
   {
     path: 'admin/vehicle_types',
-    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes'))
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes'))
   },
   {
     path: 'admin/vehicle_types_add',
-    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes/create'))
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes/create'))
   },
   {
     path: 'admin/vehicle_types/:id',
-    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes/edit'))
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes/edit'))
+  },
+  {
+    path: 'admin/load_types',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes'))
+  },
+  {
+    path: 'admin/load_types_add',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes/create'))
+  },
+  {
+    path: 'admin/load_types/:id',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes/edit'))
   },
   {
     path: 'admin/parameters',

@@ -721,6 +721,7 @@
   "sidebar.roles": "Roles",
   "documentType.title": "Tipos de documentos",
   "vehicleType.title": "Tipos de vehiculos",
+  "loadType.title": "Tipos de carga",
   "trackings.map.title": "Viajes en curso",
   "antTable.title.lastName": "Apellido",
   "antTable.title.city": "Ciudad",
