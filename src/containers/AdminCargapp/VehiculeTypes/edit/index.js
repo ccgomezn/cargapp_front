@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Input } from "antd";
+import { Form, Input, Avatar } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
@@ -13,7 +13,7 @@ import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
-export default class DocumentTypeEdit extends Component {
+export default class VehicleTypeEdit extends Component {
 
 
   constructor(props) {
@@ -28,7 +28,7 @@ export default class DocumentTypeEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/document_types/`+this.props.match.params.id)
+    axios.get(httpAddr + `/vehicle_types/`+this.props.match.params.id)
       .then((response) => {
 
         
@@ -37,6 +37,7 @@ export default class DocumentTypeEdit extends Component {
           name: response.data.name,
           description: response.data.description,
           active: response.data.active,
+          icon: response.data.icon,
         });
       }).catch((error) => {
         console.error(error);
@@ -51,12 +52,13 @@ export default class DocumentTypeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/document_types/' + this.props.match.params.id,
+    axios.put(httpAddr + '/vehicle_types/' + this.props.match.params.id,
       {
-        document_type: {
+        vehicle_type: {
           name: this.state.name,
           code: this.state.code,
           description: this.state.description,
+          icon: this.state.icon,
           active: this.state.active,
         }
 
@@ -74,7 +76,7 @@ export default class DocumentTypeEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/document_types' />
+      return <Redirect to='/dashboard/admin/vehicle_types' />
     }
     return (
 
@@ -88,7 +90,7 @@ export default class DocumentTypeEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="documentType.title" />
+                    <IntlMessages id="vehicleType.title" />
 
                   </h1>
                 </PageHeader>
@@ -109,14 +111,28 @@ export default class DocumentTypeEdit extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
-                    <Form.Item label="Descripción">
-                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
-                    </Form.Item>
-                  </Col>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Ícono">
+                        <Row>
+                          <Col span={2}>
+                            <Avatar src={this.state.icon} />
+                          </Col>
+                          <Col span={22}>
+                            <Input required value={this.state.icon} placeholder="ícono" onChange={(e) => this.handleChange(e, 'icon')} />
+                          </Col>
 
-                </Row>
+                        </Row>
+
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Descripción">
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
+                      </Form.Item>
+                    </Col>
+
+                  </Row>
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Estado">

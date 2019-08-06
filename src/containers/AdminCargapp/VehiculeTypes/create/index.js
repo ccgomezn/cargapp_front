@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import { Row, Col } from 'antd';
+import { Row, Col, Avatar } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
 
-export default class DocumentTypeCreate extends Component {
+export default class VehicleTypeCreate extends Component {
 
 
   constructor(props) {
@@ -34,12 +34,13 @@ export default class DocumentTypeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/document_types',
+    axios.post(httpAddr + '/vehicle_types',
       {
-        document_type: {
+        vehicle_type: {
           name: this.state.name,
           code: this.state.code,
           description: this.state.description,
+          icon: this.state.icon,
           active: true,
         }
 
@@ -57,7 +58,7 @@ export default class DocumentTypeCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/document_types' />
+      return <Redirect to='/dashboard/admin/vehicle_types' />
     }
     return (
 
@@ -71,7 +72,7 @@ export default class DocumentTypeCreate extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="documentType.title" />
+                    <IntlMessages id="vehicleType.title" />
 
                   </h1>
                 </PageHeader>
@@ -93,7 +94,21 @@ export default class DocumentTypeCreate extends Component {
                     </Col>
                   </Row>
                   <Row gutter={10}>
-                    <Col span={24}>
+                    <Col span={12}>
+                      <Form.Item label="Ícono">
+                        <Row>
+                          <Col span={2}>
+                            <Avatar src={this.state.icon} />
+                          </Col>
+                          <Col span={22}>
+                            <Input required value={this.state.icon} placeholder="ícono" onChange={(e) => this.handleChange(e, 'icon')} />
+                          </Col>
+
+                        </Row>
+
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
                       <Form.Item label="Descripción">
                         <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
                       </Form.Item>

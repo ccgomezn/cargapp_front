@@ -36,6 +36,18 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/DocumentTypes/edit'))
   },
   {
+    path: 'admin/vehicle_types',
+    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes'))
+  },
+  {
+    path: 'admin/vehicle_types_add',
+    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes/create'))
+  },
+  {
+    path: 'admin/vehicle_types/:id',
+    component: asyncComponent(() => import('../AdminCargapp/VehiculeTypes/edit'))
+  },
+  {
     path: 'admin/parameters',
     component: asyncComponent(() => import('../AdminCargapp/Parameters'))
   },

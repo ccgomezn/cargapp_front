@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
-export default class DocumentType extends Component {
+export default class VehicleType extends Component {
 
 
   constructor(props) {
@@ -20,7 +20,7 @@ export default class DocumentType extends Component {
   }
   
   componentWillMount() {
-    axios.get(httpAddr + `/document_types`)
+    axios.get(httpAddr + `/vehicle_types`)
       .then((response) => {
         
         response.data.map((item) => {
@@ -34,7 +34,7 @@ export default class DocumentType extends Component {
           return item;
         })
         this.setState({
-          documents: response.data
+          vehicle_types: response.data
         });
       }).catch((error) => {
         console.error(error);
@@ -43,7 +43,7 @@ export default class DocumentType extends Component {
 
   
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/document_types_add')
+    this.props.history.push('/dashboard/admin/vehicle_types_add')
 
   }
   render() {
@@ -60,7 +60,7 @@ export default class DocumentType extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="documentType.title" />
+                    <IntlMessages id="vehicleType.title" />
 
                   </h1>
                 </PageHeader>
@@ -74,8 +74,8 @@ export default class DocumentType extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.documents &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.documents} />
+                {this.state && this.state.vehicle_types &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.vehicle_types} />
                 }
               </Col>
             </Row>

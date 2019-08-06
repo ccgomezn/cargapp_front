@@ -13,9 +13,9 @@ import httpAddr from "../../../helpers/http_helper"
 
 const deleteFunction = (id) => {
   return function(){
-    (axios.delete(httpAddr + `/document_types/` + id)
+    (axios.delete(httpAddr + `/vehicle_types/` + id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/document_types/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/vehicle_types/';
 
     }).catch((error) => {
       console.error(error);
@@ -38,7 +38,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/document_types/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/vehicle_types/' + object['id'];
       }
       
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
@@ -58,6 +58,12 @@ const columns = [
     key: 'id',
     width: '25%',
     render: object => renderCell(object, 'TextCell', 'id')
+  },
+  {
+    title: "",
+    key: 'icon',
+    width: '25%',
+    render: object => renderCell(object, 'ImageCell', 'icon')
   },
   {
     title: <IntlMessages id="antTable.title.name" />,
@@ -93,11 +99,12 @@ const columns = [
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
   { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
+  { ...columns[1], sorter: false },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[5], sorter: false }
+  { ...columns[5], sorter: true },
+  { ...columns[6], sorter: false }
 
 ];
 const editColumns = [
