@@ -37,6 +37,8 @@ export default class Country extends Component {
   getCountries() {
     return axios.get(httpAddr + `/countries`);
   }
+
+  
   migrateData() {
     axios.get(httpAddr + `/countries/migration`).then(
       () => {

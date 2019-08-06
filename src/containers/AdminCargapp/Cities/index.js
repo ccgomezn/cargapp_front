@@ -23,16 +23,22 @@ export default class City extends Component {
   }
 
 
-  transformDataToMap(data, key) {
+  transformDataToMap(data, keys) {
     var dataTransformed = {};
     data.map((item) => {
-      dataTransformed[item.id] = item[key];
+      dataTransformed[item.id] = {}
+      for (var i = 0; i < keys.length; i++) {
+        dataTransformed[item.id][keys[i]] = item[keys[i]];
+      }
       return item;
     });
 
     return dataTransformed
   }
 
+  getCountries() {
+    return axios.get(httpAddr + '/countries')
+  }
   getStates() {
     return axios.get(httpAddr + `/states`);
   }
@@ -41,10 +47,11 @@ export default class City extends Component {
   }
 
   componentWillMount() {
-    axios.all([this.getCities(), this.getStates()])
+    axios.all([this.getCities(), this.getStates(), this.getCountries()])
       .then((responses) => {
 
-        let data_states = this.transformDataToMap(responses[1].data, 'name')
+        let data_states = this.transformDataToMap(responses[1].data, ['name', 'country_id'])
+        let data_countries = this.transformDataToMap(responses[2].data, ['name'])
         responses[0].data.map((item) => {
           if (item.active) {
             item.active = 'Activo';
@@ -53,7 +60,8 @@ export default class City extends Component {
             item.active = 'Desactivado';
             item.color = '#ff2557';
           }
-          item.state = data_states[item.state_id]
+          item.state = data_states[item.state_id]['name'] + ' - ' + data_countries[data_states[item.state_id]['country_id']]['name']
+        
           return item;
 
         })
@@ -91,7 +99,7 @@ export default class City extends Component {
                   </h1>
                 </PageHeader>
               </Col>
-             
+
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 <PrimaryButton
                   message_id={"general.add"}

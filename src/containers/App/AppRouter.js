@@ -112,10 +112,6 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/States/create'))
   },
   {
-    path: 'admin/states/show/:id',
-    component: asyncComponent(() => import('../AdminCargapp/States/show'))
-  },
-  {
     path: 'admin/cities',
     component: asyncComponent(() => import('../AdminCargapp/Cities'))
   },
@@ -126,10 +122,6 @@ const routes = [
   {
     path: 'admin/cities_add',
     component: asyncComponent(() => import('../AdminCargapp/Cities/create'))
-  },
-  {
-    path: 'admin/cities/show/:id',
-    component: asyncComponent(() => import('../AdminCargapp/Cities/show'))
   },
   {
     path: 'admin/cargapp_models/:id',
