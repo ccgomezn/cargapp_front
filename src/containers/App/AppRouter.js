@@ -76,6 +76,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Parameters/edit'))
   },
   {
+    path: 'admin/companies',
+    component: asyncComponent(() => import('../AdminCargapp/Companies'))
+  },
+  {
+    path: 'admin/companies/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/show'))
+  },
+  {
+    path: 'admin/companies/add',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/create'))
+  },
+  {
+    path: 'admin/companies/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/edit'))
+  },
+  {
     path: 'admin/cargapp_integrations',
     component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations'))
   },
