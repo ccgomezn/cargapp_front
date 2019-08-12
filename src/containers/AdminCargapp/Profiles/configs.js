@@ -65,34 +65,29 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'id')
   },
   {
-    title: "",
-    key: 'image',
+    title: <IntlMessages id="antTable.title.first_name" />,
+    key: 'firt_name',
     width: '12%',
-    render: object => renderCell(object, 'ImageCell', 'image')
+    render: object => renderCell(object, 'TextCell', 'firt_name')
+  }
+  ,
+  {
+    title: <IntlMessages id="antTable.title.last_name" />,
+    key: 'last_name',
+    width: '12%',
+    render: object => renderCell(object, 'TextCell', 'last_name')
   },
   {
-    title: <IntlMessages id="antTable.title.name" />,
-    key: 'name',
+    title: <IntlMessages id="antTable.title.document_id" />,
+    key: 'document_id',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'name')
+    render: object => renderCell(object, 'TextCell', 'document_id')
   },
   {
-    title: <IntlMessages id="antTable.title.code" />,
-    key: 'code',
+    title: <IntlMessages id="antTable.title.user" />,
+    key: 'user',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'code')
-  },
-  {
-    title: <IntlMessages id="antTable.title.cioc" />,
-    key: 'cioc',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'cioc')
-  },
-  {
-    title: <IntlMessages id="antTable.title.state" />,
-    key: 'active',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'active', true)
+    render: object => renderCell(object, 'TextCell', 'user', true)
   },
   {
     title: <IntlMessages id="antTable.title.options" />,
@@ -104,12 +99,12 @@ const columns = [
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
   { ...columns[0], sorter: true },
-  { ...columns[1], sorter: false },
+  { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[5], sorter: true },
-  { ...columns[6], sorter: false }
+  { ...columns[5], sorter: false },
+  
 
 ];
 const editColumns = [

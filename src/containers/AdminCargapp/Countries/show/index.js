@@ -74,7 +74,7 @@ export default class CountryShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/country')
+    this.props.history.push('/dashboard/admin/countries')
   }
 
 
@@ -83,7 +83,7 @@ export default class CountryShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/country' />
+      return <Redirect to='/dashboard/admin/countries' />
     }
     return (
 

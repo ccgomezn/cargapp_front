@@ -38,17 +38,18 @@ export default class Profile extends Component {
     return axios.get(httpAddr + `/profiles`);
   }
 
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
   componentWillMount() {
-    axios.all([this.getProfiles()])
+    axios.all([this.getProfiles(), this.getUsers()])
       .then((responses) => {
+
+        let data_users = this.transformDataToMap(responses[1].data, 'email');
+
         responses[0].data.map((item) => {
-          if (item.active) {
-            item.active = 'Activo';
-            item.color = '#00BFBF';
-          } else {
-            item.active = 'Desactivado';
-            item.color = '#ff2557';
-          }
+          item.user = data_users[item.user_id]
           return item;
         })
         this.setState({
@@ -76,7 +77,7 @@ export default class Profile extends Component {
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row gutter={12}>
-              <Col lg={12} md={24} sm={24} xs={24} style={colStyle}>
+              <Col lg={18} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
 
                   <h1>
@@ -85,12 +86,7 @@ export default class Profile extends Component {
                   </h1>
                 </PageHeader>
               </Col>
-              <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                <SecondaryButton
-                  message_id={"general.migrate"}
-                  style={{ width: '100%' }}
-                  onClick={() => this.migrateData()} />
-              </Col>
+              
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 <PrimaryButton
                   message_id={"general.add"}
