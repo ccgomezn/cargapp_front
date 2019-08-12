@@ -41,6 +41,7 @@
     "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "^16.5.2",
     "react-drawer": "^1.2.5",
+    "react-dropzone": "^10.1.7",
     "react-dropzone-component": "^3.0.0",
     "react-element-resize": "^0.2.1",
     "react-error-overlay": "1.0.6",

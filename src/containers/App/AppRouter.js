@@ -76,6 +76,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Parameters/edit'))
   },
   {
+    path: 'admin/documents',
+    component: asyncComponent(() => import('../AdminCargapp/Documents'))
+  },
+  {
+    path: 'admin/documents/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/show'))
+  },
+  {
+    path: 'admin/documents/add',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/create'))
+  },
+  {
+    path: 'admin/documents/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/edit'))
+  },
+  {
     path: 'admin/companies',
     component: asyncComponent(() => import('../AdminCargapp/Companies'))
   },
@@ -90,6 +106,21 @@ const routes = [
   {
     path: 'admin/companies/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Companies/edit'))
+  }, {
+    path: 'admin/tickets',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets'))
+  },
+  {
+    path: 'admin/tickets/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/show'))
+  },
+  {
+    path: 'admin/tickets/add',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/create'))
+  },
+  {
+    path: 'admin/tickets/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/edit'))
   },
   {
     path: 'admin/cargapp_integrations',
@@ -102,7 +133,7 @@ const routes = [
   {
     path: 'admin/cargapp_integrations/add',
     component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/create'))
-  }, 
+  },
   {
     path: 'admin/cargapp_integrations/personal',
     component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/personal'))
