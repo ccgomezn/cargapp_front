@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
-export default class TicketShow extends Component {
+export default class DocumentShow extends Component {
 
 
   constructor(props) {
@@ -30,19 +30,25 @@ export default class TicketShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/tickets/` + this.props.match.params.id)
+    return axios.get(httpAddr + `/documents/` + this.props.match.params.id)
+  }
+
+  
+
+  getStatus() {
+    return axios.get(httpAddr + `/status`);
+  }
+
+  getDocumentTypes() {
+    return axios.get(httpAddr + `/document_types`);
   }
 
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
-  getStatus() {
-    return axios.get(httpAddr + `/status`);
-  }
-
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getStatus()])
+    axios.all([this.getMainData(), this.getStatus(), this.getDocumentTypes(), this.getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -50,16 +56,24 @@ export default class TicketShow extends Component {
         } else {
           responses[0].data.active = 'Desactivado';
         }
-        let data_users = this.transformDataToMap(responses[1].data, 'email')
-        let data_status = this.transformDataToMap(responses[2].data, 'name')
+
+        if (responses[0].data.approved) {
+          responses[0].data.approved = 'Aprobado';
+        } else {
+          responses[0].data.approved = 'No Aprobado';
+        }
+        let data_status = this.transformDataToMap(responses[1].data, 'name')
+        let data_document_types = this.transformDataToMap(responses[2].data, 'name')
+        let data_users = this.transformDataToMap(responses[3].data, 'email')
         this.setState({
-          title: responses[0].data.title,
-          body: responses[0].data.body,
-          image: responses[0].data.image,
-          media: responses[0].data.media,
+          document_id: responses[0].data.document_id,
+          document_type: data_document_types[responses[0].data.document_type_id],
+          expire_date: responses[0].data.expire_date,
+          file: responses[0].data.file,
           status: data_status[responses[0].data.statu_id],
-          user: data_users[responses[0].data.user_id],
           active: responses[0].data.active,
+          approved: responses[0].data.approved,
+          user: data_users[responses[0].data.user_id],
         });
 
       }).catch((error) => {
@@ -76,7 +90,7 @@ export default class TicketShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/tickets')
+    this.props.history.push('/dashboard/admin/documents')
   }
 
 
@@ -85,7 +99,7 @@ export default class TicketShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/dashboard/admin/documents' />
     }
     return (
 
@@ -99,7 +113,7 @@ export default class TicketShow extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="tickets.title" />
+                    <IntlMessages id="documents.title" />
 
                   </h1>
                 </PageHeader>
@@ -109,39 +123,39 @@ export default class TicketShow extends Component {
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Title">
-                      <p>{this.state.title}</p>
+                    <Form.Item label="Id de documento">
+                      <p>{this.state.document_id}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Body">
-                      <p>{this.state.body}</p>
+                    <Form.Item label="Tipo de documento">
+                      <p>{this.state.document_type}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Imagen">
-                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
+                    <Form.Item label="Documento">
+                      <a target="_blank" href={this.state.file}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Media">
-                      <a href={this.state.media}><IntlMessages id="general.download" /></a>
+                    <Form.Item label="Fecha de vencimiento">
+                      <p>{this.state.expire_date}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Usuario">
-                      <p>{this.state.user}</p>
-                    </Form.Item>
-                  </Col>
                   <Col span={12}>
                     <Form.Item label="Status">
                       <p>{this.state.status}</p>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Usuario">
+                      <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
 
@@ -149,9 +163,14 @@ export default class TicketShow extends Component {
 
 
                 <Row>
-                  <Col span={24}>
+                  <Col span={12}>
                     <Form.Item label="Estado">
                       <p>{this.state.active}</p>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Estado de aprobación">
+                      <p>{this.state.approved}</p>
                     </Form.Item>
                   </Col>
                 </Row>

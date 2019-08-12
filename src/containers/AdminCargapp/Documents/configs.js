@@ -66,13 +66,13 @@ const columns = [
   },
   {
     title: <IntlMessages id="antTable.title.document_id" />,
-    key: 'name',
+    key: 'nadocument_idme',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'document_id')
   },
   {
     title: <IntlMessages id="antTable.title.expire_date" />,
-    key: 'code',
+    key: 'expire_date',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'expire_date')
   },

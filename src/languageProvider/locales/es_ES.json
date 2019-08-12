@@ -102,6 +102,7 @@
   "antTable.title.title": "Titulo",
   "antTable.title.body": "Cuerpo",
   "antTable.title.user": "Usuario",
+  "antTable.title.expire_date": "Fecha de vencimiento",
   "general.back": "Regresar",
   "permissions.title": "Permisos",
   "status.title": "Estatus",

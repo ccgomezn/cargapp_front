@@ -43,7 +43,7 @@ export default class DocumentCreate extends Component {
         this.setState({
           users: responses[0].data,
           status: responses[1].data,
-          documentTypes: responses[2].data,
+          document_types: responses[2].data,
           expire_date: moment(),
         });
 
@@ -60,21 +60,17 @@ export default class DocumentCreate extends Component {
     )
   }
   handlePost() {
-   
+    const formData = new FormData();
+    formData.append('document[document_id]', this.state.document_id)
+    formData.append('document[document_type_id]', this.state.document_type_id)
+    formData.append('document[file]', this.state.file, this.state.file.name)
+    formData.append('document[statu_id]', this.state.statu_id)
+    formData.append('document[user_id]', this.state.user_id)
+    formData.append('document[expire_date]', this.state.expire_date)
+    formData.append('document[approved]', this.state.approved)
+    formData.append('document[active]', true)
     axios.post(httpAddr + '/documents',
-      {
-        document: {
-          document_id: this.state.document_id,
-          document_type_id: this.state.document_type_id,
-          file: this.state.file,
-          statu_id: this.state.statu_id,
-          user_id: this.state.user_id,
-          expire_date: this.state.expire_date,
-          approved: this.state.approved,
-          active: true,
-        }
-
-      }).then(() => {
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -130,11 +126,7 @@ export default class DocumentCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Documento">
-                        <Upload>
-                          <Button>
-                            <Icon type="upload" /><IntlMessages id="general.upload" />
-                          </Button>
-                        </Upload>
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'file')} />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -176,7 +168,7 @@ export default class DocumentCreate extends Component {
                     <Col span={12}>
                       <Checkbox value={this.state.approved} onChange={(e) => this.handleChange(e.target.checked, 'approved')}>Estado de aprobación</Checkbox>
                     </Col>
-                    
+
                   </Row>
                   <Row>
                     <Col span={24}>

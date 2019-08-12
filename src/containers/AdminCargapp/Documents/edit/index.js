@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col, DatePicker } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Upload, Button, Icon } from "antd";
+import { Form, Checkbox, Button, Icon } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
@@ -38,9 +38,13 @@ export default class DocumentEdit extends Component {
     return axios.get(httpAddr + `/status`);
   }
 
+  getDocumentTypes() {
+    return axios.get(httpAddr + `/document_types`);
+  }
+
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getStatus()])
+    axios.all([this.getMainData(), this.getUsers(), this.getStatus(), this.getDocumentTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -52,15 +56,16 @@ export default class DocumentEdit extends Component {
         this.setState({
           users: responses[1].data,
           status: responses[2].data,
-          title: responses[0].data.title,
-          body: responses[0].data.body,
-          image: responses[0].data.image,
-          media: responses[0].data.media,
-          status_id: responses[0].data.statu_id,
-          user_id: responses[0].data.user_id,
+          document_types: responses[3].data,
+          document_id: responses[0].data.document_id,
+          document_type_id: responses[0].data.document_type_id,
+          expire_date: responses[0].data.expire_date,
+          statu_id: responses[0].data.statu_id,
           active: responses[0].data.active,
-        });
-      }).catch((error) => {
+          approved: responses[0].data.approved,
+          user_id: responses[0].data.user_id,
+        })
+        }).catch((error) => {
         console.error(error);
       });
   }
@@ -73,19 +78,21 @@ export default class DocumentEdit extends Component {
     )
   }
   handlePut() {
+    const formData = new FormData();
+    formData.append('document[document_id]', this.state.document_id)
+    formData.append('document[document_type_id]', this.state.document_type_id)
+    if (this.state.file != null) {
+      formData.append('document[file]', this.state.file, this.state.file.name)
+
+    }
+    formData.append('document[statu_id]', this.state.statu_id)
+    formData.append('document[user_id]', this.state.user_id)
+    formData.append('document[expire_date]', this.state.expire_date)
+    formData.append('document[approved]', this.state.approved)
+    formData.append('document[active]', this.state.active)
+
     axios.put(httpAddr + '/documents/' + this.props.match.params.id,
-      {
-        document: {
-          document_id: this.state.document_id,
-          document_type_id: this.state.document_type_id,
-          file: this.state.file,
-          statu_id: this.state.statu_id,
-          user_id: this.state.user_id,
-          expire_date: this.state.expire_date,
-          approved: this.state.approved,
-          active: this.state.active,
-        }
-      }).then(() => {
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -95,7 +102,7 @@ export default class DocumentEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/dashboard/admin/documents' />
     }
     return (
 
@@ -109,7 +116,7 @@ export default class DocumentEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="tickets.title" />
+                    <IntlMessages id="documents.title" />
 
                   </h1>
                 </PageHeader>
@@ -140,11 +147,7 @@ export default class DocumentEdit extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Documento">
-                        <Upload>
-                          <Button>
-                            <Icon type="upload" /><IntlMessages id="general.upload" />
-                          </Button>
-                        </Upload>
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'file')} />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -181,6 +184,12 @@ export default class DocumentEdit extends Component {
                         }
                       </Form.Item>
                     </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Checkbox checked={this.state.approved} onChange={(e) => this.handleChange(e.target.checked, 'approved')}>Estado de aprobación</Checkbox>
+                    </Col>
+
                   </Row>
                   <Row gutter={10}>
                     <Col span={24}>

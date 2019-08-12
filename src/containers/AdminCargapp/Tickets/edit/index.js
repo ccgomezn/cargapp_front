@@ -71,24 +71,22 @@ export default class TicketEdit extends Component {
     )
   }
   handlePut() {
-    let ticket = {
-      title: this.state.title,
-      body: this.state.body,
-      statu_id: this.state.status_id,
-      user_id: this.state.user_id,
-      active: this.state.active,
-    }
+    const formData = new FormData();
+    formData.append('ticket[title]', this.state.title)
+    formData.append('ticket[body]', this.state.body)
+    formData.append('ticket[statu_id]', this.state.statu_id)
+    formData.append('ticket[user_id]', this.state.user_id)
+    formData.append('ticket[active]', true)
+    
 
     if(this.state.image != null){
-      ticket.image = this.state.image
+      formData.append('ticket[image]', this.state.image, this.state.media.image)
     }
     if(this.state.media != null){
-      ticket.media = this.state.media
+      formData.append('ticket[media]', this.state.media, this.state.media.name)
     }
     axios.put(httpAddr + '/tickets/' + this.props.match.params.id,
-      {
-        ticket: ticket
-      }).then(() => {
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }

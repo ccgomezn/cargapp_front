@@ -123,12 +123,12 @@ export default class TicketShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Imagen">
-                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
+                      <a target="_blank" href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Media">
-                      <a href={this.state.media}><IntlMessages id="general.download" /></a>
+                      <a target="_blank" href={this.state.media}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>

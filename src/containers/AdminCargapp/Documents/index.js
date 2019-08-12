@@ -97,7 +97,7 @@ export default class Document extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.tickets &&
+                {this.state && this.state.documents &&
                   <SortView tableInfo={tableinfos[1]} dataList={this.state.documents} />
                 }
               </Col>
