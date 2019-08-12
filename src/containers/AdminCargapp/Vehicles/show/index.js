@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
-export default class CountryShow extends Component {
+export default class VehicleShow extends Component {
 
 
   constructor(props) {
@@ -30,12 +30,24 @@ export default class CountryShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/countries/` + this.props.match.params.id)
+    return axios.get(httpAddr + `/vehicles/` + this.props.match.params.id)
+  }
+
+  getUsers() {
+    return axios.get(httpAddr + `/users`);
+  }
+
+  getDocumentTypes() {
+    return axios.get(httpAddr + `/document_types/active`);
+  }
+
+  getVehicleTypes() {
+    return axios.get(httpAddr + `/vehicle_types/active`);
   }
 
 
   componentWillMount() {
-    axios.all([this.getMainData()])
+    axios.all([this.getMainData(), this.getUsers(), this.getDocumentTypes(), this.getVehicleTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -44,19 +56,21 @@ export default class CountryShow extends Component {
           responses[0].data.active = 'Desactivado';
         }
 
+        let data_vehicle_type = this.transformDataToMap(responses[3].data, 'name')
+        let data_owner_type = this.transformDataToMap(responses[2].data, 'name')
+        let data_users = this.transformDataToMap(responses[1].data, 'email')
         this.setState({
-          name: responses[0].data.name,
-          code: responses[0].data.code,
-          description: responses[0].data.description,
-          cioc: responses[0].data.cioc,
-          currency_code: responses[0].data.currency_code,
-          currency_name: responses[0].data.currency_name,
-          currency_symbol: responses[0].data.currency_symbol,
-          language_iso639: responses[0].data.language_iso639,
-          language_name: responses[0].data.language_name,
-          language_native_name: responses[0].data.language_native_name,
-          image: responses[0].data.image,
-          date_utc: responses[0].data.date_utc,
+          brand: responses[0].data.brand,
+          model: responses[0].data.model,
+          model_year: responses[0].data.model_year,
+          color: responses[0].data.color,
+          plate: responses[0].data.plate,
+          chassis: responses[0].data.chassis,
+          owner_vehicle: responses[0].data.owner_vehicle,
+          owner_document_id: responses[0].data.owner_document_id,
+          vehicle_type: data_vehicle_type[responses[0].data.vehicle_type_id],
+          owner_document_type: data_owner_type[responses[0].data.owner_document_type_id],
+          user: data_users[responses[0].data.user_id],
           active: responses[0].data.active,
         });
 
@@ -74,7 +88,7 @@ export default class CountryShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/countries')
+    this.props.history.push('/dashboard/admin/vehicles')
   }
 
 
@@ -83,7 +97,7 @@ export default class CountryShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/countries' />
+      return <Redirect to='/dashboard/admin/vehicles' />
     }
     return (
 
@@ -97,7 +111,7 @@ export default class CountryShow extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="countries.title" />
+                    <IntlMessages id="vehicles.title" />
 
                   </h1>
                 </PageHeader>
@@ -107,45 +121,45 @@ export default class CountryShow extends Component {
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <p>{this.state.name}</p>
+                    <Form.Item label="Marca">
+                      <p>{this.state.brand}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Código">
-                      <p>{this.state.code}</p>
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <p>{this.state.name}</p>
+                    <Form.Item label="Modelo">
+                      <p>{this.state.model}</p>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Codigo">
-                      <p>{this.state.code}</p>
+                    <Form.Item label="Año del modelo">
+                      <p>{this.state.model_year}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Color">
+                      <p>{this.state.color}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Descripción">
-                      <p>{this.state.description}</p>
+                    <Form.Item label="Placa">
+                      <p>{this.state.plate}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Cioc">
-                      <p>{this.state.cioc}</p>
+                    <Form.Item label="Chasis">
+                      <p>{this.state.chassis}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Codigo de moneda">
-                      <p>{this.state.currency_code}</p>
+                    <Form.Item label="Nombre del dueño del vehiculo">
+                      <p>{this.state.owner_vehicle}</p>
                     </Form.Item>
                   </Col>
 
@@ -153,28 +167,13 @@ export default class CountryShow extends Component {
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Nombre de moneda">
-                      <p>{this.state.currency_name}</p>
+                    <Form.Item label="Tipo de documento del dueño del vehiculo">
+                      <p>{this.state.owner_document_type}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Simbolo de moneda">
-                      <p>{this.state.currency_symbol}</p>
-                    </Form.Item>
-                  </Col>
-
-                </Row>
-
-
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Lenguaje iso639">
-                      <p>{this.state.language_iso639}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Nombre de lenguaje">
-                      <p>{this.state.language_name}</p>
+                    <Form.Item label="Número de documento del dueño del vehiculo">
+                      <p>{this.state.owner_document_id}</p>
                     </Form.Item>
                   </Col>
 
@@ -183,25 +182,23 @@ export default class CountryShow extends Component {
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Nombre nativo de lenguaje">
-                      <p>{this.state.language_native_name}</p>
+                    <Form.Item label="Tipo de vehiculo">
+                      <p>{this.state.vehicle_type}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Imagen">
-                      <p>{this.state.image}</p>
+                    <Form.Item label="Usuario">
+                      <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
 
                 </Row>
 
 
+                
+
                 <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Fecha UTC">
-                      <p>{this.state.date_utc}</p>
-                    </Form.Item>
-                  </Col>
+                  
                   <Col span={12}>
                     <Form.Item label="Estado">
                       <p>{this.state.active}</p>
