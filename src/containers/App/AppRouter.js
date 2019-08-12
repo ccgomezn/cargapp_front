@@ -107,6 +107,19 @@ const routes = [
     path: 'admin/challenges/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Challenges/edit'))
   },
+  {
+    path: 'admin/user_challenges',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges'))
+  },
+  
+  {
+    path: 'admin/user_challenges/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges/create'))
+  },
+  {
+    path: 'admin/user_challenges/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges/edit'))
+  },
 
   {
     path: 'admin/profiles',
