@@ -108,6 +108,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Challenges/edit'))
   },
   {
+    path: 'admin/coupons',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons'))
+  },
+  {
+    path: 'admin/coupons/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/show'))
+  },
+  {
+    path: 'admin/coupons/add',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/create'))
+  },
+  {
+    path: 'admin/coupons/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/edit'))
+  },
+  {
     path: 'admin/user_challenges',
     component: asyncComponent(() => import('../AdminCargapp/UserChallenges'))
   },
