@@ -43,7 +43,7 @@ export default class VehicleType extends Component {
 
   
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/vehicle_types_add')
+    this.props.history.push('/dashboard/admin/vehicle_types/add')
 
   }
   render() {

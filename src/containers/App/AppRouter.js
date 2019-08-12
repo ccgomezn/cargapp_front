@@ -75,6 +75,23 @@ const routes = [
     path: 'admin/parameters/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Parameters/edit'))
   },
+
+  {
+    path: 'admin/profiles',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles'))
+  },
+  {
+    path: 'admin/profiles/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/show'))
+  },
+  {
+    path: 'admin/profiles/add',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/create'))
+  },
+  {
+    path: 'admin/profiles/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/edit'))
+  },
   {
     path: 'admin/documents',
     component: asyncComponent(() => import('../AdminCargapp/Documents'))

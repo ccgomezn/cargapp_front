@@ -43,7 +43,7 @@ export default class Role extends Component {
 
   
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/roles_add')
+    this.props.history.push('/dashboard/admin/roles/add')
 
   }
   render() {

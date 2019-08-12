@@ -66,7 +66,7 @@ export default class State extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/states_add')
+    this.props.history.push('/dashboard/admin/states/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;

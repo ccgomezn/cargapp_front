@@ -43,7 +43,7 @@ export default class DocumentType extends Component {
 
   
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/document_types_add')
+    this.props.history.push('/dashboard/admin/document_types/add')
 
   }
   render() {
