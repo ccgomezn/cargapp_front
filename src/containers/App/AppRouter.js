@@ -127,7 +127,7 @@ const routes = [
     path: 'admin/user_challenges',
     component: asyncComponent(() => import('../AdminCargapp/UserChallenges'))
   },
-  
+
   {
     path: 'admin/user_challenges/add',
     component: asyncComponent(() => import('../AdminCargapp/UserChallenges/create'))
@@ -135,6 +135,19 @@ const routes = [
   {
     path: 'admin/user_challenges/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/UserChallenges/edit'))
+  },
+  {
+    path: 'admin/user_coupons',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons'))
+  },
+
+  {
+    path: 'admin/user_coupons/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons/create'))
+  },
+  {
+    path: 'admin/user_coupons/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons/edit'))
   },
 
   {
