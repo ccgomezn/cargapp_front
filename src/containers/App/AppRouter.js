@@ -166,6 +166,23 @@ const routes = [
     path: 'admin/profiles/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Profiles/edit'))
   },
+
+  {
+    path: 'admin/prizes',
+    component: asyncComponent(() => import('../AdminCargapp/Prizes'))
+  },
+  {
+    path: 'admin/prizes/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Prizes/show'))
+  },
+  {
+    path: 'admin/prizes/add',
+    component: asyncComponent(() => import('../AdminCargapp/Prizes/create'))
+  },
+  {
+    path: 'admin/prizes/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Prizes/edit'))
+  },
   {
     path: 'admin/documents',
     component: asyncComponent(() => import('../AdminCargapp/Documents'))
