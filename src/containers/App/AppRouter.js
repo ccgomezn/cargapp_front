@@ -183,6 +183,19 @@ const routes = [
     path: 'admin/prizes/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Prizes/edit'))
   },
+
+  {
+    path: 'admin/user_prizes',
+    component: asyncComponent(() => import('../AdminCargapp/UserPrizes'))
+  },
+  {
+    path: 'admin/user_prizes/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserPrizes/create'))
+  },
+  {
+    path: 'admin/user_prizes/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserPrizes/edit'))
+  },
   {
     path: 'admin/documents',
     component: asyncComponent(() => import('../AdminCargapp/Documents'))

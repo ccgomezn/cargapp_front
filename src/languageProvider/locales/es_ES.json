@@ -121,6 +121,8 @@
   "antTable.title.cargapp_model": "Cargapp model",
   "antTable.title.coupon": "Cupon",
   "prizes.title": "Premios",
+  "users_prizes.title": "Premios de usuarios",
+  "antTable.title.prize": "Premio",
   "antTable.title.point": "Puntos",
   "general.back": "Regresar",
   "permissions.title": "Permisos",
