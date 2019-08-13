@@ -6,14 +6,14 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form, Select, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card } from 'antd';
+import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
 const { Option } = Select;
 
-export default class ParameterCreate extends Component {
+export default class PermissionCreate extends Component {
 
 
   constructor(props) {
@@ -22,12 +22,18 @@ export default class ParameterCreate extends Component {
       redirect: false
     }
   }
+
+
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
-  getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models`);
+  getCargappModels() {
+    return axios.get(httpAddr + `/cargapp_models/active`);
+  }
+
+  getRoles() {
+    return axios.get(httpAddr + `/roles/active`);
   }
 
   handleChange(value, type) {
@@ -39,15 +45,15 @@ export default class ParameterCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/parameters',
+    axios.post(httpAddr + '/permissions',
       {
-        parameter: {
-          name: this.state.name,
-          code: this.state.code,
-          description: this.state.description,
+        permission: {
+          role_id: this.state.role_id,
+          cargapp_model_id: this.state.model_id,
+          action: this.state.action,
+          method: this.state.method,
+          allow: this.state.allow,
           user_id: this.state.user_id,
-          cargapp_model_id: this.state.cargapp_model_id,
-          value: this.state.value,
           active: true,
         }
 
@@ -59,12 +65,13 @@ export default class ParameterCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModesl()])
+    axios.all([this.getUsers(), this.getCargappModels(), this.getRoles()])
       .then((responses) => {
 
         this.setState({
           users: responses[0].data,
-          models: responses[1].data
+          models: responses[1].data,
+          roles: responses[2].data
         });
 
       })
@@ -76,7 +83,7 @@ export default class ParameterCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/parameters' />
+      return <Redirect to='/dashboard/admin/permissions' />
     }
     return (
 
@@ -90,7 +97,7 @@ export default class ParameterCreate extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="parameters.title" />
+                    <IntlMessages id="permissions.title" />
 
                   </h1>
                 </PageHeader>
@@ -100,58 +107,73 @@ export default class ParameterCreate extends Component {
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Form>
 
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Nombre">
-                        <Input required value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Código">
-                        <Input required value={this.state.code} placeholder="código" onChange={(e) => this.handleChange(e.target.value, 'code')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Descripción">
-                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Valor">
-                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
-                    <Form.Item label="Usuario">
-                        <Select required value={this.state.user_id} placeholder="usuario" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
-                        {this.state && this.state.users &&
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Rol">
+                        <Select required value={this.state.role_id} placeholder="rol" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'role_id') }}>
+                          {this.state && this.state.roles &&
 
-                          this.state.users.map((item) => {
-                            return <Option value={item.id}>{item.email}</Option>
-                          })
-                        }
-                      </Select>
+                            this.state.roles.map((item) => {
+                              return <Option value={item.id}>{item.name}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Modelo">
+                        <Select required value={this.state.model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'model_id') }}>
+                          {this.state && this.state.models &&
+
+                            this.state.models.map((item) => {
+                              return <Option value={item.id}>{item.name}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item label="Usuario">
+                        <Select required value={this.state.user_id} placeholder="usuario" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                          {this.state && this.state.users &&
+
+                            this.state.users.map((item) => {
+                              return <Option value={item.id}>{item.email}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Acción">
+                        <Input  value={this.state.action} placeholder="acción" onChange={(e) => this.handleChange(e.target.value, 'action')} />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Método">
+                        <Input  value={this.state.method} placeholder="método" onChange={(e) => this.handleChange(e.target.value, 'method')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Form.Item>
+                        <Checkbox
+                          checked={this.state.allow}
+                          onChange={(e) => this.handleChange(e.target.checked, 'allow')}
+                      >
+                        Allow
+                        </Checkbox>
                     </Form.Item>
                   </Col>
                   
                 </Row>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item label="Modelo">
-                      <Select required value={this.state.cargapp_model_id} placeholder="modelo" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
-                        {this.state && this.state.models &&
-                          this.state.models.map((item) => {
-                            return <Option value={item.id}>{item.name}</Option>
-                          })
-                        }
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
+                
 
                 <Row>
                   <Col span={24}>
@@ -172,7 +194,7 @@ export default class ParameterCreate extends Component {
 
 
 
-      </LayoutWrapper>
+      </LayoutWrapper >
     );
   }
 }

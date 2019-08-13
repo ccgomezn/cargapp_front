@@ -31,7 +31,7 @@ export default class RoleEdit extends Component {
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles`);
+    return axios.get(httpAddr + `/roles/active`);
   }
   componentWillMount() {
     console.log(this.props);

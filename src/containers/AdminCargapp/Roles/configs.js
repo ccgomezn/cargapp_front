@@ -38,7 +38,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/roles/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/roles/edit/' + object['id'];
       }
       
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
@@ -85,7 +85,7 @@ const columns = [
   },
   {
     title: <IntlMessages id="antTable.title.options" />,
-    key: 'active',
+    key: 'option',
     width: '20%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },

@@ -5,7 +5,7 @@ import WithDirection from '../../../settings/withDirection';
 
 const SecondaryButtonWrapper = styled.div`
 .secondary {
-         width: 130px !important;
+         width: 130px;
           height: 45px !important;
           border-radius: 2px !important;
           border: solid 1.2px #0068ff !important;

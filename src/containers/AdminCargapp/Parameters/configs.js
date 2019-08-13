@@ -40,7 +40,7 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/edit/' + object['id'];
       }
       var function2 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/parameters/show/' + object['id'];
@@ -78,7 +78,7 @@ const columns = [
   },
   {
     title: <IntlMessages id="antTable.title.model" />,
-    key: 'role',
+    key: 'model',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'model')
   },

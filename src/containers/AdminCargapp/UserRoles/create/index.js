@@ -29,7 +29,7 @@ export default class RoleCreate extends Component {
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles`);
+    return axios.get(httpAddr + `/roles/active`);
   }
 
   handleChange(value, type) {

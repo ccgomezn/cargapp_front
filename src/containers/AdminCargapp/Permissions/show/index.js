@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 
-export default class ParameterShow extends Component {
+export default class PermissionShow extends Component {
 
 
   constructor(props) {
@@ -30,7 +30,7 @@ export default class ParameterShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/parameters/` + this.props.match.params.id)
+    return axios.get(httpAddr + `/permissions/` + this.props.match.params.id)
   }
   getUsers() {
     return axios.get(httpAddr + `/users/`);
@@ -40,17 +40,25 @@ export default class ParameterShow extends Component {
     return axios.get(httpAddr + `/cargapp_models/` + id);
   }
 
+  getRoles(id) {
+    return axios.get(httpAddr + `/roles/` + id);
+  }
+
   componentWillMount() {
     axios.all([this.getMainData()])
       .then((responses) => {
-        axios.all([this.getUsers(), this.getCargappModel(responses[0].data.cargapp_model_id)])
+        axios.all([this.getUsers(), this.getCargappModel(responses[0].data.cargapp_model_id), this.getRoles(responses[0].data.role_id)])
           .then((responses_full) => {
             if (responses[0].data.active){
               responses[0].data.active = 'Activo';
             }else{
               responses[0].data.active = 'Desactivado';
             }
-            console.log()
+            if (responses[0].data.allow) {
+              responses[0].data.allow = 'Activo';
+            } else {
+              responses[0].data.allow = 'Desactivado';
+            }
             for (var i = 0; i < responses_full[0].data.length; i++) {
               
               if (responses_full[0].data[i].id === responses[0].data.user_id) {
@@ -60,12 +68,12 @@ export default class ParameterShow extends Component {
             }
             
             this.setState({
-              name: responses[0].data.name,
-              code: responses[0].data.code,
-              description: responses[0].data.description,
+              action: responses[0].data.action,
+              method: responses[0].data.method,
               user: responses[0].data.user,
               cargapp_model: responses_full[1].data.name,
-              value: responses[0].data.value,
+              role: responses_full[2].data.name,
+              allow: responses[0].data.allow,
               active: responses[0].data.active,
             });
           })
@@ -84,7 +92,7 @@ export default class ParameterShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/parameters')
+    this.props.history.push('/dashboard/admin/permissions')
   }
 
 
@@ -93,7 +101,7 @@ export default class ParameterShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/parameters' />
+      return <Redirect to='/dashboard/admin/permissions' />
     }
     return (
 
@@ -117,46 +125,43 @@ export default class ParameterShow extends Component {
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Nombre">
-                      <p>{this.state.name}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Código">
-                      <p>{this.state.code}</p>
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Descripción">
-                      <p>{this.state.description}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Valor">
-                      <p>{this.state.value}</p>
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={24}>
                     <Form.Item label="Usuario">
                       <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
-
-                </Row>
-                <Row>
-                  <Col span={24}>
+                  <Col span={12}>
                     <Form.Item label="Modelo">
                       <p>{this.state.cargapp_model}</p>
-
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={10}>
-                  <Col span={24}>
+                  <Col span={12}>
+                    <Form.Item label="Rol">
+                      <p>{this.state.role}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Acción">
+                      <p>{this.state.action}</p>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Método">
+                      <p>{this.state.method}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Allow">
+                      <p>{this.state.allow}</p>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
                     <Form.Item label="Estado">
                       <p>{this.state.active}</p>
                     </Form.Item>

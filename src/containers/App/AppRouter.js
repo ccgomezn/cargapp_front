@@ -16,12 +16,48 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Roles'))
   },
   {
-    path: 'admin/roles_add',
+    path: 'admin/roles/add',
     component: asyncComponent(() => import('../AdminCargapp/Roles/create'))
   },
   {
-    path: 'admin/roles/:id',
+    path: 'admin/roles/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Roles/edit'))
+  },
+  {
+    path: 'admin/document_types',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes'))
+  },
+  {
+    path: 'admin/document_types/add',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes/create'))
+  },
+  {
+    path: 'admin/document_types/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/DocumentTypes/edit'))
+  },
+  {
+    path: 'admin/vehicle_types',
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes'))
+  },
+  {
+    path: 'admin/vehicle_types/add',
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes/create'))
+  },
+  {
+    path: 'admin/vehicle_types/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/VehicleTypes/edit'))
+  },
+  {
+    path: 'admin/load_types',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes'))
+  },
+  {
+    path: 'admin/load_types/add',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes/create'))
+  },
+  {
+    path: 'admin/load_types/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/LoadTypes/edit'))
   },
   {
     path: 'admin/parameters',
@@ -32,12 +68,170 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Parameters/show'))
   },
   {
-    path: 'admin/parameters_add',
+    path: 'admin/parameters/add',
     component: asyncComponent(() => import('../AdminCargapp/Parameters/create'))
   },
   {
-    path: 'admin/parameters/:id',
+    path: 'admin/parameters/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Parameters/edit'))
+  },
+  {
+    path: 'admin/vehicles',
+    component: asyncComponent(() => import('../AdminCargapp/Vehicles'))
+  },
+  {
+    path: 'admin/vehicles/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Vehicles/show'))
+  },
+  {
+    path: 'admin/vehicles/add',
+    component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+  },
+  {
+    path: 'admin/vehicles/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Vehicles/edit'))
+  },
+  {
+    path: 'admin/challenges',
+    component: asyncComponent(() => import('../AdminCargapp/Challenges'))
+  },
+  {
+    path: 'admin/challenges/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Challenges/show'))
+  },
+  {
+    path: 'admin/challenges/add',
+    component: asyncComponent(() => import('../AdminCargapp/Challenges/create'))
+  },
+  {
+    path: 'admin/challenges/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Challenges/edit'))
+  },
+  {
+    path: 'admin/coupons',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons'))
+  },
+  {
+    path: 'admin/coupons/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/show'))
+  },
+  {
+    path: 'admin/coupons/add',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/create'))
+  },
+  {
+    path: 'admin/coupons/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Coupons/edit'))
+  },
+  {
+    path: 'admin/user_challenges',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges'))
+  },
+
+  {
+    path: 'admin/user_challenges/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges/create'))
+  },
+  {
+    path: 'admin/user_challenges/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserChallenges/edit'))
+  },
+  {
+    path: 'admin/user_coupons',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons'))
+  },
+
+  {
+    path: 'admin/user_coupons/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons/create'))
+  },
+  {
+    path: 'admin/user_coupons/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserCoupons/edit'))
+  },
+
+  {
+    path: 'admin/profiles',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles'))
+  },
+  {
+    path: 'admin/profiles/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/show'))
+  },
+  {
+    path: 'admin/profiles/add',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/create'))
+  },
+  {
+    path: 'admin/profiles/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Profiles/edit'))
+  },
+  {
+    path: 'admin/documents',
+    component: asyncComponent(() => import('../AdminCargapp/Documents'))
+  },
+  {
+    path: 'admin/documents/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/show'))
+  },
+  {
+    path: 'admin/documents/add',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/create'))
+  },
+  {
+    path: 'admin/documents/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Documents/edit'))
+  },
+  {
+    path: 'admin/companies',
+    component: asyncComponent(() => import('../AdminCargapp/Companies'))
+  },
+  {
+    path: 'admin/companies/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/show'))
+  },
+  {
+    path: 'admin/companies/add',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/create'))
+  },
+  {
+    path: 'admin/companies/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Companies/edit'))
+  }, {
+    path: 'admin/tickets',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets'))
+  },
+  {
+    path: 'admin/tickets/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/show'))
+  },
+  {
+    path: 'admin/tickets/add',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/create'))
+  },
+  {
+    path: 'admin/tickets/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Tickets/edit'))
+  },
+  {
+    path: 'admin/cargapp_integrations',
+    component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations'))
+  },
+  {
+    path: 'admin/cargapp_integrations/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/show'))
+  },
+  {
+    path: 'admin/cargapp_integrations/add',
+    component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/create'))
+  },
+  {
+    path: 'admin/cargapp_integrations/personal',
+    component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/personal'))
+  },
+  {
+    path: 'admin/cargapp_integrations/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/CargappIntegrations/edit'))
   },
   {
     path: 'admin/permissions',
@@ -48,11 +242,11 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/Permissions/show'))
   },
   {
-    path: 'admin/permissions_add',
+    path: 'admin/permissions/add',
     component: asyncComponent(() => import('../AdminCargapp/Permissions/create'))
   },
   {
-    path: 'admin/permissions/:id',
+    path: 'admin/permissions/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Permissions/edit'))
   },
   {
@@ -64,19 +258,71 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/UserRoles'))
   },
   {
-    path: 'admin/user_roles/:id',
+    path: 'admin/user_roles/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/UserRoles/edit'))
   },
   {
-    path: 'admin/user_roles_add',
-    component: asyncComponent(() => import('../AdminCargapp/UserRoles/create'))
+    path: 'admin/status',
+    component: asyncComponent(() => import('../AdminCargapp/Status'))
   },
   {
-    path: 'admin/cargapp_models/:id',
+    path: 'admin/status/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Status/edit'))
+  },
+  {
+    path: 'admin/status/add',
+    component: asyncComponent(() => import('../AdminCargapp/Status/create'))
+  },
+  {
+    path: 'admin/status/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Status/show'))
+  },
+  {
+    path: 'admin/countries',
+    component: asyncComponent(() => import('../AdminCargapp/Countries'))
+  },
+  {
+    path: 'admin/countries/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/edit'))
+  },
+  {
+    path: 'admin/countries/add',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/create'))
+  },
+  {
+    path: 'admin/countries/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Countries/show'))
+  },
+  {
+    path: 'admin/states',
+    component: asyncComponent(() => import('../AdminCargapp/States'))
+  },
+  {
+    path: 'admin/states/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/States/edit'))
+  },
+  {
+    path: 'admin/states/add',
+    component: asyncComponent(() => import('../AdminCargapp/States/create'))
+  },
+  {
+    path: 'admin/cities',
+    component: asyncComponent(() => import('../AdminCargapp/Cities'))
+  },
+  {
+    path: 'admin/cities/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Cities/edit'))
+  },
+  {
+    path: 'admin/cities/add',
+    component: asyncComponent(() => import('../AdminCargapp/Cities/create'))
+  },
+  {
+    path: 'admin/cargapp_models/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/CargappModels/edit'))
   },
   {
-    path: 'admin/cargapp_models_add',
+    path: 'admin/cargapp_models/add',
     component: asyncComponent(() => import('../AdminCargapp/CargappModels/create'))
   },
   {

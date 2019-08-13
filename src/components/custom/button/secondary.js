@@ -7,7 +7,7 @@ export default class SecondaryButton extends Component {
   render() {
     return (
       <SecondaryButtonWrapper>
-        <Button className="secondary">
+        <Button className="secondary" style={this.props.style} onClick={this.props.onClick} htmlType={this.props.htmlType}>
           <IntlMessages id={this.props.message_id} />
 
         </Button>
