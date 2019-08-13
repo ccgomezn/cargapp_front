@@ -127,12 +127,12 @@ export default class PrizeShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Imagen">
-                      <a target="_blank" href={this.state.image}><IntlMessages id="general.download" /></a>
+                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Media">
-                      <a target="_blank" href={this.state.media}><IntlMessages id="general.download" /></a>
+                      <a href={this.state.media}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>

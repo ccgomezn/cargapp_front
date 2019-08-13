@@ -82,7 +82,6 @@ const columns = [
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'user')
   },
-  ,
   {
     title: <IntlMessages id="antTable.title.status" />,
     key: 'status',

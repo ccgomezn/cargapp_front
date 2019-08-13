@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import { Row, Col, DatePicker, Form, Input, Card, Select, Upload, Button, Icon } from 'antd';
+import { Row, Col, Form, Input, Card, Select } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
-import moment from 'moment';
-const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select
 
@@ -52,11 +50,7 @@ export default class TicketCreate extends Component {
   }
   handlePost() {
  
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    }
+    
     const formData = new FormData();
     formData.append('ticket[title]', this.state.title)
     formData.append('ticket[body]', this.state.body)
@@ -80,11 +74,7 @@ render() {
   if (redirect) {
     return <Redirect to='/dashboard/admin/tickets' />
   }
-  const dummyRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
+  
   return (
     
     <LayoutWrapper>

@@ -120,7 +120,7 @@ export default class ProfileShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Avatar">
-                      <a target="_blank" href={this.state.avatar}><IntlMessages id="general.download" /></a>
+                      <a  href={this.state.avatar}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>

@@ -9,10 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { Select, Input, DatePicker } from 'antd';
+import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
-import moment from 'moment';
-const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select;
 export default class ChallengeEdit extends Component {

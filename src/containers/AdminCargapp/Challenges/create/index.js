@@ -4,14 +4,13 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, DatePicker, Input, Select } from "antd";
+import { Form, Input, Select } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-const dateFormat = 'YYYY-MM-DD';
 
 const {Option} = Select;
 

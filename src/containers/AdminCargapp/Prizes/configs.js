@@ -93,7 +93,7 @@ const columns = [
     key: 'option',
     width: '10%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
-  },
+  }
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [

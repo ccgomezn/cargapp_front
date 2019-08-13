@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col, DatePicker } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Checkbox, Button, Icon } from "antd";
+import { Form } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
