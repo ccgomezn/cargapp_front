@@ -6,21 +6,21 @@ import {
   ImageCell,
   LinkCell,
   TextColorCell,
-  TripleButtonCell
+  MultipleButtonCell
 } from '../../../components/tables/helperCells';
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 
 const deleteFunction = (id) => {
-  return function () {
-    (axios.delete(httpAddr + `/tickets/` + id)
-      .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/tickets/';
+  return function(){
+  (axios.delete(httpAddr + `/user_prizes/` + id)
+    .then((response) => {
+      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/user_prizes/';
 
-      }).catch((error) => {
-        console.error(error);
-      }));
-  }
+    }).catch((error) => {
+      console.error(error);
+    }));
+  } 
 }
 
 const renderCell = (object, type, key, color = false) => {
@@ -34,19 +34,14 @@ const renderCell = (object, type, key, color = false) => {
       return LinkCell(value);
     case 'MultipleButtonCell':
       var text1 = 'Editar';
-      var text2 = 'Ver';
-      var text3 = 'Eliminar';
+      var text2 = 'Eliminar';
       var type1 = 'default';
-      var type2 = 'default';
-      var type3 = 'danger';
-      var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/tickets/edit/' + object['id'];
+      var type2 = 'danger';
+      var function1 = function(){
+        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/user_prizes/edit/' + object['id'];
       }
-      var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/tickets/show/' + object['id'];
-      }
-
-      return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
+      
+      return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
     default:
       var color_val = '';
 
@@ -61,43 +56,43 @@ const columns = [
   {
     title: "Id",
     key: 'id',
-    width: '12%',
+    width: '25%',
     render: object => renderCell(object, 'TextCell', 'id')
   },
   {
-    title: <IntlMessages id="antTable.title.title" />,
-    key: 'title',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'title')
-  },
-  {
-    title: <IntlMessages id="antTable.title.body" />,
-    key: 'body',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'body')
-  },
-  {
-    title: <IntlMessages id="antTable.title.user" />,
-    key: 'user',
-    width: '12%',
+    title: <IntlMessages id="antTable.title.user_email" />,
+    key: 'user_email',
+    width: '20%',
     render: object => renderCell(object, 'TextCell', 'user')
   },
   {
-    title: <IntlMessages id="antTable.title.status" />,
-    key: 'status',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'status')
+    title: <IntlMessages id="antTable.title.prize" />,
+    key: 'prize',
+    width: '20%',
+    render: object => renderCell(object, 'TextCell', 'prize')
+  },
+  {
+    title: <IntlMessages id="antTable.title.point" />,
+    key: 'point',
+    width: '20%',
+    render: object => renderCell(object, 'TextCell', 'point')
+  },
+  {
+    title: <IntlMessages id="antTable.title.expire_date" />,
+    key: 'expire_date',
+    width: '20%',
+    render: object => renderCell(object, 'TextCell', 'expire_date')
   },
   {
     title: <IntlMessages id="antTable.title.state" />,
     key: 'active',
-    width: '12%',
+    width: '20%',
     render: object => renderCell(object, 'TextCell', 'active', true)
   },
   {
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
-    width: '10%',
+    width: '20%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },
 ];
@@ -109,8 +104,7 @@ const sortColumns = [
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
-  { ...columns[6], sorter: true },
-  { ...columns[7], sorter: false },
+  { ...columns[6], sorter: false }
 
 ];
 const editColumns = [

@@ -122,7 +122,7 @@ export default class ChallengeShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Imagen">
-                      <a target="_blank" href={this.state.image}><IntlMessages id="general.download" /></a>
+                      <a  href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>

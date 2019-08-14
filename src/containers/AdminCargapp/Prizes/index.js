@@ -11,7 +11,7 @@ import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
 
-export default class Profile extends Component {
+export default class Prize extends Component {
 
 
   constructor(props) {
@@ -33,26 +33,28 @@ export default class Profile extends Component {
     return dataTransformed
   }
 
-  getProfiles() {
-    return axios.get(httpAddr + `/profiles`);
+  getPrizes() {
+    return axios.get(httpAddr + `/prizes`);
   }
 
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
+  
+
 
   componentWillMount() {
-    axios.all([this.getProfiles(), this.getUsers()])
+    axios.all([this.getPrizes()])
       .then((responses) => {
-
-        let data_users = this.transformDataToMap(responses[1].data, 'email');
-
         responses[0].data.map((item) => {
-          item.user = data_users[item.user_id]
+          if (item.active) {
+            item.active = 'Activo';
+            item.color = '#00BFBF';
+          } else {
+            item.active = 'Desactivado';
+            item.color = '#ff2557';
+          }
           return item;
         })
         this.setState({
-          profiles: responses[0].data
+          prizes: responses[0].data
         });
 
       })
@@ -60,14 +62,14 @@ export default class Profile extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/profiles/add')
+    this.props.history.push('/dashboard/admin/prizes/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/profiles' />
+      return <Redirect to='/dashboard/admin/prizes' />
     }
     return (
       <LayoutWrapper>
@@ -80,7 +82,7 @@ export default class Profile extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="profiles.title" />
+                    <IntlMessages id="prizes.title" />
 
                   </h1>
                 </PageHeader>
@@ -95,8 +97,8 @@ export default class Profile extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.profiles &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.profiles} />
+                {this.state && this.state.prizes &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.prizes} />
                 }
               </Col>
             </Row>

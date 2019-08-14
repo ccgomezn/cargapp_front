@@ -9,16 +9,13 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
-import { Redirect } from 'react-router-dom'
 
-export default class Profile extends Component {
+export default class UserPrize extends Component {
 
 
   constructor(props) {
     super();
-    this.state = {
-      reload: false
-    }
+
 
   }
 
@@ -33,26 +30,37 @@ export default class Profile extends Component {
     return dataTransformed
   }
 
-  getProfiles() {
-    return axios.get(httpAddr + `/profiles`);
+  getUserPrizes() {
+    return axios.get(httpAddr + `/user_prizes`);
   }
 
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
+  getPrizes() {
+    return axios.get(httpAddr + `/prizes`);
+  }
   componentWillMount() {
-    axios.all([this.getProfiles(), this.getUsers()])
+    axios.all([this.getUserPrizes(), this.getUsers(), this.getPrizes()])
       .then((responses) => {
-
-        let data_users = this.transformDataToMap(responses[1].data, 'email');
-
+        var dataUser = this.transformDataToMap(responses[1].data, 'email');
+        var dataPrize = this.transformDataToMap(responses[2].data, 'name');
         responses[0].data.map((item) => {
-          item.user = data_users[item.user_id]
+          if (item.active) {
+            item.active = 'Activo';
+            item.color = '#00BFBF';
+          } else {
+            item.active = 'Desactivado';
+            item.color = '#ff2557';
+          }
+          item.user = dataUser[item.user_id]
+          item.prize = dataPrize[item.prize_id]
+
           return item;
         })
         this.setState({
-          profiles: responses[0].data
+          user_prizes: responses[0].data
         });
 
       })
@@ -60,32 +68,28 @@ export default class Profile extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/profiles/add')
+    this.props.history.push('/dashboard/admin/user_prizes/add')
+
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
-    const { reload } = this.state;
 
-    if (reload) {
-      return <Redirect to='/dashboard/admin/profiles' />
-    }
     return (
       <LayoutWrapper>
 
 
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-            <Row gutter={12}>
+            <Row>
               <Col lg={18} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="profiles.title" />
+                    <IntlMessages id="users_prizes.title" />
 
                   </h1>
                 </PageHeader>
               </Col>
-              
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 <PrimaryButton
                   message_id={"general.add"}
@@ -95,8 +99,8 @@ export default class Profile extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {this.state && this.state.profiles &&
-                  <SortView tableInfo={tableinfos[1]} dataList={this.state.profiles} />
+                {this.state && this.state.user_prizes &&
+                  <SortView tableInfo={tableinfos[1]} dataList={this.state.user_prizes} />
                 }
               </Col>
             </Row>

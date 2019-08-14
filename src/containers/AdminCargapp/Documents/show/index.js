@@ -137,7 +137,7 @@ export default class DocumentShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Documento">
-                      <a target="_blank" href={this.state.file}><IntlMessages id="general.download" /></a>
+                      <a href={this.state.file}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                   <Col span={12}>

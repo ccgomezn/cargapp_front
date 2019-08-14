@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import { Row, Col } from 'antd';
+import { Row, Col, DatePicker } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Upload, Button, Icon } from "antd";
+import { Form } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
-
+import moment from 'moment';
+const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
 
-export default class TicketEdit extends Component {
+export default class PrizeEdit extends Component {
 
 
   constructor(props) {
@@ -26,20 +27,16 @@ export default class TicketEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/tickets/` + this.props.match.params.id)
+    return axios.get(httpAddr + `/prizes/` + this.props.match.params.id)
   }
 
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
-  getStatus() {
-    return axios.get(httpAddr + `/status`);
-  }
-
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getStatus()])
+    axios.all([this.getMainData(), this.getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -50,13 +47,15 @@ export default class TicketEdit extends Component {
 
         this.setState({
           users: responses[1].data,
-          status: responses[2].data,
-          title: responses[0].data.title,
+          name: responses[0].data.name,
+          code: responses[0].data.code,
+          point: responses[0].data.point,
+          description: responses[0].data.description,
           body: responses[0].data.body,
-          statu_id: responses[0].data.statu_id,
+          expire_date: responses[0].data.expire_date,
           user_id: responses[0].data.user_id,
           active: responses[0].data.active,
-        });
+        })
       }).catch((error) => {
         console.error(error);
       });
@@ -71,20 +70,24 @@ export default class TicketEdit extends Component {
   }
   handlePut() {
     const formData = new FormData();
-    formData.append('ticket[title]', this.state.title)
-    formData.append('ticket[body]', this.state.body)
-    formData.append('ticket[statu_id]', this.state.statu_id)
-    formData.append('ticket[user_id]', this.state.user_id)
-    formData.append('ticket[active]', true)
-    
+    formData.append('prize[name]', this.state.name)
+    formData.append('prize[code]', this.state.code)
+    if (this.state.image != null) {
 
-    if(this.state.image != null){
-      formData.append('ticket[image]', this.state.image, this.state.media.image)
+      formData.append('prize[image]', this.state.image, this.state.image.name)
     }
-    if(this.state.media != null){
-      formData.append('ticket[media]', this.state.media, this.state.media.name)
+    if (this.state.media != null) {
+      formData.append('prize[media]', this.state.media, this.state.media.name)
+
     }
-    axios.put(httpAddr + '/tickets/' + this.props.match.params.id,
+    formData.append('prize[point]', this.state.point)
+    formData.append('prize[description]', this.state.description)
+    formData.append('prize[body]', this.state.body)
+    formData.append('prize[user_id]', this.state.user_id)
+    formData.append('prize[expire_date]', this.state.expire_date)
+    formData.append('prize[active]', this.state.active)
+
+    axios.put(httpAddr + '/prizes/' + this.props.match.params.id,
       formData).then(() => {
         this.setState({ redirect: true })
       })
@@ -95,7 +98,7 @@ export default class TicketEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/dashboard/admin/prizes' />
     }
     return (
 
@@ -109,7 +112,7 @@ export default class TicketEdit extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="tickets.title" />
+                    <IntlMessages id="prizes.title" />
 
                   </h1>
                 </PageHeader>
@@ -120,52 +123,55 @@ export default class TicketEdit extends Component {
                 <Form>
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Titulo">
-                        <Input value={this.state.title} placeholder="titulo" onChange={(e) => this.handleChange(e.target.value, 'title')} required />
+                      <Form.Item label="Nombre">
+                        <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} required />
                       </Form.Item>
                     </Col>
+                    <Col span={12}>
+                      <Form.Item label="Codigo">
+                        <Input value={this.state.code} placeholder="codigo" onChange={(e) => this.handleChange(e.target.value, 'code')} required />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Puntos">
+                        <Input type="number" value={this.state.point} placeholder="puntos" onChange={(e) => this.handleChange(e.target.value, 'point')} required />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Descripción">
+                        <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} required />
+
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Cuerpo">
                         <Input value={this.state.body} placeholder="cuerpo" onChange={(e) => this.handleChange(e.target.value, 'body')} required />
                       </Form.Item>
                     </Col>
-                  </Row>
-                  <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Imagen">
-                        <Upload>
-                          <Button>
-                            <Icon type="upload" /><IntlMessages id="general.upload" />
-                          </Button>
-                        </Upload>
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'image')} />
+
                       </Form.Item>
                     </Col>
-                    <Col span={12}>
+                  </Row>
+                  <Row gutter={10}>
+
+                    <Col span={24}>
                       <Form.Item label="Media">
-                        <Upload>
-                          <Button>
-                            <Icon type="upload" /><IntlMessages id="general.upload" />
-                          </Button>
-                        </Upload>
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'media')} />
+
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Status">
-                        <Select value={this.state.statu_id} placeholder="status" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'statu_id') }} >
-                          {this.state && this.state.status &&
-
-                            this.state.status.map((item) => {
-                              return <Option value={item.id}>{item.name}</Option>
-                            })
-                          }
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item label="Usuarios">
-                        <Select value={this.state.user_id} placeholder="usuarios" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }} >
+                      <Form.Item label="Usuario">
+                        <Select value={this.state.user_id} placeholder="usuario" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }} >
                           {this.state && this.state.users &&
 
                             this.state.users.map((item) => {
@@ -173,6 +179,14 @@ export default class TicketEdit extends Component {
                             })
                           }
                         </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Fecha de expiración">
+                        {
+                          this.state && this.state.expire_date &&
+                          <DatePicker defaultValue={moment(this.state.expire_date, dateFormat)} format={dateFormat} onChange={(e) => this.handleChange(e, 'expire_date')} />
+                        }
                       </Form.Item>
                     </Col>
                   </Row>

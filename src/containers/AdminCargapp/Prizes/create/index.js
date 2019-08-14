@@ -2,54 +2,45 @@ import React, { Component } from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import { Row, Col } from 'antd';
+import { Row, Col, DatePicker, Form, Input, Card, Select } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import { Form, Input, Select } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+const dateFormat = 'YYYY-MM-DD';
 
-const { Option } = Select;
+const { Option } = Select
 
-export default class CouponCreate extends Component {
+export default class PrizeCreate extends Component {
 
 
   constructor(props) {
     super();
     this.state = {
-      redirect: false,
-      birth_date: moment(),
+      redirect: false
     }
   }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
-  }
-
   getUsers() {
     return axios.get(httpAddr + `/users`);
   }
 
-  getChallenges() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
+
+
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getChallenges()])
+    axios.all([this.getUsers()])
       .then((responses) => {
 
         this.setState({
           users: responses[0].data,
-          cargapp_models: responses[1].data,
+          expire_date: moment(),
         });
 
       })
 
   }
-
 
   handleChange(value, type) {
 
@@ -60,21 +51,19 @@ export default class CouponCreate extends Component {
     )
   }
   handlePost() {
-
-    axios.post(httpAddr + '/coupons',
-      {
-        coupon: {
-          name: this.state.name,
-          code: this.state.code,
-          description: this.state.description,
-          is_porcentage: this.state.is_porcentage,
-          value: this.state.value,
-          quantity: this.state.quantity,
-          user_id: this.state.user_id,
-          cargapp_model_id: this.state.cargapp_model_id,
-          active: true,
-        }
-      }).then(() => {
+    const formData = new FormData();
+    formData.append('prize[name]', this.state.name)
+    formData.append('prize[code]', this.state.code)
+    formData.append('prize[image]', this.state.image, this.state.image.name)
+    formData.append('prize[media]', this.state.media, this.state.media.name)
+    formData.append('prize[point]', this.state.point)
+    formData.append('prize[description]', this.state.description)
+    formData.append('prize[body]', this.state.body)
+    formData.append('prize[user_id]', this.state.user_id)
+    formData.append('prize[expire_date]', this.state.expire_date)
+    formData.append('prize[active]', true)
+    axios.post(httpAddr + '/prizes',
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -84,7 +73,7 @@ export default class CouponCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/coupons' />
+      return <Redirect to='/dashboard/admin/prizes' />
     }
     return (
 
@@ -98,7 +87,7 @@ export default class CouponCreate extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="coupons.title" />
+                    <IntlMessages id="prizes.title" />
 
                   </h1>
                 </PageHeader>
@@ -111,47 +100,54 @@ export default class CouponCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Nombre">
-                        <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} />
+                        <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} required />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Code">
-                        <Input value={this.state.code} placeholder="codigo" onChange={(e) => this.handleChange(e.target.value, 'code')} />
+                      <Form.Item label="Codigo">
+                        <Input value={this.state.code} placeholder="codigo" onChange={(e) => this.handleChange(e.target.value, 'code')} required />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Puntos">
+                        <Input type="number" value={this.state.point} placeholder="puntos" onChange={(e) => this.handleChange(e.target.value, 'point')} required />
+                      </Form.Item>
+                    </Col>
                     <Col span={12}>
                       <Form.Item label="Descripción">
-                        <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item label="Valor">
-                        <Input type="number" value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e.target.value, 'value')} />
+                        <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} required />
+
                       </Form.Item>
                     </Col>
                   </Row>
-
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Cantidad">
-                        <Input type="number" value={this.state.quantity} placeholder="cantidad" onChange={(e) => this.handleChange(e.target.value, 'quantity')} />
+                      <Form.Item label="Cuerpo">
+                        <Input value={this.state.body} placeholder="cuerpo" onChange={(e) => this.handleChange(e.target.value, 'body')} required />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Es porcentaje?">
+                      <Form.Item label="Imagen">
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'image')} />
 
-                      <Checkbox value={this.state.is_porcentage} onChange={(e) => this.handleChange(e.target.checked, 'is_porcentage')}></Checkbox>
                       </Form.Item>
-
                     </Col>
                   </Row>
+                  <Row gutter={10}>
+                    
+                    <Col span={24}>
+                      <Form.Item label="Media">
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'media')} />
 
+                      </Form.Item>
+                    </Col>
+                  </Row>
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Usuario">
-                        <Select value={this.state.user_id} placeholder="usuario" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                        <Select value={this.state.user_id} placeholder="usuario" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }} >
                           {this.state && this.state.users &&
 
                             this.state.users.map((item) => {
@@ -162,19 +158,15 @@ export default class CouponCreate extends Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Modelo cargapp">
-                        <Select value={this.state.cargapp_model_id} placeholder="reto" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'cargapp_model_id') }}>
-                          {this.state && this.state.cargapp_models &&
-                            this.state.cargapp_models.map((item) => {
-                              return <Option value={item.id}>{item.name}</Option>
-                            })
-                          }
-                        </Select>
+                      <Form.Item label="Fecha de expiración">
+                        {
+                          this.state && this.state.expire_date &&
+                          <DatePicker defaultValue={moment(this.state.expire_date, dateFormat)} format={dateFormat} onChange={(e) => this.handleChange(e, 'expire_date')} />
+                        }
                       </Form.Item>
                     </Col>
                   </Row>
-
-
+                  
                   <Row>
                     <Col span={24}>
                       <Form.Item wrapperCol={{ span: 24 }}>
