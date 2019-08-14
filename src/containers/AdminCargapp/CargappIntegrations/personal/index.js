@@ -10,6 +10,7 @@ import PrimaryButton from "../../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import {get, post, put} from "../../../../helpers/httpRequest"
 
 export default class CargappIntegrationPersonal extends Component {
 
@@ -34,7 +35,7 @@ export default class CargappIntegrationPersonal extends Component {
   }
 
   getIntegrations() {
-    return axios.get(httpAddr + `/cargapp_integrations/me/`);
+    return get(httpAddr + `/cargapp_integrations/me/`, true);
   }
 
 

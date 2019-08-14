@@ -36,7 +36,7 @@ class TopbarUser extends Component {
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.help" />
         </a>
-        <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
+        <a className="isoDropdownLink" onClick={this.props.logout} href="/">
           <IntlMessages id="topbar.logout" />
         </a>
       </TopbarDropdownWrapper>

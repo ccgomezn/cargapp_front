@@ -1,17 +1,28 @@
 import { Map } from 'immutable';
 
 export function clearToken() {
+
   localStorage.removeItem('id_token');
+
 }
 
 export function getToken() {
   try {
     const idToken = localStorage.getItem('id_token');
-    return new Map({ idToken });
+    const roles = localStorage.getItem('roles');
+    return new Map({ idToken, roles });
   } catch (err) {
     clearToken();
     return new Map();
   }
+}
+
+export function makeAuthorizationHeader(token) {
+  let header = {
+    Authorization: 'Bearer ' + token
+  }
+
+  return header;
 }
 
 export function timeDifference(givenTime) {

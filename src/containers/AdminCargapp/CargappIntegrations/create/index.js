@@ -10,6 +10,7 @@ import { Card , Select} from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import {get, post, put} from "../../../../helpers/httpRequest"
 
 const { Option } = Select
 
@@ -23,7 +24,7 @@ export default class CargappIntegrationCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   componentWillMount() {
@@ -48,7 +49,7 @@ export default class CargappIntegrationCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/cargapp_integrations',
+    post(httpAddr + '/cargapp_integrations',
       {
         cargapp_integration: {
           name: this.state.name,

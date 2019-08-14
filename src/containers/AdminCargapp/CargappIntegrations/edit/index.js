@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class CargappIntegrationEdit extends Component {
@@ -24,11 +25,11 @@ export default class CargappIntegrationEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
+    return get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
   }
   
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
 
@@ -77,7 +78,7 @@ export default class CargappIntegrationEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cargapp_integrations/' + this.props.match.params.id,
+    put(httpAddr + '/cargapp_integrations/' + this.props.match.params.id,
       {
         cargapp_integration: {
           name: this.state.name,

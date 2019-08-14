@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post, put } from "../../../../helpers/httpRequest"
 
 export default class CargappIntegrationShow extends Component {
 
@@ -30,11 +31,11 @@ export default class CargappIntegrationShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
+    return get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   componentWillMount() {

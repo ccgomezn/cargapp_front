@@ -8,6 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
+import {get, post, put} from "../../../helpers/httpRequest"
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
 
@@ -15,11 +16,10 @@ export default class CargappIntegration extends Component {
 
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       reload: false
     }
-
   }
 
 
@@ -34,7 +34,7 @@ export default class CargappIntegration extends Component {
   }
 
   getIntegrations() {
-    return axios.get(httpAddr + `/cargapp_integrations`);
+    return get(httpAddr + `/cargapp_integrations`);
   }
 
   
