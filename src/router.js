@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import App from "./containers/App/App";
 import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
+import { decrypt } from "./helpers/utility";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, isUser, ...rest }) => (
   <Route
@@ -134,10 +135,15 @@ const PublicRoutes = ({ history, isLoggedIn, isUser, isAdmin }) => {
 export default connect(state => {
   let idToken = state.Auth.idToken;
   let roles = state.Auth.roles;
-  if(roles !== null && roles !== undefined){
-    roles = roles.split(",");
-    console.log(roles)
+
+  if(idToken !== null){
+    idToken = decrypt(idToken);
+    if (roles !== null && roles !== undefined) {
+      roles = decrypt(roles).slice(idToken.length);
+      roles = roles.split(",");
+    }
   }
+
   return (
     {
       isLoggedIn: idToken !== null && idToken !== undefined,

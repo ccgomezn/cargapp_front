@@ -1,8 +1,8 @@
 import { all, takeEvery, put, fork, call } from 'redux-saga/effects';
-
 import { getToken, clearToken, makeAuthorizationHeader } from '../../helpers/utility';
 import axios from 'axios';
 import actions from './actions';
+import {encrypt} from '../../helpers/utility'
 
 function loginApi(url, data) {
   return axios.post(
@@ -29,14 +29,17 @@ export function* loginRequest() {
       let response_role = yield call(roleApi, data.url_role, token);
       let roles = response_role.data.roles;
       let roles_array = [];
+      let token_encrypted = encrypt(token);
       roles.map((role) =>{
         roles_array.push(role.role_id)
         return role
       })
+      let roles_encrypted = encrypt(token+roles_array.toString());
+
       yield put({
         type: actions.LOGIN_SUCCESS,
-        token: token,
-        roles: roles_array.toString(),
+        token: token_encrypted,
+        roles: roles_encrypted,
         profile: 'Profile'
       });
       this.props.history.push("/dashboard")
