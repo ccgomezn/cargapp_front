@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import { get, put } from "../../../../helpers/httpRequest"
+import { putTicket, getTicket, getUsers, getStatus } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -26,21 +27,8 @@ export default class TicketEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/tickets/` + this.props.match.params.id, true)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getStatus() {
-    return get(httpAddr + `/status`, true);
-  }
-
-
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getStatus()])
+    axios.all([getTicket(this.props.match.params.id), getUsers(), getStatus()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -85,10 +73,10 @@ export default class TicketEdit extends Component {
     if(this.state.media != null){
       formData.append('ticket[media]', this.state.media, this.state.media.name)
     }
-    put(httpAddr + '/tickets/' + this.props.match.params.id,
+    putTicket(this.props.match.params.id,
       formData).then(() => {
         this.setState({ redirect: true })
-      }, true)
+      })
   }
 
   render() {

@@ -10,9 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
-
+import { getChallenge, getUsers, putChallenge } from "../../../../helpers/api/adminCalls"
 const { Option } = Select;
 export default class ChallengeEdit extends Component {
 
@@ -24,18 +22,10 @@ export default class ChallengeEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/challenges/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`)
-  }
-
 
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers()])
+    axios.all([getChallenge(this.props.match.params.id), getUsers()])
       .then((responses) => {
         console.log(responses[0].data.point)
         this.setState({
@@ -62,16 +52,16 @@ export default class ChallengeEdit extends Component {
     const formData = new FormData();
     formData.append('challenge[name]', this.state.name)
     formData.append('challenge[body]', this.state.body)
-    if(this.state.image != null){
+    if (this.state.image != null) {
       formData.append('challenge[image]', this.state.image, this.state.image.name)
     }
     formData.append('challenge[point]', this.state.point)
     formData.append('challenge[user_id]', this.state.user_id)
     formData.append('challenge[active]', this.state.active)
 
-      put(httpAddr + '/challenges/' + this.props.match.params.id,formData).then(() => {
-        this.setState({ redirect: true })
-      })
+    putChallenge(this.props.match.params.id, formData).then(() => {
+      this.setState({ redirect: true })
+    })
   }
 
   render() {

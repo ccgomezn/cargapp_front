@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { postVehicleType } from '../../../../helpers/api/adminCalls.js';
 
 
 export default class VehicleTypeCreate extends Component {
@@ -35,7 +36,7 @@ export default class VehicleTypeCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/vehicle_types',
+    postVehicleType(
       {
         vehicle_type: {
           name: this.state.name,
@@ -45,7 +46,7 @@ export default class VehicleTypeCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

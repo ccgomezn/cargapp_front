@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get } from "../../../../helpers/httpRequest"
+import { getCountry } from "../../../../helpers/api/adminCalls"
 
 export default class CountryShow extends Component {
 
@@ -30,13 +29,10 @@ export default class CountryShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return get(httpAddr + `/countries/` + this.props.match.params.id, true)
-  }
-
+  
 
   componentWillMount() {
-    axios.all([this.getMainData()])
+    axios.all([getCountry(this.props.match.params.id)])
       .then((responses) => {
 
         if (responses[0].data.active) {

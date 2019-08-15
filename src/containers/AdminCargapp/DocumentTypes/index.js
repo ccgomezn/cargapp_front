@@ -7,23 +7,21 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
-import { get } from "../../../helpers/httpRequest"
+import { getDocumentTypes } from "../../../helpers/api/adminCalls"
 
 export default class DocumentType extends Component {
 
 
   constructor(props) {
     super();
-    
+
 
   }
-  
+
   componentWillMount() {
-  axios.get(httpAddr + `/document_types`, true)
+    getDocumentTypes()
       .then((response) => {
-        
+
         response.data.map((item) => {
           if (item.active) {
             item.active = 'Activo';
@@ -42,8 +40,8 @@ export default class DocumentType extends Component {
       });
   }
 
-  
-  redirectAdd(){
+
+  redirectAdd() {
     this.props.history.push('/dashboard/admin/document_types/add')
 
   }
@@ -52,7 +50,7 @@ export default class DocumentType extends Component {
 
     return (
       <LayoutWrapper>
-        
+
 
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
@@ -67,10 +65,10 @@ export default class DocumentType extends Component {
                 </PageHeader>
               </Col>
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                <PrimaryButton 
+                <PrimaryButton
                   message_id={"general.add"}
-                  style={{width: '100%'}}
-                  onClick={() => this.redirectAdd()}/>
+                  style={{ width: '100%' }}
+                  onClick={() => this.redirectAdd()} />
               </Col>
             </Row>
             <Row>

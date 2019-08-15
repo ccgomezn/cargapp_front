@@ -8,9 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
-import { get } from "../../../helpers/httpRequest"
+import { getProfiles, getUsers } from '../../../helpers/api/adminCalls.js';
 
 export default class Profile extends Component {
 
@@ -34,16 +33,10 @@ export default class Profile extends Component {
     return dataTransformed
   }
 
-  getProfiles() {
-    return get(httpAddr + `/profiles`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getProfiles(), this.getUsers()])
+    axios.all([getProfiles(), getUsers()])
       .then((responses) => {
 
         let data_users = this.transformDataToMap(responses[1].data, 'email');

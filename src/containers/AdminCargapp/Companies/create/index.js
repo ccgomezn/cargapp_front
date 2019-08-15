@@ -7,9 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, put, post } from "../../../../helpers/httpRequest"
+import { getUsers, getLoadTypes, postCompany } from "../../../../helpers/api/adminCalls"
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -24,16 +23,10 @@ export default class CompanyCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getLoadTypes() {
-    return get(httpAddr + `/load_types`, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getLoadTypes()])
+    axios.all([getUsers(), getLoadTypes()])
       .then((responses) => {
 
         this.setState({
@@ -55,7 +48,7 @@ export default class CompanyCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/companies',
+    postCompany(
       {
         company: {
           name: this.state.name,
@@ -71,7 +64,7 @@ export default class CompanyCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }

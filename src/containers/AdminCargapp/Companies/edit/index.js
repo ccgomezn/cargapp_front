@@ -10,9 +10,8 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, put } from "../../../../helpers/httpRequest"
+import { getUsers, getCompany, getLoadTypes, putCompany } from "../../../../helpers/api/adminCalls"
 
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
@@ -28,21 +27,10 @@ export default class CompanyEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/companies/` + this.props.match.params.id, true)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getLoadTypes() {
-    return get(httpAddr + `/load_types`, true);
-  }
-
+  
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getLoadTypes()])
+    axios.all([getCompany(this.props.match.params.id), getUsers(), getLoadTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -78,7 +66,7 @@ export default class CompanyEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/companies/' + this.props.match.params.id,
+    putCompany(this.props.match.params.id,
       {
         company: {
           name: this.state.name,
@@ -93,7 +81,7 @@ export default class CompanyEdit extends Component {
           constitution_date: this.state.constitution_date,
           active: this.state.active,
         }
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }

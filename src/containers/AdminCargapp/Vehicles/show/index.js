@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getVehicle, getUsers, getDocumentTypes, getVehicleTypes } from '../../../../helpers/api/adminCalls.js';
 
 export default class VehicleShow extends Component {
 
@@ -29,25 +29,10 @@ export default class VehicleShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return axios.get(httpAddr + `/vehicles/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types/active`);
-  }
-
-  getVehicleTypes() {
-    return axios.get(httpAddr + `/vehicle_types/active`);
-  }
 
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getDocumentTypes(), this.getVehicleTypes()])
+    axios.all([getVehicle(this.props.match.params.id), getUsers(), getDocumentTypes(), getVehicleTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {

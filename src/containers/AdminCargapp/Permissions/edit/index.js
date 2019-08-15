@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import { get, put } from "../../../../helpers/httpRequest"
+import { getPermission, getUsers, getModels, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class PermissionEdit extends Component {
@@ -24,24 +25,11 @@ export default class PermissionEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/permissions/` + this.props.match.params.id, true)
-  }
-  getUsers() {
-    return get(httpAddr + `/users/`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
-
-  getRoles() {
-    return get(httpAddr + `/roles/`, true);
-  }
+ 
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModels(), this.getRoles()])
+    axios.all([getPermission(this.props.match.params.id), getUsers(), getModels(), getRoles()])
       .then((responses) => {
 
 

@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { getCountries, postState } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -34,15 +35,13 @@ export default class StateCreate extends Component {
     )
   }
 
-  getCountries() {
-    return get(httpAddr + `/countries`, true);
-  }
+
 
   componentWillMount() {
-    axios.all([this.getCountries()])
+    axios.all([getCountries()])
       .then((responses) => {
 
-        
+
         this.setState({
           countries: responses[0].data
         });
@@ -54,7 +53,7 @@ export default class StateCreate extends Component {
 
 
   handlePost() {
-    post(httpAddr + '/states',
+    postState(
       {
         state: {
           name: this.state.name,
@@ -64,7 +63,7 @@ export default class StateCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -128,7 +127,7 @@ export default class StateCreate extends Component {
                       </Form.Item>
                     </Col>
                   </Row>
-                  
+
 
                   <Row>
                     <Col span={24}>

@@ -10,8 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { getParameter, getUsers, getModels, putParameter } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class ParameterEdit extends Component {
@@ -24,19 +23,10 @@ export default class ParameterEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/parameters/` + this.props.match.params.id, true)
-  }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCargappModesl() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
+  
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModesl()])
+    axios.all([getParameter(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
 
 
@@ -64,7 +54,7 @@ export default class ParameterEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/parameters/' + this.props.match.params.id,
+    putParameter(this.props.match.params.id,
       {
         parameter: {
           name: this.state.name,
@@ -76,7 +66,7 @@ export default class ParameterEdit extends Component {
           active: this.state.active,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

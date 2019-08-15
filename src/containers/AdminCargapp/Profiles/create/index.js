@@ -9,9 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, post } from "../../../../helpers/httpRequest"
+import { postProfile, getUsers, getDocumentTypes } from '../../../../helpers/api/adminCalls.js';
 
 
 const dateFormat = 'YYYY-MM-DD';
@@ -29,20 +28,10 @@ export default class ProfileCreate extends Component {
     }
   }
 
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-
-
-  getDocumentTypes() {
-    return get(httpAddr + `/document_types`, true);
-  }
-
-
+ 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getDocumentTypes()])
+    axios.all([getUsers(), getDocumentTypes()])
       .then((responses) => {
 
         this.setState({
@@ -76,7 +65,7 @@ export default class ProfileCreate extends Component {
     formData.append('profile[birth_date]', this.state.birth_date)
     formData.append('profile[user_id]', this.state.user_id)
 
-    post(httpAddr + '/profiles',formData, true).then(() => {
+    postProfile(formData).then(() => {
         this.setState({ redirect: true })
       })
   }

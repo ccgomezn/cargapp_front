@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get, post, put } from "../../../../helpers/httpRequest"
+import { getIntegration, getUsers } from "../../../../helpers/api/adminCalls"
 
 export default class CargappIntegrationShow extends Component {
 
@@ -30,16 +29,12 @@ export default class CargappIntegrationShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
-  }
+  
 
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers()])
+    axios.all([getIntegration(this.props.match.params.id), getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {

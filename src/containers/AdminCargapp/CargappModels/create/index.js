@@ -7,10 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { post } from "../../../../helpers/httpRequest"
+import { postModel } from "../../../../helpers/api/adminCalls"
 
 export default class CargappModelCreate extends Component {
 
@@ -35,7 +33,7 @@ export default class CargappModelCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/cargapp_models',
+    postModel(
       {
         cargapp_model: {
           name: this.state.name,

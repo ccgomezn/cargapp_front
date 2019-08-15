@@ -8,8 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
-import { get } from "../../../helpers/httpRequest"
+import { getUserCoupons, getUsers, getCoupons, getModels } from '../../../helpers/api/adminCalls.js';
 
 export default class UserCoupon extends Component {
 
@@ -31,23 +30,8 @@ export default class UserCoupon extends Component {
     return dataTransformed
   }
 
-  getUserCoupons() {
-    return get(httpAddr + `/user_coupons`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCoupons() {
-    return get(httpAddr + `/coupons`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models`, true);
-  }
   componentWillMount() {
-    axios.all([this.getUserCoupons(), this.getUsers(), this.getCoupons(), this.getCargappModels()])
+    axios.all([getUserCoupons(), getUsers(), getCoupons(), getModels()])
       .then((responses) => {
         var data_user = this.transformDataToMap(responses[1].data, 'email');
         var data_coupons = this.transformDataToMap(responses[2].data, 'name');

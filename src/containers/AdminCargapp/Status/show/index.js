@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get } from "../../../../helpers/httpRequest"
+import { getStatu, getUsers, getModel } from '../../../../helpers/api/adminCalls.js';
 
 export default class StatusShow extends Component {
 
@@ -30,21 +29,12 @@ export default class StatusShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return get(httpAddr + `/status/` + this.props.match.params.id, true)
-  }
-  getUsers() {
-    return get(httpAddr + `/users/`, true);
-  }
-
-  getCargappModel(id) {
-    return get(httpAddr + `/cargapp_models/` + id, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getMainData()])
+    axios.all([getStatu(this.props.match.params.id)])
       .then((responses) => {
-        axios.all([this.getUsers(), this.getCargappModel(responses[0].data.cargapp_model_id)])
+        axios.all([getUsers(), getModel(responses[0].data.cargapp_model_id)])
           .then((responses_full) => {
             if (responses[0].data.active){
               responses[0].data.active = 'Activo';

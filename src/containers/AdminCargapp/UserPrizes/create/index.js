@@ -9,9 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, post } from "../../../../helpers/httpRequest"
+import { postUserPrize, getUsers, getPrizes } from '../../../../helpers/api/adminCalls.js';
 
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
@@ -27,13 +26,7 @@ export default class UserPrizeCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getPrizes() {
-    return get(httpAddr + `/prizes/active`, true);
-  }
+  
 
   handleChange(value, type) {
 
@@ -44,7 +37,7 @@ export default class UserPrizeCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/user_prizes',
+    postUserPrize(
       {
         user_prize: {
           user_id: this.state.user_id,
@@ -54,7 +47,7 @@ export default class UserPrizeCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -66,7 +59,7 @@ export default class UserPrizeCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getPrizes()])
+    axios.all([getUsers(), getPrizes()])
       .then((responses) => {
 
         this.setState({

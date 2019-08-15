@@ -8,9 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
-import { get } from "../../../helpers/httpRequest"
+import { getChallenges, getUsers } from "../../../helpers/api/adminCalls"
 
 export default class Challenge extends Component {
 
@@ -34,16 +33,10 @@ export default class Challenge extends Component {
     return dataTransformed
   }
 
-  getChallenges() {
-    return get(httpAddr + `/challenges`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getChallenges(), this.getUsers()])
+    axios.all([getChallenges(), getUsers()])
       .then((responses) => {
 
         let data_users = this.transformDataToMap(responses[1].data, 'email');

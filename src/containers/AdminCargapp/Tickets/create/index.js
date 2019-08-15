@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { postTicket, getUsers, getStatus } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select
 
@@ -21,16 +22,9 @@ export default class TicketCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
 
-  getStatus() {
-    return get(httpAddr + `/status`, true);
-  }
-  
   componentWillMount() {
-    axios.all([this.getUsers(), this.getStatus()])
+    axios.all([getUsers(), getStatus()])
       .then((responses) => {
 
         this.setState({
@@ -50,8 +44,8 @@ export default class TicketCreate extends Component {
     )
   }
   handlePost() {
- 
-    
+
+
     const formData = new FormData();
     formData.append('ticket[title]', this.state.title)
     formData.append('ticket[body]', this.state.body)
@@ -61,115 +55,115 @@ export default class TicketCreate extends Component {
     formData.append('ticket[user_id]', this.state.user_id)
     formData.append('ticket[active]', true)
 
-    post(httpAddr + '/tickets',
-      formData, true
-      ).then(() => {
-  this.setState({ redirect: true })
-})
+    postTicket(
+      formData
+    ).then(() => {
+      this.setState({ redirect: true })
+    })
   }
 
-render() {
-  const { rowStyle, colStyle } = basicStyle;
-  const { redirect } = this.state;
+  render() {
+    const { rowStyle, colStyle } = basicStyle;
+    const { redirect } = this.state;
 
-  if (redirect) {
-    return <Redirect to='/dashboard/admin/tickets' />
+    if (redirect) {
+      return <Redirect to='/dashboard/admin/tickets' />
+    }
+
+    return (
+
+      <LayoutWrapper>
+
+
+        <Row style={rowStyle} gutter={18} justify="start" block>
+          <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+            <Row>
+              <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+                <PageHeader>
+
+                  <h1>
+                    <IntlMessages id="tickets.title" />
+
+                  </h1>
+                </PageHeader>
+              </Col>
+            </Row>
+            <Row>
+              <Card className="cardContent" style={{ marginTop: '50px' }}>
+                <Form>
+
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Titulo">
+                        <Input value={this.state.title} placeholder="titulo" onChange={(e) => this.handleChange(e.target.value, 'title')} required />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Cuerpo">
+                        <Input value={this.state.body} placeholder="cuerpo" onChange={(e) => this.handleChange(e.target.value, 'body')} required />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Imagen">
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'image')} />
+
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Media">
+                        <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'media')} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Status">
+                        <Select value={this.state.statu_id} placeholder="status" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'statu_id') }} >
+                          {this.state && this.state.status &&
+
+                            this.state.status.map((item) => {
+                              return <Option value={item.id}>{item.name}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Usuarios">
+                        <Select value={this.state.user_id} placeholder="usuarios" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }} >
+                          {this.state && this.state.users &&
+
+                            this.state.users.map((item) => {
+                              return <Option value={item.id}>{item.email}</Option>
+                            })
+                          }
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item wrapperCol={{ span: 24 }}>
+                        <PrimaryButton htmlType={"submit"} message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
+              </Card>
+
+
+            </Row>
+
+          </Col>
+        </Row>
+
+
+
+
+      </LayoutWrapper >
+    );
   }
-  
-  return (
-    
-    <LayoutWrapper>
-
-
-      <Row style={rowStyle} gutter={18} justify="start" block>
-        <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-          <Row>
-            <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-              <PageHeader>
-
-                <h1>
-                  <IntlMessages id="tickets.title" />
-
-                </h1>
-              </PageHeader>
-            </Col>
-          </Row>
-          <Row>
-            <Card className="cardContent" style={{ marginTop: '50px' }}>
-              <Form>
-
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Titulo">
-                      <Input value={this.state.title} placeholder="titulo" onChange={(e) => this.handleChange(e.target.value, 'title')} required />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Cuerpo">
-                      <Input value={this.state.body} placeholder="cuerpo" onChange={(e) => this.handleChange(e.target.value, 'body')} required />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Imagen">
-                      <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'image')} />
-
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Media">
-                      <input type="file" onChange={(e) => this.handleChange(e.target.files[0], 'media')} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Status">
-                      <Select value={this.state.statu_id} placeholder="status" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'statu_id') }} >
-                        {this.state && this.state.status &&
-
-                          this.state.status.map((item) => {
-                            return <Option value={item.id}>{item.name}</Option>
-                          })
-                        }
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Usuarios">
-                      <Select value={this.state.user_id} placeholder="usuarios" style={{ width: '100%' }} onChange={(e) => { this.handleChange(e, 'user_id') }} >
-                        {this.state && this.state.users &&
-
-                          this.state.users.map((item) => {
-                            return <Option value={item.id}>{item.email}</Option>
-                          })
-                        }
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col span={24}>
-                    <Form.Item wrapperCol={{ span: 24 }}>
-                      <PrimaryButton htmlType={"submit"} message_id={"general.add"} style={{ width: '200px' }} onClick={() => this.handlePost()} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
-
-
-          </Row>
-
-        </Col>
-      </Row>
-
-
-
-
-    </LayoutWrapper >
-  );
-}
 }

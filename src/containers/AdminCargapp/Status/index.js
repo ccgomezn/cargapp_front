@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { get } from "../../../helpers/httpRequest"
+import { getStatus, getUsers, getModels } from '../../../helpers/api/adminCalls.js';
 
 export default class Status extends Component {
 
@@ -31,23 +32,13 @@ export default class Status extends Component {
     return dataTransformed
   }
 
-  getStatus() {
-    return get(httpAddr + `/status`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models`, true);
-  }
+  
 
  
   componentWillMount() {
-    axios.all([this.getStatus(), 
-               this.getUsers(),
-               this.getCargappModels()])
+    axios.all([getStatus(), 
+               getUsers(),
+               getModels()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');

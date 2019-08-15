@@ -8,8 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
-import { get } from "../../../helpers/httpRequest"
+import { getPermissions, getUsers, getModels, getRoles } from '../../../helpers/api/adminCalls.js';
 
 export default class Permission extends Component {
 
@@ -31,26 +30,12 @@ export default class Permission extends Component {
     return dataTransformed
   }
 
-  getPermissions() {
-    return get(httpAddr + `/permissions`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models`, true);
-  }
-
-  getRoles() {
-    return get(httpAddr + `/roles`, true);
-  }
+  
   componentWillMount() {
-    axios.all([this.getPermissions(), 
-               this.getUsers(),
-               this.getCargappModels(),
-               this.getRoles()])
+    axios.all([getPermissions(), 
+               getUsers(),
+               getModels(),
+               getRoles()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');

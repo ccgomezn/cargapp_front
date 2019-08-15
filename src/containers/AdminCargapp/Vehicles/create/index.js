@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, Select } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getUsers, getDocumentTypes, getVehicleTypes, postVehicle } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class VehicleCreate extends Component {
@@ -33,20 +33,9 @@ export default class VehicleCreate extends Component {
   }
 
 
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types/active`);
-  }
-
-  getVehicleTypes() {
-    return axios.get(httpAddr + `/vehicle_types/active`);
-  }
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getDocumentTypes(), this.getVehicleTypes()])
+    axios.all([getUsers(), getDocumentTypes(), getVehicleTypes()])
       .then((responses) => {
 
         this.setState({
@@ -60,7 +49,7 @@ export default class VehicleCreate extends Component {
   }
 
   handlePost() {
-    axios.post(httpAddr + '/vehicles',
+    postVehicle(
       {
         vehicle: {
           brand: this.state.brand,
@@ -165,7 +154,7 @@ export default class VehicleCreate extends Component {
                         <Input value={this.state.owner_vehicle} placeholder="nombre del dueño del vehiculo" onChange={(e) => this.handleChange(e.target.value, 'owner_vehicle')} />
                       </Form.Item>
                     </Col>
-                    
+
                   </Row>
 
                   <Row gutter={10}>
@@ -202,7 +191,7 @@ export default class VehicleCreate extends Component {
                         </Select>
                       </Form.Item>
                     </Col>
-                    
+
                   </Row>
 
                   <Row>

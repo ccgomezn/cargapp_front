@@ -10,8 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { putModel, getModel } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CargappModelEdit extends Component {
@@ -29,7 +28,7 @@ export default class CargappModelEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    get(httpAddr + `/cargapp_models/`+this.props.match.params.id, true)
+    getModel(this.props.match.params.id)
       .then((response) => {
 
         
@@ -53,7 +52,7 @@ export default class CargappModelEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/cargapp_models/' + this.props.match.params.id,
+    putModel(this.props.match.params.id,
       {
         cargapp_model: {
           name: this.state.name,

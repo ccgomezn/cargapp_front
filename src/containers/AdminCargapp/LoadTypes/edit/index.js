@@ -7,11 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input, Avatar } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { getLoadType, putLoadType } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class LoadTypeEdit extends Component {
@@ -29,7 +27,7 @@ export default class LoadTypeEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    get(httpAddr + `/load_types/`+this.props.match.params.id, true)
+    getLoadType(this.props.match.params.id)
       .then((response) => {
 
         
@@ -53,7 +51,7 @@ export default class LoadTypeEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/load_types/' + this.props.match.params.id,
+    putLoadType(this.props.match.params.id,
       {
         load_type: {
           name: this.state.name,
@@ -63,7 +61,7 @@ export default class LoadTypeEdit extends Component {
           active: this.state.active,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

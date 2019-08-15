@@ -11,6 +11,7 @@ import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
 import { get } from "../../../helpers/httpRequest"
+import { getVehicles, getUsers } from '../../../helpers/api/adminCalls.js';
 
 export default class Vehicle extends Component {
 
@@ -34,17 +35,9 @@ export default class Vehicle extends Component {
     return dataTransformed
   }
 
-  getVehicles() {
-    return get(httpAddr + `/vehicles`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-  
 
   componentWillMount() {
-    axios.all([this.getVehicles(), this.getUsers()])
+    axios.all([getVehicles(), getUsers()])
       .then((responses) => {
         let data_users = this.transformDataToMap(responses[1].data, 'email');
         responses[0].data.map((item) => {

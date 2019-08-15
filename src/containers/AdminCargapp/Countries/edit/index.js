@@ -10,8 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { getCountry, putCountry } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CountryEdit extends Component {
@@ -24,15 +23,12 @@ export default class CountryEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/countries/` + this.props.match.params.id, true)
-  }
   
 
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData()])
+    axios.all([getCountry(this.props.match.params.id)])
       .then((responses) => {
 
         if (responses[0].data.active){
@@ -68,7 +64,7 @@ export default class CountryEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/countries/' + this.props.match.params.id,
+    putCountry(this.props.match.params.id,
       {
         country: {
           name: this.state.name,
@@ -85,7 +81,7 @@ export default class CountryEdit extends Component {
           date_utc: this.state.date_utc,
           active: this.state.active,
         }
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }

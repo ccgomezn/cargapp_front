@@ -10,6 +10,7 @@ import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
 import { get, post } from "../../../../helpers/httpRequest"
+import { getUsers, postPrize } from '../../../../helpers/api/adminCalls.js';
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -24,15 +25,10 @@ export default class PrizeCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-
-
+  
 
   componentWillMount() {
-    axios.all([this.getUsers()])
+    axios.all([getUsers()])
       .then((responses) => {
 
         this.setState({
@@ -64,8 +60,8 @@ export default class PrizeCreate extends Component {
     formData.append('prize[user_id]', this.state.user_id)
     formData.append('prize[expire_date]', this.state.expire_date)
     formData.append('prize[active]', true)
-    post(httpAddr + '/prizes',
-      formData, true).then(() => {
+    postPrize(
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }

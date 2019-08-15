@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get, post } from "../../../../helpers/httpRequest"
+import { postCity, getStates } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 
@@ -34,12 +33,10 @@ export default class StateCreate extends Component {
     )
   }
 
-  getStates() {
-    return get(httpAddr + `/states`);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getStates()])
+    axios.all([getStates()])
       .then((responses) => {
 
         
@@ -54,7 +51,7 @@ export default class StateCreate extends Component {
 
 
   handlePost() {
-    post(httpAddr + '/cities',
+    postCity(
       {
         city: {
           name: this.state.name,

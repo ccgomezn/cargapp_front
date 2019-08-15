@@ -6,12 +6,10 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card , Select} from 'antd';
+import { Card, Select } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import {get, post, put} from "../../../../helpers/httpRequest"
-
+import { getUsers, postIntegration } from '../../../../helpers/api/adminCalls'
 const { Option } = Select
 
 export default class CargappIntegrationCreate extends Component {
@@ -23,12 +21,10 @@ export default class CargappIntegrationCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getUsers()])
+    axios.all([getUsers()])
       .then((responses) => {
 
         this.setState({
@@ -49,7 +45,7 @@ export default class CargappIntegrationCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/cargapp_integrations',
+    postIntegration(
       {
         cargapp_integration: {
           name: this.state.name,
@@ -110,7 +106,7 @@ export default class CargappIntegrationCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Nombre">
-                        <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} required/>
+                        <Input value={this.state.name} placeholder="nombre" onChange={(e) => this.handleChange(e.target.value, 'name')} required />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -122,7 +118,7 @@ export default class CargappIntegrationCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Descripción">
-                        <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} required/>
+                        <Input value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e.target.value, 'description')} required />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -157,7 +153,7 @@ export default class CargappIntegrationCreate extends Component {
                   </Row>
 
                   <Row gutter={10}>
-                    
+
                     <Col span={12}>
                       <Form.Item label="Nombre de usuario">
                         <Input value={this.state.username} placeholder="nombre de usuario" onChange={(e) => this.handleChange(e.target.value, 'username')} />
@@ -173,7 +169,7 @@ export default class CargappIntegrationCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Contraseña">
-                        <Input type={'password'} secureTextEntry={true}   value={this.state.password} placeholder="contraseña" onChange={(e) => this.handleChange(e.target.value, 'password')} />
+                        <Input type={'password'} secureTextEntry={true} value={this.state.password} placeholder="contraseña" onChange={(e) => this.handleChange(e.target.value, 'password')} />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -226,7 +222,7 @@ export default class CargappIntegrationCreate extends Component {
                         </Select>
                       </Form.Item>
                     </Col>
-                    
+
                   </Row>
 
                   <Row>

@@ -7,10 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { post } from "../../../../helpers/httpRequest"
+import { post, postDocument } from "../../../../helpers/api/adminCalls"
 
 
 export default class DocumentTypeCreate extends Component {
@@ -35,7 +33,7 @@ export default class DocumentTypeCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/document_types',
+    postDocument(
       {
         document_type: {
           name: this.state.name,
@@ -44,7 +42,7 @@ export default class DocumentTypeCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

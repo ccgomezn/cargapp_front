@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { get } from "../../../helpers/httpRequest"
+import { getUserPrizes, getUsers, getPrizes } from '../../../helpers/api/adminCalls.js';
 
 export default class UserPrize extends Component {
 
@@ -31,19 +32,9 @@ export default class UserPrize extends Component {
     return dataTransformed
   }
 
-  getUserPrizes() {
-    return get(httpAddr + `/user_prizes`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getPrizes() {
-    return get(httpAddr + `/prizes`, true);
-  }
+ 
   componentWillMount() {
-    axios.all([this.getUserPrizes(), this.getUsers(), this.getPrizes()])
+    axios.all([getUserPrizes(), getUsers(), getPrizes()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataPrize = this.transformDataToMap(responses[2].data, 'name');

@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get, post } from "../../../../helpers/httpRequest"
+import { postUserRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -25,14 +24,7 @@ export default class RoleCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getRoles() {
-    return get(httpAddr + `/roles/active`, true);
-  }
-
+ 
   handleChange(value, type) {
 
     this.setState(
@@ -42,7 +34,7 @@ export default class RoleCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/user_roles',
+    postUserRole(
       {
         user_role: {
           user_id: this.state.user_id,
@@ -51,7 +43,7 @@ export default class RoleCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -63,7 +55,7 @@ export default class RoleCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getRoles()])
+    axios.all([getUsers(), getRoles()])
       .then((responses) => {
 
         this.setState({
@@ -107,7 +99,7 @@ export default class RoleCreate extends Component {
                 <Row gutter={10}>
                   <Col span={24}>
                     <Form.Item label="Usuario">
-                      <Select value={this.state.user_id} placeholder="usuario"  style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
+                      <Select value={this.state.user_id} placeholder="usuario" style={{ width: 240 }} onChange={(e) => { this.handleChange(e, 'user_id') }}>
                         {this.state && this.state.users &&
 
                           this.state.users.map((item) => {
@@ -117,7 +109,7 @@ export default class RoleCreate extends Component {
                       </Select>
                     </Form.Item>
                   </Col>
-                  
+
                 </Row>
                 <Row>
                   <Col span={24}>

@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import { get, put } from "../../../../helpers/httpRequest"
+import { putUserRole, getRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
@@ -24,19 +25,10 @@ export default class RoleEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/user_roles/` + this.props.match.params.id, true)
-  }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
 
-  getRoles() {
-    return get(httpAddr + `/roles/active`, true);
-  }
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getRoles()])
+    axios.all([getRole(this.props.match.params.id), getUsers(), getRoles()])
       .then((responses) => {
 
 
@@ -62,7 +54,7 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/user_roles/' + this.props.match.params.id,
+    putUserRole(this.props.match.params.id,
       {
         user_role: {
           user_id: this.state.user_id,
@@ -71,7 +63,7 @@ export default class RoleEdit extends Component {
           active: this.state.active,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

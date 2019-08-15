@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import { get, put } from "../../../../helpers/httpRequest"
+import { putState, getState, getCountries } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class StateEdit extends Component {
@@ -24,20 +25,13 @@ export default class StateEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/states/` + this.props.match.params.id, true)
-  }
-  
-  getCountries() {
-    return get(httpAddr + `/countries`, true);
-  }
-
+ 
   
 
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getCountries()])
+    axios.all([getState(this.props.match.params.id), getCountries()])
       .then((responses) => {
 
         if (responses[0].data.active){
@@ -67,7 +61,7 @@ export default class StateEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/states/' + this.props.match.params.id,
+    putState(this.props.match.params.id,
       {
         state: {
           name: this.state.name,
@@ -76,7 +70,7 @@ export default class StateEdit extends Component {
           country_id: this.state.country_id,
           active: this.state.active,
         }
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }

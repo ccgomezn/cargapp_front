@@ -8,9 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
-import { get } from "../../../helpers/httpRequest"
+import { getTickets, getUsers, getStatus } from '../../../helpers/api/adminCalls.js';
 
 export default class Ticket extends Component {
 
@@ -34,21 +33,9 @@ export default class Ticket extends Component {
     return dataTransformed
   }
 
-  getTickets() {
-    return get(httpAddr + `/tickets`, true);
-  }
-
-  getUsers(){
-    return get(httpAddr + `/users`, true);
-
-  }
-
-  getStatus(){
-    return get(httpAddr + `/status`, true);
-  }
 
   componentWillMount() {
-    axios.all([this.getTickets(), this.getUsers(), this.getStatus()])
+    axios.all([getTickets(), getUsers(), getStatus()])
       .then((responses) => {
         let data_users = this.transformDataToMap(responses[1].data, 'email')
         let data_status = this.transformDataToMap(responses[2].data, 'name')

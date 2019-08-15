@@ -7,11 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { getDocumentType, putDocumentType } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class DocumentTypeEdit extends Component {
@@ -29,7 +27,7 @@ export default class DocumentTypeEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    get(httpAddr + `/document_types/`+this.props.match.params.id, true)
+    getDocumentType(this.props.match.params.id)
       .then((response) => {
 
         
@@ -52,7 +50,7 @@ export default class DocumentTypeEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/document_types/' + this.props.match.params.id,
+    putDocumentType(this.props.match.params.id,
       {
         document_type: {
           name: this.state.name,
@@ -61,7 +59,7 @@ export default class DocumentTypeEdit extends Component {
           active: this.state.active,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

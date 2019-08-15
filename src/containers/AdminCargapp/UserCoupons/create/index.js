@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get, post } from "../../../../helpers/httpRequest"
+import { postCoupon, getUsers, getCoupons, getModels } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -24,17 +23,7 @@ export default class UserCouponCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCoupons() {
-    return get(httpAddr + `/coupons/active`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
+  
 
   handleChange(value, type) {
 
@@ -45,7 +34,7 @@ export default class UserCouponCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/user_coupons',
+    postCoupon(
       {
         user_coupon: {
           user_id: this.state.user_id,
@@ -56,7 +45,7 @@ export default class UserCouponCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -68,7 +57,7 @@ export default class UserCouponCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCoupons(), this.getCargappModels()])
+    axios.all([getUsers(), getCoupons(), getModels()])
       .then((responses) => {
 
         this.setState({
@@ -152,14 +141,14 @@ export default class UserCouponCreate extends Component {
                   </Col>
                 </Row>
 
-                  <Row gutter={10}>
+                <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Id de item">
-                        <Input type="number" value={this.state.applied_item_id} placeholder="id de item" onChange={(e) => this.handleChange(e.target.value, 'applied_item_id')} />
+                      <Input type="number" value={this.state.applied_item_id} placeholder="id de item" onChange={(e) => this.handleChange(e.target.value, 'applied_item_id')} />
 
                     </Form.Item>
                   </Col>
-                  
+
                 </Row>
                 <Row>
                   <Col span={24}>

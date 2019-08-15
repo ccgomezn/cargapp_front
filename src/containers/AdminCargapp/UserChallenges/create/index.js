@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { postUserChallenge, getUsers, getChallenges } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -24,13 +25,6 @@ export default class UserChallengeCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getChallenges() {
-    return get(httpAddr + `/challenges/active`, true);
-  }
 
   handleChange(value, type) {
 
@@ -41,7 +35,7 @@ export default class UserChallengeCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/user_challenges',
+    postUserChallenge(
       {
         user_challenge: {
           user_id: this.state.user_id,
@@ -51,7 +45,7 @@ export default class UserChallengeCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -63,7 +57,7 @@ export default class UserChallengeCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getChallenges()])
+    axios.all([getUsers(), getChallenges()])
       .then((responses) => {
 
         this.setState({

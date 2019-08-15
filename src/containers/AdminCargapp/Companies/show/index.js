@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get } from "../../../../helpers/httpRequest"
+import { getCompany, getUsers, getLoadTypes, get } from "../../../../helpers/api/adminCalls"
 
 export default class CompanyShow extends Component {
 
@@ -30,19 +29,9 @@ export default class CompanyShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return get(httpAddr + `/companies/` + this.props.match.params.id, true)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getLoadTypes() {
-    return get(httpAddr + `/load_types`, true);
-  }
+  
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getLoadTypes()])
+    axios.all([getCompany(this.props.match.params.id), getUsers(), getLoadTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {

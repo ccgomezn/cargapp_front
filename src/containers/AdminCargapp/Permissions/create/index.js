@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { getUsers, getModels, getRoles, postPermission } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -25,18 +26,7 @@ export default class PermissionCreate extends Component {
   }
 
 
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
-
-  getRoles() {
-    return get(httpAddr + `/roles/active`, true);
-  }
-
+  
   handleChange(value, type) {
 
     this.setState(
@@ -46,7 +36,7 @@ export default class PermissionCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/permissions',
+    postPermission(
       {
         permission: {
           role_id: this.state.role_id,
@@ -58,7 +48,7 @@ export default class PermissionCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -66,7 +56,7 @@ export default class PermissionCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModels(), this.getRoles()])
+    axios.all([getUsers(), getModels(), getRoles()])
       .then((responses) => {
 
         this.setState({

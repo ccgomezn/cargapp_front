@@ -9,9 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, post } from "../../../../helpers/httpRequest"
+import { getUsers, getModels, postCoupon } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 
@@ -26,20 +25,9 @@ export default class CouponCreate extends Component {
     }
   }
 
-  getDocumentTypes() {
-    return get(httpAddr + `/document_types`, true);
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getChallenges() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getChallenges()])
+    axios.all([getUsers(), getModels()])
       .then((responses) => {
 
         this.setState({
@@ -62,7 +50,7 @@ export default class CouponCreate extends Component {
   }
   handlePost() {
 
-    post(httpAddr + '/coupons',
+    postCoupon(
       {
         coupon: {
           name: this.state.name,
@@ -75,7 +63,7 @@ export default class CouponCreate extends Component {
           cargapp_model_id: this.state.cargapp_model_id,
           active: true,
         }
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       })
   }
@@ -143,7 +131,7 @@ export default class CouponCreate extends Component {
                     <Col span={12}>
                       <Form.Item label="Es porcentaje?">
 
-                      <Checkbox value={this.state.is_porcentage} onChange={(e) => this.handleChange(e.target.checked, 'is_porcentage')}></Checkbox>
+                        <Checkbox value={this.state.is_porcentage} onChange={(e) => this.handleChange(e.target.checked, 'is_porcentage')}></Checkbox>
                       </Form.Item>
 
                     </Col>

@@ -7,9 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
-import { get, post } from "../../../../helpers/httpRequest"
+import { getUsers, getStatus, getDocumentTypes, postDocument } from "../../../../helpers/api/adminCalls"
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -24,22 +23,10 @@ export default class DocumentCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getStatus() {
-    return get(httpAddr + `/status`, true);
-  }
-
-  getDocumentTypes() {
-    return get(httpAddr + `/document_types`, true);
-  }
-
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getStatus(), this.getDocumentTypes()])
+    axios.all([getUsers(), getStatus(), getDocumentTypes()])
       .then((responses) => {
 
         this.setState({
@@ -71,8 +58,8 @@ export default class DocumentCreate extends Component {
     formData.append('document[expire_date]', this.state.expire_date)
     formData.append('document[approved]', this.state.approved)
     formData.append('document[active]', true)
-    post(httpAddr + '/documents',
-      formData, true).then(() => {
+    postDocument(
+      formData).then(() => {
         this.setState({ redirect: true })
       })
   }

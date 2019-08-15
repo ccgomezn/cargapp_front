@@ -7,11 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { getRole, putRole } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
@@ -29,7 +27,7 @@ export default class RoleEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    get(httpAddr + `/roles/`+this.props.match.params.id, true)
+    getRole(this.props.match.params.id)
       .then((response) => {
 
         
@@ -52,7 +50,7 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/roles/' + this.props.match.params.id,
+    putRole(this.props.match.params.id,
       {
         role: {
           name: this.state.name,
@@ -61,7 +59,7 @@ export default class RoleEdit extends Component {
           active: this.state.active,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

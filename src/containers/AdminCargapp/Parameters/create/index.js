@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get, post } from "../../../../helpers/httpRequest"
+import { getUsers, getModels, postParameter } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -23,14 +24,7 @@ export default class ParameterCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-  getCargappModesl() {
-    return get(httpAddr + `/cargapp_models/active`, true);
-  }
-
+  
   handleChange(value, type) {
 
     this.setState(
@@ -40,7 +34,7 @@ export default class ParameterCreate extends Component {
     )
   }
   handlePost() {
-    post(httpAddr + '/parameters',
+    postParameter(
       {
         parameter: {
           name: this.state.name,
@@ -52,7 +46,7 @@ export default class ParameterCreate extends Component {
           active: true,
         }
 
-      }, true).then(() => {
+      }).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -64,7 +58,7 @@ export default class ParameterCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModesl()])
+    axios.all([getUsers(), getModels()])
       .then((responses) => {
 
         this.setState({

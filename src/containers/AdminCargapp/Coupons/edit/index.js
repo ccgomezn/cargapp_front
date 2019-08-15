@@ -10,8 +10,7 @@ import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
+import { putCoupon, getCoupon, getUsers, getModels } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CouponEdit extends Component {
@@ -24,24 +23,10 @@ export default class CouponEdit extends Component {
     }
   }
 
-  getMainData() {
-    return get(httpAddr + `/coupons/` + this.props.match.params.id, true)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true)
-  }
-
-  getCargappModels() {
-    return get(httpAddr + `/cargapp_models`, true)
-  }
-
-
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModels()])
+    axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
-        console.log(responses[0].data.point)
         this.setState({
           users: responses[1].data,
           cargapp_models: responses[2].data,
@@ -68,7 +53,7 @@ export default class CouponEdit extends Component {
     )
   }
   handlePut() {
-    put(httpAddr + '/coupons/' + this.props.match.params.id,
+    putCoupon(this.props.match.params.id,
       {
         coupon: {
           name: this.state.name,

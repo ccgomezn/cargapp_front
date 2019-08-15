@@ -9,8 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get } from "../../../../helpers/httpRequest"
+import { getProfile, getUsers, getDocumentTypes } from '../../../../helpers/api/adminCalls.js';
 
 export default class ProfileShow extends Component {
 
@@ -30,23 +29,9 @@ export default class ProfileShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return get(httpAddr + `/profiles/` + this.props.match.params.id, true)
-  }
-
-  getUsers() {
-    return get(httpAddr + `/users`, true);
-  }
-
-
-
-  getDocumentTypes() {
-    return get(httpAddr + `/document_types`, true);
-  }
-
-
+ 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getDocumentTypes()])
+    axios.all([getProfile(this.props.match.params.id), getUsers(), getDocumentTypes()])
       .then((responses) => {
         let data_document_types = this.transformDataToMap(responses[2].data, 'name')
         let data_users = this.transformDataToMap(responses[1].data, 'email')
