@@ -8,12 +8,11 @@ import {
   TextColorCell,
   MultipleButtonCell
 } from '../../../components/tables/helperCells';
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { deleteCity } from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
   return function () {
-    (axios.delete(httpAddr + `/cities/` + id)
+    (deleteCity(id)
       .then((response) => {
         window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cities/';
 

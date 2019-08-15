@@ -1,6 +1,8 @@
 import React from 'react';
 import clone from 'clone';
 import IntlMessages from '../../../components/utility/intlMessages';
+
+
 import {
   DateCell,
   ImageCell,
@@ -8,13 +10,12 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { deleteIntegration } from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
   return function () {
-    (axios.delete(httpAddr + `/cargapp_integrations/` + id)
-      .then((response) => {
+    (deleteIntegration(id)
+      .then(() => {
         window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/cargapp_integrations/';
 
       }).catch((error) => {

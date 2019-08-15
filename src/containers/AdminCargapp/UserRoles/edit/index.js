@@ -10,15 +10,13 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
 import { putUserRole, getRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false

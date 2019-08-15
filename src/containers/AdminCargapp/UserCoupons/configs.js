@@ -8,12 +8,11 @@ import {
   TextColorCell,
   MultipleButtonCell
 } from '../../../components/tables/helperCells';
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { deleteUserCoupon } from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
   return function(){
-    (axios.delete(httpAddr + `/user_coupons/` + id)
+    (deleteUserCoupon(id)
     .then((response) => {
       window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/user_coupons/';
 

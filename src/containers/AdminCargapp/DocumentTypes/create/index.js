@@ -8,7 +8,7 @@ import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import { Redirect } from 'react-router-dom'
-import { post, postDocument } from "../../../../helpers/api/adminCalls"
+import { postDocument } from "../../../../helpers/api/adminCalls"
 
 
 export default class DocumentTypeCreate extends Component {

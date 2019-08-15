@@ -8,18 +8,11 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
-import { get } from "../../../helpers/httpRequest"
 import { getUserPrizes, getUsers, getPrizes } from '../../../helpers/api/adminCalls.js';
 
 export default class UserPrize extends Component {
 
 
-  constructor(props) {
-    super();
-
-
-  }
 
 
   transformDataToMap(data, key) {

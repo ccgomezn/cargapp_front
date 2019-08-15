@@ -7,7 +7,6 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { postCountry } from "../../../../helpers/api/adminCalls"
 
@@ -15,7 +14,7 @@ import { postCountry } from "../../../../helpers/api/adminCalls"
 export default class CountryCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false

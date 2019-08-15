@@ -1,4 +1,4 @@
-import { get, post, put } from '../httpRequest';
+import { get, post, put, del } from '../httpRequest';
 import { httpAddr } from '../http_helper';
 
 export function getIntegrations() {
@@ -401,4 +401,82 @@ export function putVehicleType(id, data) {
 
 export function postVehicleType(data) {
   return post(httpAddr + `/vehicle_types`, data, true);
+}
+
+
+export function deleteIntegration(id) {
+  return del(httpAddr + `/cargapp_integrations/` + id, true)
+}
+
+export function deleteModel(id) {
+  return del(httpAddr + `/cargapp_models/` + id, true)
+}
+
+export function deleteChallenge(id) {
+  return del(httpAddr + `/challenges/` + id, true)
+}
+
+export function deleteCity(id) {
+  return del(httpAddr + `/cities/` + id, true)
+}
+
+export function deleteCompany(id) {
+  return del(httpAddr + `/companies/` + id, true)
+}
+export function deleteCountry(id) {
+  return del(httpAddr + `/countries/` + id, true)
+}
+export function deleteCoupon(id) {
+  return del(httpAddr + `/coupons/` + id, true)
+}
+export function deleteDocument(id) {
+  return del(httpAddr + `/documents/` + id, true)
+}
+export function deleteDocumentType(id) {
+  return del(httpAddr + `/document_types/` + id, true)
+}
+export function deleteLoadType(id) {
+  return del(httpAddr + `/load_types/` + id, true)
+}
+export function deleteParameter(id) {
+  return del(httpAddr + `/parameters/` + id, true)
+}
+export function deletePermission(id) {
+  return del(httpAddr + `/permissions/` + id, true)
+}
+export function deletePrize(id) {
+  return del(httpAddr + `/prizes/` + id, true)
+}
+export function deleteProfile(id) {
+  return del(httpAddr + `/profiles/` + id, true)
+}
+export function deleteRole(id) {
+  return del(httpAddr + `/roles/` + id, true)
+}
+export function deleteState(id) {
+  return del(httpAddr + `/states/` + id, true)
+}
+export function deleteStatu(id) {
+  return del(httpAddr + `/status/` + id, true)
+}
+export function deleteTicket(id) {
+  return del(httpAddr + `/tickets/` + id, true)
+}
+export function deleteUserChallenge(id) {
+  return del(httpAddr + `/user_challenges/` + id, true)
+}
+export function deleteUserPrize(id) {
+  return del(httpAddr + `/user_prizes/` + id, true)
+}
+export function deleteUserRole(id) {
+  return del(httpAddr + `/user_roles/` + id, true)
+}
+export function deleteUserCoupon(id) {
+  return del(httpAddr + `/user_coupons/` + id, true)
+}
+export function deleteVehicle(id) {
+  return del(httpAddr + `/vehicles/` + id, true)
+}
+export function deleteVehicleType(id) {
+  return del(httpAddr + `/vehicle_types/` + id, true)
 }

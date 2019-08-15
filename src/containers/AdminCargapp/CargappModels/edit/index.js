@@ -7,7 +7,6 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import { putModel, getModel } from "../../../../helpers/api/adminCalls"
@@ -16,7 +15,7 @@ const { Option } = Select;
 export default class CargappModelEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       code: '',

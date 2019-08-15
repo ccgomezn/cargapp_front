@@ -9,8 +9,6 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
-import { get, post } from "../../../../helpers/httpRequest"
 import { getCountries, postState } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
@@ -18,7 +16,7 @@ const { Option } = Select;
 export default class StateCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false

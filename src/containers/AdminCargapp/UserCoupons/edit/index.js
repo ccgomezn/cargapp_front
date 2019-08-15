@@ -10,15 +10,13 @@ import { Card, message, Input } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
-import { putUserCoupon, getCoupon, getUsers, getUserCoupons, getCoupons, getModels } from '../../../../helpers/api/adminCalls.js';
+import { putUserCoupon, getUsers, getUserCoupons, getCoupons, getModels } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class UserCouponEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false

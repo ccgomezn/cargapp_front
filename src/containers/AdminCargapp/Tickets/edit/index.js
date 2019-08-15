@@ -10,8 +10,6 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
-import { get, put } from "../../../../helpers/httpRequest"
 import { putTicket, getTicket, getUsers, getStatus } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
@@ -20,7 +18,7 @@ const { Option } = Select;
 export default class TicketEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false

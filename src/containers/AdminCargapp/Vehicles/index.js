@@ -8,15 +8,13 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
-import { get } from "../../../helpers/httpRequest"
 import { getVehicles, getUsers } from '../../../helpers/api/adminCalls.js';
 
 export default class Vehicle extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       reload: false

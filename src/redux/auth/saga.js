@@ -31,6 +31,7 @@ export function* loginRequest() {
       let roles_array = [];
       roles.map((role) =>{
         roles_array.push(role.role_id)
+        return role
       })
       yield put({
         type: actions.LOGIN_SUCCESS,
@@ -59,6 +60,7 @@ export function* loginError() {
 
 export function* logout() {
   yield takeEvery(actions.LOGOUT, function* () {
+    yield console.log('');
     clearToken();
   });
 }
