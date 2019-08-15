@@ -11,6 +11,8 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, post } from "../../../../helpers/httpRequest"
+
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
@@ -26,11 +28,11 @@ export default class UserPrizeCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getPrizes() {
-    return axios.get(httpAddr + `/prizes/active`);
+    return get(httpAddr + `/prizes/active`, true);
   }
 
   handleChange(value, type) {
@@ -42,7 +44,7 @@ export default class UserPrizeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_prizes',
+    post(httpAddr + '/user_prizes',
       {
         user_prize: {
           user_id: this.state.user_id,
@@ -52,7 +54,7 @@ export default class UserPrizeCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

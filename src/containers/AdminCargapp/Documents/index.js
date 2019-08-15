@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class Document extends Component {
 
@@ -34,7 +35,7 @@ export default class Document extends Component {
   }
 
   getDocuments() {
-    return axios.get(httpAddr + `/documents`);
+    return get(httpAddr + `/documents`, true);
   }
 
   

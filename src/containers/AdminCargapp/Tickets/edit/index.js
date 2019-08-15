@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -26,15 +27,15 @@ export default class TicketEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/tickets/` + this.props.match.params.id)
+    return get(httpAddr + `/tickets/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
 
@@ -84,10 +85,10 @@ export default class TicketEdit extends Component {
     if(this.state.media != null){
       formData.append('ticket[media]', this.state.media, this.state.media.name)
     }
-    axios.put(httpAddr + '/tickets/' + this.props.match.params.id,
+    put(httpAddr + '/tickets/' + this.props.match.params.id,
       formData).then(() => {
         this.setState({ redirect: true })
-      })
+      }, true)
   }
 
   render() {

@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -26,15 +27,15 @@ export default class CouponCreate extends Component {
   }
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getChallenges() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
 
   componentWillMount() {
@@ -61,7 +62,7 @@ export default class CouponCreate extends Component {
   }
   handlePost() {
 
-    axios.post(httpAddr + '/coupons',
+    post(httpAddr + '/coupons',
       {
         coupon: {
           name: this.state.name,
@@ -74,7 +75,7 @@ export default class CouponCreate extends Component {
           cargapp_model_id: this.state.cargapp_model_id,
           active: true,
         }
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

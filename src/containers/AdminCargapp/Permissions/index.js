@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class Permission extends Component {
 
@@ -31,19 +32,19 @@ export default class Permission extends Component {
   }
 
   getPermissions() {
-    return axios.get(httpAddr + `/permissions`);
+    return get(httpAddr + `/permissions`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models`);
+    return get(httpAddr + `/cargapp_models`, true);
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles`);
+    return get(httpAddr + `/roles`, true);
   }
   componentWillMount() {
     axios.all([this.getPermissions(), 

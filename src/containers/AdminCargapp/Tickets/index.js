@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class Ticket extends Component {
 
@@ -34,16 +35,16 @@ export default class Ticket extends Component {
   }
 
   getTickets() {
-    return axios.get(httpAddr + `/tickets`);
+    return get(httpAddr + `/tickets`, true);
   }
 
   getUsers(){
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
 
   }
 
   getStatus(){
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
   componentWillMount() {

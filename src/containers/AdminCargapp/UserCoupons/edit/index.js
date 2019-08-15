@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class UserCouponEdit extends Component {
@@ -24,17 +25,17 @@ export default class UserCouponEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/user_coupons/` + this.props.match.params.id)
+    return get(httpAddr + `/user_coupons/` + this.props.match.params.id, true)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCoupons() {
-    return axios.get(httpAddr + `/coupons/active`);
+    return get(httpAddr + `/coupons/active`, true);
   }
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
   componentWillMount() {
     console.log(this.props);
@@ -67,7 +68,7 @@ export default class UserCouponEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_coupons/' + this.props.match.params.id,
+    put(httpAddr + '/user_coupons/' + this.props.match.params.id,
       {
         user_coupon: {
           user_id: this.state.user_id,
@@ -78,7 +79,7 @@ export default class UserCouponEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

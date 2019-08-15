@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class StatusEdit extends Component {
@@ -24,14 +25,14 @@ export default class StatusEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/status/` + this.props.match.params.id)
+    return get(httpAddr + `/status/` + this.props.match.params.id, true)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
 
 
@@ -64,7 +65,7 @@ export default class StatusEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/status/' + this.props.match.params.id,
+    put(httpAddr + '/status/' + this.props.match.params.id,
       {
         statu: {
           user_id: this.state.user_id,
@@ -74,7 +75,7 @@ export default class StatusEdit extends Component {
           description: this.state.description,
           active: this.state.active,
         }
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

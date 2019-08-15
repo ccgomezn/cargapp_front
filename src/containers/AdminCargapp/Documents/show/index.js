@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class DocumentShow extends Component {
 
@@ -30,21 +31,21 @@ export default class DocumentShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/documents/` + this.props.match.params.id)
+    return get(httpAddr + `/documents/` + this.props.match.params.id, true)
   }
 
   
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   componentWillMount() {

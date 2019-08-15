@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class Role extends Component {
 
@@ -20,7 +21,7 @@ export default class Role extends Component {
   }
   
   componentWillMount() {
-    axios.get(httpAddr + `/roles`)
+    get(httpAddr + `/roles`, true)
       .then((response) => {
         
         response.data.map((item) => {

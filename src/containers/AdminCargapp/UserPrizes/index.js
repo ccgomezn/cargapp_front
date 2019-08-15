@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class UserPrize extends Component {
 
@@ -31,15 +32,15 @@ export default class UserPrize extends Component {
   }
 
   getUserPrizes() {
-    return axios.get(httpAddr + `/user_prizes`);
+    return get(httpAddr + `/user_prizes`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getPrizes() {
-    return axios.get(httpAddr + `/prizes`);
+    return get(httpAddr + `/prizes`, true);
   }
   componentWillMount() {
     axios.all([this.getUserPrizes(), this.getUsers(), this.getPrizes()])

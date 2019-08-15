@@ -10,6 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { post } from "../../../../helpers/httpRequest"
 
 export default class CargappModelCreate extends Component {
 
@@ -34,7 +35,7 @@ export default class CargappModelCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/cargapp_models',
+    post(httpAddr + '/cargapp_models',
       {
         cargapp_model: {
           name: this.state.name,
@@ -44,7 +45,7 @@ export default class CargappModelCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));
@@ -98,12 +99,12 @@ export default class CargappModelCreate extends Component {
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Valor">
-                        <Input  required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e, 'value')} />
+                        <Input required value={this.state.value} placeholder="valor" onChange={(e) => this.handleChange(e, 'value')} />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <Form.Item label="Descripción">
-                        <Input  required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
+                        <Input required value={this.state.description} placeholder="descripción" onChange={(e) => this.handleChange(e, 'description')} />
                       </Form.Item>
                     </Col>
                   </Row>

@@ -11,6 +11,7 @@ import SecondaryButton from "../../../components/custom/button/secondary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class Country extends Component {
 
@@ -35,12 +36,12 @@ export default class Country extends Component {
   }
 
   getCountries() {
-    return axios.get(httpAddr + `/countries`);
+    return get(httpAddr + `/countries`, true);
   }
 
   
   migrateData() {
-    axios.get(httpAddr + `/countries/migration`).then(
+    get(httpAddr + `/countries/migration`, true).then(
       () => {
         window.location.reload();
       }

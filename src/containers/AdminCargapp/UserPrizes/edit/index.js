@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom'
 import { Select, DatePicker, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, put } from "../../../../helpers/httpRequest"
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -27,14 +28,14 @@ export default class UserPrizeEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/user_prizes/` + this.props.match.params.id)
+    return get(httpAddr + `/user_prizes/` + this.props.match.params.id, true)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getPrizes() {
-    return axios.get(httpAddr + `/prizes/active`);
+    return get(httpAddr + `/prizes/active`, true);
   }
   componentWillMount() {
     console.log(this.props);
@@ -66,7 +67,7 @@ export default class UserPrizeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_prizes/' + this.props.match.params.id,
+    put(httpAddr + '/user_prizes/' + this.props.match.params.id,
       {
         user_prize: {
           user_id: this.state.user_id,
@@ -76,7 +77,7 @@ export default class UserPrizeEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

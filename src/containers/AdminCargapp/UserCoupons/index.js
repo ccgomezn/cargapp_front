@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class UserCoupon extends Component {
 
@@ -31,19 +32,19 @@ export default class UserCoupon extends Component {
   }
 
   getUserCoupons() {
-    return axios.get(httpAddr + `/user_coupons`);
+    return get(httpAddr + `/user_coupons`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCoupons() {
-    return axios.get(httpAddr + `/coupons`);
+    return get(httpAddr + `/coupons`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models`);
+    return get(httpAddr + `/cargapp_models`, true);
   }
   componentWillMount() {
     axios.all([this.getUserCoupons(), this.getUsers(), this.getCoupons(), this.getCargappModels()])

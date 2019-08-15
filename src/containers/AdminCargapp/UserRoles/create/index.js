@@ -10,6 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -25,11 +26,11 @@ export default class RoleCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles/active`);
+    return get(httpAddr + `/roles/active`, true);
   }
 
   handleChange(value, type) {
@@ -41,7 +42,7 @@ export default class RoleCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_roles',
+    post(httpAddr + '/user_roles',
       {
         user_role: {
           user_id: this.state.user_id,
@@ -50,7 +51,7 @@ export default class RoleCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

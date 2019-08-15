@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -25,11 +26,11 @@ export default class StatusCreate extends Component {
 
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
 
   handleChange(value, type) {
@@ -41,7 +42,7 @@ export default class StatusCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/status',
+    post(httpAddr + '/status',
       {
         statu: {
           name: this.state.name,
@@ -52,7 +53,7 @@ export default class StatusCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

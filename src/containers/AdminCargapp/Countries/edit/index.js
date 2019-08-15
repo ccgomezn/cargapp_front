@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class CountryEdit extends Component {
@@ -24,7 +25,7 @@ export default class CountryEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/countries/` + this.props.match.params.id)
+    return get(httpAddr + `/countries/` + this.props.match.params.id, true)
   }
   
 
@@ -67,7 +68,7 @@ export default class CountryEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/countries/' + this.props.match.params.id,
+    put(httpAddr + '/countries/' + this.props.match.params.id,
       {
         country: {
           name: this.state.name,
@@ -84,7 +85,7 @@ export default class CountryEdit extends Component {
           date_utc: this.state.date_utc,
           active: this.state.active,
         }
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class VehicleTypeEdit extends Component {
@@ -27,8 +28,7 @@ export default class VehicleTypeEdit extends Component {
     }
   }
   componentWillMount() {
-    console.log(this.props);
-    axios.get(httpAddr + `/vehicle_types/`+this.props.match.params.id)
+    get(httpAddr + `/vehicle_types/`+this.props.match.params.id, true)
       .then((response) => {
 
         
@@ -52,7 +52,7 @@ export default class VehicleTypeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/vehicle_types/' + this.props.match.params.id,
+    put(httpAddr + '/vehicle_types/' + this.props.match.params.id,
       {
         vehicle_type: {
           name: this.state.name,
@@ -62,7 +62,7 @@ export default class VehicleTypeEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

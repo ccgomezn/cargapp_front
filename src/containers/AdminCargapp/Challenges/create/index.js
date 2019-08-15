@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, post } from "../../../../helpers/httpRequest"
 
 const {Option} = Select;
 
@@ -26,13 +27,13 @@ export default class ChallengeCreate extends Component {
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`);
   }
 
 
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`);
   }
 
 
@@ -70,7 +71,7 @@ export default class ChallengeCreate extends Component {
     formData.append('challenge[user_id]', this.state.user_id)
     formData.append('challenge[active]', true)
 
-    axios.post(httpAddr + '/challenges',formData).then(() => {
+    post(httpAddr + '/challenges',formData).then(() => {
         this.setState({ redirect: true })
       })
   }

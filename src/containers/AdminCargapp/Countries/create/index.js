@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { post } from "../../../../helpers/httpRequest"
 
 
 export default class CountryCreate extends Component {
@@ -32,7 +33,7 @@ export default class CountryCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/countries',
+    post(httpAddr + '/countries',
       {
         country: {
           name: this.state.name,
@@ -50,7 +51,7 @@ export default class CountryCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

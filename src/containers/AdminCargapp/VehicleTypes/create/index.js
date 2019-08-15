@@ -10,6 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 
 export default class VehicleTypeCreate extends Component {
@@ -34,7 +35,7 @@ export default class VehicleTypeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/vehicle_types',
+    post(httpAddr + '/vehicle_types',
       {
         vehicle_type: {
           name: this.state.name,
@@ -44,7 +45,7 @@ export default class VehicleTypeCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

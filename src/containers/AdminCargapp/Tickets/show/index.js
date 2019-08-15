@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class TicketShow extends Component {
 
@@ -30,15 +31,15 @@ export default class TicketShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/tickets/` + this.props.match.params.id)
+    return get(httpAddr + `/tickets/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
   componentWillMount() {

@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class Company extends Component {
 
@@ -34,7 +35,7 @@ export default class Company extends Component {
   }
 
   getCompanies() {
-    return axios.get(httpAddr + `/companies`);
+    return get(httpAddr + `/companies`, true);
   }
 
   

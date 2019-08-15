@@ -10,6 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { post } from "../../../../helpers/httpRequest"
 
 
 export default class DocumentTypeCreate extends Component {
@@ -34,7 +35,7 @@ export default class DocumentTypeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/document_types',
+    post(httpAddr + '/document_types',
       {
         document_type: {
           name: this.state.name,
@@ -43,7 +44,7 @@ export default class DocumentTypeCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

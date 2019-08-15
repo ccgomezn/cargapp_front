@@ -12,6 +12,8 @@ import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, put } from "../../../../helpers/httpRequest"
+
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
@@ -27,19 +29,19 @@ export default class DocumentEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/documents/` + this.props.match.params.id)
+    return get(httpAddr + `/documents/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
 
@@ -91,8 +93,8 @@ export default class DocumentEdit extends Component {
     formData.append('document[approved]', this.state.approved)
     formData.append('document[active]', this.state.active)
 
-    axios.put(httpAddr + '/documents/' + this.props.match.params.id,
-      formData).then(() => {
+    put(httpAddr + '/documents/' + this.props.match.params.id,
+      formData, true).then(() => {
         this.setState({ redirect: true })
       })
   }

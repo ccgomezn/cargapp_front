@@ -11,6 +11,9 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, post } from "../../../../helpers/httpRequest"
+
+
 const dateFormat = 'YYYY-MM-DD';
 
 const {Option} = Select;
@@ -27,13 +30,13 @@ export default class ProfileCreate extends Component {
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
 
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
 
@@ -73,7 +76,7 @@ export default class ProfileCreate extends Component {
     formData.append('profile[birth_date]', this.state.birth_date)
     formData.append('profile[user_id]', this.state.user_id)
 
-    axios.post(httpAddr + '/profiles',formData).then(() => {
+    post(httpAddr + '/profiles',formData, true).then(() => {
         this.setState({ redirect: true })
       })
   }

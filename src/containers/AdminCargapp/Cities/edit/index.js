@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class StateEdit extends Component {
@@ -24,11 +25,11 @@ export default class StateEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/cities/` + this.props.match.params.id)
+    return get(httpAddr + `/cities/` + this.props.match.params.id)
   }
   
   getStates() {
-    return axios.get(httpAddr + `/states`);
+    return get(httpAddr + `/states`);
   }
 
   
@@ -66,7 +67,7 @@ export default class StateEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cities/' + this.props.match.params.id,
+    put(httpAddr + '/cities/' + this.props.match.params.id,
       {
         city: {
           name: this.state.name,

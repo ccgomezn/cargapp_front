@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class UserChallengeEdit extends Component {
@@ -24,14 +25,14 @@ export default class UserChallengeEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/user_challenges/` + this.props.match.params.id)
+    return get(httpAddr + `/user_challenges/` + this.props.match.params.id, true)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getChallenges() {
-    return axios.get(httpAddr + `/challenges/active`);
+    return get(httpAddr + `/challenges/active`, true);
   }
   componentWillMount() {
     console.log(this.props);
@@ -63,7 +64,7 @@ export default class UserChallengeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_challenges/' + this.props.match.params.id,
+    put(httpAddr + '/user_challenges/' + this.props.match.params.id,
       {
         user_challenge: {
           user_id: this.state.user_id,
@@ -73,7 +74,7 @@ export default class UserChallengeEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

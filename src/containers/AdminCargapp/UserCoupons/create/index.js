@@ -10,6 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -24,15 +25,15 @@ export default class UserCouponCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCoupons() {
-    return axios.get(httpAddr + `/coupons/active`);
+    return get(httpAddr + `/coupons/active`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
 
   handleChange(value, type) {
@@ -44,7 +45,7 @@ export default class UserCouponCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_coupons',
+    post(httpAddr + '/user_coupons',
       {
         user_coupon: {
           user_id: this.state.user_id,
@@ -55,7 +56,7 @@ export default class UserCouponCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

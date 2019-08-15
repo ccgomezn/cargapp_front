@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class ChallengeEdit extends Component {
@@ -24,11 +25,11 @@ export default class ChallengeEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/challenges/` + this.props.match.params.id)
+    return get(httpAddr + `/challenges/` + this.props.match.params.id)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`)
+    return get(httpAddr + `/users`)
   }
 
 
@@ -68,7 +69,7 @@ export default class ChallengeEdit extends Component {
     formData.append('challenge[user_id]', this.state.user_id)
     formData.append('challenge[active]', this.state.active)
 
-    axios.put(httpAddr + '/challenges/' + this.props.match.params.id,formData).then(() => {
+      put(httpAddr + '/challenges/' + this.props.match.params.id,formData).then(() => {
         this.setState({ redirect: true })
       })
   }

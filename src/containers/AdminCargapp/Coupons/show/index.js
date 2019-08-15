@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class CouponShow extends Component {
 
@@ -30,17 +31,17 @@ export default class CouponShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/coupons/` + this.props.match.params.id)
+    return get(httpAddr + `/coupons/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
 
 
   getModels() {
-    return axios.get(httpAddr + `/cargapp_models`);
+    return get(httpAddr + `/cargapp_models`, true);
   }
 
 

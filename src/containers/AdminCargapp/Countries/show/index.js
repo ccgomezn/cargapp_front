@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class CountryShow extends Component {
 
@@ -30,7 +31,7 @@ export default class CountryShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/countries/` + this.props.match.params.id)
+    return get(httpAddr + `/countries/` + this.props.match.params.id, true)
   }
 
 

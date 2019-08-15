@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class Vehicle extends Component {
 
@@ -34,11 +35,11 @@ export default class Vehicle extends Component {
   }
 
   getVehicles() {
-    return axios.get(httpAddr + `/vehicles`);
+    return get(httpAddr + `/vehicles`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
   
 

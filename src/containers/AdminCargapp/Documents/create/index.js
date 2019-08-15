@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, post } from "../../../../helpers/httpRequest"
+
 const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select
@@ -23,15 +25,15 @@ export default class DocumentCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
 
@@ -69,8 +71,8 @@ export default class DocumentCreate extends Component {
     formData.append('document[expire_date]', this.state.expire_date)
     formData.append('document[approved]', this.state.approved)
     formData.append('document[active]', true)
-    axios.post(httpAddr + '/documents',
-      formData).then(() => {
+    post(httpAddr + '/documents',
+      formData, true).then(() => {
         this.setState({ redirect: true })
       })
   }

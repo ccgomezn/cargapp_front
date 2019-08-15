@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { get, put } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
@@ -24,14 +25,14 @@ export default class RoleEdit extends Component {
   }
 
   getMainData() {
-    return axios.get(httpAddr + `/user_roles/` + this.props.match.params.id)
+    return get(httpAddr + `/user_roles/` + this.props.match.params.id, true)
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles/active`);
+    return get(httpAddr + `/roles/active`, true);
   }
   componentWillMount() {
     console.log(this.props);
@@ -61,7 +62,7 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_roles/' + this.props.match.params.id,
+    put(httpAddr + '/user_roles/' + this.props.match.params.id,
       {
         user_role: {
           user_id: this.state.user_id,
@@ -70,7 +71,7 @@ export default class RoleEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

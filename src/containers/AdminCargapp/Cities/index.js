@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { get } from "../../../helpers/httpRequest"
 
 export default class City extends Component {
 
@@ -37,13 +38,13 @@ export default class City extends Component {
   }
 
   getCountries() {
-    return axios.get(httpAddr + '/countries')
+    return get(httpAddr + '/countries', true)
   }
   getStates() {
-    return axios.get(httpAddr + `/states`);
+    return get(httpAddr + `/states`, true);
   }
   getCities() {
-    return axios.get(httpAddr + `/cities`);
+    return get(httpAddr + `/cities`, true);
   }
 
   componentWillMount() {

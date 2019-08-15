@@ -8,6 +8,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select
 
@@ -21,11 +22,11 @@ export default class TicketCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getStatus() {
-    return axios.get(httpAddr + `/status`);
+    return get(httpAddr + `/status`, true);
   }
   
   componentWillMount() {
@@ -60,8 +61,8 @@ export default class TicketCreate extends Component {
     formData.append('ticket[user_id]', this.state.user_id)
     formData.append('ticket[active]', true)
 
-    axios.post(httpAddr + '/tickets',
-      formData
+    post(httpAddr + '/tickets',
+      formData, true
       ).then(() => {
   this.setState({ redirect: true })
 })

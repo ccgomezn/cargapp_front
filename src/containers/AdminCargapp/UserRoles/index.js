@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class UserRole extends Component {
 
@@ -31,15 +32,15 @@ export default class UserRole extends Component {
   }
 
   getUserRoles() {
-    return axios.get(httpAddr + `/user_roles`);
+    return get(httpAddr + `/user_roles`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles`);
+    return get(httpAddr + `/roles`, true);
   }
   componentWillMount() {
     axios.all([this.getUserRoles(), this.getUsers(), this.getRoles()])

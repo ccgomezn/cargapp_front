@@ -1,7 +1,7 @@
 import axios from "axios";
 import { makeAuthorizationHeader, getToken } from './utility'
 
-  export function get(url, secured) {
+export function get(url, secured = false) {
     let headers = {}
     if (secured) {
       headers = makeAuthorizationHeader(getToken().get('idToken'))
@@ -11,7 +11,7 @@ import { makeAuthorizationHeader, getToken } from './utility'
     return axios.get(url, { headers: headers })
   }
 
-  export function post(url, data, secured) {
+export function post(url, data, secured = false) {
     let headers = {}
 
     if (secured) {
@@ -20,7 +20,7 @@ import { makeAuthorizationHeader, getToken } from './utility'
     return axios.post(url, data, { headers: headers })
   }
 
-  export function put(url, data, secured) {
+  export function put(url, data, secured = false) {
     let headers = {}
 
     if (secured) {

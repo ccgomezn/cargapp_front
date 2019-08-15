@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class ChallengeShow extends Component {
 
@@ -30,17 +31,17 @@ export default class ChallengeShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/challenges/` + this.props.match.params.id)
+    return get(httpAddr + `/challenges/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
 
 
   getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
+    return get(httpAddr + `/document_types`, true);
   }
 
 

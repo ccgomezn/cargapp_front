@@ -10,6 +10,7 @@ import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -25,15 +26,15 @@ export default class PermissionCreate extends Component {
 
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
+    return get(httpAddr + `/cargapp_models/active`, true);
   }
 
   getRoles() {
-    return axios.get(httpAddr + `/roles/active`);
+    return get(httpAddr + `/roles/active`, true);
   }
 
   handleChange(value, type) {
@@ -45,7 +46,7 @@ export default class PermissionCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/permissions',
+    post(httpAddr + '/permissions',
       {
         permission: {
           role_id: this.state.role_id,
@@ -57,7 +58,7 @@ export default class PermissionCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

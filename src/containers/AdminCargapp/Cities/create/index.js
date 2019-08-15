@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get, post } from "../../../../helpers/httpRequest"
 
 const { Option } = Select;
 
@@ -34,7 +35,7 @@ export default class StateCreate extends Component {
   }
 
   getStates() {
-    return axios.get(httpAddr + `/states`);
+    return get(httpAddr + `/states`);
   }
 
   componentWillMount() {
@@ -53,7 +54,7 @@ export default class StateCreate extends Component {
 
 
   handlePost() {
-    axios.post(httpAddr + '/cities',
+    post(httpAddr + '/cities',
       {
         city: {
           name: this.state.name,

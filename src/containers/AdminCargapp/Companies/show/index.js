@@ -10,6 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
 
 export default class CompanyShow extends Component {
 
@@ -30,15 +31,15 @@ export default class CompanyShow extends Component {
     return dataTransformed
   }
   getMainData() {
-    return axios.get(httpAddr + `/companies/` + this.props.match.params.id)
+    return get(httpAddr + `/companies/` + this.props.match.params.id, true)
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getLoadTypes() {
-    return axios.get(httpAddr + `/load_types`);
+    return get(httpAddr + `/load_types`, true);
   }
   componentWillMount() {
     axios.all([this.getMainData(), this.getUsers(), this.getLoadTypes()])

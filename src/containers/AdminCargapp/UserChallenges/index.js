@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import httpAddr from "../../../helpers/http_helper"
+import { get } from "../../../helpers/httpRequest"
 
 export default class UserChallenge extends Component {
 
@@ -31,15 +32,15 @@ export default class UserChallenge extends Component {
   }
 
   getUserChallenges() {
-    return axios.get(httpAddr + `/user_challenges`);
+    return get(httpAddr + `/user_challenges`, true);
   }
 
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getChallenges() {
-    return axios.get(httpAddr + `/challenges`);
+    return get(httpAddr + `/challenges`, true);
   }
   componentWillMount() {
     axios.all([this.getUserChallenges(), this.getUsers(), this.getChallenges()])

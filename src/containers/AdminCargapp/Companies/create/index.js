@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { get, put, post } from "../../../../helpers/httpRequest"
+
 const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select
@@ -23,11 +25,11 @@ export default class CompanyCreate extends Component {
     }
   }
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   getLoadTypes() {
-    return axios.get(httpAddr + `/load_types`);
+    return get(httpAddr + `/load_types`, true);
   }
 
   componentWillMount() {
@@ -53,7 +55,7 @@ export default class CompanyCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/companies',
+    post(httpAddr + '/companies',
       {
         company: {
           name: this.state.name,
@@ -69,7 +71,7 @@ export default class CompanyCreate extends Component {
           active: true,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }
