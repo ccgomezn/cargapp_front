@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getUserChallenges, getUsers, getChallenges } from '../../../helpers/api/adminCalls.js';
 
 export default class UserChallenge extends Component {
 
@@ -30,19 +30,8 @@ export default class UserChallenge extends Component {
     return dataTransformed
   }
 
-  getUserChallenges() {
-    return axios.get(httpAddr + `/user_challenges`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getChallenges() {
-    return axios.get(httpAddr + `/challenges`);
-  }
   componentWillMount() {
-    axios.all([this.getUserChallenges(), this.getUsers(), this.getChallenges()])
+    axios.all([getUserChallenges(), getUsers(), getChallenges()])
       .then((responses) => {
         var data_user = this.transformDataToMap(responses[1].data, 'email');
         var data_challenge = this.transformDataToMap(responses[2].data, 'name');

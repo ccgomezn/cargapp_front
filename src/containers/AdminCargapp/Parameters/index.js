@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getParameters, getUsers, getModels } from "../../../helpers/api/adminCalls"
 
 export default class Parameter extends Component {
 
@@ -30,19 +30,9 @@ export default class Parameter extends Component {
     return dataTransformed
   }
 
-  getParameters() {
-    return axios.get(httpAddr + `/parameters`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models`);
-  }
+ 
   componentWillMount() {
-    axios.all([this.getParameters(), this.getUsers(), this.getCargappModesl()])
+    axios.all([getParameters(), getUsers(), getModels()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');

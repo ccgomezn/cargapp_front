@@ -8,16 +8,9 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getStatus, getUsers, getModels } from '../../../helpers/api/adminCalls.js';
 
 export default class Status extends Component {
-
-
-  constructor(props) {
-    super();
-
-
-  }
 
 
   transformDataToMap(data, key) {
@@ -30,23 +23,13 @@ export default class Status extends Component {
     return dataTransformed
   }
 
-  getStatus() {
-    return axios.get(httpAddr + `/status`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models`);
-  }
+  
 
  
   componentWillMount() {
-    axios.all([this.getStatus(), 
-               this.getUsers(),
-               this.getCargappModels()])
+    axios.all([getStatus(), 
+               getUsers(),
+               getModels()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataCargappModels = this.transformDataToMap(responses[2].data, 'name');

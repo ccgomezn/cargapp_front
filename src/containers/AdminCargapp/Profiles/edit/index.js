@@ -10,8 +10,9 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input, DatePicker } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { putProfile, getProfile, getUsers, getDocumentTypes } from '../../../../helpers/api/adminCalls.js';
+
 const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select;
@@ -25,23 +26,11 @@ export default class ProfileEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/profiles/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`)
-  }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`)
-  }
-  
-
+ 
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getDocumentTypes()])
+    axios.all([getProfile(this.props.match.params.id), getUsers(),getDocumentTypes()])
       .then((responses) => {
 
         this.setState({
@@ -81,7 +70,7 @@ export default class ProfileEdit extends Component {
     formData.append('profile[birth_date]', this.state.birth_date)
     formData.append('profile[user_id]', this.state.user_id)
 
-    axios.put(httpAddr + '/profiles/' + this.props.match.params.id,formData).then(() => {
+    putProfile(this.props.match.params.id,formData).then(() => {
         this.setState({ redirect: true })
       })
   }

@@ -7,15 +7,14 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postVehicleType } from '../../../../helpers/api/adminCalls.js';
 
 
 export default class VehicleTypeCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       code: '',
@@ -34,7 +33,7 @@ export default class VehicleTypeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/vehicle_types',
+    postVehicleType(
       {
         vehicle_type: {
           name: this.state.name,

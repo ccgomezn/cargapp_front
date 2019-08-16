@@ -9,8 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { getUsers, postChallenge } from "../../../../helpers/api/adminCalls"
 
 const {Option} = Select;
 
@@ -25,20 +25,10 @@ export default class ChallengeCreate extends Component {
     }
   }
 
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
-  }
-
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getDocumentTypes()])
+    axios.all([getUsers()])
       .then((responses) => {
 
         this.setState({
@@ -70,7 +60,7 @@ export default class ChallengeCreate extends Component {
     formData.append('challenge[user_id]', this.state.user_id)
     formData.append('challenge[active]', true)
 
-    axios.post(httpAddr + '/challenges',formData).then(() => {
+    postChallenge(formData).then(() => {
         this.setState({ redirect: true })
       })
   }

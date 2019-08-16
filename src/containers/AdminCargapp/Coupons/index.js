@@ -8,8 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { getUsers, getCoupons } from "../../../helpers/api/adminCalls"
 
 export default class Coupons extends Component {
 
@@ -33,16 +33,9 @@ export default class Coupons extends Component {
     return dataTransformed
   }
 
-  getCoupons() {
-    return axios.get(httpAddr + `/coupons`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
 
   componentWillMount() {
-    axios.all([this.getCoupons(), this.getUsers()])
+    axios.all([getCoupons(), getUsers()])
       .then((responses) => {
 
         let data_users = this.transformDataToMap(responses[1].data, 'email');

@@ -9,8 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { postUserPrize, getUsers, getPrizes } from '../../../../helpers/api/adminCalls.js';
+
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
@@ -25,13 +26,7 @@ export default class UserPrizeCreate extends Component {
       redirect: false
     }
   }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getPrizes() {
-    return axios.get(httpAddr + `/prizes/active`);
-  }
+  
 
   handleChange(value, type) {
 
@@ -42,7 +37,7 @@ export default class UserPrizeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_prizes',
+    postUserPrize(
       {
         user_prize: {
           user_id: this.state.user_id,
@@ -64,7 +59,7 @@ export default class UserPrizeCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getPrizes()])
+    axios.all([getUsers(), getPrizes()])
       .then((responses) => {
 
         this.setState({

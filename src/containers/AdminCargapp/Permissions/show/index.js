@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getPermission, getUsers, getModel, getRole } from '../../../../helpers/api/adminCalls.js';
 
 export default class PermissionShow extends Component {
 
@@ -29,25 +29,12 @@ export default class PermissionShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return axios.get(httpAddr + `/permissions/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users/`);
-  }
-
-  getCargappModel(id) {
-    return axios.get(httpAddr + `/cargapp_models/` + id);
-  }
-
-  getRoles(id) {
-    return axios.get(httpAddr + `/roles/` + id);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getMainData()])
+    axios.all([getPermission(this.props.match.params.id)])
       .then((responses) => {
-        axios.all([this.getUsers(), this.getCargappModel(responses[0].data.cargapp_model_id), this.getRoles(responses[0].data.role_id)])
+        axios.all([getUsers(), getModel(responses[0].data.cargapp_model_id), getRole(responses[0].data.role_id)])
           .then((responses_full) => {
             if (responses[0].data.active){
               responses[0].data.active = 'Activo';

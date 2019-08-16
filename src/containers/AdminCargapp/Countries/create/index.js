@@ -7,15 +7,14 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postCountry } from "../../../../helpers/api/adminCalls"
 
 
 export default class CountryCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
@@ -32,7 +31,7 @@ export default class CountryCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/countries',
+    postCountry(
       {
         country: {
           name: this.state.name,

@@ -10,8 +10,9 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { getDocument, getUsers, getStatus, getDocumentTypes, putDocument } from "../../../../helpers/api/adminCalls"
+
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
@@ -26,25 +27,8 @@ export default class DocumentEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/documents/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getStatus() {
-    return axios.get(httpAddr + `/status`);
-  }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
-  }
-
-
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getStatus(), this.getDocumentTypes()])
+    axios.all([getDocument(this.props.match.params.id), getUsers(), getStatus(), getDocumentTypes()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -91,7 +75,7 @@ export default class DocumentEdit extends Component {
     formData.append('document[approved]', this.state.approved)
     formData.append('document[active]', this.state.active)
 
-    axios.put(httpAddr + '/documents/' + this.props.match.params.id,
+    putDocument(this.props.match.params.id,
       formData).then(() => {
         this.setState({ redirect: true })
       })

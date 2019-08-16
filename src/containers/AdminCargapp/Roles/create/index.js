@@ -7,9 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postRole } from '../../../../helpers/api/adminCalls.js';
 
 
 export default class RoleCreate extends Component {
@@ -34,7 +33,7 @@ export default class RoleCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/roles',
+    postRole(
       {
         role: {
           name: this.state.name,

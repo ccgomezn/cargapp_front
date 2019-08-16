@@ -10,8 +10,8 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, DatePicker, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { putUserPrize, getUserPrize, getUsers, getPrizes } from '../../../../helpers/api/adminCalls.js';
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -26,19 +26,10 @@ export default class UserPrizeEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/user_prizes/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getPrizes() {
-    return axios.get(httpAddr + `/prizes/active`);
-  }
+  
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getPrizes()])
+    axios.all([getUserPrize(this.props.match.params.id),getUsers(), getPrizes()])
       .then((responses) => {
 
 
@@ -66,7 +57,7 @@ export default class UserPrizeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_prizes/' + this.props.match.params.id,
+    putUserPrize(this.props.match.params.id,
       {
         user_prize: {
           user_id: this.state.user_id,

@@ -7,8 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getModels } from '../../../helpers/api/adminCalls'
 
 export default class CargappModel extends Component {
 
@@ -20,7 +19,7 @@ export default class CargappModel extends Component {
   }
   
   componentWillMount() {
-    axios.get(httpAddr + `/cargapp_models`)
+    getModels()
       .then((response) => {
         
         response.data.map(function (item) {

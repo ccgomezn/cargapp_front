@@ -8,7 +8,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getUserRoles, getUsers, getRoles } from '../../../helpers/api/adminCalls.js';
 
 export default class UserRole extends Component {
 
@@ -30,19 +30,8 @@ export default class UserRole extends Component {
     return dataTransformed
   }
 
-  getUserRoles() {
-    return axios.get(httpAddr + `/user_roles`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getRoles() {
-    return axios.get(httpAddr + `/roles`);
-  }
   componentWillMount() {
-    axios.all([this.getUserRoles(), this.getUsers(), this.getRoles()])
+    axios.all([getUserRoles(), getUsers(), getRoles()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataRole = this.transformDataToMap(responses[2].data, 'name');

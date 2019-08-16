@@ -10,7 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { getStatu, getUsers, getModels, putStatu } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class StatusEdit extends Component {
@@ -23,21 +23,10 @@ export default class StatusEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/status/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
-
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModels()])
+    axios.all([getStatu(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
 
 
@@ -64,7 +53,7 @@ export default class StatusEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/status/' + this.props.match.params.id,
+    putStatu(this.props.match.params.id,
       {
         statu: {
           user_id: this.state.user_id,

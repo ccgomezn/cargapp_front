@@ -10,6 +10,8 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
+import { get } from "../../../../helpers/httpRequest"
+import { getPrize } from '../../../../helpers/api/adminCalls.js';
 
 export default class PrizeShow extends Component {
 
@@ -29,19 +31,15 @@ export default class PrizeShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return axios.get(httpAddr + `/prizes/` + this.props.match.params.id)
-  }
-
-  
+ 
 
  
   getUsers() {
-    return axios.get(httpAddr + `/users`);
+    return get(httpAddr + `/users`, true);
   }
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers()])
+    axios.all([getPrize(this.props.match.params.id), this.getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {

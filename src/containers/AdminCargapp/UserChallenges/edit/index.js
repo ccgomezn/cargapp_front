@@ -10,7 +10,7 @@ import { Card, message, Input } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { getChallenge, getUsers, getChallenges, putChallenge } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class UserChallengeEdit extends Component {
@@ -23,19 +23,9 @@ export default class UserChallengeEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/user_challenges/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getChallenges() {
-    return axios.get(httpAddr + `/challenges/active`);
-  }
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getChallenges()])
+    axios.all([getChallenge(this.props.match.params.id), getUsers(), getChallenges()])
       .then((responses) => {
 
 
@@ -63,7 +53,7 @@ export default class UserChallengeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_challenges/' + this.props.match.params.id,
+    putChallenge(this.props.match.params.id,
       {
         user_challenge: {
           user_id: this.state.user_id,

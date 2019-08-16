@@ -9,27 +9,20 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getUsers, getModels, postParameter } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
 export default class ParameterCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
     }
   }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModesl() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
-
+  
   handleChange(value, type) {
 
     this.setState(
@@ -39,7 +32,7 @@ export default class ParameterCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/parameters',
+    postParameter(
       {
         parameter: {
           name: this.state.name,
@@ -63,7 +56,7 @@ export default class ParameterCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModesl()])
+    axios.all([getUsers(), getModels()])
       .then((responses) => {
 
         this.setState({

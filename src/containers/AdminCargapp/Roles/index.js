@@ -7,8 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getRoles } from '../../../helpers/api/adminCalls.js';
 
 export default class Role extends Component {
 
@@ -20,7 +19,7 @@ export default class Role extends Component {
   }
   
   componentWillMount() {
-    axios.get(httpAddr + `/roles`)
+    getRoles()
       .then((response) => {
         
         response.data.map((item) => {

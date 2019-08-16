@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getDocument, getUsers, getDocumentTypes, getStatus } from "../../../../helpers/api/adminCalls"
 
 export default class DocumentShow extends Component {
 
@@ -29,26 +29,10 @@ export default class DocumentShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return axios.get(httpAddr + `/documents/` + this.props.match.params.id)
-  }
-
-  
-
-  getStatus() {
-    return axios.get(httpAddr + `/status`);
-  }
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
+ 
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getStatus(), this.getDocumentTypes(), this.getUsers()])
+    axios.all([getDocument(this.props.match.params.id), getStatus(), getDocumentTypes(), getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {

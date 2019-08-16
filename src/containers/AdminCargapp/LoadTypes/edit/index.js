@@ -7,10 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input, Avatar } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { getLoadType, putLoadType } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class LoadTypeEdit extends Component {
@@ -28,7 +27,7 @@ export default class LoadTypeEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/load_types/`+this.props.match.params.id)
+    getLoadType(this.props.match.params.id)
       .then((response) => {
 
         
@@ -52,7 +51,7 @@ export default class LoadTypeEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/load_types/' + this.props.match.params.id,
+    putLoadType(this.props.match.params.id,
       {
         load_type: {
           name: this.state.name,

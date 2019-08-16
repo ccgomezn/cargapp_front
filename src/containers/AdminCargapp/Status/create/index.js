@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postStatu, getUsers, getModels } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
@@ -24,13 +24,6 @@ export default class StatusCreate extends Component {
   }
 
 
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
 
   handleChange(value, type) {
 
@@ -41,7 +34,7 @@ export default class StatusCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/status',
+    postStatu(
       {
         statu: {
           name: this.state.name,
@@ -60,7 +53,7 @@ export default class StatusCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModels()])
+    axios.all([getUsers(), getModels()])
       .then((responses) => {
 
         this.setState({

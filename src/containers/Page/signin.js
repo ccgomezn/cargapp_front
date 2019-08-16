@@ -10,6 +10,8 @@ import { Row, Col } from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
 import SecondaryButton from '../../components/custom/button/secondary'
 import TextInputCustom from '../../components/custom/input/text'
+import httpAddr from "../../helpers/http_helper";
+
 const { login } = authAction;
 const { clearMenu } = appAction;
 
@@ -26,11 +28,23 @@ class SignIn extends Component {
     }
   }
   handleLogin = () => {
-    const { login, clearMenu } = this.props;
-    login();
-    clearMenu();
-    this.props.history.push("/dashboard");
+    const { login } = this.props;
+    login({ user: { email: this.state.email, password: this.state.password } }, httpAddr + '/users/login', httpAddr + '/users/me')
+
   };
+
+  handleChange(value, type) {
+    this.setState(
+      {
+        [type]: value
+      }
+    )
+  }
+
+  handleSignup() {
+    this.props.history.push("/signup")
+  }
+
   render() {
     const from = { pathname: "/dashboard" };
     const { redirectToReferrer } = this.state;
@@ -50,13 +64,13 @@ class SignIn extends Component {
                     <div>
                       <div class="Bienvenido-a-Cargapp">
                         <IntlMessages id="page.welcomeTo" />
-                        
+
                         <div class="text-style-1">
                           Cargapp
                       </div>
                       </div>
                     </div>
-                    
+
                   </Col>
                 </Row>
                 <Row>
@@ -68,15 +82,15 @@ class SignIn extends Component {
                 </Row>
               </div>
             </div>
-              <div className="isoSignInForm">
+            <div className="isoSignInForm">
               <form autoComplete="new-password">
 
                 <div className="isoInputWrapper">
-                  <TextInputCustom label_id='page.email' placeholder='Correo eléctronico'/>
+                  <TextInputCustom label_id='page.email' value={this.state.email} onChange={(e) => this.handleChange(e.target.value, 'email')} placeholder='Correo eléctronico' />
                 </div>
 
                 <div className="isoInputWrapper">
-                  <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' />
+                  <TextInputCustom label_id='page.password' placeholder='Contraseña' type='password' value={this.state.password} onChange={(e) => this.handleChange(e.target.value, 'password')} />
                 </div>
                 <div className="helper">
                   <Row>
@@ -89,62 +103,52 @@ class SignIn extends Component {
                   </Row>
                 </div>
                 <div className="sign-buttons">
-                    <Row>
+                  <Row>
                     <Col align={'right'}>
                       <div className="button-sign" style={{ marginRight: '10px' }}>
-                        <SecondaryButton message_id="page.signup" />
+                        <SecondaryButton message_id="page.signup" onClick={() => this.handleSignup()}  />
 
                       </div>
 
                       <div className="button-sign">
 
-                        <PrimaryButton message_id="sidebar.signIn" />
+                        <PrimaryButton message_id="sidebar.signIn" onClick={() => this.handleLogin()} />
                       </div>
 
-                      </Col>
-                    </Row>
-                    <hr/>
-                </div>
-            </form>
-            
-
-
-                <div className="isoHelperWrapper">
-                  <Row>
-                    <Col span={6}>
-                      <div className="isoHelperLogo">
-
-                      </div>
-                    </Col>
-                    <Col span={16}>
-                      <h1 className="title1"><IntlMessages id="page.meetUs" /></h1>
-                      <h1 className="title2"><IntlMessages id="page.invitation" /></h1>
-                      <div class="text-style-1">
-
-                        Cargapp
-                    </div>
                     </Col>
                   </Row>
-
-                
+                  <hr />
                 </div>
-                
+              </form>
+
+
+
+              <div className="isoHelperWrapper">
+                <Row>
+                  <Col span={6}>
+                    <div className="isoHelperLogo">
+
+                    </div>
+                  </Col>
+                  <Col span={16}>
+                    <h1 className="title1"><IntlMessages id="page.meetUs" /></h1>
+                    <h1 className="title2"><IntlMessages id="page.invitation" /></h1>
+                    <div class="text-style-1">
+                      Cargapp
+                    </div>
+                  </Col>
+                </Row>
+              </div>
               <div className="footer">
                 <Row>
                   <Col span={24} align={'center'}>
                     <IntlMessages id="app.footer" />
-
                   </Col>
                 </Row>
-                
               </div>
-              
             </div>
-            
           </div>
-          
         </div>
-
       </SignInStyleWrapper>
     );
   }

@@ -8,8 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { getCities, getCountries, getStates } from "../../../helpers/api/adminCalls"
 
 export default class City extends Component {
 
@@ -36,18 +36,10 @@ export default class City extends Component {
     return dataTransformed
   }
 
-  getCountries() {
-    return axios.get(httpAddr + '/countries')
-  }
-  getStates() {
-    return axios.get(httpAddr + `/states`);
-  }
-  getCities() {
-    return axios.get(httpAddr + `/cities`);
-  }
+  
 
   componentWillMount() {
-    axios.all([this.getCities(), this.getStates(), this.getCountries()])
+    axios.all([getCities(), getStates(), getCountries()])
       .then((responses) => {
 
         let data_states = this.transformDataToMap(responses[1].data, ['name', 'country_id'])

@@ -8,8 +8,8 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { getCompanies } from "../../../helpers/api/adminCalls"
 
 export default class Company extends Component {
 
@@ -33,15 +33,8 @@ export default class Company extends Component {
     return dataTransformed
   }
 
-  getCompanies() {
-    return axios.get(httpAddr + `/companies`);
-  }
-
-  
-
-
   componentWillMount() {
-    axios.all([this.getCompanies()])
+    axios.all([getCompanies()])
       .then((responses) => {
         responses[0].data.map((item) => {
           if (item.active) {

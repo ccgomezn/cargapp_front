@@ -7,8 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { getUsers, postPrize } from '../../../../helpers/api/adminCalls.js';
+
 const dateFormat = 'YYYY-MM-DD';
 
 const { Option } = Select
@@ -16,21 +17,16 @@ const { Option } = Select
 export default class PrizeCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
     }
   }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-
-
+  
 
   componentWillMount() {
-    axios.all([this.getUsers()])
+    axios.all([getUsers()])
       .then((responses) => {
 
         this.setState({
@@ -62,7 +58,7 @@ export default class PrizeCreate extends Component {
     formData.append('prize[user_id]', this.state.user_id)
     formData.append('prize[expire_date]', this.state.expire_date)
     formData.append('prize[active]', true)
-    axios.post(httpAddr + '/prizes',
+    postPrize(
       formData).then(() => {
         this.setState({ redirect: true })
       })

@@ -8,16 +8,11 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { getUserPrizes, getUsers, getPrizes } from '../../../helpers/api/adminCalls.js';
 
 export default class UserPrize extends Component {
 
 
-  constructor(props) {
-    super();
-
-
-  }
 
 
   transformDataToMap(data, key) {
@@ -30,19 +25,9 @@ export default class UserPrize extends Component {
     return dataTransformed
   }
 
-  getUserPrizes() {
-    return axios.get(httpAddr + `/user_prizes`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getPrizes() {
-    return axios.get(httpAddr + `/prizes`);
-  }
+ 
   componentWillMount() {
-    axios.all([this.getUserPrizes(), this.getUsers(), this.getPrizes()])
+    axios.all([getUserPrizes(), getUsers(), getPrizes()])
       .then((responses) => {
         var dataUser = this.transformDataToMap(responses[1].data, 'email');
         var dataPrize = this.transformDataToMap(responses[2].data, 'name');

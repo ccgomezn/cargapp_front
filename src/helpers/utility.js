@@ -1,17 +1,42 @@
 import { Map } from 'immutable';
+import CryptoJS from "crypto-js";
 
 export function clearToken() {
+
   localStorage.removeItem('id_token');
+  localStorage.removeItem('id_token');
+
 }
 
+export function encrypt(message){
+  console.log(CryptoJS.AES.encrypt(message, 'secret key 123').toString())
+  return CryptoJS.AES.encrypt(message, 'secret key 123').toString();
+}
+
+export function decrypt(message) {
+  console.log(message);
+  var bytes = CryptoJS.AES.decrypt(message, 'secret key 123')
+  var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+  console.log(plaintext)
+  return plaintext;
+}
 export function getToken() {
   try {
     const idToken = localStorage.getItem('id_token');
-    return new Map({ idToken });
+    const roles = localStorage.getItem('roles');
+    return new Map({ idToken, roles });
   } catch (err) {
     clearToken();
     return new Map();
   }
+}
+
+export function makeAuthorizationHeader(token) {
+  let header = {
+    Authorization: 'Bearer ' + token
+  }
+
+  return header;
 }
 
 export function timeDifference(givenTime) {

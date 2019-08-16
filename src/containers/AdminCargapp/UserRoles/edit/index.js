@@ -10,32 +10,23 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { putUserRole, getRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/user_roles/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
 
-  getRoles() {
-    return axios.get(httpAddr + `/roles/active`);
-  }
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getRoles()])
+    axios.all([getRole(this.props.match.params.id), getUsers(), getRoles()])
       .then((responses) => {
 
 
@@ -61,7 +52,7 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/user_roles/' + this.props.match.params.id,
+    putUserRole(this.props.match.params.id,
       {
         user_role: {
           user_id: this.state.user_id,

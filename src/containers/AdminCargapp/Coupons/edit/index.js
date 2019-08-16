@@ -10,7 +10,7 @@ import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { putCoupon, getCoupon, getUsers, getModels } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CouponEdit extends Component {
@@ -23,24 +23,10 @@ export default class CouponEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/coupons/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`)
-  } 
-  
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models`)
-  }
-
-
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModels()])
+    axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
-        console.log(responses[0].data.point)
         this.setState({
           users: responses[1].data,
           cargapp_models: responses[2].data,
@@ -67,7 +53,7 @@ export default class CouponEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/coupons/' + this.props.match.params.id,
+    putCoupon(this.props.match.params.id,
       {
         coupon: {
           name: this.state.name,
@@ -80,7 +66,7 @@ export default class CouponEdit extends Component {
           cargapp_model_id: this.state.cargapp_model_id,
           active: this.state.active,
         }
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

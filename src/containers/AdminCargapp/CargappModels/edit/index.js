@@ -7,16 +7,15 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { putModel, getModel } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CargappModelEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       code: '',
@@ -28,7 +27,7 @@ export default class CargappModelEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/cargapp_models/`+this.props.match.params.id)
+    getModel(this.props.match.params.id)
       .then((response) => {
 
         
@@ -52,7 +51,7 @@ export default class CargappModelEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cargapp_models/' + this.props.match.params.id,
+    putModel(this.props.match.params.id,
       {
         cargapp_model: {
           name: this.state.name,
@@ -62,7 +61,7 @@ export default class CargappModelEdit extends Component {
           active: this.state.active,
         }
 
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       }).catch(error => {
         let errorObject = JSON.parse(JSON.stringify(error));

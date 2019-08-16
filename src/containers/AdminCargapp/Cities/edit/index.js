@@ -10,7 +10,8 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { getCity, getStates, putCity } from "../../../../helpers/api/adminCalls"
+
 
 const { Option } = Select;
 export default class StateEdit extends Component {
@@ -23,20 +24,13 @@ export default class StateEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/cities/` + this.props.match.params.id)
-  }
   
-  getStates() {
-    return axios.get(httpAddr + `/states`);
-  }
 
   
 
 
   componentWillMount() {
-    console.log(this.props);
-    axios.all([this.getMainData(), this.getStates()])
+    axios.all([getCity(this.props.match.params.id), getStates()])
       .then((responses) => {
 
         if (responses[0].data.active){
@@ -66,7 +60,7 @@ export default class StateEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cities/' + this.props.match.params.id,
+    putCity(this.props.match.params.id,
       {
         city: {
           name: this.state.name,

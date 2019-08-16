@@ -10,8 +10,10 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
 import moment from 'moment';
+import { putPrize, getPrize, getUsers } from '../../../../helpers/api/adminCalls.js';
+
+
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 
@@ -26,17 +28,10 @@ export default class PrizeEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/prizes/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
+ 
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers()])
+    axios.all([getPrize(this.props.match.params.id), getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -87,7 +82,7 @@ export default class PrizeEdit extends Component {
     formData.append('prize[expire_date]', this.state.expire_date)
     formData.append('prize[active]', this.state.active)
 
-    axios.put(httpAddr + '/prizes/' + this.props.match.params.id,
+    putPrize(this.props.match.params.id,
       formData).then(() => {
         this.setState({ redirect: true })
       })

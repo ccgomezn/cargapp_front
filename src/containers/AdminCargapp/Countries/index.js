@@ -9,8 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import SecondaryButton from "../../../components/custom/button/secondary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { getCountries, migrateCountries } from "../../../helpers/api/adminCalls"
 
 export default class Country extends Component {
 
@@ -34,13 +34,11 @@ export default class Country extends Component {
     return dataTransformed
   }
 
-  getCountries() {
-    return axios.get(httpAddr + `/countries`);
-  }
+ 
 
   
   migrateData() {
-    axios.get(httpAddr + `/countries/migration`).then(
+    migrateCountries().then(
       () => {
         window.location.reload();
       }
@@ -48,7 +46,7 @@ export default class Country extends Component {
   }
 
   componentWillMount() {
-    axios.all([this.getCountries()])
+    axios.all([getCountries()])
       .then((responses) => {
         responses[0].data.map((item) => {
           if (item.active) {

@@ -8,13 +8,13 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
 import { Redirect } from 'react-router-dom'
+import { getVehicles, getUsers } from '../../../helpers/api/adminCalls.js';
 
 export default class Vehicle extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       reload: false
@@ -33,17 +33,9 @@ export default class Vehicle extends Component {
     return dataTransformed
   }
 
-  getVehicles() {
-    return axios.get(httpAddr + `/vehicles`);
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-  
 
   componentWillMount() {
-    axios.all([this.getVehicles(), this.getUsers()])
+    axios.all([getVehicles(), getUsers()])
       .then((responses) => {
         let data_users = this.transformDataToMap(responses[1].data, 'email');
         responses[0].data.map((item) => {

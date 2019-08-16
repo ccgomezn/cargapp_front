@@ -10,7 +10,7 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import {getIntegration, getUsers, putIntegration } from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 export default class CargappIntegrationEdit extends Component {
@@ -23,18 +23,12 @@ export default class CargappIntegrationEdit extends Component {
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/cargapp_integrations/` + this.props.match.params.id)
-  }
   
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
+  
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers()])
+    axios.all([getIntegration(this.props.match.params.id), getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active){
@@ -77,30 +71,29 @@ export default class CargappIntegrationEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/cargapp_integrations/' + this.props.match.params.id,
-      {
-        cargapp_integration: {
-          name: this.state.name,
-          description: this.state.description,
-          provider: this.state.provider,
-          code: this.state.code,
-          url: this.state.url,
-          url_provider: this.state.url_provider,
-          url_production: this.state.url_production,
-          url_develop: this.state.url_develop,
-          email: this.state.email,
-          username: this.state.username,
-          password: this.state.password,
-          phone: this.state.phone,
-          pin: this.state.pin,
-          token: this.state.token,
-          app_id: this.state.app_id,
-          client_id: this.state.client_id,
-          api_key: this.state.api_key,
-          user_id: this.state.user_id,
-          active: this.state.active,
-        }
-      }).then(() => {
+    putIntegration(this.props.match.params.id, {
+      cargapp_integration: {
+        name: this.state.name,
+        description: this.state.description,
+        provider: this.state.provider,
+        code: this.state.code,
+        url: this.state.url,
+        url_provider: this.state.url_provider,
+        url_production: this.state.url_production,
+        url_develop: this.state.url_develop,
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password,
+        phone: this.state.phone,
+        pin: this.state.pin,
+        token: this.state.token,
+        app_id: this.state.app_id,
+        client_id: this.state.client_id,
+        api_key: this.state.api_key,
+        user_id: this.state.user_id,
+        active: this.state.active,
+      }
+    }).then(() => {
         this.setState({ redirect: true })
       })
   }

@@ -8,18 +8,17 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import {getIntegrations} from "../../../helpers/api/adminCalls"
 import { Redirect } from 'react-router-dom'
 
 export default class CargappIntegration extends Component {
 
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       reload: false
     }
-
   }
 
 
@@ -33,15 +32,13 @@ export default class CargappIntegration extends Component {
     return dataTransformed
   }
 
-  getIntegrations() {
-    return axios.get(httpAddr + `/cargapp_integrations`);
-  }
+  
 
   
 
 
   componentWillMount() {
-    axios.all([this.getIntegrations()])
+    axios.all([getIntegrations()])
       .then((responses) => {
         responses[0].data.map((item) => {
           if (item.active) {

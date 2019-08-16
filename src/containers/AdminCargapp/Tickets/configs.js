@@ -8,13 +8,12 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import axios from "axios";
-import httpAddr from "../../../helpers/http_helper"
+import { deleteTicket } from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
   return function () {
-    (axios.delete(httpAddr + `/tickets/` + id)
-      .then((response) => {
+    (deleteTicket(id)
+      .then(() => {
         window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/tickets/';
 
       }).catch((error) => {

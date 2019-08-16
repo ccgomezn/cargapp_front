@@ -7,10 +7,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import httpAddr from "../../../../helpers/http_helper"
+import { getRole, putRole } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
@@ -28,7 +27,7 @@ export default class RoleEdit extends Component {
   }
   componentWillMount() {
     console.log(this.props);
-    axios.get(httpAddr + `/roles/`+this.props.match.params.id)
+    getRole(this.props.match.params.id)
       .then((response) => {
 
         
@@ -51,7 +50,7 @@ export default class RoleEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/roles/' + this.props.match.params.id,
+    putRole(this.props.match.params.id,
       {
         role: {
           name: this.state.name,

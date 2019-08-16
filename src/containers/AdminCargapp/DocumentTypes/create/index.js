@@ -7,9 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postDocument } from "../../../../helpers/api/adminCalls"
 
 
 export default class DocumentTypeCreate extends Component {
@@ -34,7 +33,7 @@ export default class DocumentTypeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/document_types',
+    postDocument(
       {
         document_type: {
           name: this.state.name,

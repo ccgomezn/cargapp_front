@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getChallenge, getUsers } from "../../../../helpers/api/adminCalls"
 
 export default class ChallengeShow extends Component {
 
@@ -29,23 +29,10 @@ export default class ChallengeShow extends Component {
 
     return dataTransformed
   }
-  getMainData() {
-    return axios.get(httpAddr + `/challenges/` + this.props.match.params.id)
-  }
-
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-
-
-  getDocumentTypes() {
-    return axios.get(httpAddr + `/document_types`);
-  }
-
+  
 
   componentWillMount() {
-    axios.all([this.getMainData(), this.getUsers(), this.getDocumentTypes()])
+    axios.all([getChallenge(this.props.match.params.id),getUsers()])
       .then((responses) => {
         let data_users = this.transformDataToMap(responses[1].data, 'email')
         if (responses[0].data[0].active) {

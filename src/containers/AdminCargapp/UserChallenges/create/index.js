@@ -9,26 +9,19 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { postUserChallenge, getUsers, getChallenges } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
 export default class UserChallengeCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       user_id: '',
       redirect: false
     }
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getChallenges() {
-    return axios.get(httpAddr + `/challenges/active`);
   }
 
   handleChange(value, type) {
@@ -40,7 +33,7 @@ export default class UserChallengeCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/user_challenges',
+    postUserChallenge(
       {
         user_challenge: {
           user_id: this.state.user_id,
@@ -62,7 +55,7 @@ export default class UserChallengeCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getChallenges()])
+    axios.all([getUsers(), getChallenges()])
       .then((responses) => {
 
         this.setState({

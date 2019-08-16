@@ -11,36 +11,25 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select, Input } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
+import { put } from "../../../../helpers/httpRequest"
+import { getPermission, getUsers, getModels, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class PermissionEdit extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
     }
   }
 
-  getMainData() {
-    return axios.get(httpAddr + `/permissions/` + this.props.match.params.id)
-  }
-  getUsers() {
-    return axios.get(httpAddr + `/users/`);
-  }
-
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
-
-  getRoles() {
-    return axios.get(httpAddr + `/roles/`);
-  }
+ 
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([this.getMainData(), this.getUsers(), this.getCargappModels(), this.getRoles()])
+    axios.all([getPermission(this.props.match.params.id), getUsers(), getModels(), getRoles()])
       .then((responses) => {
 
 
@@ -69,7 +58,7 @@ export default class PermissionEdit extends Component {
     )
   }
   handlePut() {
-    axios.put(httpAddr + '/permissions/' + this.props.match.params.id,
+    put(httpAddr + '/permissions/' + this.props.match.params.id,
       {
         permission: {
           role_id: this.state.role_id,
@@ -80,7 +69,7 @@ export default class PermissionEdit extends Component {
           user_id: this.state.user_id,
           active: true,
         }
-      }).then(() => {
+      }, true).then(() => {
         this.setState({ redirect: true })
       })
   }

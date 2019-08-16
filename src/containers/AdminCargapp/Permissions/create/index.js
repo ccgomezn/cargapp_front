@@ -9,14 +9,14 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import httpAddr from "../../../../helpers/http_helper"
+import { getUsers, getModels, getRoles, postPermission } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 
 export default class PermissionCreate extends Component {
 
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       redirect: false
@@ -24,18 +24,7 @@ export default class PermissionCreate extends Component {
   }
 
 
-  getUsers() {
-    return axios.get(httpAddr + `/users`);
-  }
-
-  getCargappModels() {
-    return axios.get(httpAddr + `/cargapp_models/active`);
-  }
-
-  getRoles() {
-    return axios.get(httpAddr + `/roles/active`);
-  }
-
+  
   handleChange(value, type) {
 
     this.setState(
@@ -45,7 +34,7 @@ export default class PermissionCreate extends Component {
     )
   }
   handlePost() {
-    axios.post(httpAddr + '/permissions',
+    postPermission(
       {
         permission: {
           role_id: this.state.role_id,
@@ -65,7 +54,7 @@ export default class PermissionCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([this.getUsers(), this.getCargappModels(), this.getRoles()])
+    axios.all([getUsers(), getModels(), getRoles()])
       .then((responses) => {
 
         this.setState({
