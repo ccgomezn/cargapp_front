@@ -11,6 +11,9 @@ const routes = [
     path: 'tracking',
     component: asyncComponent(() => import('../Tracking'))
   },
+];
+const routes_admin = [
+
   {
     path: 'roles',
     component: asyncComponent(() => import('../AdminCargapp/Roles'))
@@ -356,6 +359,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/UserPaymentMethods/show'))
   },
   {
+    path: 'reports',
+    component: asyncComponent(() => import('../AdminCargapp/Reports'))
+  },
+  {
+    path: 'reports/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Reports/edit'))
+  },
+  {
+    path: 'reports/add',
+    component: asyncComponent(() => import('../AdminCargapp/Reports/create'))
+  },
+  {
+    path: 'reports/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Reports/show'))
+  },
+  {
     path: 'states',
     component: asyncComponent(() => import('../AdminCargapp/States'))
   },
@@ -530,7 +549,7 @@ const routes = [
   {
     path: 'breadcrumb',
     component: asyncComponent(() =>
-      import('../Uielements/Breadcrumb/breadcrumb')
+        import('../Uielements/Breadcrumb/breadcrumb')
     ),
   },
   {
@@ -600,7 +619,7 @@ const routes = [
   {
     path: 'pagination',
     component: asyncComponent(() =>
-      import('../Uielements/Pagination/pagination')
+        import('../Uielements/Pagination/pagination')
     ),
   },
   {
@@ -618,13 +637,13 @@ const routes = [
   {
     path: 'shop',
     component: asyncComponent(() =>
-      import('../Ecommerce/algolia/instantSearch')
+        import('../Ecommerce/algolia/instantSearch')
     ),
   },
   {
     path: 'reactDates',
     component: asyncComponent(() =>
-      import('../AdvancedUI/ReactDates/reactDates')
+        import('../AdvancedUI/ReactDates/reactDates')
     ),
   },
   {
@@ -660,6 +679,23 @@ const routes = [
 class AppRouter extends Component {
   render() {
     const { url, style } = this.props;
+    if(url === '/admin'){
+      return (
+          <div style={style}>
+            {routes_admin.map(singleRoute => {
+              const { path, exact, ...otherProps } = singleRoute;
+              return (
+                  <Route
+                      exact={exact === false ? false : true}
+                      key={singleRoute.path}
+                      path={`${url}/${singleRoute.path}`}
+                      {...otherProps}
+                  />
+              );
+            })}
+          </div>
+      );
+    }
     return (
       <div style={style}>
         {routes.map(singleRoute => {

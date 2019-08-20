@@ -9,9 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getUserPaymentMethod, getUsers, getPaymentMethods } from '../../../../helpers/api/adminCalls.js';
+import { getReport, getUsers } from '../../../../helpers/api/adminCalls.js';
 
-export default class UserPaymentMethodShow extends Component {
+export default class ReportShow extends Component {
 
 
   constructor(props) {
@@ -29,12 +29,9 @@ export default class UserPaymentMethodShow extends Component {
 
     return dataTransformed
   }
- 
-
-
 
   componentWillMount() {
-    axios.all([getUserPaymentMethod(this.props.match.params.id), getUsers(), getPaymentMethods()])
+    axios.all([getReport(this.props.match.params.id), getUsers()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -43,19 +40,21 @@ export default class UserPaymentMethodShow extends Component {
           responses[0].data.active = 'Desactivado';
         }
 
-
-        let data_users = this.transformDataToMap(responses[1].data, 'email');
-        let data_methods = this.transformDataToMap(responses[2].data, 'uuid');
+        
+        let data_users = this.transformDataToMap(responses[1].data, 'email')
         this.setState({
-          email: responses[0].data.email,
-          uuid: responses[0].data.uuid,
-          token: responses[0].data.token,
-          card_number: responses[0].data.card_number,
-          expiration: responses[0].data.expiration,
-          cvv: responses[0].data.cvv,
-          observation: responses[0].data.observation,
+          name: responses[0].data.name,
+          origin: responses[0].data.origin,
+          destination: responses[0].data.destination,
+          cause: responses[0].data.cause,
+          sense: responses[0].data.sense,
+          novelty: responses[0].data.novelty,
+          geolocation: responses[0].data.geolocation,
+          image: responses[0].data.image,
+          start_date: responses[0].data.start_date,
+          end_date: responses[0].data.end_date,
+          report_type: responses[0].data.report_type,
           user: data_users[responses[0].data.user_id],
-          payment_method: data_methods[responses[0].data.payment_method_id],
           active: responses[0].data.active,
         });
 
@@ -73,7 +72,7 @@ export default class UserPaymentMethodShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/admin/user_payment_methods')
+    this.props.history.push('/admin/reports')
   }
 
 
@@ -82,7 +81,7 @@ export default class UserPaymentMethodShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/admin/user_payment_methods' />
+      return <Redirect to='/admin/reports' />
     }
     return (
 
@@ -96,7 +95,7 @@ export default class UserPaymentMethodShow extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="user_payment_methods.title" />
+                    <IntlMessages id="reports.title" />
 
                   </h1>
                 </PageHeader>
@@ -106,39 +105,39 @@ export default class UserPaymentMethodShow extends Component {
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Email">
-                      <p>{this.state.email}</p>
+                    <Form.Item label="Nombre">
+                      <p>{this.state.name}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Uuid">
-                      <p>{this.state.uuid}</p>
-                    </Form.Item>
-                  </Col>
-                </Row>
-
-                <Row gutter={10}>
-                  <Col span={12}>
-                    <Form.Item label="Token">
-                      <p>{this.state.token}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Número de tarjeta">
-                      <p>{this.state.card_number}</p>
+                    <Form.Item label="Origen">
+                      <p>{this.state.origin}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Fecha de expiración">
-                      <p>{this.state.expiration}</p>
+                    <Form.Item label="Destino">
+                      <p>{this.state.destination}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Observación">
-                      <p>{this.state.observation}</p>
+                    <Form.Item label="Causa">
+                      <p>{this.state.cause}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Sentido">
+                      <p>{this.state.sense}</p>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="Gravedad">
+                      <p>{this.state.novelty}</p>
                     </Form.Item>
                   </Col>
 
@@ -147,18 +146,44 @@ export default class UserPaymentMethodShow extends Component {
 
                 <Row>
                   <Col span={12}>
-                    <Form.Item label="Usuario">
-                      <p>{this.state.user}</p>
+                    <Form.Item label="Geolocalización">
+                      <p>{this.state.geolocation}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Método de pago">
-                      <p>{this.state.payment_method}</p>
+                    <Form.Item label="Imagen">
+                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row>
+                    <Col span={12}>
+                      <Form.Item label="Fecha de inicio">
+                        <p>{this.state.start_date}</p>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Fecha de fin">
+                        <p>{this.state.end_date}</p>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                      <Col span={12}>
+                        <Form.Item label="Tipo de reporte">
+                          <p>{this.state.report_type}</p>
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label="Usuario">
+                          <p>{this.state.user}</p>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+
+                    <Row>
 
                   <Col span={12}>
                     <Form.Item label="Estado de activación">

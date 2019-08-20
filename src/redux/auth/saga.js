@@ -46,6 +46,7 @@ export function* loginRequest() {
                 roles: roles_encrypted,
                 profile: 'Profile'
             });
+            yield message.success('Login correcto');
 
         } catch (e) {
             yield put({type: actions.LOGIN_ERROR});
@@ -57,7 +58,6 @@ export function* loginSuccess() {
     yield takeEvery(actions.LOGIN_SUCCESS, function* (payload) {
         yield localStorage.setItem('id_token', payload.token);
         yield localStorage.setItem('roles', payload.roles);
-        yield message.success('Login correcto');
     });
 }
 
