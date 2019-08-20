@@ -69,7 +69,7 @@ export default class CompanyShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/companies')
+    this.props.history.push('/admin/companies')
   }
 
 
@@ -78,7 +78,7 @@ export default class CompanyShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/companies' />
+      return <Redirect to='/admin/companies' />
     }
     return (
 

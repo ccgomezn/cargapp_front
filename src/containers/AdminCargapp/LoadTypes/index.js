@@ -42,7 +42,7 @@ export default class LoadType extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/load_types/add')
+    this.props.history.push('/admin/load_types/add')
 
   }
   render() {

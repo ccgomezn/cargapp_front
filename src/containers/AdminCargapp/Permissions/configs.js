@@ -14,7 +14,7 @@ const deleteFunction = (id) => {
   return function(){
     (deletePermission(id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/';
 
     }).catch((error) => {
       console.error(error);
@@ -39,10 +39,10 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/edit/' + object['id'];
       }
       var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/permissions/show/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/show/' + object['id'];
       }
       
       return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)

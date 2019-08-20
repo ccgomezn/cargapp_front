@@ -71,7 +71,7 @@ export default class StateCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cities' />
+      return <Redirect to='/admin/cities' />
     }
     return (
 

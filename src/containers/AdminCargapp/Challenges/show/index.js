@@ -63,7 +63,7 @@ export default class ChallengeShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/challenges')
+    this.props.history.push('/admin/challenges')
   }
 
 
@@ -72,7 +72,7 @@ export default class ChallengeShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/challenges' />
+      return <Redirect to='/admin/challenges' />
     }
     return (
 

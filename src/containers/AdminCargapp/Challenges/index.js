@@ -61,14 +61,14 @@ export default class Challenge extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/challenges/add')
+    this.props.history.push('/admin/challenges/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/challenges' />
+      return <Redirect to='/admin/challenges' />
     }
     return (
       <LayoutWrapper>

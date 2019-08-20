@@ -14,7 +14,7 @@ const deleteFunction = (id) => {
   return function () {
     (deleteState(id)
       .then(() => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/states/';
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/states/';
 
       }).catch((error) => {
         console.error(error);
@@ -37,7 +37,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/states/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/states/edit/' + object['id'];
       }
       
 

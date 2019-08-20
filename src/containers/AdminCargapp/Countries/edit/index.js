@@ -91,7 +91,7 @@ export default class CountryEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/countries' />
+      return <Redirect to='/admin/countries' />
     }
     return (
 

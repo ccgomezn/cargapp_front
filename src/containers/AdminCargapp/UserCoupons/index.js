@@ -59,7 +59,7 @@ export default class UserCoupon extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/user_coupons/add')
+    this.props.history.push('/admin/user_coupons/add')
 
   }
   render() {

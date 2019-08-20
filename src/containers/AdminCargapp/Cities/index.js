@@ -66,14 +66,14 @@ export default class City extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/cities/add')
+    this.props.history.push('/admin/cities/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/cities' />
+      return <Redirect to='/admin/cities' />
     }
     return (
       <LayoutWrapper>

@@ -78,7 +78,7 @@ export default class StateEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/states' />
+      return <Redirect to='/admin/states' />
     }
     return (
 

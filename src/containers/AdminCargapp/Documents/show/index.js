@@ -74,7 +74,7 @@ export default class DocumentShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/documents')
+    this.props.history.push('/admin/documents')
   }
 
 
@@ -83,7 +83,7 @@ export default class DocumentShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/documents' />
+      return <Redirect to='/admin/documents' />
     }
     return (
 

@@ -73,7 +73,7 @@ export default class StatusEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/status' />
+      return <Redirect to='/admin/status' />
     }
     return (
 

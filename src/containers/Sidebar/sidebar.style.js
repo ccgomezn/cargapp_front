@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import { transition, borderRadius } from '../../settings/style-util';
+import {palette} from 'styled-theme';
+import {transition, borderRadius} from '../../settings/style-util';
 import WithDirection from '../../settings/withDirection';
 
 const SidebarWrapper = styled.div`
@@ -148,7 +148,13 @@ const SidebarWrapper = styled.div`
         -ms-flex-align: center;
         align-items: center;
         padding: 0 26px !important;
+        color: white;
         margin: 0;
+                background-color: transparent !important;
+        a {
+                    opacity: 0.6 !important; 
+
+        }
         i {
             opacity: 0.6 !important; 
 
@@ -210,15 +216,33 @@ const SidebarWrapper = styled.div`
     .ant-menu-dark .ant-menu-inline.ant-menu-sub {
       background: ${palette('secondary', 5)};
     }
-
+    .ant-menu-submenu-selected {
+                    opacity: 1 !important; 
+        .ant-menu-item-selected {
+            opacity: 1 !important;
+        }
+        .ant-menu-item {
+                            opacity: 0.6 !important; 
+        }
+    }
     .ant-menu-submenu-inline,
     .ant-menu-submenu-vertical {
+        
+        .ant-menu-item {
+        
+            a {
+                color: white !important;
+                opacity: 0.6 !important; 
+                padding-left: 11px !important;
+           }
+        }
+    
       > .ant-menu-submenu-title {
         width: 100%;
         display: flex;
         align-items: center;
         padding: 0 24px;
-
+        
         > span {
           display: flex;
           align-items: center;
@@ -266,7 +290,7 @@ const SidebarWrapper = styled.div`
 
       .ant-menu-inline,
       .ant-menu-submenu-vertical {
-
+        .ant-menu
         .nav-text {
           left-padding: 0px !important;
         }
@@ -298,6 +322,7 @@ const SidebarWrapper = styled.div`
           .ant-menu-item-group-list {
             .ant-menu-item {
               padding-left: 125px !important;
+                      background-color: transparent !important;
             }
           }
         }
@@ -329,6 +354,7 @@ const SidebarWrapper = styled.div`
 
         .ant-menu-sub {
           background-color: transparent !important;
+        color:white !important;
 
           .ant-menu-item {
             height: 35px;

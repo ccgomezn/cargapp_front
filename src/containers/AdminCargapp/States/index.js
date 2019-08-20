@@ -61,14 +61,14 @@ export default class State extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/states/add')
+    this.props.history.push('/admin/states/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/states' />
+      return <Redirect to='/admin/states' />
     }
     return (
       <LayoutWrapper>

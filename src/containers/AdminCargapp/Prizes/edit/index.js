@@ -93,7 +93,7 @@ export default class PrizeEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/prizes' />
+      return <Redirect to='/admin/prizes' />
     }
     return (
 

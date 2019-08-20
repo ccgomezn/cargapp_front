@@ -65,14 +65,14 @@ export default class Ticket extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/tickets/add')
+    this.props.history.push('/admin/tickets/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/admin/tickets' />
     }
     return (
       <LayoutWrapper>

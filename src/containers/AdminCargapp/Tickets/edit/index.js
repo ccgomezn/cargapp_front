@@ -82,7 +82,7 @@ export default class TicketEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/admin/tickets' />
     }
     return (
 

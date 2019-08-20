@@ -59,14 +59,14 @@ export default class CargappIntegration extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/cargapp_integrations/add')
+    this.props.history.push('/admin/cargapp_integrations/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/cargapp_integrations' />
+      return <Redirect to='/admin/cargapp_integrations' />
     }
     return (
       <LayoutWrapper>

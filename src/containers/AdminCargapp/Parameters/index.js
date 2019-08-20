@@ -58,7 +58,7 @@ export default class Parameter extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/parameters/add')
+    this.props.history.push('/admin/parameters/add')
 
   }
   render() {

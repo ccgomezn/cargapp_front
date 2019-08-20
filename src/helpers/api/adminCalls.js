@@ -480,3 +480,18 @@ export function deleteVehicle(id) {
 export function deleteVehicleType(id) {
   return del(httpAddr + `/vehicle_types/` + id, true)
 }
+export function getPaymentMethods() {
+  return get(httpAddr + `/payment_methods`, true);
+}
+export function getPaymentMethod(id) {
+  return get(httpAddr + `/payment_methods/`+id, true);
+}
+export function putPaymentMethod(id, data) {
+  return put(httpAddr + '/payment_methods/'+id, data, true);
+}
+export function postPaymentMethod(data){
+  return post(httpAddr + `/payment_methods`, data, true);
+}
+export function deletePaymentMethod(id) {
+  return del(httpAddr + `/payment_methods/` + id, true)
+}

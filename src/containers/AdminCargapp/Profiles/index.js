@@ -54,14 +54,14 @@ export default class Profile extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/profiles/add')
+    this.props.history.push('/admin/profiles/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/profiles' />
+      return <Redirect to='/admin/profiles' />
     }
     return (
       <LayoutWrapper>

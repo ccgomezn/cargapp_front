@@ -77,7 +77,7 @@ export default class UserPrizeCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/user_prizes' />
+      return <Redirect to='/admin/user_prizes' />
     }
     return (
 

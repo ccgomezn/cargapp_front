@@ -78,7 +78,7 @@ export default class CargappIntegrationShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/cargapp_integrations')
+    this.props.history.push('/admin/cargapp_integrations')
   }
 
 
@@ -87,7 +87,7 @@ export default class CargappIntegrationShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cargapp_integrations' />
+      return <Redirect to='/admin/cargapp_integrations' />
     }
     return (
 

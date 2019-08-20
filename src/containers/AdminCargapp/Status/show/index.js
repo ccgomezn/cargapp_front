@@ -74,7 +74,7 @@ export default class StatusShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/status')
+    this.props.history.push('/admin/status')
   }
 
 
@@ -83,7 +83,7 @@ export default class StatusShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/status' />
+      return <Redirect to='/admin/status' />
     }
     return (
 

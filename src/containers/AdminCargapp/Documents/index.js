@@ -54,14 +54,14 @@ export default class Document extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/documents/add')
+    this.props.history.push('/admin/documents/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/documents' />
+      return <Redirect to='/admin/documents' />
     }
     return (
       <LayoutWrapper>

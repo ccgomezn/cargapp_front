@@ -14,7 +14,7 @@ const deleteFunction = (id) => {
   return function(){
     (deleteUserChallenge(id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/user_challenges/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/user_challenges/';
 
     }).catch((error) => {
       console.error(error);
@@ -37,7 +37,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/user_challenges/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/user_challenges/edit/' + object['id'];
       }
       
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)

@@ -14,7 +14,7 @@ const deleteFunction = (id) => {
   return function(){
     (deleteVehicleType(id)
     .then(() => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/vehicle_types/';
+      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/vehicle_types/';
 
     }).catch((error) => {
       console.error(error);
@@ -37,7 +37,7 @@ const renderCell = (object, type, key, color = false) => {
       var type1 = 'default';
       var type2 = 'danger';
       var function1 = function(){
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/vehicle_types/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/vehicle_types/edit/' + object['id'];
       }
       
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)

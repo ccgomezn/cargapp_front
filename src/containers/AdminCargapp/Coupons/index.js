@@ -60,14 +60,14 @@ export default class Coupons extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/coupons/add')
+    this.props.history.push('/admin/coupons/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/coupons' />
+      return <Redirect to='/admin/coupons' />
     }
     return (
       <LayoutWrapper>

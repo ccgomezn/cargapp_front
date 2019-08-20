@@ -55,7 +55,7 @@ export default class Status extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/status/add')
+    this.props.history.push('/admin/status/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;

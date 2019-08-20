@@ -21,7 +21,7 @@ const { toggleAll } = appActions;
 export class App extends Component {
   render() {
     const { url } = this.props.match;
-    const { locale, selectedTheme, height } = this.props;
+    const { locale, selectedTheme, height, admin } = this.props;
     const currentAppLocale = AppLocale[locale];
     const appHeight = window.innerHeight;
     return (
@@ -45,7 +45,7 @@ export class App extends Component {
                 </Debounce>
                 <Topbar url={url} />
                 <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
-                  <Sidebar url={url} />
+                  <Sidebar url={url} admin={admin}/>
                   <Layout
                     className="isoContentMainLayout"
                     style={{

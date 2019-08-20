@@ -57,7 +57,7 @@ export default class UserChallenge extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/user_challenges/add')
+    this.props.history.push('/admin/user_challenges/add')
 
   }
   render() {

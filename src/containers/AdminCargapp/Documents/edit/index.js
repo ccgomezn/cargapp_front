@@ -86,7 +86,7 @@ export default class DocumentEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/documents' />
+      return <Redirect to='/admin/documents' />
     }
     return (
 
