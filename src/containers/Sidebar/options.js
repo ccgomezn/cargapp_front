@@ -171,6 +171,19 @@ export const optionsAdmin = [
                 key: 'tickets',
                 label: 'sidebar.tickets',
             },]
+    }
+    , {
+        key: 'payments',
+        label: 'sidebar.payments',
+        leftIcon: 'ion-cash',
+        children: [{
+            key: 'payment_methods',
+            label: 'sidebar.payment_methods',
+        },
+            {
+                key: 'user_payment_methods',
+                label: 'sidebar.user_payment_methods',
+            }]
     },
 ];
 

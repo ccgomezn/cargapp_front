@@ -340,6 +340,22 @@ const routes = [
     component: asyncComponent(() => import('../AdminCargapp/PaymentMethods/show'))
   },
   {
+    path: 'user_payment_methods',
+    component: asyncComponent(() => import('../AdminCargapp/UserPaymentMethods'))
+  },
+  {
+    path: 'user_payment_methods/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserPaymentMethods/edit'))
+  },
+  {
+    path: 'user_payment_methods/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserPaymentMethods/create'))
+  },
+  {
+    path: 'user_payment_methods/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/UserPaymentMethods/show'))
+  },
+  {
     path: 'states',
     component: asyncComponent(() => import('../AdminCargapp/States'))
   },

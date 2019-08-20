@@ -495,3 +495,18 @@ export function postPaymentMethod(data){
 export function deletePaymentMethod(id) {
   return del(httpAddr + `/payment_methods/` + id, true)
 }
+export function getUserPaymentMethods() {
+  return get(httpAddr + `/user_payment_methods`, true);
+}
+export function getUserPaymentMethod(id) {
+  return get(httpAddr + `/user_payment_methods/`+id, true);
+}
+export function putUserPaymentMethod(id, data) {
+  return put(httpAddr + '/user_payment_methods/'+id, data, true);
+}
+export function postUserPaymentMethod(data){
+  return post(httpAddr + `/user_payment_methods`, data, true);
+}
+export function deleteUserPaymentMethod(id) {
+  return del(httpAddr + `/user_payment_methods/` + id, true)
+}

@@ -20,8 +20,12 @@
   "sidebar.companies": "Compañias",
   "payment_methods.title": "Métodos de pago",
   "antTable.title.uuid": "Uuid",
+  "sidebar.payments": "Pagos",
+  "sidebar.payment_methods": "Métodos de pago",
+  "sidebar.user_payment_methods": "Métodos de pago de usuarios",
+  "user_payment_methods.title": "Métodos de pago de usuarios",
   "sidebar.indoors": "Internos",
-
+  "antTable.title.observation": "Observación",
   "sidebar.cargappModels": "Modelos",
   "sidebar.parameters": "Paramentros",
   "sidebar.permissions": "Permisos",
