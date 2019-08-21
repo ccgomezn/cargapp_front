@@ -170,6 +170,9 @@ export const optionsAdmin = [
             }, {
                 key: 'tickets',
                 label: 'sidebar.tickets',
+            },{
+                key: 'reports',
+                label: 'sidebar.reports',
             },]
     }
     , {

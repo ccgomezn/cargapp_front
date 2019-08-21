@@ -193,6 +193,8 @@ const SidebarWrapper = styled.div`
       }
       
       .ant-menu-item-selected {
+                  opacity: 1 !important; 
+
         i {
             opacity: 1 !important; 
 
@@ -217,19 +219,19 @@ const SidebarWrapper = styled.div`
       background: ${palette('secondary', 5)};
     }
     .ant-menu-submenu-selected {
-                    opacity: 1 !important; 
+        opacity: 1 !important; 
         .ant-menu-item-selected {
             opacity: 1 !important;
         }
         .ant-menu-item {
-                            opacity: 0.6 !important; 
+                            opacity: 0.6; 
         }
     }
     .ant-menu-submenu-inline,
     .ant-menu-submenu-vertical {
         
         .ant-menu-item {
-        
+            opacity: 0.6;
             a {
                 color: white !important;
                 opacity: 0.6 !important; 
@@ -242,7 +244,8 @@ const SidebarWrapper = styled.div`
         display: flex;
         align-items: center;
         padding: 0 24px;
-        
+        opacity: 0.6; 
+
         > span {
           display: flex;
           align-items: center;
