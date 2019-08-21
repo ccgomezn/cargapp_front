@@ -4,7 +4,6 @@ import axios from 'axios';
 import actions from './actions';
 import {encrypt} from '../../helpers/utility'
 import {message} from "antd";
-import importantVariables from "../../helpers/hashVariables";
 
 function loginApi(url, data) {
     return axios.post(

@@ -12,7 +12,6 @@ import {Redirect} from 'react-router-dom'
 import {Select, Input} from 'antd';
 import moment from 'moment';
 import {putReport, getReport, getUsers, findParameters} from '../../../../helpers/api/adminCalls.js';
-import {postReport} from "../../../../helpers/api/adminCalls";
 
 
 const dateFormat = 'YYYY-MM-DD';

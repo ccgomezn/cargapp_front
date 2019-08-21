@@ -59,7 +59,6 @@ export default class PaymentMethodEdit extends Component {
     }
 
     handlePut() {
-        const formData = new FormData();
         putPaymentMethod(this.props.match.params.id,
             {
                 payment_method: {
