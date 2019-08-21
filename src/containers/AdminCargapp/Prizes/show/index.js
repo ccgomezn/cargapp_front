@@ -78,7 +78,7 @@ export default class PrizeShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/prizes')
+    this.props.history.push('/admin/prizes')
   }
 
 
@@ -87,7 +87,7 @@ export default class PrizeShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/prizes' />
+      return <Redirect to='/admin/prizes' />
     }
     return (
 

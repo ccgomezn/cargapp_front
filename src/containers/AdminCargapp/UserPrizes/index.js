@@ -53,7 +53,7 @@ export default class UserPrize extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/user_prizes/add')
+    this.props.history.push('/admin/user_prizes/add')
 
   }
   render() {

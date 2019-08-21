@@ -55,14 +55,14 @@ export default class Company extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/companies/add')
+    this.props.history.push('/admin/companies/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/companies' />
+      return <Redirect to='/admin/companies' />
     }
     return (
       <LayoutWrapper>

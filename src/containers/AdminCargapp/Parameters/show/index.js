@@ -85,7 +85,7 @@ export default class ParameterShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/parameters')
+    this.props.history.push('/admin/parameters')
   }
 
 
@@ -94,7 +94,7 @@ export default class ParameterShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/parameters' />
+      return <Redirect to='/admin/parameters' />
     }
     return (
 

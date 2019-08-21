@@ -63,7 +63,7 @@ export default class Permission extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/permissions/add')
+    this.props.history.push('/admin/permissions/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;

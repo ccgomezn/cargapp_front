@@ -14,7 +14,7 @@ const deleteFunction = (id) => {
   return function () {
     (deleteChallenge(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/challenges/';
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/challenges/';
 
       }).catch((error) => {
         console.error(error);
@@ -39,10 +39,10 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/challenges/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/challenges/edit/' + object['id'];
       }
       var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/dashboard/admin/challenges/show/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/challenges/show/' + object['id'];
       }
 
       return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)

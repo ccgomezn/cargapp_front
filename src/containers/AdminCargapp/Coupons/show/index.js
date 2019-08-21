@@ -72,7 +72,7 @@ export default class CouponShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/coupons')
+    this.props.history.push('/admin/coupons')
   }
 
 
@@ -81,7 +81,7 @@ export default class CouponShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/coupons' />
+      return <Redirect to='/admin/coupons' />
     }
     return (
 

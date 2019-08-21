@@ -74,7 +74,7 @@ export default class VehicleTypeEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/vehicle_types' />
+      return <Redirect to='/admin/vehicle_types' />
     }
     return (
 

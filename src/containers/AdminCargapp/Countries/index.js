@@ -67,14 +67,14 @@ export default class Country extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/countries/add')
+    this.props.history.push('/admin/countries/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/countries' />
+      return <Redirect to='/admin/countries' />
     }
     return (
       <LayoutWrapper>

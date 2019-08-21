@@ -5,11 +5,11 @@ import TextWrapper from './text.style'
 
 export default class TextInputCustom extends Component {
   render() {
-    const {value, type, placeholder, onChange} = this.props
+    const {value, type, placeholder, onChange, required} = this.props;
     return (
       <TextWrapper>
         <label for="input"><IntlMessages id={this.props.label_id} /></label>
-        <Input type={type} value={value} size="large" placeholder={placeholder} id="input" onChange={onChange} autoComplete="new-password" />
+        <Input type={type} value={value} size="large" placeholder={placeholder} id="input" onChange={onChange} autoComplete="new-password" required={required} />
       </TextWrapper>
     )
   }

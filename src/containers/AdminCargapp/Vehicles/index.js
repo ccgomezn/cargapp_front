@@ -58,14 +58,14 @@ export default class Vehicle extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/vehicles/add')
+    this.props.history.push('/admin/vehicles/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/vehicles' />
+      return <Redirect to='/admin/vehicles' />
     }
     return (
       <LayoutWrapper>

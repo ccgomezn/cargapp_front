@@ -79,7 +79,7 @@ export default class PermissionShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/permissions')
+    this.props.history.push('/admin/permissions')
   }
 
 
@@ -88,7 +88,7 @@ export default class PermissionShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/permissions' />
+      return <Redirect to='/admin/permissions' />
     }
     return (
 

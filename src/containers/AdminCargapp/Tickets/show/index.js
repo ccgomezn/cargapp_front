@@ -66,7 +66,7 @@ export default class TicketShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/tickets')
+    this.props.history.push('/admin/tickets')
   }
 
 
@@ -75,7 +75,7 @@ export default class TicketShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/tickets' />
+      return <Redirect to='/admin/tickets' />
     }
     return (
 

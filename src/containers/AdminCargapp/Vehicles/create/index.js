@@ -76,7 +76,7 @@ export default class VehicleCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/vehicles' />
+      return <Redirect to='/admin/vehicles' />
     }
     return (
 

@@ -76,7 +76,7 @@ export default class CouponEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/coupons' />
+      return <Redirect to='/admin/coupons' />
     }
     return (
 

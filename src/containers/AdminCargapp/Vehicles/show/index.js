@@ -73,7 +73,7 @@ export default class VehicleShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/vehicles')
+    this.props.history.push('/admin/vehicles')
   }
 
 
@@ -82,7 +82,7 @@ export default class VehicleShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/vehicles' />
+      return <Redirect to='/admin/vehicles' />
     }
     return (
 

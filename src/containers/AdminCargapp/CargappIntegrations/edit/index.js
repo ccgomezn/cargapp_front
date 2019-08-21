@@ -103,7 +103,7 @@ export default class CargappIntegrationEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cargapp_integrations' />
+      return <Redirect to='/admin/cargapp_integrations' />
     }
     return (
 

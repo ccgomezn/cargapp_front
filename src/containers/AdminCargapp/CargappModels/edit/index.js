@@ -75,7 +75,7 @@ export default class CargappModelEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/cargapp_models' />
+      return <Redirect to='/admin/cargapp_models' />
     }
     return (
 

@@ -73,7 +73,7 @@ export default class RoleEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/roles' />
+      return <Redirect to='/admin/roles' />
     }
     return (
 

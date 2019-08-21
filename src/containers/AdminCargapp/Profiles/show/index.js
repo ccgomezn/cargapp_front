@@ -60,7 +60,7 @@ export default class ProfileShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/dashboard/admin/profiles')
+    this.props.history.push('/admin/profiles')
   }
 
 
@@ -69,7 +69,7 @@ export default class ProfileShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/profiles' />
+      return <Redirect to='/admin/profiles' />
     }
     return (
 

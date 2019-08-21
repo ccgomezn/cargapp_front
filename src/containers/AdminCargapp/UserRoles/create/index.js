@@ -74,7 +74,7 @@ export default class RoleCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/user_roles' />
+      return <Redirect to='/admin/user_roles' />
     }
     return (
 

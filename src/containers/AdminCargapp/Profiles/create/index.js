@@ -75,7 +75,7 @@ export default class ProfileCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/profiles' />
+      return <Redirect to='/admin/profiles' />
     }
     return (
 

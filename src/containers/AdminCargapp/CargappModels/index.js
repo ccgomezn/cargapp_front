@@ -41,7 +41,7 @@ export default class CargappModel extends Component {
   }
 
   redirectAdd(){
-    this.props.history.push('/dashboard/admin/cargapp_models/add')
+    this.props.history.push('/admin/cargapp_models/add')
 
   }
   render() {

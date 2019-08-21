@@ -57,7 +57,7 @@ export default class LoadCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/load_types' />
+      return <Redirect to='/admin/load_types' />
     }
     return (
 

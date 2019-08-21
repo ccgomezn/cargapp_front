@@ -56,7 +56,7 @@ export default class DocumentTypeCreate extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/document_types' />
+      return <Redirect to='/admin/document_types' />
     }
     return (
 

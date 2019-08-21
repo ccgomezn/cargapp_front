@@ -91,7 +91,7 @@ export default class CompanyEdit extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/dashboard/admin/companies' />
+      return <Redirect to='/admin/companies' />
     }
     return (
 

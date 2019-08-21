@@ -59,14 +59,14 @@ export default class Prize extends Component {
 
 
   redirectAdd() {
-    this.props.history.push('/dashboard/admin/prizes/add')
+    this.props.history.push('/admin/prizes/add')
   }
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { reload } = this.state;
 
     if (reload) {
-      return <Redirect to='/dashboard/admin/prizes' />
+      return <Redirect to='/admin/prizes' />
     }
     return (
       <LayoutWrapper>
