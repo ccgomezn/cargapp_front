@@ -32,11 +32,9 @@ export function getToken() {
 }
 
 export function makeAuthorizationHeader(token) {
-  let header = {
-    Authorization: 'Bearer ' + token
-  }
-
-  return header;
+  return {
+    Authorization: 'Bearer ' + token,
+  };
 }
 
 export function timeDifference(givenTime) {

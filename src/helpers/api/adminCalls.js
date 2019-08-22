@@ -111,7 +111,7 @@ export function getCities() {
 }
 
 export function getCity(id) {
-    return get(httpAddr + '/cities' + id, true)
+    return get(httpAddr + '/cities/' + id, true)
 }
 
 export function putCity(id, data) {
@@ -574,4 +574,24 @@ export function deleteReport(id) {
 
 export function findParameters(code) {
     return get(httpAddr + `/parameters/find/` + code, true);
+}
+
+export function getServices() {
+    return get(httpAddr + `/services`, true);
+}
+
+export function getService(id) {
+    return get(httpAddr + `/services/` + id, true);
+}
+
+export function putService(id, data) {
+    return put(httpAddr + '/services/' + id, data, true);
+}
+
+export function postService(data) {
+    return post(httpAddr + `/services`, data, true);
+}
+
+export function deleteService(id) {
+    return del(httpAddr + `/services/` + id, true)
 }
