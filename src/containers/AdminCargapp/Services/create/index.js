@@ -133,7 +133,7 @@ export default class ReportCreate extends Component {
                     statu_id: this.state.statu_id,
                     expiration_date: this.state.expiration_date,
                     contact: this.state.contact,
-                    active: this.state.active,
+                    active: true,
                 }
             }).then(() => {
             this.setState({redirect: true})
