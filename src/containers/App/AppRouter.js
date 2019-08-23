@@ -275,6 +275,17 @@ const routes_admin = [
   {
     path: 'service_documents/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/edit'))
+  }, {
+    path: 'favorite_routes',
+    component: asyncComponent(() => import('../AdminCargapp/FavoriteRoutes'))
+  },
+  {
+    path: 'favorite_routes/add',
+    component: asyncComponent(() => import('../AdminCargapp/FavoriteRoutes/create'))
+  },
+  {
+    path: 'favorite_routes/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/FavoriteRoutes/edit'))
   },
   {
     path: 'cargapp_integrations',
