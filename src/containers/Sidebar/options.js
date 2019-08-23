@@ -170,7 +170,7 @@ export const optionsAdmin = [
             }, {
                 key: 'tickets',
                 label: 'sidebar.tickets',
-            },{
+            }, {
                 key: 'reports',
                 label: 'sidebar.reports',
             },]
@@ -187,6 +187,14 @@ export const optionsAdmin = [
                 key: 'user_payment_methods',
                 label: 'sidebar.user_payment_methods',
             }]
+    }, {
+        key: 'services',
+        label: 'sidebar.services',
+        leftIcon: 'ion-lightbulb',
+        children: [{
+            key: 'services',
+            label: 'sidebar.services',
+        }]
     },
 ];
 

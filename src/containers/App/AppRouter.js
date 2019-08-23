@@ -245,6 +245,21 @@ const routes_admin = [
   {
     path: 'tickets/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Tickets/edit'))
+  }, {
+    path: 'services',
+    component: asyncComponent(() => import('../AdminCargapp/Services'))
+  },
+  {
+    path: 'services/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Services/show'))
+  },
+  {
+    path: 'services/add',
+    component: asyncComponent(() => import('../AdminCargapp/Services/create'))
+  },
+  {
+    path: 'services/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/Services/edit'))
   },
   {
     path: 'cargapp_integrations',
