@@ -11,14 +11,14 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select, Input} from 'antd';
 import moment from 'moment';
-import {putReport, getReport, getUsers, findParameters} from '../../../../helpers/api/adminCalls.js';
+import {putServiceDocument, getServiceDocument, getUsers, getServices} from '../../../../helpers/api/adminCalls.js';
 
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
 
 
-export default class ReportEdit extends Component {
+export default class ServiceDocumentEdit extends Component {
 
 
     constructor(props) {
@@ -30,21 +30,14 @@ export default class ReportEdit extends Component {
 
 
     componentWillMount() {
-        axios.all([getReport(this.props.match.params.id), getUsers(), findParameters('REPORT_TYPES')])
+        axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getServices()])
             .then((responses) => {
                 this.setState({
-                    report_types: responses[2].data.parameters,
+                    services: responses[2].data,
                     users: responses[1].data,
                     name: responses[0].data.name,
-                    origin: responses[0].data.origin,
-                    destination: responses[0].data.destination,
-                    cause: responses[0].data.cause,
-                    sense: responses[0].data.sense,
-                    novelty: responses[0].data.novelty,
-                    geolocation: responses[0].data.geolocation,
-                    start_date: responses[0].data.start_date,
-                    end_date: responses[0].data.end_date,
-                    report_type: responses[0].data.report_type,
+                    document_type: responses[0].data.document_type,
+                    service_id: responses[0].data.service_id,
                     user_id: responses[0].data.user_id,
                     active: responses[0].data.active,
                 });
@@ -65,22 +58,17 @@ export default class ReportEdit extends Component {
 
     handlePut() {
         const formData = new FormData();
-        formData.append('report[name]', this.state.name);
-        formData.append('report[origin]', this.state.origin);
-        formData.append('report[destination]', this.state.destination);
-        formData.append('report[cause]', this.state.cause);
-        formData.append('report[sense]', this.state.sense);
-        formData.append('report[novelty]', this.state.novelty);
-        formData.append('report[geolocation]', this.state.geolocation);
-        if (this.state.image) {
-            formData.append('report[image]', this.state.image, this.state.image.name);
+        formData.append('service_document[name]', this.state.name);
+        formData.append('service_document[document_type]', this.state.document_type);
+        formData.append('service_document[service_id]', this.state.service_id);
+        formData.append('service_document[user_id]', this.state.user_id);
+
+        if (this.state.document) {
+            formData.append('service_document[document]', this.state.document, this.state.document.name);
         }
-        formData.append('report[start_date]', this.state.start_date);
-        formData.append('report[end_date]', this.state.end_date);
-        formData.append('report[report_type]', this.state.report_type);
-        formData.append('report[user_id]', this.state.user_id);
-        formData.append('report[active]', this.state.active);
-        putReport(this.props.match.params.id,
+
+        formData.append('service_document[active]', this.state.active);
+        putServiceDocument(this.props.match.params.id,
             formData).then(() => {
             this.setState({redirect: true})
         })
@@ -91,7 +79,7 @@ export default class ReportEdit extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/reports'/>
+            return <Redirect to='/admin/service_documents'/>
         }
         return (
 
@@ -105,7 +93,7 @@ export default class ReportEdit extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="reports.title"/>
+                                        <IntlMessages id="serviceDocuments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -123,96 +111,25 @@ export default class ReportEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Origen">
-                                                <Input value={this.state.origin} placeholder="origen"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'origin')}
+                                            <Form.Item label="Tipo de documento">
+                                                <Input value={this.state.document_type} placeholder="tipo de documento"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'document_type')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Destino">
-                                                <Input value={this.state.destination} placeholder="destino"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'destination')}
-                                                       required/>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Causa">
-                                                <Input value={this.state.cause} placeholder="causa"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'cause')}
-                                                       required/>
 
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Sentido">
-                                                <Input value={this.state.sense} placeholder="Sentido"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'sense')}
-                                                       required/>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Gravedad">
-                                                <Input value={this.state.novelty} placeholder="gravedad"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'novelty')}
-                                                       required/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row gutter={10}>
-
-                                        <Col span={12}>
-                                            <Form.Item label="Geolocalización">
-                                                <Input value={this.state.geolocation} placeholder="geolocalización"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'geolocation')}
-                                                       required/>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Imagen">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'image')}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Fecha de inicio">
-                                                {
-                                                    this.state && this.state.start_date &&
-                                                    <DatePicker defaultValue={moment(this.state.start_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'start_date')}/>
-                                                }
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Fecha de fin">
-                                                {
-                                                    this.state && this.state.end_date &&
-                                                    <DatePicker defaultValue={moment(this.state.end_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'end_date')}/>
-                                                }
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Tipo de reporte">
-                                                <Select value={this.state.report_type} placeholder="tipo de reporte"
+                                            <Form.Item label="Servicio">
+                                                <Select value={this.state.service_id} placeholder="servicoi"
                                                         style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'report_type')
+                                                    this.handleChange(e, 'service_id')
                                                 }}>
-                                                    {this.state && this.state.report_types &&
+                                                    {this.state && this.state.services &&
 
-                                                    this.state.report_types.map((item) => {
-                                                        return <Option value={item.code}>{item.name}</Option>
+                                                    this.state.services.map((item) => {
+                                                        return <Option value={item.id}>{item.name}</Option>
                                                     })
                                                     }
                                                 </Select>
@@ -234,6 +151,17 @@ export default class ReportEdit extends Component {
                                             </Form.Item>
                                         </Col>
 
+                                    </Row>
+
+                                    <Row gutter={10}>
+
+
+                                        <Col span={12}>
+                                            <Form.Item label="Documento">
+                                                <input type="file"
+                                                       onChange={(e) => this.handleChange(e.target.files[0], 'document')}/>
+                                            </Form.Item>
+                                        </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>

@@ -8,13 +8,13 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteReport } from '../../../helpers/api/adminCalls';
+import { deleteServiceDocument } from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
   return function () {
-    (deleteReport(id)
+    (deleteServiceDocument(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/reports/';
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/';
 
       }).catch((error) => {
         console.error(error);
@@ -39,10 +39,10 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/reports/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/edit/' + object['id'];
       }
       var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/reports/show/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/show/' + object['id'];
       }
 
       return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
@@ -70,23 +70,18 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'name')
   },
   {
-    title: <IntlMessages id="antTable.title.origin" />,
-    key: 'origin',
+    title: <IntlMessages id="antTable.title.documentType" />,
+    key: 'document_type',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'origin')
+    render: object => renderCell(object, 'TextCell', 'document_type')
   },
   {
-    title: <IntlMessages id="antTable.title.destination" />,
-    key: 'destination',
+    title: <IntlMessages id="antTable.title.service" />,
+    key: 'service',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'destination')
+    render: object => renderCell(object, 'TextCell', 'service')
   },
   {
-    title: <IntlMessages id="antTable.title.start_date" />,
-    key: 'start_date',
-    width: '12%',
-    render: object => renderCell(object, 'TextCell', 'start_date')
-  },{
     title: <IntlMessages id="antTable.title.user" />,
     key: 'user',
     width: '12%',
@@ -113,8 +108,7 @@ const sortColumns = [
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
-  { ...columns[6], sorter: true },
-  { ...columns[7], sorter: false },
+  { ...columns[6], sorter: false },
 ];
 const editColumns = [
   { ...columns[1], width: 300 },

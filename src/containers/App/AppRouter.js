@@ -260,6 +260,21 @@ const routes_admin = [
   {
     path: 'services/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/Services/edit'))
+  }, {
+    path: 'service_documents',
+    component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments'))
+  },
+  {
+    path: 'service_documents/show/:id',
+    component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/show'))
+  },
+  {
+    path: 'service_documents/add',
+    component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/create'))
+  },
+  {
+    path: 'service_documents/edit/:id',
+    component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/edit'))
   },
   {
     path: 'cargapp_integrations',

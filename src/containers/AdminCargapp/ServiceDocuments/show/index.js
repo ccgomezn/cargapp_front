@@ -9,9 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getReport, getUsers } from '../../../../helpers/api/adminCalls.js';
+import { getServiceDocument, getServices, getUsers } from '../../../../helpers/api/adminCalls.js';
 
-export default class ReportShow extends Component {
+export default class ServiceDocumentShow extends Component {
 
 
   constructor(props) {
@@ -31,7 +31,7 @@ export default class ReportShow extends Component {
   }
 
   componentWillMount() {
-    axios.all([getReport(this.props.match.params.id), getUsers()])
+    axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getServices()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -40,20 +40,14 @@ export default class ReportShow extends Component {
           responses[0].data.active = 'Desactivado';
         }
 
-        
-        let data_users = this.transformDataToMap(responses[1].data, 'email')
+
+        let data_users = this.transformDataToMap(responses[1].data, 'email');
+        let data_services = this.transformDataToMap(responses[2].data, 'name');
         this.setState({
           name: responses[0].data.name,
-          origin: responses[0].data.origin,
-          destination: responses[0].data.destination,
-          cause: responses[0].data.cause,
-          sense: responses[0].data.sense,
-          novelty: responses[0].data.novelty,
-          geolocation: responses[0].data.geolocation,
-          image: responses[0].data.image,
-          start_date: responses[0].data.start_date,
-          end_date: responses[0].data.end_date,
-          report_type: responses[0].data.report_type,
+          document_type: responses[0].data.document_type,
+          document: responses[0].data.document,
+          service: data_services[responses[0].data.service_id],
           user: data_users[responses[0].data.user_id],
           active: responses[0].data.active,
         });
@@ -72,7 +66,7 @@ export default class ReportShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/admin/reports')
+    this.props.history.push('/admin/service_documents')
   }
 
 
@@ -81,7 +75,7 @@ export default class ReportShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/admin/reports' />
+      return <Redirect to='/admin/service_documents' />
     }
     return (
 
@@ -95,7 +89,7 @@ export default class ReportShow extends Component {
                 <PageHeader>
 
                   <h1>
-                    <IntlMessages id="reports.title" />
+                    <IntlMessages id="serviceDocuments.title" />
 
                   </h1>
                 </PageHeader>
@@ -110,78 +104,32 @@ export default class ReportShow extends Component {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Origen">
-                      <p>{this.state.origin}</p>
+                    <Form.Item label="Tipo de documento">
+                      <p>{this.state.document_type}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Form.Item label="Destino">
-                      <p>{this.state.destination}</p>
+                    <Form.Item label="Servicio">
+                      <p>{this.state.service}</p>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="Causa">
-                      <p>{this.state.cause}</p>
+                    <Form.Item label="Usuario">
+                      <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
                 </Row>
 
-                <Row gutter={10}>
+                <Row span={12}>
                   <Col span={12}>
-                    <Form.Item label="Sentido">
-                      <p>{this.state.sense}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Gravedad">
-                      <p>{this.state.novelty}</p>
-                    </Form.Item>
-                  </Col>
-
-                </Row>
-
-
-                <Row>
-                  <Col span={12}>
-                    <Form.Item label="Geolocalización">
-                      <p>{this.state.geolocation}</p>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="Imagen">
-                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
+                    <Form.Item label="Documento">
+                      <a href={this.state.document}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>
-
-                <Row>
-                    <Col span={12}>
-                      <Form.Item label="Fecha de inicio">
-                        <p>{this.state.start_date}</p>
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item label="Fecha de fin">
-                        <p>{this.state.end_date}</p>
-                      </Form.Item>
-                    </Col>
-                  </Row>
-
-                  <Row>
-                      <Col span={12}>
-                        <Form.Item label="Tipo de reporte">
-                          <p>{this.state.report_type}</p>
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item label="Usuario">
-                          <p>{this.state.user}</p>
-                        </Form.Item>
-                      </Col>
-                    </Row>
 
                     <Row>
 

@@ -9,9 +9,10 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getReports, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getServiceDocuments, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getServices} from "../../../helpers/api/adminCalls";
 
-export default class Report extends Component {
+export default class ServiceDocument extends Component {
 
 
     constructor(props) {
@@ -35,9 +36,10 @@ export default class Report extends Component {
 
 
     componentWillMount() {
-        axios.all([getReports(), getUsers()])
+        axios.all([getServiceDocuments(), getUsers(), getServices()])
             .then((responses) => {
                 let user_data = this.transformDataToMap(responses[1].data, 'email');
+                let service_data = this.transformDataToMap(responses[2].data, 'name');
                 responses[0].data.map((item) => {
                     if (item.active) {
                         item.active = 'Activo';
@@ -47,10 +49,11 @@ export default class Report extends Component {
                         item.color = '#ff2557';
                     }
                     item.user = user_data[item.user_id];
+                    item.service = service_data[item.service_id];
                     return item;
                 });
                 this.setState({
-                    reports: responses[0].data
+                    service_documents: responses[0].data
                 });
 
             })
@@ -58,7 +61,7 @@ export default class Report extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/reports/add')
+        this.props.history.push('/admin/service_documents/add')
     }
 
     render() {
@@ -66,7 +69,7 @@ export default class Report extends Component {
         const {reload} = this.state;
 
         if (reload) {
-            return <Redirect to='/admin/reports'/>
+            return <Redirect to='/admin/service_documents'/>
         }
         return (
             <LayoutWrapper>
@@ -79,7 +82,7 @@ export default class Report extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="reports.title"/>
+                                        <IntlMessages id="serviceDocuments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -94,8 +97,8 @@ export default class Report extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.reports &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.reports}/>
+                                {this.state && this.state.service_documents &&
+                                <SortView tableInfo={tableinfos[1]} dataList={this.state.service_documents}/>
                                 }
                             </Col>
                         </Row>
