@@ -595,3 +595,43 @@ export function postService(data) {
 export function deleteService(id) {
     return del(httpAddr + `/services/` + id, true)
 }
+
+export function getServiceDocuments() {
+    return get(httpAddr + `/service_documents`, true);
+}
+
+export function getServiceDocument(id) {
+    return get(httpAddr + `/service_documents/` + id, true);
+}
+
+export function putServiceDocument(id, data) {
+    return put(httpAddr + '/service_documents/' + id, data, true);
+}
+
+export function postServiceDocument(data) {
+    return post(httpAddr + `/service_documents`, data, true);
+}
+
+export function deleteServiceDocument(id) {
+    return del(httpAddr + `/service_documents/` + id, true)
+}
+
+export function getFavoriteRoutes() {
+    return get(httpAddr + `/favorite_routes`, true);
+}
+
+export function getFavoriteRoute(id) {
+    return get(httpAddr + `/favorite_routes/` + id, true);
+}
+
+export function putFavoriteRoute(id, data) {
+    return put(httpAddr + '/favorite_routes/' + id, data, true);
+}
+
+export function postFavoriteRoute(data) {
+    return post(httpAddr + `/favorite_routes`, data, true);
+}
+
+export function deleteFavoriteRoute(id) {
+    return del(httpAddr + `/favorite_routes/` + id, true)
+}

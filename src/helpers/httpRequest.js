@@ -10,7 +10,7 @@ function logout() {
 }
 
 export function get(url, secured = false) {
-  let headers = {}
+  let headers = {};
   if (secured) {
     headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
   }
@@ -24,7 +24,7 @@ export function get(url, secured = false) {
 }
 
 export function post(url, data, secured = false) {
-  let headers = {}
+  let headers = {};
 
   if (secured) {
     headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
@@ -38,7 +38,7 @@ export function post(url, data, secured = false) {
 }
 
 export function put(url, data, secured = false) {
-  let headers = {}
+  let headers = {};
 
   if (secured) {
     headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
@@ -52,7 +52,7 @@ export function put(url, data, secured = false) {
 }
 
 export function del(url, secured = false) {
-  let headers = {}
+  let headers = {};
 
   if (secured) {
     headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))

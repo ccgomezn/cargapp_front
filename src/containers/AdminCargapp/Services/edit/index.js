@@ -22,6 +22,8 @@ import {
 } from '../../../../helpers/api/adminCalls.js';
 import {getStatus} from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
+import MapContainer from "../../../../components/maps/map";
+import {midPointLatLong} from "../../../../helpers/geolocalization";
 
 
 const dateFormat = 'YYYY-MM-DD';
@@ -108,12 +110,18 @@ export default class ServiceEdit extends Component {
     }
 
     handleChange(value, type) {
-
+        if (type === 'user_driver_id') {
+            this.setState({vehicles: this.state.vehicles_full[value]});
+        }
         this.setState(
             {
                 [type]: value
             }
-        )
+        );
+        this.setState((prevState) => ({
+            center: midPointLatLong(Number(prevState.origin_latitude), Number(prevState.origin_longitude),
+                Number(prevState.destination_latitude), Number(prevState.destination_longitude))
+        }));
     }
 
     handlePut() {
@@ -164,13 +172,20 @@ export default class ServiceEdit extends Component {
                         origin_longitude: data.geometry.location.lng,
                         origin_latitude: data.geometry.location.lat,
                     })
-                }else{
+                } else {
                     this.setState({
                         destination_longitude: data.geometry.location.lng,
                         destination_latitude: data.geometry.location.lat,
                     })
                 }
+
             }
+            this.setState({
+                center: midPointLatLong(Number(this.state.origin_latitude), Number(this.state.origin_longitude),
+                    Number(this.state.destination_latitude), Number(this.state.destination_longitude))
+            })
+        }).catch((error) => {
+            console.log(error);
         })
 
     }
@@ -334,6 +349,26 @@ export default class ServiceEdit extends Component {
                                                                      this.state.destination_address, 'destination')}/>
                                             </Form.Item>
 
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col span={24}>
+                                            <MapContainer markers={[{
+                                                position: {
+                                                    lat: Number(this.state.origin_latitude),
+                                                    lng: Number(this.state.origin_longitude),
+                                                }
+                                            },
+                                                {
+                                                    position: {
+                                                        lat: Number(this.state.destination_latitude),
+                                                        lng: Number(this.state.destination_longitude),
+                                                    }
+                                                }]} center={this.state.center ? this.state.center : {
+                                                lat: 4.710989,
+                                                lng: -74.072090
+                                            }} block style={{height: 500}} isFreight={false}/>
                                         </Col>
                                     </Row>
 
