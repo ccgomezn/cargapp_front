@@ -23,17 +23,6 @@ export default class User extends Component {
 
     }
 
-    componentWillMount() {
-        axios.all([getRoles()])
-            .then((responses) => {
-
-                this.setState({
-                    roles: responses[0].data
-                });
-
-            })
-    }
-
     transformDataToMap(data, key, key2 = null) {
         var dataTransformed = {};
         data.map((item) => {
