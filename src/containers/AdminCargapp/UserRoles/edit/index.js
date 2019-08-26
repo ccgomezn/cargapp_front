@@ -10,7 +10,7 @@ import { Card, message } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import { putUserRole, getRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
+import { putUserRole, getUserRole, getUsers, getRoles } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class RoleEdit extends Component {
@@ -26,7 +26,7 @@ export default class RoleEdit extends Component {
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([getRole(this.props.match.params.id), getUsers(), getRoles()])
+    axios.all([getUserRole(this.props.match.params.id), getUsers(), getRoles()])
       .then((responses) => {
 
 

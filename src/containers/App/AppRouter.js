@@ -332,6 +332,10 @@ const routes_admin = [
     component: asyncComponent(() => import('../AdminCargapp/UserRoles'))
   },
   {
+    path: 'user_roles/add',
+    component: asyncComponent(() => import('../AdminCargapp/UserRoles/create'))
+  },
+  {
     path: 'user_roles/edit/:id',
     component: asyncComponent(() => import('../AdminCargapp/UserRoles/edit'))
   },

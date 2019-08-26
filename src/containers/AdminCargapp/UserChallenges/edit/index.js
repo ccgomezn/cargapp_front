@@ -10,7 +10,7 @@ import { Card, message, Input } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import { Select } from 'antd';
-import { getChallenge, getUsers, getChallenges, putChallenge } from '../../../../helpers/api/adminCalls.js';
+import { getUserChallenge, getUsers, getChallenges, putChallenge } from '../../../../helpers/api/adminCalls.js';
 
 const { Option } = Select;
 export default class UserChallengeEdit extends Component {
@@ -25,7 +25,7 @@ export default class UserChallengeEdit extends Component {
 
   componentWillMount() {
     console.log(this.props);
-    axios.all([getChallenge(this.props.match.params.id), getUsers(), getChallenges()])
+    axios.all([getUserChallenge(this.props.match.params.id), getUsers(), getChallenges()])
       .then((responses) => {
 
 

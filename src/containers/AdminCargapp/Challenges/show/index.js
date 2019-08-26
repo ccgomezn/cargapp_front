@@ -41,8 +41,8 @@ export default class ChallengeShow extends Component {
           responses[0].data[0].active = 'Desactivado';
         }
         this.setState({
-          first_name: responses[0].data[0].name,
-          last_name: responses[0].data[0].body,
+          name: responses[0].data[0].name,
+          body: responses[0].data[0].body,
           image: responses[0].data[0].image,
           point: responses[0].data[0].point,
           user: data_users[responses[0].data[0].user_id],

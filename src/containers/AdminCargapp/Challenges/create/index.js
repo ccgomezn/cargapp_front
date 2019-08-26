@@ -32,7 +32,6 @@ export default class ChallengeCreate extends Component {
 
                 this.setState({
                     users: responses[0].data,
-                    document_types: responses[1].data,
                     expire_date: moment(),
                 });
 
