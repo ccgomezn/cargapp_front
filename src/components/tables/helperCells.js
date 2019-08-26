@@ -34,29 +34,29 @@ const MultipleButtonCell = (text1, text2, function1, function2, type1, type2) =>
 };
 
 const TripleButtonCell = (text1, text2, text3, function1, function2, function3, type1, type2, type3) => {
-  return (
-    <div style={{ textAlign: 'right' }}>
-      <Button type={type1} onClick={function1}>
-        {text1}
-      </Button>
-      <Button type={type2} onClick={function2}>
-        {text2}
-      </Button>
-      <Popconfirm
-        title="Esta seguro?"
-        onConfirm={function3}
-        okText="Si"
-        cancelText="No"
-      >
-        <Button type={type3}>
-          {text3}
-        </Button>
-      </Popconfirm>
+    return (
+        <div style={{ textAlign: 'right' }}>
+            <Button type={type1} onClick={function1}>
+                {text1}
+            </Button>
+            <Button type={type2} onClick={function2}>
+                {text2}
+            </Button>
+            <Popconfirm
+                title="Esta seguro?"
+                onConfirm={function3}
+                okText="Si"
+                cancelText="No"
+            >
+                <Button type={type3}>
+                    {text3}
+                </Button>
+            </Popconfirm>
 
-    </div>
+        </div>
 
-  )
-}
+    )
+};
 
 const TextColorCell = (text, color) => <p style={{color: color}}>{text}</p>;
 

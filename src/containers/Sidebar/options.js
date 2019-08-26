@@ -47,6 +47,10 @@ export const optionsAdmin = [
             leftIcon: 'ion-android-person',
         },
             {
+                key: 'users',
+                label: 'sidebar.users',
+                leftIcon: 'ion-android-person',
+            },{
                 key: 'user_roles',
                 label: 'sidebar.userRoles',
                 leftIcon: 'ion-android-person',
@@ -194,6 +198,18 @@ export const optionsAdmin = [
         children: [{
             key: 'services',
             label: 'sidebar.services',
+        },{
+            key: 'service_documents',
+            label: 'sidebar.serviceDocuments',
+        }]
+    },
+    {
+        key: 'routes',
+        label: 'sidebar.routes',
+        leftIcon: 'ion-android-map',
+        children: [{
+            key: 'favorite_routes',
+            label: 'sidebar.favoriteRoutes',
         }]
     },
 ];

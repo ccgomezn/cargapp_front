@@ -15,7 +15,7 @@ export default class Service extends Component {
 
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             reload: false
         }
@@ -35,6 +35,7 @@ export default class Service extends Component {
 
 
     componentWillMount() {
+
         axios.all([getServices()])
             .then((responses) => {
                 if (responses[0].data != null) {

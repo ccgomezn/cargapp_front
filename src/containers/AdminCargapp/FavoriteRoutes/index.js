@@ -13,10 +13,6 @@ import {getFavoriteRoutes, getUsers, getCities} from '../../../helpers/api/admin
 export default class FavoriteRoute extends Component {
 
 
-    constructor(props) {
-        super(props);
-    }
-
 
     transformDataToMap(data, key) {
         var dataTransformed = {};

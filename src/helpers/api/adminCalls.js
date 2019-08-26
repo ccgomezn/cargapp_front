@@ -9,8 +9,17 @@ export function getUsers() {
     return get(httpAddr + `/users`, true);
 }
 
+export function postUser(data) {
+    return post(httpAddr + `/users`, data, true);
+}
+
 export function getIntegration(id) {
     return get(httpAddr + `/cargapp_integrations/` + id, true)
+}
+
+export function getDocumentsOfService(id) {
+    return post(httpAddr + `/service_documents/find_service/` + id, true)
+
 }
 
 export function getMyIntegration() {

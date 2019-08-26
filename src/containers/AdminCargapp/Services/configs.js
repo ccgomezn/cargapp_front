@@ -30,7 +30,7 @@ const renderCell = (object, type, key, color = false) => {
     case 'DateCell':
       return DateCell(value);
     case 'LinkCell':
-      return LinkCell(value);
+      return LinkCell('Ver documentos', window.location.protocol + '//' + window.location.host + '/admin/service_documents/detailed/'+value);
     case 'MultipleButtonCell':
       var text1 = 'Editar';
       var text2 = 'Ver';
@@ -94,6 +94,13 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'active', true)
   },
   {
+    title: <IntlMessages id="antTable.title.seeDocuments" />,
+    key: 'active',
+    width: '12%',
+    render: object => renderCell(object, 'LinkCell', 'id')
+  },
+
+  {
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
@@ -108,7 +115,8 @@ const sortColumns = [
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
-  { ...columns[6], sorter: false },
+  { ...columns[6], sorter: true },
+  { ...columns[7], sorter: false },
 ];
 const editColumns = [
   { ...columns[1], width: 300 },

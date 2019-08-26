@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -10,11 +10,9 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select, Input} from 'antd';
-import moment from 'moment';
 import {putServiceDocument, getServiceDocument, getUsers, getServices} from '../../../../helpers/api/adminCalls.js';
 
 
-const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
 
 

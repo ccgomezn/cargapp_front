@@ -9,10 +9,10 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getServiceDocuments, getUsers, getDocumentsOfService} from '../../../helpers/api/adminCalls.js';
-import {getServices} from "../../../helpers/api/adminCalls";
+import {getUsers} from '../../../helpers/api/adminCalls.js';
+import {getRoles, getUserRoles} from "../../../helpers/api/adminCalls";
 
-export default class ServiceDocument extends Component {
+export default class User extends Component {
 
 
     constructor(props) {
@@ -23,33 +23,40 @@ export default class ServiceDocument extends Component {
 
     }
 
+    componentWillMount() {
+        axios.all([getRoles()])
+            .then((responses) => {
 
-    transformDataToMap(data, key) {
+                this.setState({
+                    roles: responses[0].data
+                });
+
+            })
+    }
+
+    transformDataToMap(data, key, key2 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            dataTransformed[item.id] = item[key];
-            return item;
+            if(key2 === null){
+                dataTransformed[item.id] = item[key];
+                return item;
+            }else{
+                dataTransformed[item[key2]] = item[key];
+                return item;
+            }
+
         });
 
         return dataTransformed
     }
 
-
     componentWillMount() {
-        let id = this.props.match.params.id;
-        var getDocumentsFunction = function () {
-            return getServiceDocuments();
-        };
-        if (id !== null) {
-            getDocumentsFunction = function () {
-                return getDocumentsOfService(id);
-            }
-        }
-        axios.all([getDocumentsFunction(), getUsers(), getServices()])
+
+        axios.all([getUsers(), getUserRoles(), getRoles()])
             .then((responses) => {
                 if (responses[0]) {
-                    let user_data = this.transformDataToMap(responses[1].data, 'email');
-                    let service_data = this.transformDataToMap(responses[2].data, 'name');
+                    let data_roles = this.transformDataToMap(responses[2].data, 'name');
+                    let data_user_roles = this.transformDataToMap(responses[1].data, 'role_id', 'user_id');
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
@@ -58,12 +65,12 @@ export default class ServiceDocument extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
-                        item.user = user_data[item.user_id];
-                        item.service = service_data[item.service_id];
+                        item.role = data_roles[data_user_roles[item.id]];
                         return item;
                     });
+                    console.log(responses[0].data);
                     this.setState({
-                        service_documents: responses[0].data
+                        users: responses[0].data
                     });
                 }
             })
@@ -71,7 +78,7 @@ export default class ServiceDocument extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/service_documents/add')
+        this.props.history.push('/admin/users/add')
     }
 
     render() {
@@ -79,7 +86,7 @@ export default class ServiceDocument extends Component {
         const {reload} = this.state;
 
         if (reload) {
-            return <Redirect to='/admin/service_documents'/>
+            return <Redirect to='/admin/users'/>
         }
         return (
             <LayoutWrapper>
@@ -92,7 +99,7 @@ export default class ServiceDocument extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="serviceDocuments.title"/>
+                                        <IntlMessages id="users.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -107,8 +114,8 @@ export default class ServiceDocument extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.service_documents &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.service_documents}/>
+                                {this.state && this.state.users &&
+                                <SortView tableInfo={tableinfos[1]} dataList={this.state.users}/>
                                 }
                             </Col>
                         </Row>
