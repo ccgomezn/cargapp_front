@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function(){
     (deletePermission(id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/';
+      setTimeout(() => {
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/';
+
+      }, 3000);
 
     }).catch((error) => {
       console.error(error);

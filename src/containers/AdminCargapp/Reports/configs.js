@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function () {
     (deleteReport(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/reports/';
+        setTimeout(() => {
+          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/reports/';
+
+        }, 3000);
 
       }).catch((error) => {
         console.error(error);

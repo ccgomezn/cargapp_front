@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function(){
     (deleteDocumentType(id)
     .then((response) => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/document_types/';
+      setTimeout(() => {
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/document_types/';
+
+      }, 3000);
 
     }).catch((error) => {
       console.error(error);

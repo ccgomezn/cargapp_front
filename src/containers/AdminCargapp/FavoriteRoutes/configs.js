@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function(){
   (deleteFavoriteRoute(id)
     .then(() => {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/admin/favorite_routes/';
+      setTimeout(() => {
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/favorite_routes/';
+
+      }, 3000);
 
     }).catch((error) => {
       console.error(error);

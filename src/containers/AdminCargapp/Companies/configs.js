@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function () {
     (deleteCompany(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/companies/';
+        setTimeout(() => {
+          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/companies/';
+
+        }, 3000);
 
       }).catch((error) => {
         console.error(error);
