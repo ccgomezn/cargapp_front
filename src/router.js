@@ -33,7 +33,7 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, ...rest})
             isLoggedIn && isUser && admin ? (
                 <Redirect
                     to={{
-                        pathname: "/admin",
+                        pathname: "/admin/",
                         state: {from: props.location}
                     }}
                 />

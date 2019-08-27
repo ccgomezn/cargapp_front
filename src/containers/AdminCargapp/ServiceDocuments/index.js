@@ -40,7 +40,7 @@ export default class ServiceDocument extends Component {
         var getDocumentsFunction = function () {
             return getServiceDocuments();
         };
-        if (id !== null) {
+        if (id !== null && id !== undefined) {
             getDocumentsFunction = function () {
                 return getDocumentsOfService(id);
             }

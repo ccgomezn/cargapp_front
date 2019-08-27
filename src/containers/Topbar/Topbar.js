@@ -41,19 +41,7 @@ class Topbar extends Component {
           <ul className="isoRight">
             
 
-            <li
-              onClick={() => this.setState({ selectedItem: "notification" })}
-              className="isoNotify"
-            >
-              <TopbarNotification locale={locale} />
-            </li>
 
-            <li
-              onClick={() => this.setState({ selectedItem: "message" })}
-              className="isoMsg"
-            >
-              <TopbarMessage locale={locale} />
-            </li>
 
             <li
               onClick={() => this.setState({ selectedItem: "user" })}
