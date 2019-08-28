@@ -38,7 +38,7 @@ export default class Service extends Component {
 
         axios.all([getServices()])
             .then((responses) => {
-                if (responses[0].data != null) {
+                if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';

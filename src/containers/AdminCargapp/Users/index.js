@@ -43,7 +43,7 @@ export default class User extends Component {
 
         axios.all([getUsers(), getUserRoles(), getRoles()])
             .then((responses) => {
-                if (responses[0]) {
+                if (responses[0] !== undefined) {
                     let data_roles = this.transformDataToMap(responses[2].data, 'name');
                     let data_user_roles = this.transformDataToMap(responses[1].data, 'role_id', 'user_id');
                     responses[0].data.map((item) => {

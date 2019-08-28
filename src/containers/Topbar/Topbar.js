@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import appActions from "../../redux/app/actions";
-import TopbarNotification from "./topbarNotification";
-import TopbarMessage from "./topbarMessage";
 import TopbarUser from "./topbarUser";
 import TopbarWrapper from "./topbar.style";
 

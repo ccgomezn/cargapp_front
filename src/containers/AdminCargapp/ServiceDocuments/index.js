@@ -16,7 +16,7 @@ export default class ServiceDocument extends Component {
 
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             reload: false
         }
@@ -47,7 +47,7 @@ export default class ServiceDocument extends Component {
         }
         axios.all([getDocumentsFunction(), getUsers(), getServices()])
             .then((responses) => {
-                if (responses[0]) {
+                if (responses[0] !== undefined) {
                     let user_data = this.transformDataToMap(responses[1].data, 'email');
                     let service_data = this.transformDataToMap(responses[2].data, 'name');
                     responses[0].data.map((item) => {

@@ -2,7 +2,7 @@ import {get, post, put, del} from '../httpRequest';
 import {httpAddr} from '../http_helper';
 
 export function getIntegrations() {
-    return get(httpAddr + `/cargapp_integrations`, true);
+    return get(httpAddr + `/cargapp_integrations/active`, true);
 }
 
 export function getUsers() {
@@ -35,7 +35,7 @@ export function postIntegration(data) {
 }
 
 export function getModels() {
-    return get(httpAddr + `/cargapp_models`, true)
+    return get(httpAddr + `/cargapp_models/active`, true)
 }
 
 export function getModel(id) {
@@ -51,7 +51,7 @@ export function postModel(data) {
 }
 
 export function getChallenges() {
-    return get(httpAddr + `/challenges`, true);
+    return get(httpAddr + `/challenges/active`, true);
 }
 
 export function getChallenge(id) {
@@ -67,7 +67,7 @@ export function postChallenge(data) {
 }
 
 export function getDocumentTypes() {
-    return get(httpAddr + `/document_types`, true);
+    return get(httpAddr + `/document_types/active`, true);
 }
 
 export function getDocumentType(id) {
@@ -83,7 +83,7 @@ export function postDocumentType(data) {
 }
 
 export function getCountries() {
-    return get(httpAddr + '/countries', true)
+    return get(httpAddr + '/countries/active', true)
 }
 
 export function getCountry(id) {
@@ -91,7 +91,7 @@ export function getCountry(id) {
 }
 
 export function getDocuments() {
-    return get(httpAddr + '/documents', true)
+    return get(httpAddr + '/documents/active', true)
 }
 
 export function getDocument(id) {
@@ -99,7 +99,7 @@ export function getDocument(id) {
 }
 
 export function getStatus() {
-    return get(httpAddr + '/status', true)
+    return get(httpAddr + '/status/active', true)
 
 }
 
@@ -112,11 +112,11 @@ export function postCountry(data) {
 }
 
 export function getStates() {
-    return get(httpAddr + '/states', true)
+    return get(httpAddr + '/states/active', true)
 }
 
 export function getCities() {
-    return get(httpAddr + '/cities', true)
+    return get(httpAddr + '/cities/active', true)
 }
 
 export function getCity(id) {
@@ -132,7 +132,7 @@ export function postCity(data) {
 }
 
 export function getCompanies() {
-    return get(httpAddr + '/companies', true)
+    return get(httpAddr + '/companies/active', true)
 }
 
 export function getCompany(id) {
@@ -148,7 +148,7 @@ export function postCompany(data) {
 }
 
 export function getLoadTypes() {
-    return get(httpAddr + `/load_types`, true);
+    return get(httpAddr + `/load_types/active`, true);
 }
 
 export function getLoadType(id) {
@@ -168,7 +168,7 @@ export function migrateCountries() {
 }
 
 export function getCoupons() {
-    return get(httpAddr + `/coupons`, true);
+    return get(httpAddr + `/coupons/active`, true);
 }
 
 export function getCoupon(id) {
@@ -192,7 +192,7 @@ export function putDocument(id, data) {
 }
 
 export function getParameters() {
-    return get(httpAddr + `/parameters`, true);
+    return get(httpAddr + `/parameters/active`, true);
 }
 
 export function getParameter(id) {
@@ -209,7 +209,7 @@ export function postParameter(data) {
 }
 
 export function getPermissions() {
-    return get(httpAddr + `/permissions`, true);
+    return get(httpAddr + `/permissions/active`, true);
 }
 
 export function getPermission(id) {
@@ -226,7 +226,7 @@ export function postPermission(data) {
 }
 
 export function getRoles() {
-    return get(httpAddr + `/roles`, true);
+    return get(httpAddr + `/roles/active`, true);
 }
 
 export function getRole(id) {
@@ -243,7 +243,7 @@ export function postRole(data) {
 }
 
 export function getPrizes() {
-    return get(httpAddr + `/prizes`, true);
+    return get(httpAddr + `/prizes/active`, true);
 }
 
 export function getPrize(id) {
@@ -260,7 +260,7 @@ export function postPrize(data) {
 }
 
 export function getProfiles() {
-    return get(httpAddr + `/profiles`, true);
+    return get(httpAddr + `/profiles/active`, true);
 }
 
 export function getProfile(id) {
@@ -305,7 +305,7 @@ export function postStatu(data) {
 
 
 export function getTickets() {
-    return get(httpAddr + `/tickets`, true);
+    return get(httpAddr + `/tickets/active`, true);
 }
 
 export function getTicket(id) {
@@ -323,7 +323,7 @@ export function postTicket(data) {
 
 
 export function getUserChallenges() {
-    return get(httpAddr + `/user_challenges`, true);
+    return get(httpAddr + `/user_challenges/active`, true);
 }
 
 export function getUserChallenge(id) {
@@ -340,7 +340,7 @@ export function postUserChallenge(data) {
 }
 
 export function getUserCoupons() {
-    return get(httpAddr + `/user_coupons`, true);
+    return get(httpAddr + `/user_coupons/active`, true);
 }
 
 export function getUserCoupon(id) {
@@ -357,7 +357,7 @@ export function postUserCoupon(data) {
 }
 
 export function getUserPrizes() {
-    return get(httpAddr + `/user_prizes`, true);
+    return get(httpAddr + `/user_prizes/active`, true);
 }
 
 export function getUserPrize(id) {
@@ -374,7 +374,7 @@ export function postUserPrize(data) {
 }
 
 export function getUserRoles() {
-    return get(httpAddr + `/user_roles`, true);
+    return get(httpAddr + `/user_roles/active`, true);
 }
 
 export function getUserRole(id) {
@@ -391,7 +391,7 @@ export function postUserRole(data) {
 }
 
 export function getVehicles() {
-    return get(httpAddr + `/vehicles`, true);
+    return get(httpAddr + `/vehicles/active`, true);
 }
 
 export function getVehicle(id) {
@@ -408,7 +408,7 @@ export function postVehicle(data) {
 }
 
 export function getVehicleTypes() {
-    return get(httpAddr + `/vehicle_types`, true);
+    return get(httpAddr + `/vehicle_types/active`, true);
 }
 
 export function getVehicleType(id) {
@@ -522,7 +522,7 @@ export function deleteVehicleType(id) {
 }
 
 export function getPaymentMethods() {
-    return get(httpAddr + `/payment_methods`, true);
+    return get(httpAddr + `/payment_methods/active`, true);
 }
 
 export function getPaymentMethod(id) {
@@ -542,7 +542,7 @@ export function deletePaymentMethod(id) {
 }
 
 export function getUserPaymentMethods() {
-    return get(httpAddr + `/user_payment_methods`, true);
+    return get(httpAddr + `/user_payment_methods/active`, true);
 }
 
 export function getUserPaymentMethod(id) {
@@ -562,7 +562,7 @@ export function deleteUserPaymentMethod(id) {
 }
 
 export function getReports() {
-    return get(httpAddr + `/reports`, true);
+    return get(httpAddr + `/reports/active`, true);
 }
 
 export function getReport(id) {
@@ -586,7 +586,7 @@ export function findParameters(code) {
 }
 
 export function getServices() {
-    return get(httpAddr + `/services`, true);
+    return get(httpAddr + `/services/active`, true);
 }
 
 export function getService(id) {
@@ -606,7 +606,7 @@ export function deleteService(id) {
 }
 
 export function getServiceDocuments() {
-    return get(httpAddr + `/service_documents`, true);
+    return get(httpAddr + `/service_documents/active`, true);
 }
 
 export function getServiceDocument(id) {
@@ -626,7 +626,7 @@ export function deleteServiceDocument(id) {
 }
 
 export function getFavoriteRoutes() {
-    return get(httpAddr + `/favorite_routes`, true);
+    return get(httpAddr + `/favorite_routes/active`, true);
 }
 
 export function getFavoriteRoute(id) {
