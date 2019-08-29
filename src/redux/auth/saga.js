@@ -83,8 +83,7 @@ export function* authError() {
     yield takeEvery(actions.AUTH_ERROR, function* () {
         yield console.log('');
         refresh();
-        yield put({type: actions.LOGOUT});
-
+        yield message.error('Este usuario esta no autorizado');
     });
 }
 
