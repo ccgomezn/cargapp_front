@@ -24,7 +24,6 @@ export default class UserChallengeEdit extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getUserChallenge(this.props.match.params.id), getUsers(), getChallenges()])
       .then((responses) => {
 

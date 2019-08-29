@@ -26,7 +26,6 @@ export default class CargappModelEdit extends Component {
     }
   }
   componentWillMount() {
-    console.log(this.props);
     getModel(this.props.match.params.id)
       .then((response) => {
 

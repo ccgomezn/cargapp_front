@@ -53,7 +53,6 @@ export default class extends Component {
 
     componentWillUnmount() {
         this._isMounted = false;
-        console.log('unmount');
         this.setState({map: false})
     }
 

@@ -374,7 +374,7 @@ export function postUserPrize(data) {
 }
 
 export function getUserRoles() {
-    return get(httpAddr + `/user_roles/active`, true);
+    return get(httpAddr + `/user_roles/`, true);
 }
 
 export function getUserRole(id) {

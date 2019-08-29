@@ -25,7 +25,6 @@ export default class ParameterEdit extends Component {
 
   
   componentWillMount() {
-    console.log(this.props);
     axios.all([getParameter(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
 

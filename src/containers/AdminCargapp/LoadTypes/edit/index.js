@@ -26,7 +26,6 @@ export default class LoadTypeEdit extends Component {
     }
   }
   componentWillMount() {
-    console.log(this.props);
     getLoadType(this.props.match.params.id)
       .then((response) => {
 

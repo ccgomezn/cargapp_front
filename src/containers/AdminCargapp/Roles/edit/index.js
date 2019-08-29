@@ -26,7 +26,6 @@ export default class RoleEdit extends Component {
     }
   }
   componentWillMount() {
-    console.log(this.props);
     getRole(this.props.match.params.id)
       .then((response) => {
 

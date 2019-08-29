@@ -18,7 +18,9 @@ export function get(url, secured = false) {
 
 
     return axios.get(url, {headers: headers}).catch((error) => {
-        if (error.response && error.response.status === 401) {
+        if (error.response &&
+            (error.response.status === 401 ||
+                (error.response.status === 422 && error.response.data.response === "Does not have permissions"))) {
             store.dispatch(auth_error());
         } else {
             message.error("No se puede realizar la acción");

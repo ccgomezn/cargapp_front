@@ -51,7 +51,6 @@ export default class ParameterShow extends Component {
             }else{
               responses[0].data.active = 'Desactivado';
             }
-            console.log()
             for (var i = 0; i < responses_full[0].data.length; i++) {
               
               if (responses_full[0].data[i].id === responses[0].data.user_id) {

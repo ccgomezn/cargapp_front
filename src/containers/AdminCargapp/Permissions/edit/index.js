@@ -27,7 +27,6 @@ export default class PermissionEdit extends Component {
 
 
     componentWillMount() {
-        console.log(this.props);
         axios.all([getPermission(this.props.match.params.id), getUsers(), getModels(), getRoles(), findParameters('ACTIONS'), findParameters('METHODS')])
             .then((responses) => {
 

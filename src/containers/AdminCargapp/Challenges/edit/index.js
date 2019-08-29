@@ -27,7 +27,6 @@ export default class ChallengeEdit extends Component {
   componentWillMount() {
     axios.all([getChallenge(this.props.match.params.id), getUsers()])
       .then((responses) => {
-        console.log(responses[0].data.point)
         this.setState({
           users: responses[1].data,
           name: responses[0].data[0].name,

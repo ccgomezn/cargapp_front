@@ -25,7 +25,6 @@ export default class RoleEdit extends Component {
 
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getUserRole(this.props.match.params.id), getUsers(), getRoles()])
       .then((responses) => {
 

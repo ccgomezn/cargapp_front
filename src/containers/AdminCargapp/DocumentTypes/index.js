@@ -21,7 +21,7 @@ export default class DocumentType extends Component {
     componentWillMount() {
         getDocumentTypes()
             .then((response) => {
-                if (response[0] !== undefined) {
+                if (response !== undefined) {
                     response.data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
