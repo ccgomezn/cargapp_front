@@ -73,10 +73,10 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'role')
   },
   {
-    title: <IntlMessages id="antTable.title.user_email" />,
-    key: 'user_email',
+    title: <IntlMessages id="antTable.title.action" />,
+    key: 'action',
     width: '20%',
-    render: object => renderCell(object, 'TextCell', 'user')
+    render: object => renderCell(object, 'TextCell', 'action')
   },
   {
     title: <IntlMessages id="antTable.title.model" />,
