@@ -28,7 +28,6 @@ export default class StateEdit extends Component {
 
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getState(this.props.match.params.id), getCountries()])
       .then((responses) => {
 

@@ -14,6 +14,12 @@ function loginApi(url, data) {
     });
 }
 
+
+function refresh(){
+    console.log('refresh_token')
+}
+
+
 function roleApi(url, token) {
     let header = makeAuthorizationHeader(token)
     return axios.get(
@@ -73,6 +79,14 @@ export function* logout() {
     });
 }
 
+export function* authError() {
+    yield takeEvery(actions.AUTH_ERROR, function* () {
+        yield console.log('');
+        refresh();
+        yield message.error('Este usuario esta no autorizado');
+    });
+}
+
 export function* checkAuthorization() {
     yield takeEvery(actions.CHECK_AUTHORIZATION, function* () {
         const token = getToken().get('idToken');
@@ -94,6 +108,7 @@ export default function* rootSaga() {
         fork(loginRequest),
         fork(loginSuccess),
         fork(loginError),
-        fork(logout)
+        fork(logout),
+        fork(authError)
     ]);
 }

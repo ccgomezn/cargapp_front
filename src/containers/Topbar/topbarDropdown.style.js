@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import { transition, borderRadius, boxShadow } from '../../settings/style-util';
+import {palette} from 'styled-theme';
+import {transition, borderRadius, boxShadow} from '../../settings/style-util';
 import WithDirection from '../../settings/withDirection';
 
 const TopbarDropdownWrapper = styled.div`
@@ -158,7 +158,7 @@ const TopbarDropdownWrapper = styled.div`
         height: 35px;
         overflow: hidden;
         margin: ${props =>
-          props['data-rtl'] === 'rtl' ? '0 0 0 15px' : '0 15px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 15px' : '0 15px 0 0'};
         display: -webkit-inline-flex;
         display: -ms-inline-flex;
         display: inline-flex;
@@ -190,7 +190,7 @@ const TopbarDropdownWrapper = styled.div`
         h5 {
           margin-bottom: 0;
           padding: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 0 0 15px' : '0 15px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 15px' : '0 15px 0 0'};
         }
 
         .isoDate {
@@ -261,7 +261,7 @@ const TopbarDropdownWrapper = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    width: 220px;
+    width: 100%;
     min-width: 160px;
     flex-shrink: 0;
     ${borderRadius('5px')};
@@ -269,7 +269,14 @@ const TopbarDropdownWrapper = styled.div`
     ${transition()};
 
     .isoDropdownLink {
-      font-size: 13px;
+      font-size: 15px;
+      font-family: Roboto;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.27;
+      letter-spacing: normal;
+      color: #1a051d;
       color: ${palette('text', 1)};
       line-height: 1.1;
       padding: 7px 15px;

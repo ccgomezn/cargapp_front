@@ -9,14 +9,14 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getServiceDocuments, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getServiceDocuments, getUsers, getDocumentsOfService} from '../../../helpers/api/adminCalls.js';
 import {getServices} from "../../../helpers/api/adminCalls";
 
 export default class ServiceDocument extends Component {
 
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             reload: false
         }
@@ -36,26 +36,36 @@ export default class ServiceDocument extends Component {
 
 
     componentWillMount() {
-        axios.all([getServiceDocuments(), getUsers(), getServices()])
+        let id = this.props.match.params.id;
+        var getDocumentsFunction = function () {
+            return getServiceDocuments();
+        };
+        if (id !== null && id !== undefined) {
+            getDocumentsFunction = function () {
+                return getDocumentsOfService(id);
+            }
+        }
+        axios.all([getDocumentsFunction(), getUsers(), getServices()])
             .then((responses) => {
-                let user_data = this.transformDataToMap(responses[1].data, 'email');
-                let service_data = this.transformDataToMap(responses[2].data, 'name');
-                responses[0].data.map((item) => {
-                    if (item.active) {
-                        item.active = 'Activo';
-                        item.color = '#00BFBF';
-                    } else {
-                        item.active = 'Desactivado';
-                        item.color = '#ff2557';
-                    }
-                    item.user = user_data[item.user_id];
-                    item.service = service_data[item.service_id];
-                    return item;
-                });
-                this.setState({
-                    service_documents: responses[0].data
-                });
-
+                if (responses[0] !== undefined) {
+                    let user_data = this.transformDataToMap(responses[1].data, 'email');
+                    let service_data = this.transformDataToMap(responses[2].data, 'name');
+                    responses[0].data.map((item) => {
+                        if (item.active) {
+                            item.active = 'Activo';
+                            item.color = '#00BFBF';
+                        } else {
+                            item.active = 'Desactivado';
+                            item.color = '#ff2557';
+                        }
+                        item.user = user_data[item.user_id];
+                        item.service = service_data[item.service_id];
+                        return item;
+                    });
+                    this.setState({
+                        service_documents: responses[0].data
+                    });
+                }
             })
     }
 

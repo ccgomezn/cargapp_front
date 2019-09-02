@@ -25,7 +25,6 @@ export default class UserCouponEdit extends Component {
 
  
   componentWillMount() {
-    console.log(this.props);
     axios.all([getUserCoupons(this.props.match.params.id), getUsers(), getCoupons(), getModels()])
       .then((responses) => {
 

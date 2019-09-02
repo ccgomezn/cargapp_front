@@ -877,6 +877,19 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@mapbox/polyline/-/polyline-0.2.0.tgz#6e25980744aa22331f94b645a542c02d3fcfee97"
 
+"@react-google-maps/api@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@react-google-maps/api/-/api-1.6.0.tgz#8ff688d13e047fc3e18b44c606fd331b471db60f"
+  integrity sha512-KoLPyXwgtA814d6zk4uqt4g8LhZyPC42RC8A4L/5iobCiEqF+Cvq7MLNpquyoyouYxhT4ZYUrtC5PKsgvk/f1w==
+  dependencies:
+    "@react-google-maps/marker-clusterer" "1.6.0"
+    invariant "2.2.4"
+
+"@react-google-maps/marker-clusterer@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@react-google-maps/marker-clusterer/-/marker-clusterer-1.6.0.tgz#2e04f7185ed2ff405f3d2179dfc22d8b99477a39"
+  integrity sha512-k4W7m55jvQZSK3uvPVA2u9HtuHh0JwwNJmII2QMEXDSMb7S+BHP0xM6rkRgY4ClF4jMt0t0qHt8WuXSGr+O5WQ==
+
 "@svgr/core@^2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@svgr/core/-/core-2.4.1.tgz#03a407c28c4a1d84305ae95021e8eabfda8fa731"
@@ -5322,7 +5335,7 @@ intl-relativeformat@^2.1.0:
   dependencies:
     intl-messageformat "^2.0.0"
 
-invariant@^2.0.0, invariant@^2.1.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.0.0, invariant@^2.1.0, invariant@^2.1.1, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:

@@ -28,7 +28,6 @@ export default class UserPrizeEdit extends Component {
 
   
   componentWillMount() {
-    console.log(this.props);
     axios.all([getUserPrize(this.props.match.params.id),getUsers(), getPrizes()])
       .then((responses) => {
 

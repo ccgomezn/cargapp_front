@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function () {
     (deletePaymentMethod(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/payment_methods/';
+        setTimeout(() => {
+          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/payment_methods/';
+
+        }, 3000);
 
       }).catch((error) => {
         console.error(error);

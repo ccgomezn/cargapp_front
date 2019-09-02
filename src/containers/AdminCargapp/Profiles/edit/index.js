@@ -29,7 +29,6 @@ export default class ProfileEdit extends Component {
  
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getProfile(this.props.match.params.id), getUsers(),getDocumentTypes()])
       .then((responses) => {
 

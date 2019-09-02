@@ -2,41 +2,24 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Form, Input, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Input, Select} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import {Card} from 'antd';
-import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import moment from 'moment';
-import {getUsers, postChallenge} from "../../../../helpers/api/adminCalls"
+import {postUser, getRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
+import axios from "axios";
+
 
 const {Option} = Select;
 
-export default class ChallengeCreate extends Component {
+export default class UserCreate extends Component {
 
 
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
-            redirect: false,
-            birth_date: moment(),
+            redirect: false
         }
-    }
-
-
-    componentWillMount() {
-        axios.all([getUsers()])
-            .then((responses) => {
-
-                this.setState({
-                    users: responses[0].data,
-                    expire_date: moment(),
-                });
-
-            })
-
     }
 
 
@@ -49,19 +32,43 @@ export default class ChallengeCreate extends Component {
         )
     }
 
+
     handlePost() {
+        postUser(
+            {
+                user: {
+                    email: this.state.email,
+                    password: this.state.password,
+                    password_confirmation: this.state.password_confirmation,
+                }
+            }).then((response) => {
+                console.log(response);
+            postUserRole(
+                {
+                    user_role: {
+                        role_id: this.state.role_id,
+                        user_id: response.data.id,
+                        admin_id: 1,
+                        active: true
+                    }
+                }
+            ).then(() => {
+                this.setState({redirect: true});
+            })
 
-        const formData = new FormData();
-        formData.append('challenge[name]', this.state.name)
-        formData.append('challenge[body]', this.state.body)
-        formData.append('challenge[image]', this.state.image, this.state.image.name)
-        formData.append('challenge[point]', this.state.point)
-        formData.append('challenge[user_id]', this.state.user_id)
-        formData.append('challenge[active]', true)
-
-        postChallenge(formData).then(() => {
-            this.setState({redirect: true})
         })
+    }
+
+    componentWillMount() {
+
+        axios.all([getRoles()])
+            .then((responses) => {
+                if (responses[0]) {
+                    this.setState({
+                        roles: responses[0].data
+                    });
+                }
+            })
     }
 
     render() {
@@ -69,7 +76,7 @@ export default class ChallengeCreate extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/challenges'/>
+            return <Redirect to='/admin/users'/>
         }
         return (
 
@@ -83,7 +90,7 @@ export default class ChallengeCreate extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="challenges.title"/>
+                                        <IntlMessages id="users.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -95,44 +102,43 @@ export default class ChallengeCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}/>
+                                            <Form.Item label="Email">
+                                                <Input value={this.state.email} placeholder="email"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'email')}
+                                                       required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Descripción del desafio">
-                                                <Input value={this.state.body} placeholder="descripción del desafio"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'body')}/>
+                                            <Form.Item label="Password">
+                                                <Input type={"password"} value={this.state.password}
+                                                       placeholder="password"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'password')}
+                                                       required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Imágen">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'image')}/>
+                                            <Form.Item label="Confirmación de password">
+                                                <Input type={"password"} value={this.state.password_confirmation}
+                                                       placeholder="confirmación de password"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
+                                                       required/>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Puntos">
-                                                <Input type="number" value={this.state.point} placeholder="puntos"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'point')}/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
 
-                                    <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
+                                            <Form.Item label="Rol">
+                                                <Select value={this.state.role_id} placeholder="rol"
                                                         style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                    this.handleChange(e, 'role_id')
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
+                                                }}
+                                                >
+                                                    {this.state && this.state.roles &&
+
+                                                    this.state.roles.map((item) => {
+                                                        return <Option value={item.id}>{item.code}</Option>
                                                     })
                                                     }
                                                 </Select>
@@ -140,8 +146,6 @@ export default class ChallengeCreate extends Component {
                                         </Col>
 
                                     </Row>
-
-
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>

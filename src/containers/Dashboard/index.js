@@ -53,7 +53,6 @@ export default class extends Component {
 
     componentWillUnmount() {
         this._isMounted = false;
-        console.log('unmount');
         this.setState({map: false})
     }
 
@@ -166,7 +165,10 @@ export default class extends Component {
                                     <div style={{height: 500, width: '100%'}}>
                                         <Row>
                                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                                <MapContainer block style={{height: 500}} isFreight={true}/>
+                                             <MapContainer center={{
+                                                    lat: 4.710989,
+                                                    lng: -74.072090
+                                                }} block style={{height: 500}} isFreight={true}/>
                                             </Col>
 
                                         </Row>

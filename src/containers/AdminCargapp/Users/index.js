@@ -9,9 +9,10 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getTickets, getUsers, getStatus} from '../../../helpers/api/adminCalls.js';
+import {getUsers} from '../../../helpers/api/adminCalls.js';
+import {getRoles, getUserRoles} from "../../../helpers/api/adminCalls";
 
-export default class Ticket extends Component {
+export default class User extends Component {
 
 
     constructor(props) {
@@ -22,24 +23,29 @@ export default class Ticket extends Component {
 
     }
 
-
-    transformDataToMap(data, key) {
+    transformDataToMap(data, key, key2 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            dataTransformed[item.id] = item[key];
-            return item;
+            if(key2 === null){
+                dataTransformed[item.id] = item[key];
+                return item;
+            }else{
+                dataTransformed[item[key2]] = item[key];
+                return item;
+            }
+
         });
 
         return dataTransformed
     }
 
-
     componentWillMount() {
-        axios.all([getTickets(), getUsers(), getStatus()])
+
+        axios.all([getUsers(), getUserRoles(), getRoles()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
-                    let data_users = this.transformDataToMap(responses[1].data, 'email')
-                    let data_status = this.transformDataToMap(responses[2].data, 'name')
+                    let data_roles = this.transformDataToMap(responses[2].data, 'name');
+                    let data_user_roles = this.transformDataToMap(responses[1].data, 'role_id', 'user_id');
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
@@ -48,22 +54,20 @@ export default class Ticket extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
-
-                        item.user = data_users[item.user_id]
-                        item.status = data_status[item.statu_id]
+                        item.role = data_roles[data_user_roles[item.id]];
                         return item;
                     });
+                    console.log(responses[0].data);
                     this.setState({
-                        tickets: responses[0].data
+                        users: responses[0].data
                     });
                 }
-
             })
     }
 
 
     redirectAdd() {
-        this.props.history.push('/admin/tickets/add')
+        this.props.history.push('/admin/users/add')
     }
 
     render() {
@@ -71,7 +75,7 @@ export default class Ticket extends Component {
         const {reload} = this.state;
 
         if (reload) {
-            return <Redirect to='/admin/tickets'/>
+            return <Redirect to='/admin/users'/>
         }
         return (
             <LayoutWrapper>
@@ -84,7 +88,7 @@ export default class Ticket extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="tickets.title"/>
+                                        <IntlMessages id="users.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -99,8 +103,8 @@ export default class Ticket extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.tickets &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.tickets}/>
+                                {this.state && this.state.users &&
+                                <SortView tableInfo={tableinfos[1]} dataList={this.state.users}/>
                                 }
                             </Col>
                         </Row>

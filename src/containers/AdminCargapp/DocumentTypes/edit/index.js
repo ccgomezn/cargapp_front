@@ -26,7 +26,6 @@ export default class DocumentTypeEdit extends Component {
     }
   }
   componentWillMount() {
-    console.log(this.props);
     getDocumentType(this.props.match.params.id)
       .then((response) => {
 

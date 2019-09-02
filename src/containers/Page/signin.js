@@ -35,7 +35,6 @@ class SignIn extends Component {
 
         const {login} = this.props;
         if(!validateEmail(this.state.email)){
-            console.log('no valido');
           message.warning('El correo no es valido');
           return null;
         }

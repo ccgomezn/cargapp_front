@@ -25,7 +25,6 @@ export default class StatusEdit extends Component {
 
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getStatu(this.props.match.params.id), getUsers(), getModels()])
       .then((responses) => {
 

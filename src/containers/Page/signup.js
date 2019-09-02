@@ -57,10 +57,12 @@ class SignUp extends Component {
                 email: this.state.email
             }
         }).then((response) => {
+            console.log(response);
             if (response.status === 200) {
                 message.warning('El usuario ya existe en el sistema');
             }
         }).catch(error => {
+            console.log(error);
             let errorObject = JSON.parse(JSON.stringify(error));
             if (error.response.status === 302) {
                 if (this.state.password !== this.state.password_confirmation) {
@@ -212,7 +214,7 @@ class SignUp extends Component {
 
                                             <div className="button-sign">
 
-                                                <PrimaryButton htmlType={"submit"} message_id="page.signup"
+                                                <PrimaryButton  message_id="page.signup"
                                                                onClick={() => this.handlePostRegister()}/>
                                             </div>
                                         </Col>

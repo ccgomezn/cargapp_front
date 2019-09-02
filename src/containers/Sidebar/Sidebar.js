@@ -136,7 +136,7 @@ class Sidebar extends Component {
                     trigger={null}
                     collapsible={true}
                     collapsed={collapsed}
-                    width={240}
+                    width={260}
                     className="isomorphicSidebar"
                     style={styling}
                 >

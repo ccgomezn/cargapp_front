@@ -37,22 +37,23 @@ export default class Report extends Component {
     componentWillMount() {
         axios.all([getReports(), getUsers()])
             .then((responses) => {
-                let user_data = this.transformDataToMap(responses[1].data, 'email');
-                responses[0].data.map((item) => {
-                    if (item.active) {
-                        item.active = 'Activo';
-                        item.color = '#00BFBF';
-                    } else {
-                        item.active = 'Desactivado';
-                        item.color = '#ff2557';
-                    }
-                    item.user = user_data[item.user_id];
-                    return item;
-                });
-                this.setState({
-                    reports: responses[0].data
-                });
-
+                if (responses[0] !== undefined) {
+                    let user_data = this.transformDataToMap(responses[1].data, 'email');
+                    responses[0].data.map((item) => {
+                        if (item.active) {
+                            item.active = 'Activo';
+                            item.color = '#00BFBF';
+                        } else {
+                            item.active = 'Desactivado';
+                            item.color = '#ff2557';
+                        }
+                        item.user = user_data[item.user_id];
+                        return item;
+                    });
+                    this.setState({
+                        reports: responses[0].data
+                    });
+                }
             })
     }
 

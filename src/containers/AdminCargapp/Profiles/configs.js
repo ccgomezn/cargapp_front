@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function () {
     (deleteProfile(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/profiles/';
+        setTimeout(() => {
+          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/profiles/';
+
+        }, 3000);
 
       }).catch((error) => {
         console.error(error);

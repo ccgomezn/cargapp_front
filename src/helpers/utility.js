@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 export function clearToken() {
 
   localStorage.removeItem('id_token');
-  localStorage.removeItem('id_token');
+  localStorage.removeItem('roles');
 
 }
 
@@ -14,10 +14,8 @@ export function encrypt(message){
 }
 
 export function decrypt(message) {
-  console.log(message);
   var bytes = CryptoJS.AES.decrypt(message, 'secret key 123')
   var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-  console.log(plaintext)
   return plaintext;
 }
 export function getToken() {
@@ -29,6 +27,10 @@ export function getToken() {
     clearToken();
     return new Map();
   }
+}
+
+export function refreshToken() {
+
 }
 
 export function makeAuthorizationHeader(token) {

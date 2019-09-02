@@ -14,7 +14,10 @@ const deleteFunction = (id) => {
   return function () {
     (deleteCoupon(id)
       .then((response) => {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/coupons/';
+        setTimeout(() => {
+          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/coupons/';
+
+        }, 3000);
 
       }).catch((error) => {
         console.error(error);

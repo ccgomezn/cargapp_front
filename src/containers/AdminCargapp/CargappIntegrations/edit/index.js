@@ -27,7 +27,6 @@ export default class CargappIntegrationEdit extends Component {
   
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getIntegration(this.props.match.params.id), getUsers()])
       .then((responses) => {
 

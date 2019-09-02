@@ -525,7 +525,7 @@
   "page500.subTitle": "Internal Server Error",
   "page500.description": "Something went wrong. Please try again later.",
   "page500.backButton": "BACK HOME",
-  "page.forgetPassTitle": "Isomorphic",
+  "page.forgetPassTitle": "Cargapp Admin",
   "page.forgetPassSubTitle": "Forgot Password?",
   "page.forgetPassDescription":
     "Enter your email and we send you a reset link.",

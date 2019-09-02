@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Layout } from "antd";
 import appActions from "../../redux/app/actions";
-import TopbarNotification from "./topbarNotification";
-import TopbarMessage from "./topbarMessage";
 import TopbarUser from "./topbarUser";
 import TopbarWrapper from "./topbar.style";
 
@@ -41,19 +39,7 @@ class Topbar extends Component {
           <ul className="isoRight">
             
 
-            <li
-              onClick={() => this.setState({ selectedItem: "notification" })}
-              className="isoNotify"
-            >
-              <TopbarNotification locale={locale} />
-            </li>
 
-            <li
-              onClick={() => this.setState({ selectedItem: "message" })}
-              className="isoMsg"
-            >
-              <TopbarMessage locale={locale} />
-            </li>
 
             <li
               onClick={() => this.setState({ selectedItem: "user" })}

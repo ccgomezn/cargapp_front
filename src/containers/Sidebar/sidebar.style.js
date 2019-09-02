@@ -56,6 +56,11 @@ const SidebarWrapper = styled.div`
       
     .ant-menu-inline-collapsed{
         width: 71px !important;
+        .ant-menu-submenu {
+            .ant-menu-submenu-title {
+                padding: 0px 24px !important;
+            }
+        }
       }
   .isomorphicSidebar {
      width: 71px !important;

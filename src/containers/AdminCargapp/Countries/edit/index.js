@@ -27,7 +27,6 @@ export default class CountryEdit extends Component {
 
 
   componentWillMount() {
-    console.log(this.props);
     axios.all([getCountry(this.props.match.params.id)])
       .then((responses) => {
 

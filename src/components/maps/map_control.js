@@ -11,9 +11,7 @@ export default class MapControl extends Component {
     this.controlDiv = document.createElement('div')
     this.map.controls[this.props.position].push(this.controlDiv)
   }
-  componentWillUnmount() {
-    this.map.controls[this.props.position].removeAt(this.divIndex)
-  }
+
   render() {
     return createPortal(this.props.children, this.controlDiv)
   }
