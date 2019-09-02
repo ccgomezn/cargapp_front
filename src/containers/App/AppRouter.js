@@ -373,6 +373,17 @@ const routes_admin = [
     {
         path: 'service_locations/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/ServiceLocations/edit'))
+    },{
+        path: 'bank_accounts',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts'))
+    },
+    {
+        path: 'bank_accounts/add',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts/create'))
+    },
+    {
+        path: 'bank_accounts/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts/edit'))
     },
     {
         path: 'cargapp_models',

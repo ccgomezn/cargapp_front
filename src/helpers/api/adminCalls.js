@@ -708,3 +708,23 @@ export function postServiceLocation(data) {
 export function deleteServiceLocation(id) {
     return del(httpAddr + `/service_locations/` + id, true)
 }
+
+export function getBankAccounts() {
+    return get(httpAddr + `/bank_accounts/active`, true);
+}
+
+export function getBankAccount(id) {
+    return get(httpAddr + `/bank_accounts/` + id, true);
+}
+
+export function putBankAccount(id, data) {
+    return put(httpAddr + '/bank_accounts/' + id, data, true);
+}
+
+export function postBankAccount(data) {
+    return post(httpAddr + `/bank_accounts`, data, true);
+}
+
+export function deleteBankAccount(id) {
+    return del(httpAddr + `/bank_accounts/` + id, true)
+}
