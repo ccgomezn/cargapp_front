@@ -2,18 +2,18 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select } from 'antd';
+import {Row, Col, Form, Input, Card, Select, Checkbox} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import { postBankAccount } from '../../../../helpers/api/adminCalls.js';
-import {getUsers, getStatus} from "../../../../helpers/api/adminCalls";
+import {postRateService} from '../../../../helpers/api/adminCalls.js';
+import {getUsers, getServices} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
 
-export default class BankAccountCreate extends Component {
+export default class RateServiceCreate extends Component {
 
 
     constructor() {
@@ -25,10 +25,10 @@ export default class BankAccountCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getStatus(), getUsers()])
+        axios.all([getServices(), getUsers()])
             .then((responses) => {
                 this.setState({
-                    status: responses[0].data,
+                    services: responses[0].data,
                     users: responses[1].data
                 });
 
@@ -48,19 +48,24 @@ export default class BankAccountCreate extends Component {
     handlePost() {
 
 
-        postBankAccount(
+        postRateService(
             {
-                "bank_account": {
-                    "account_number": this.state.account_number,
-                    "account_type": this.state.account_type,
-                    "bank": this.state.bank,
-                    "statu_id": this.state.statu_id,
+                "rate_service": {
+                    "service_point": this.state.service_point,
+                    "driver_point": this.state.driver_point,
+                    "point": this.state.point,
+                    "service_id": this.state.service_id,
                     "user_id": this.state.user_id,
+                    "driver_id": this.state.driver_id,
                     "active": true
                 }
-            }).then(() => {
-            this.setState({redirect: true})
-        })
+            }
+        ).then(
+            () => {
+                this
+                    .setState({redirect: true})
+            }
+        )
     }
 
     render() {
@@ -68,7 +73,7 @@ export default class BankAccountCreate extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/bank_accounts'/>
+            return <Redirect to='/admin/rate_services'/>
         }
         return (
 
@@ -82,7 +87,7 @@ export default class BankAccountCreate extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="bankAccounts.title"/>
+                                        <IntlMessages id="rateServices.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -94,16 +99,18 @@ export default class BankAccountCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Número de cuenta">
-                                                <Input type={"number"} value={this.state.account_number} placeholder="número de cuenta"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'account_number')}
+                                            <Form.Item label="Puntos de servicio">
+                                                <Input type={"number"} value={this.state.service_point}
+                                                       placeholder="puntos de servicio"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'service_point')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Tipo de cuenta">
-                                                <Input value={this.state.account_type} placeholder="tipo de cuenta"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'account_type')}
+                                            <Form.Item label="Puntos de conductor">
+                                                <Input type={"number"} value={this.state.driver_point}
+                                                       placeholder="puntos de conductor"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'driver_point')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
@@ -111,14 +118,17 @@ export default class BankAccountCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Banco">
-                                                <Input value={this.state.bank} placeholder="banco"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'bank')}
+                                            <Form.Item label="Puntos">
+                                                <Input type={"number"} value={this.state.point}
+                                                       placeholder="puntos"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'point')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
 
                                     </Row>
+
+
 
 
                                     <Row gutter={10}>
@@ -138,14 +148,14 @@ export default class BankAccountCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
+                                            <Form.Item label="Servicio">
+                                                <Select value={this.state.service_id} placeholder="servicio"
                                                         style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'statu_id')
+                                                    this.handleChange(e, 'service_id')
                                                 }}>
-                                                    {this.state && this.state.status &&
+                                                    {this.state && this.state.services &&
 
-                                                    this.state.status.map((item) => {
+                                                    this.state.services.map((item) => {
                                                         return <Option value={item.id}>{item.name}</Option>
                                                     })
                                                     }
@@ -155,11 +165,23 @@ export default class BankAccountCreate extends Component {
 
                                     </Row>
 
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                            <Form.Item label="Conductor">
+                                                <Select value={this.state.driver_id} placeholder="conductor"
+                                                        style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'driver_id')
+                                                }}>
+                                                    {this.state && this.state.users &&
 
-
-
-
-
+                                                    this.state.users.map((item) => {
+                                                        return <Option value={item.id}>{item.email}</Option>
+                                                    })
+                                                    }
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>

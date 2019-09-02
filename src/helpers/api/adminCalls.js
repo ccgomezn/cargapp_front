@@ -728,3 +728,23 @@ export function postBankAccount(data) {
 export function deleteBankAccount(id) {
     return del(httpAddr + `/bank_accounts/` + id, true)
 }
+
+export function getRateServices() {
+    return get(httpAddr + `/rate_services/active`, true);
+}
+
+export function getRateService(id) {
+    return get(httpAddr + `/rate_services/` + id, true);
+}
+
+export function putRateService(id, data) {
+    return put(httpAddr + '/rate_services/' + id, data, true);
+}
+
+export function postRateService(data) {
+    return post(httpAddr + `/rate_services`, data, true);
+}
+
+export function deleteRateService(id) {
+    return del(httpAddr + `/rate_services/` + id, true)
+}

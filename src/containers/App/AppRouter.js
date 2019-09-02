@@ -384,6 +384,21 @@ const routes_admin = [
     {
         path: 'bank_accounts/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/BankAccounts/edit'))
+    },{
+        path: 'rate_services',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices'))
+    },
+    {
+        path: 'rate_services/add',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/create'))
+    },
+    {
+        path: 'rate_services/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/edit'))
+    },
+    {
+        path: 'rate_services/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/show'))
     },
     {
         path: 'cargapp_models',
