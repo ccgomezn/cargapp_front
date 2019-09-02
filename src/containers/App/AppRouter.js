@@ -335,6 +335,22 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Permissions/edit'))
     },
     {
+        path: 'cargapp_ads',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds'))
+    },
+    {
+        path: 'cargapp_ads/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/show'))
+    },
+    {
+        path: 'cargapp_ads/add',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/create'))
+    },
+    {
+        path: 'cargapp_ads/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/edit'))
+    },
+    {
         path: 'cargapp_models',
         component: asyncComponent(() => import('../AdminCargapp/CargappModels'))
     },

@@ -644,3 +644,24 @@ export function postFavoriteRoute(data) {
 export function deleteFavoriteRoute(id) {
     return del(httpAddr + `/favorite_routes/` + id, true)
 }
+
+
+export function getCargappAds() {
+    return get(httpAddr + `/cargapp_ads/active`, true);
+}
+
+export function getCargappAd(id) {
+    return get(httpAddr + `/cargapp_ads/` + id, true);
+}
+
+export function putCargappAd(id, data) {
+    return put(httpAddr + '/cargapp_ads/' + id, data, true);
+}
+
+export function postCargappAd(data) {
+    return post(httpAddr + `/cargapp_ads`, data, true);
+}
+
+export function deleteCargappAd(id) {
+    return del(httpAddr + `/cargapp_ads/` + id, true)
+}
