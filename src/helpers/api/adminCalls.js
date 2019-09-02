@@ -665,3 +665,46 @@ export function postCargappAd(data) {
 export function deleteCargappAd(id) {
     return del(httpAddr + `/cargapp_ads/` + id, true)
 }
+
+
+export function getUserLocations() {
+    return get(httpAddr + `/user_locations/active`, true);
+}
+
+export function getUserLocation(id) {
+    return get(httpAddr + `/user_locations/` + id, true);
+}
+
+export function putUserLocation(id, data) {
+    return put(httpAddr + '/user_locations/' + id, data, true);
+}
+
+export function postUserLocation(data) {
+    return post(httpAddr + `/user_locations`, data, true);
+}
+
+export function deleteUserLocation(id) {
+    return del(httpAddr + `/user_locations/` + id, true)
+}
+
+
+
+export function getServiceLocations() {
+    return get(httpAddr + `/service_locations/active`, true);
+}
+
+export function getServiceLocation(id) {
+    return get(httpAddr + `/service_locations/` + id, true);
+}
+
+export function putServiceLocation(id, data) {
+    return put(httpAddr + '/service_locations/' + id, data, true);
+}
+
+export function postServiceLocation(data) {
+    return post(httpAddr + `/service_locations`, data, true);
+}
+
+export function deleteServiceLocation(id) {
+    return del(httpAddr + `/service_locations/` + id, true)
+}
