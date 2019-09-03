@@ -644,3 +644,107 @@ export function postFavoriteRoute(data) {
 export function deleteFavoriteRoute(id) {
     return del(httpAddr + `/favorite_routes/` + id, true)
 }
+
+
+export function getCargappAds() {
+    return get(httpAddr + `/cargapp_ads/active`, true);
+}
+
+export function getCargappAd(id) {
+    return get(httpAddr + `/cargapp_ads/` + id, true);
+}
+
+export function putCargappAd(id, data) {
+    return put(httpAddr + '/cargapp_ads/' + id, data, true);
+}
+
+export function postCargappAd(data) {
+    return post(httpAddr + `/cargapp_ads`, data, true);
+}
+
+export function deleteCargappAd(id) {
+    return del(httpAddr + `/cargapp_ads/` + id, true)
+}
+
+
+export function getUserLocations() {
+    return get(httpAddr + `/user_locations/active`, true);
+}
+
+export function getUserLocation(id) {
+    return get(httpAddr + `/user_locations/` + id, true);
+}
+
+export function putUserLocation(id, data) {
+    return put(httpAddr + '/user_locations/' + id, data, true);
+}
+
+export function postUserLocation(data) {
+    return post(httpAddr + `/user_locations`, data, true);
+}
+
+export function deleteUserLocation(id) {
+    return del(httpAddr + `/user_locations/` + id, true)
+}
+
+
+
+export function getServiceLocations() {
+    return get(httpAddr + `/service_locations/active`, true);
+}
+
+export function getServiceLocation(id) {
+    return get(httpAddr + `/service_locations/` + id, true);
+}
+
+export function putServiceLocation(id, data) {
+    return put(httpAddr + '/service_locations/' + id, data, true);
+}
+
+export function postServiceLocation(data) {
+    return post(httpAddr + `/service_locations`, data, true);
+}
+
+export function deleteServiceLocation(id) {
+    return del(httpAddr + `/service_locations/` + id, true)
+}
+
+export function getBankAccounts() {
+    return get(httpAddr + `/bank_accounts/active`, true);
+}
+
+export function getBankAccount(id) {
+    return get(httpAddr + `/bank_accounts/` + id, true);
+}
+
+export function putBankAccount(id, data) {
+    return put(httpAddr + '/bank_accounts/' + id, data, true);
+}
+
+export function postBankAccount(data) {
+    return post(httpAddr + `/bank_accounts`, data, true);
+}
+
+export function deleteBankAccount(id) {
+    return del(httpAddr + `/bank_accounts/` + id, true)
+}
+
+export function getRateServices() {
+    return get(httpAddr + `/rate_services/active`, true);
+}
+
+export function getRateService(id) {
+    return get(httpAddr + `/rate_services/` + id, true);
+}
+
+export function putRateService(id, data) {
+    return put(httpAddr + '/rate_services/' + id, data, true);
+}
+
+export function postRateService(data) {
+    return post(httpAddr + `/rate_services`, data, true);
+}
+
+export function deleteRateService(id) {
+    return del(httpAddr + `/rate_services/` + id, true)
+}

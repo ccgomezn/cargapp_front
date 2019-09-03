@@ -335,6 +335,72 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Permissions/edit'))
     },
     {
+        path: 'cargapp_ads',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds'))
+    },
+    {
+        path: 'cargapp_ads/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/show'))
+    },
+    {
+        path: 'cargapp_ads/add',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/create'))
+    },
+    {
+        path: 'cargapp_ads/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappAds/edit'))
+    },
+    {
+        path: 'user_locations',
+        component: asyncComponent(() => import('../AdminCargapp/UserLocations'))
+    },
+    {
+        path: 'user_locations/add',
+        component: asyncComponent(() => import('../AdminCargapp/UserLocations/create'))
+    },
+    {
+        path: 'user_locations/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/UserLocations/edit'))
+    },
+    {
+        path: 'service_locations',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceLocations'))
+    },
+    {
+        path: 'service_locations/add',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceLocations/create'))
+    },
+    {
+        path: 'service_locations/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceLocations/edit'))
+    },{
+        path: 'bank_accounts',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts'))
+    },
+    {
+        path: 'bank_accounts/add',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts/create'))
+    },
+    {
+        path: 'bank_accounts/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/BankAccounts/edit'))
+    },{
+        path: 'rate_services',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices'))
+    },
+    {
+        path: 'rate_services/add',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/create'))
+    },
+    {
+        path: 'rate_services/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/edit'))
+    },
+    {
+        path: 'rate_services/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/RateServices/show'))
+    },
+    {
         path: 'cargapp_models',
         component: asyncComponent(() => import('../AdminCargapp/CargappModels'))
     },
