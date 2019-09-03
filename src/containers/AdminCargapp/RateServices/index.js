@@ -40,7 +40,6 @@ export default class RateService extends Component {
             .then((responses) => {
 
                 if (responses[0] !== undefined) {
-                    let data_users = this.transformDataToMap(responses[1].data, 'email');
                     let data_services = this.transformDataToMap(responses[2].data, 'name');
                     responses[0].data.map((item) => {
                         if (item.active) {
