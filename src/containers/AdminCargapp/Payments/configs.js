@@ -8,14 +8,14 @@ import {
     TextColorCell,
     TripleButtonCell
 } from '../../../components/tables/helperCells';
-import {deleteCargappPayment} from '../../../helpers/api/adminCalls';
+import {deletePayment} from '../../../helpers/api/adminCalls';
 
 const deleteFunction = (id) => {
     return function () {
-        (deleteCargappPayment(id)
+        (deletePayment(id)
             .then((response) => {
                 setTimeout(() => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_payments/';
+                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/payments/';
 
                 }, 3000);
 
@@ -42,10 +42,10 @@ const renderCell = (object, type, key, color = false) => {
             var type2 = 'default';
             var type3 = 'danger';
             var function1 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_payments/edit/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/payments/edit/' + object['id'];
             };
             var function2 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_payments/show/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/payments/show/' + object['id'];
             };
 
             return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3);
@@ -73,21 +73,21 @@ const columns = [
         render: object => renderCell(object, 'TextCell', 'uuid')
     },
     {
-        title: <IntlMessages id="antTable.title.amount"/>,
-        key: 'amount',
+        title: <IntlMessages id="antTable.title.total"/>,
+        key: 'total',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'amount')
+        render: object => renderCell(object, 'TextCell', 'total')
     },
     {
-        title: <IntlMessages id="antTable.title.company"/>,
-        key: 'company',
+        title: <IntlMessages id="antTable.title.sub_total"/>,
+        key: 'sub_total',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'company')
+        render: object => renderCell(object, 'TextCell', 'sub_total')
     },{
-        title: <IntlMessages id="antTable.title.observation"/>,
-        key: 'observation',
+        title: <IntlMessages id="antTable.title.transaction_code"/>,
+        key: 'transaction_code',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'observation')
+        render: object => renderCell(object, 'TextCell', 'transaction_code')
     },
     {
         title: <IntlMessages id="antTable.title.state"/>,

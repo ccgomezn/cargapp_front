@@ -11,7 +11,7 @@ import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getCargappPayments, getCompanies} from "../../../helpers/api/adminCalls";
 
-export default class RateService extends Component {
+export default class CargappPayment extends Component {
 
 
     constructor(props) {

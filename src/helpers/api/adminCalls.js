@@ -775,3 +775,27 @@ export function postCargappPayment(data) {
 export function deleteCargappPayment(id) {
     return del(httpAddr + `/cargapp_payments/` + id, true)
 }
+
+
+
+
+
+export function getPayments() {
+    return get(httpAddr + `/payments/active`, true);
+}
+
+export function getPayment(id) {
+    return get(httpAddr + `/payments/` + id, true);
+}
+
+export function putPayment(id, data) {
+    return put(httpAddr + '/payments/' + id, data, true);
+}
+
+export function postPayment(data) {
+    return post(httpAddr + `/payments`, data, true);
+}
+
+export function deletePayment(id) {
+    return del(httpAddr + `/payments/` + id, true)
+}

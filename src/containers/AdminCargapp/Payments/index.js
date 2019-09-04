@@ -9,9 +9,9 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getCargappPayments, getCompanies} from "../../../helpers/api/adminCalls";
+import {getPayments} from "../../../helpers/api/adminCalls";
 
-export default class RateService extends Component {
+export default class Payment extends Component {
 
 
     constructor(props) {
@@ -36,11 +36,9 @@ export default class RateService extends Component {
 
     componentWillMount() {
 
-        axios.all([getCargappPayments(), getCompanies()])
+        axios.all([getPayments()])
             .then((responses) => {
-
                 if (responses[0] !== undefined) {
-                    let data_companies = this.transformDataToMap(responses[1].data, 'name');
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
@@ -49,11 +47,10 @@ export default class RateService extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
-                        item.company = data_companies[item.company_id];
                         return item;
                     });
                     this.setState({
-                        cargapp_payments: responses[0].data
+                        payments: responses[0].data
                     });
                 }
             })
@@ -61,7 +58,7 @@ export default class RateService extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/cargapp_payments/add')
+        this.props.history.push('/admin/payments/add')
     }
 
     render() {
@@ -69,7 +66,7 @@ export default class RateService extends Component {
         const {reload} = this.state;
 
         if (reload) {
-            return <Redirect to='/admin/cargapp_payments'/>
+            return <Redirect to='/admin/payments'/>
         }
         return (
             <LayoutWrapper>
@@ -82,7 +79,7 @@ export default class RateService extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="cargappPayments.title"/>
+                                        <IntlMessages id="payments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -97,8 +94,8 @@ export default class RateService extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.cargapp_payments &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.cargapp_payments}/>
+                                {this.state && this.state.payments &&
+                                <SortView tableInfo={tableinfos[1]} dataList={this.state.payments}/>
                                 }
                             </Col>
                         </Row>

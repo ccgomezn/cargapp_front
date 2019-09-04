@@ -11,14 +11,14 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {getUsers} from '../../../../helpers/api/adminCalls.js';
 import {
-    getBankAccounts,
-    getCargappPayment, getCompanies,
+
+    getPayment,
     getPaymentMethods,
     getServices,
-    getStatus
+    getStatus, getCoupons, getUserPaymentMethods
 } from "../../../../helpers/api/adminCalls";
 
-export default class CargappPaymentShow extends Component {
+export default class PaymentShow extends Component {
 
 
     constructor(props) {
@@ -39,7 +39,7 @@ export default class CargappPaymentShow extends Component {
     }
 
     componentWillMount() {
-        axios.all([getCargappPayment(this.props.match.params.id), getPaymentMethods(), getUsers(), getStatus(), getBankAccounts(), getServices(), getCompanies()])
+        axios.all([getPayment(this.props.match.params.id), getCoupons(), getPaymentMethods(), getStatus(), getServices(), getUsers(), getUserPaymentMethods()])
             .then((responses) => {
 
                 if (responses[0].data.active) {
@@ -48,27 +48,35 @@ export default class CargappPaymentShow extends Component {
                     responses[0].data.active = 'Desactivado';
                 }
 
+                if (responses[0].data.is_service) {
+                    responses[0].data.is_service = 'Es servicio';
+                } else {
+                    responses[0].data.is_service = 'No es servicio';
+                }
 
-                let data_payment_methods = this.transformDataToMap(responses[1].data, 'name');
-                let data_users = this.transformDataToMap(responses[2].data, 'email');
+
+                let data_coupons = this.transformDataToMap(responses[1].data, 'name');
+                let data_payment_methods = this.transformDataToMap(responses[2].data, 'name');
                 let data_status = this.transformDataToMap(responses[3].data, 'name');
-                let data_bank_accounts = this.transformDataToMap(responses[4].data, 'name');
-                let data_services = this.transformDataToMap(responses[5].data, 'name');
-                let data_companies = this.transformDataToMap(responses[6].data, 'name');
+                let data_services = this.transformDataToMap(responses[4].data, 'name');
+                let data_users = this.transformDataToMap(responses[5].data, 'email');
+                let data_user_payment_methods = this.transformDataToMap(responses[6].data, 'uuid');
                 this.setState({
-
                     uuid: responses[0].data.uuid,
-                    amount: responses[0].data.amount,
+                    total: responses[0].data.total,
+                    sub_total: responses[0].data.sub_total,
+                    taxes: responses[0].data.taxes,
                     transaction_code: responses[0].data.transaction_code,
                     observation: responses[0].data.observation,
+                    coupon: data_coupons[responses[0].data.coupon_id],
+                    coupon_code: responses[0].data.coupon_code,
+                    coupon_amount: responses[0].data.coupon_amount,
+                    user_payment_method: data_user_payment_methods[responses[0].data.user_payment_method_id],
                     payment_method: data_payment_methods[responses[0].data.payment_method_id],
-                    status: data_status[responses[0].data.statu_id],
-                    generator: data_users[responses[0].data.generator_id],
-                    receiver: data_users[responses[0].data.receiver_id],
+                    is_service: responses[0].data.is_service,
                     user: data_users[responses[0].data.user_id],
-                    bank_account: data_bank_accounts[responses[0].data.bank_account_id],
+                    statu: data_status[responses[0].data.statu_id],
                     service: data_services[responses[0].data.service_id],
-                    company: data_companies[responses[0].data.company_id],
                     active: responses[0].data.active
                 });
 
@@ -87,7 +95,7 @@ export default class CargappPaymentShow extends Component {
     }
 
     goBack() {
-        this.props.history.push('/admin/cargapp_payments')
+        this.props.history.push('/admin/payments')
     }
 
 
@@ -96,7 +104,7 @@ export default class CargappPaymentShow extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/cargapp_payments'/>
+            return <Redirect to='/admin/payments'/>
         }
         return (
 
@@ -110,7 +118,7 @@ export default class CargappPaymentShow extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="cargappPayments.title"/>
+                                        <IntlMessages id="payments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -125,34 +133,79 @@ export default class CargappPaymentShow extends Component {
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
-                                        <Form.Item label="Cantidad">
-                                            <p>{this.state.amount}</p>
+                                        <Form.Item label="Total">
+                                            <p>{this.state.total}</p>
                                         </Form.Item>
                                     </Col>
                                 </Row>
 
                                 <Row gutter={10}>
                                     <Col span={12}>
-                                        <Form.Item label="Código de transacción">
-                                            <p>{this.state.transaction_code}</p>
+                                        <Form.Item label="Subtotal">
+                                            <p>{this.state.sub_total}</p>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
-                                        <Form.Item label="Observación">
-                                            <p>{this.state.observation}</p>
+                                        <Form.Item label="Impuesto">
+                                            <p>{this.state.taxes}</p>
                                         </Form.Item>
                                     </Col>
                                 </Row>
 
                                 <Row span={12}>
                                     <Col span={12}>
-                                        <Form.Item label="Método de pago">
+                                        <Form.Item label="Codigo de transacción">
+                                            <p>{this.state.transaction_code}</p>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item label="Observacion">
+                                            <p>{this.state.observation}</p>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+
+
+                                <Row>
+
+                                    <Col span={12}>
+                                        <Form.Item label="Cupon">
+                                            <p>{this.state.coupon}</p>
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col span={12}>
+                                        <Form.Item label="Código de cupon">
+                                            <p>{this.state.coupon_code}</p>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+
+                                <Row>
+
+                                    <Col span={12}>
+                                        <Form.Item label="Cantidad de cupon">
+                                            <p>{this.state.coupon_amount}</p>
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col span={12}>
+                                        <Form.Item label="Metodo de pago de usuario">
+                                            <p>{this.state.user_payment_method}</p>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row>
+
+                                    <Col span={12}>
+                                        <Form.Item label="Metodo de pago">
                                             <p>{this.state.payment_method}</p>
                                         </Form.Item>
                                     </Col>
+
                                     <Col span={12}>
                                         <Form.Item label="Status">
-                                            <p>{this.state.status}</p>
+                                            <p>{this.state.statu}</p>
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -161,57 +214,39 @@ export default class CargappPaymentShow extends Component {
                                 <Row>
 
                                     <Col span={12}>
-                                        <Form.Item label="Generador">
-                                            <p>{this.state.generator}</p>
+                                        <Form.Item label="Usuario">
+                                            <p>{this.state.user}</p>
                                         </Form.Item>
                                     </Col>
 
                                     <Col span={12}>
-                                        <Form.Item label="Receptor">
-                                            <p>{this.state.receiver}</p>
+                                        <Form.Item label="Es servicio?">
+                                            <p>{this.state.is_service}</p>
                                         </Form.Item>
                                     </Col>
                                 </Row>
 
                                 <Row>
-
-                                    <Col span={12}>
-                                        <Form.Item label="Cuenta bancaria">
-                                            <p>{this.state.account_number}</p>
-                                        </Form.Item>
-                                    </Col>
 
                                     <Col span={12}>
                                         <Form.Item label="Servicio">
                                             <p>{this.state.service}</p>
                                         </Form.Item>
                                     </Col>
+
+
                                 </Row>
-                              <Row>
 
-                                <Col span={12}>
-                                  <Form.Item label="Compañia">
-                                    <p>{this.state.company}</p>
-                                  </Form.Item>
-                                </Col>
+                                <Row>
 
-                                <Col span={12}>
-                                  <Form.Item label="Usuario">
-                                    <p>{this.state.user}</p>
-                                  </Form.Item>
-                                </Col>
-                              </Row>
-
-                              <Row>
-
-                                <Col span={12}>
-                                  <Form.Item label="Estado de activación">
-                                    <p>{this.state.active}</p>
-                                  </Form.Item>
-                                </Col>
+                                    <Col span={12}>
+                                        <Form.Item label="Estado de activación">
+                                            <p>{this.state.active}</p>
+                                        </Form.Item>
+                                    </Col>
 
 
-                              </Row>
+                                </Row>
 
                                 <Row>
                                     <Col span={24}>

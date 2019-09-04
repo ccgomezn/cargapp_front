@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Checkbox} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -11,18 +11,18 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select, Input} from 'antd';
 import {
-    putCargappPayment, getUsers,
-    getCompanies,
+    putPayment, getUsers,
+    getPayment,
     getPaymentMethods,
-    getStatus, getServices, getBankAccounts
+    getStatus, getServices
 } from '../../../../helpers/api/adminCalls.js';
-import {getCargappPayment} from "../../../../helpers/api/adminCalls";
+import { getCoupons, getUserPaymentMethods} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
 
 
-export default class CargappPaymentEdit extends Component {
+export default class PaymentEdit extends Component {
 
 
     constructor(props) {
@@ -34,27 +34,30 @@ export default class CargappPaymentEdit extends Component {
 
 
     componentWillMount() {
-        axios.all([getCargappPayment(this.props.match.params.id), getPaymentMethods(), getUsers(), getStatus(), getBankAccounts(), getServices(), getCompanies()])
+        axios.all([getPayment(this.props.match.params.id), getCoupons(), getPaymentMethods(), getStatus(), getServices(), getUsers(), getUserPaymentMethods()])
             .then((responses) => {
                 this.setState({
-                    payment_methods: responses[1].data,
-                    users: responses[2].data,
+                    coupons: responses[1].data,
+                    payment_methods: responses[2].data,
                     status: responses[3].data,
-                    bank_accounts: responses[4].data,
-                    services: responses[5].data,
-                    companies: responses[6].data,
+                    services: responses[4].data,
+                    users: responses[5].data,
+                    user_payment_methods: responses[6].data,
                     uuid: responses[0].data.uuid,
-                    amount: responses[0].data.amount,
+                    total: responses[0].data.total,
+                    sub_total: responses[0].data.sub_total,
+                    taxes: responses[0].data.taxes,
                     transaction_code: responses[0].data.transaction_code,
                     observation: responses[0].data.observation,
+                    coupon_id: responses[0].data.coupon_id,
+                    coupon_code: responses[0].data.coupon_code,
+                    coupon_amount: responses[0].data.coupon_amount,
+                    user_payment_method_id: responses[0].data.user_payment_method_id,
                     payment_method_id: responses[0].data.payment_method_id,
-                    statu_id: responses[0].data.statu_id,
-                    generator_id: responses[0].data.generator_id,
-                    receiver_id: responses[0].data.receiver_id,
+                    is_service: responses[0].data.is_service,
                     user_id: responses[0].data.user_id,
-                    bank_account_id: responses[0].data.bank_account_id,
+                    statu_id: responses[0].data.statu_id,
                     service_id: responses[0].data.service_id,
-                    company_id: responses[0].data.company_id,
                     active: responses[0].data.active
                 });
 
@@ -75,21 +78,24 @@ export default class CargappPaymentEdit extends Component {
     handlePut() {
 
 
-        putCargappPayment(this.props.match.params.id,
+        putPayment(this.props.match.params.id,
             {
-                cargapp_payment: {
+                payment: {
                     uuid: this.state.uuid,
-                    amount: this.state.amount,
+                    total: this.state.total,
+                    sub_total: this.state.sub_total,
+                    taxes: this.state.taxes,
                     transaction_code: this.state.transaction_code,
                     observation: this.state.observation,
+                    coupon_id: this.state.coupon_id,
+                    coupon_code: this.state.coupon_code,
+                    coupon_amount: this.state.coupon_amount,
+                    user_payment_method_id: this.state.user_payment_method_id,
                     payment_method_id: this.state.payment_method_id,
-                    statu_id: this.state.statu_id,
-                    generator_id: this.state.generator_id,
-                    receiver_id: this.state.receiver_id,
+                    is_service: this.state.is_service,
                     user_id: this.state.user_id,
-                    bank_account_id: this.state.bank_account_id,
+                    statu_id: this.state.statu_id,
                     service_id: this.state.service_id,
-                    company_id: this.state.company_id,
                     active: this.state.active
                 }
             }).then(() => {
@@ -102,7 +108,7 @@ export default class CargappPaymentEdit extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/cargapp_payments'/>
+            return <Redirect to='/admin/payments'/>
         }
         return (
 
@@ -116,7 +122,7 @@ export default class CargappPaymentEdit extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="cargappPayments.title"/>
+                                        <IntlMessages id="payments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -135,10 +141,10 @@ export default class CargappPaymentEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Cantidad">
-                                                <Input type={"number"} value={this.state.amount}
-                                                       placeholder="cantidad"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'amount')}
+                                            <Form.Item label="Total">
+                                                <Input type={"number"} value={this.state.total}
+                                                       placeholder="total"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'total')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
@@ -146,17 +152,37 @@ export default class CargappPaymentEdit extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Codigo de transacción">
+                                            <Form.Item label="Subtotal">
+                                                <Input value={this.state.sub_total}
+                                                       placeholder="subtotal"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'sub_total')}
+                                                       required/>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Impuestos">
+                                                <Input value={this.state.taxes}
+                                                       placeholder="impuestos"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'taxes')}
+                                                       required/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                            <Form.Item label="Código de transacción">
                                                 <Input value={this.state.transaction_code}
-                                                       placeholder="codigo de transacción"
+                                                       placeholder="código de transacción"
                                                        onChange={(e) => this.handleChange(e.target.value, 'transaction_code')}
                                                        required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Observación">
+                                            <Form.Item label="Observaciones">
                                                 <Input value={this.state.observation}
-                                                       placeholder="observación"
+                                                       placeholder="observaciones"
                                                        onChange={(e) => this.handleChange(e.target.value, 'observation')}
                                                        required/>
                                             </Form.Item>
@@ -166,9 +192,63 @@ export default class CargappPaymentEdit extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
+                                            <Form.Item label="Cupon">
+                                                <Select value={this.state.coupon_id}
+                                                        placeholder="cupon"
+                                                        style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'coupon_id')
+                                                }}>
+                                                    {this.state && this.state.coupons &&
+
+                                                    this.state.coupons.map((item) => {
+                                                        return <Option value={item.id}>{item.name}</Option>
+                                                    })
+                                                    }
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Código de cupon">
+                                                <Input value={this.state.coupon_code}
+                                                       placeholder="código de cupon"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'coupon_code')}
+                                                       required/>
+                                            </Form.Item>
+                                        </Col>
+
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                            <Form.Item label="Valor de cupon">
+                                                <Input value={this.state.coupon_amount}
+                                                       placeholder="valor de cupon"
+                                                       onChange={(e) => this.handleChange(e.target.value, 'coupon_amount')}
+                                                       required/>
+                                            </Form.Item>
+                                        </Col>
+
+                                        <Col span={12}>
+                                            <Form.Item label="Método de pago de usuario">
+                                                <Select value={this.state.user_payment_method_id} placeholder="método de pago de usuario"
+                                                        style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'user_payment_method_id')
+                                                }}>
+                                                    {this.state && this.state.user_payment_methods &&
+
+                                                    this.state.user_payment_methods.map((item) => {
+                                                        return <Option value={item.id}>{item.email} {item.uuid}</Option>
+                                                    })
+                                                    }
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                        <Col span={12}>
                                             <Form.Item label="Método de pago">
-                                                <Select value={this.state.payment_method_id}
-                                                        placeholder="método de pago"
+                                                <Select value={this.state.payment_method_id} placeholder="método de pago"
                                                         style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'payment_method_id')
                                                 }}>
@@ -181,6 +261,7 @@ export default class CargappPaymentEdit extends Component {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
+
                                         <Col span={12}>
                                             <Form.Item label="Status">
                                                 <Select value={this.state.statu_id} placeholder="status"
@@ -196,78 +277,20 @@ export default class CargappPaymentEdit extends Component {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-
                                     </Row>
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Generador">
-                                                <Select value={this.state.generator_id} placeholder="conductor"
-                                                        style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'generator_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
-
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                            <Form.Item>
+                                                <Checkbox
+                                                    checked={this.state.is_service}
+                                                    onChange={(e) => this.handleChange(e.target.checked, 'is_service')}
+                                                >
+                                                    ¿Es servicio?
+                                                </Checkbox>
                                             </Form.Item>
                                         </Col>
 
-                                        <Col span={12}>
-                                            <Form.Item label="Receptor">
-                                                <Select value={this.state.receiver_id} placeholder="receptor"
-                                                        style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'receiver_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
-
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
-
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-
-                                        <Col span={12}>
-                                            <Form.Item label="Cuenta bancaria">
-                                                <Select value={this.state.bank_account_id} placeholder="cuenta bancaria"
-                                                        style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'bank_account_id')
-                                                }}>
-                                                    {this.state && this.state.bank_accounts &&
-
-                                                    this.state.bank_accounts.map((item) => {
-                                                        return <Option value={item.id}>{item.account_number}</Option>
-                                                    })
-                                                    }
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
                                                 <Select value={this.state.service_id} placeholder="servicio"
@@ -283,38 +306,23 @@ export default class CargappPaymentEdit extends Component {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-
+                                    </Row>
+                                    <Row>
                                         <Col span={12}>
-                                            <Form.Item label="Compañia">
-                                                <Select value={this.state.company_id} placeholder="compañia"
+                                            <Form.Item label="Usuario">
+                                                <Select value={this.state.user_id} placeholder="usuario"
                                                         style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'company_id')
+                                                    this.handleChange(e, 'user_id')
                                                 }}>
-                                                    {this.state && this.state.companies &&
+                                                    {this.state && this.state.users &&
 
-                                                    this.state.companies.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
+                                                    this.state.users.map((item) => {
+                                                        return <Option value={item.id}>{item.email}</Option>
                                                     })
                                                     }
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
-
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Form.Item label="Estado">
-                                                <Select required value={this.state.active} placeholder="estado"
-                                                        style={{width: 120}} onChange={(e) => {
-                                                    this.handleChange(e, 'active')
-                                                }}>
-                                                    <Option value={true}>Activo</Option>
-                                                    <Option value={false}>Desactivado</Option>
-
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-
                                     </Row>
 
                                     <Row>
