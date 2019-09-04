@@ -131,8 +131,13 @@ export function postCity(data) {
     return post(httpAddr + `/cities`, data, true);
 }
 
+export function getMineBankAccount(){
+    return get(httpAddr + '/bank_account/me', true)
+
+}
+
 export function getCompanies() {
-    return get(httpAddr + '/companies/active', true)
+    return get(httpAddr + '/companies/', true)
 }
 
 export function getCompany(id) {
@@ -747,4 +752,26 @@ export function postRateService(data) {
 
 export function deleteRateService(id) {
     return del(httpAddr + `/rate_services/` + id, true)
+}
+
+
+
+export function getCargappPayments() {
+    return get(httpAddr + `/cargapp_payments/active`, true);
+}
+
+export function getCargappPayment(id) {
+    return get(httpAddr + `/cargapp_payments/` + id, true);
+}
+
+export function putCargappPayment(id, data) {
+    return put(httpAddr + '/cargapp_payments/' + id, data, true);
+}
+
+export function postCargappPayment(data) {
+    return post(httpAddr + `/cargapp_payments`, data, true);
+}
+
+export function deleteCargappPayment(id) {
+    return del(httpAddr + `/cargapp_payments/` + id, true)
 }
