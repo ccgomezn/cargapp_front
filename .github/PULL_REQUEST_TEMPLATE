@@ -1,0 +1,30 @@
+***¿Está listo para revisión?:*** NO
+
+## ¿Qué se trabajó?:
+
+#Ejemplo: Se trabajó los permisos del admionistrador
+
+## ¿Cómo se trabajó?:
+
+#Ejemplo: Se agrego una funcion para validar los permisos asignados al usuario
+
+<!--
+Algo que describa de forma precisa cómo se implementó o trabajó para que la revisión sea más rápida
+-->
+
+## ¿Que problema resuelve?:
+
+#Ejemplo: Que los usuarios no puedan ingresar a modulos donde no tienen permisos
+
+
+## ¿Cómo QA puede verificar esto?:
+
+<!--
+Agregue pantallazos si es Frontend o App, comandos si es Backend, instrucciones o cualquier cosa
+que sirva para que se pueda verificar y así facilitar la revisión y aprobación.
+
+Ejemplos:
+* Paso a paso de como verificar
+* Pantallazos mostrando diferencias o demás mostrando el resultado
+* Describir la URL para verificar el trabajo
+-->
