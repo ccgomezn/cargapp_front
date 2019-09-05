@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card, Select } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getUsers, postIntegration } from '../../../../helpers/api/adminCalls'
+import {getActiveUsers, postIntegration} from '../../../../helpers/api/adminCalls'
 const { Option } = Select
 
 export default class CargappIntegrationCreate extends Component {
@@ -24,7 +24,7 @@ export default class CargappIntegrationCreate extends Component {
   
 
   componentWillMount() {
-    axios.all([getUsers()])
+    axios.all([getActiveUsers()])
       .then((responses) => {
 
         this.setState({

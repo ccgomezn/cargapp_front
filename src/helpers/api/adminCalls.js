@@ -2,12 +2,23 @@ import {get, post, put, del} from '../httpRequest';
 import {httpAddr} from '../http_helper';
 
 export function getIntegrations() {
+    return get(httpAddr + `/cargapp_integrations/`, true);
+}
+
+export function getActiveIntegrations() {
     return get(httpAddr + `/cargapp_integrations/active`, true);
 }
+
 
 export function getUsers() {
     return get(httpAddr + `/users`, true);
 }
+
+export function getActiveUsers() {
+    return get(httpAddr + `/users/active`, true);
+}
+
+
 
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
@@ -35,6 +46,10 @@ export function postIntegration(data) {
 }
 
 export function getModels() {
+    return get(httpAddr + `/cargapp_models`, true)
+}
+
+export function getActiveModels() {
     return get(httpAddr + `/cargapp_models/active`, true)
 }
 
@@ -51,8 +66,13 @@ export function postModel(data) {
 }
 
 export function getChallenges() {
+    return get(httpAddr + `/challenges`, true);
+}
+
+export function getActiveChallenges() {
     return get(httpAddr + `/challenges/active`, true);
 }
+
 
 export function getChallenge(id) {
     return get(httpAddr + `/challenges/` + id, true);
@@ -67,6 +87,10 @@ export function postChallenge(data) {
 }
 
 export function getDocumentTypes() {
+    return get(httpAddr + `/document_types/`, true);
+}
+
+export function getActiveDocumentTypes() {
     return get(httpAddr + `/document_types/active`, true);
 }
 
@@ -83,6 +107,10 @@ export function postDocumentType(data) {
 }
 
 export function getCountries() {
+    return get(httpAddr + '/countries/', true)
+}
+
+export function getActiveCountries() {
     return get(httpAddr + '/countries/active', true)
 }
 
@@ -91,6 +119,10 @@ export function getCountry(id) {
 }
 
 export function getDocuments() {
+    return get(httpAddr + '/documents/', true)
+}
+
+export function getActiveDocuments() {
     return get(httpAddr + '/documents/active', true)
 }
 
@@ -99,9 +131,17 @@ export function getDocument(id) {
 }
 
 export function getStatus() {
+    return get(httpAddr + '/status/', true)
+
+}
+
+
+export function getActiveStatus() {
     return get(httpAddr + '/status/active', true)
 
 }
+
+
 
 export function putCountry(id, data) {
     return put(httpAddr + '/countries/' + id, data, true)
@@ -112,10 +152,18 @@ export function postCountry(data) {
 }
 
 export function getStates() {
+    return get(httpAddr + '/states/', true)
+}
+
+export function getActiveStates() {
     return get(httpAddr + '/states/active', true)
 }
 
 export function getCities() {
+    return get(httpAddr + '/cities/', true)
+}
+
+export function getActiveCities() {
     return get(httpAddr + '/cities/active', true)
 }
 
@@ -140,6 +188,10 @@ export function getCompanies() {
     return get(httpAddr + '/companies/', true)
 }
 
+export function getActiveCompanies() {
+    return get(httpAddr + '/companies/active', true)
+}
+
 export function getCompany(id) {
     return get(httpAddr + '/companies/' + id, true)
 }
@@ -153,6 +205,10 @@ export function postCompany(data) {
 }
 
 export function getLoadTypes() {
+    return get(httpAddr + `/load_types/`, true);
+}
+
+export function getActiveLoadTypes() {
     return get(httpAddr + `/load_types/active`, true);
 }
 
@@ -173,6 +229,10 @@ export function migrateCountries() {
 }
 
 export function getCoupons() {
+    return get(httpAddr + `/coupons/`, true);
+}
+
+export function getActiveCoupons() {
     return get(httpAddr + `/coupons/active`, true);
 }
 
@@ -197,6 +257,10 @@ export function putDocument(id, data) {
 }
 
 export function getParameters() {
+    return get(httpAddr + `/parameters/`, true);
+}
+
+export function getActiveParameters() {
     return get(httpAddr + `/parameters/active`, true);
 }
 
@@ -214,6 +278,10 @@ export function postParameter(data) {
 }
 
 export function getPermissions() {
+    return get(httpAddr + `/permissions/`, true);
+}
+
+export function getActivePermissions() {
     return get(httpAddr + `/permissions/active`, true);
 }
 
@@ -231,6 +299,10 @@ export function postPermission(data) {
 }
 
 export function getRoles() {
+    return get(httpAddr + `/roles/`, true);
+}
+
+export function getActiveRoles() {
     return get(httpAddr + `/roles/active`, true);
 }
 
@@ -248,6 +320,10 @@ export function postRole(data) {
 }
 
 export function getPrizes() {
+    return get(httpAddr + `/prizes/`, true);
+}
+
+export function getActivePrizes() {
     return get(httpAddr + `/prizes/active`, true);
 }
 
@@ -265,6 +341,10 @@ export function postPrize(data) {
 }
 
 export function getProfiles() {
+    return get(httpAddr + `/profiles/`, true);
+}
+
+export function getActiveProfiles() {
     return get(httpAddr + `/profiles/active`, true);
 }
 
@@ -310,6 +390,11 @@ export function postStatu(data) {
 
 
 export function getTickets() {
+    return get(httpAddr + `/tickets/`, true);
+}
+
+
+export function getActiveTickets() {
     return get(httpAddr + `/tickets/active`, true);
 }
 
@@ -328,6 +413,11 @@ export function postTicket(data) {
 
 
 export function getUserChallenges() {
+    return get(httpAddr + `/user_challenges/`, true);
+}
+
+
+export function getActiveUserChallenges() {
     return get(httpAddr + `/user_challenges/active`, true);
 }
 
@@ -345,6 +435,10 @@ export function postUserChallenge(data) {
 }
 
 export function getUserCoupons() {
+    return get(httpAddr + `/user_coupons/`, true);
+}
+
+export function getActiveUserCoupons() {
     return get(httpAddr + `/user_coupons/active`, true);
 }
 
@@ -362,6 +456,10 @@ export function postUserCoupon(data) {
 }
 
 export function getUserPrizes() {
+    return get(httpAddr + `/user_prizes/`, true);
+}
+
+export function getActiveUserPrizes() {
     return get(httpAddr + `/user_prizes/active`, true);
 }
 
@@ -382,6 +480,10 @@ export function getUserRoles() {
     return get(httpAddr + `/user_roles/`, true);
 }
 
+export function getActiveUserRoles() {
+    return get(httpAddr + `/user_roles/active`, true);
+}
+
 export function getUserRole(id) {
     return get(httpAddr + `/user_roles/` + id, true);
 
@@ -396,6 +498,10 @@ export function postUserRole(data) {
 }
 
 export function getVehicles() {
+    return get(httpAddr + `/vehicles/`, true);
+}
+
+export function getActiveVehicles() {
     return get(httpAddr + `/vehicles/active`, true);
 }
 
@@ -413,6 +519,10 @@ export function postVehicle(data) {
 }
 
 export function getVehicleTypes() {
+    return get(httpAddr + `/vehicle_types/`, true);
+}
+
+export function getActiveVehicleTypes() {
     return get(httpAddr + `/vehicle_types/active`, true);
 }
 
@@ -527,6 +637,10 @@ export function deleteVehicleType(id) {
 }
 
 export function getPaymentMethods() {
+    return get(httpAddr + `/payment_methods/`, true);
+}
+
+export function getActivePaymentMethods() {
     return get(httpAddr + `/payment_methods/active`, true);
 }
 
@@ -547,6 +661,10 @@ export function deletePaymentMethod(id) {
 }
 
 export function getUserPaymentMethods() {
+    return get(httpAddr + `/user_payment_methods/`, true);
+}
+
+export function getActiveUserPaymentMethods() {
     return get(httpAddr + `/user_payment_methods/active`, true);
 }
 
@@ -567,6 +685,10 @@ export function deleteUserPaymentMethod(id) {
 }
 
 export function getReports() {
+    return get(httpAddr + `/reports/`, true);
+}
+
+export function getActiveReports() {
     return get(httpAddr + `/reports/active`, true);
 }
 
@@ -591,6 +713,10 @@ export function findParameters(code) {
 }
 
 export function getServices() {
+    return get(httpAddr + `/services/`, true);
+}
+
+export function getActiveServices() {
     return get(httpAddr + `/services/active`, true);
 }
 
@@ -611,6 +737,10 @@ export function deleteService(id) {
 }
 
 export function getServiceDocuments() {
+    return get(httpAddr + `/service_documents/`, true);
+}
+
+export function getActiveServiceDocuments() {
     return get(httpAddr + `/service_documents/active`, true);
 }
 
@@ -631,6 +761,10 @@ export function deleteServiceDocument(id) {
 }
 
 export function getFavoriteRoutes() {
+    return get(httpAddr + `/favorite_routes/`, true);
+}
+
+export function getActiveFavoriteRoutes() {
     return get(httpAddr + `/favorite_routes/active`, true);
 }
 
@@ -652,6 +786,10 @@ export function deleteFavoriteRoute(id) {
 
 
 export function getCargappAds() {
+    return get(httpAddr + `/cargapp_ads/`, true);
+}
+
+export function getActiveCargappAds() {
     return get(httpAddr + `/cargapp_ads/active`, true);
 }
 
@@ -673,6 +811,10 @@ export function deleteCargappAd(id) {
 
 
 export function getUserLocations() {
+    return get(httpAddr + `/user_locations/`, true);
+}
+
+export function getActiveUserLocations() {
     return get(httpAddr + `/user_locations/active`, true);
 }
 
@@ -695,6 +837,12 @@ export function deleteUserLocation(id) {
 
 
 export function getServiceLocations() {
+    return get(httpAddr + `/service_locations/`, true);
+}
+
+
+
+export function getActiveServiceLocations() {
     return get(httpAddr + `/service_locations/active`, true);
 }
 
@@ -715,6 +863,10 @@ export function deleteServiceLocation(id) {
 }
 
 export function getBankAccounts() {
+    return get(httpAddr + `/bank_accounts/`, true);
+}
+
+export function getActiveBankAccounts() {
     return get(httpAddr + `/bank_accounts/active`, true);
 }
 
@@ -735,6 +887,10 @@ export function deleteBankAccount(id) {
 }
 
 export function getRateServices() {
+    return get(httpAddr + `/rate_services/`, true);
+}
+
+export function getActiveRateServices() {
     return get(httpAddr + `/rate_services/active`, true);
 }
 
@@ -757,6 +913,11 @@ export function deleteRateService(id) {
 
 
 export function getCargappPayments() {
+    return get(httpAddr + `/cargapp_payments/`, true);
+}
+
+
+export function getActiveCargappPayments() {
     return get(httpAddr + `/cargapp_payments/active`, true);
 }
 
@@ -781,6 +942,10 @@ export function deleteCargappPayment(id) {
 
 
 export function getPayments() {
+    return get(httpAddr + `/payments/`, true);
+}
+
+export function getActivePayments() {
     return get(httpAddr + `/payments/active`, true);
 }
 

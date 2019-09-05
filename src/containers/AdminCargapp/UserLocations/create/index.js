@@ -7,7 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers, postUserLocation, getCities} from '../../../../helpers/api/adminCalls.js';
+import {postUserLocation} from '../../../../helpers/api/adminCalls.js';
+import {getActiveCities, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -24,7 +25,7 @@ export default class UserLocationCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), getCities()])
+        axios.all([getActiveUsers(), getActiveCities()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,
@@ -141,8 +142,6 @@ export default class UserLocationCreate extends Component {
                                         </Col>
 
                                     </Row>
-
-
 
 
                                     <Row>

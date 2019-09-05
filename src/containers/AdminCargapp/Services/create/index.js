@@ -9,14 +9,16 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {
-    getUsers,
-    getCities,
-    getCompanies,
-    getVehicles,
-    getVehicleTypes,
+
     postService
 } from '../../../../helpers/api/adminCalls.js';
-import {getStatus} from "../../../../helpers/api/adminCalls";
+import {
+    getActiveCities,
+    getActiveCompanies, getActiveStatus,
+    getActiveUsers,
+    getActiveVehicles, getActiveVehicleTypes,
+    
+} from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import MapContainer from "../../../../components/maps/map";
 import {midPointLatLong} from "../../../../helpers/geolocalization";
@@ -67,7 +69,7 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
-        axios.all([getUsers(), getCities(), getCompanies(), getVehicles(), getVehicleTypes(), getStatus()])
+        axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,

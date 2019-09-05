@@ -7,7 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers, postCargappAd} from '../../../../helpers/api/adminCalls.js';
+import {postCargappAd} from '../../../../helpers/api/adminCalls.js';
+import {getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -24,7 +25,7 @@ export default class CargappAdCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers()])
+        axios.all([getActiveUsers()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,
@@ -120,7 +121,7 @@ export default class CargappAdCreate extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Cuerpo">
-                                                <Input  value={this.state.body} placeholder="cuerpo"
+                                                <Input value={this.state.body} placeholder="cuerpo"
                                                        onChange={(e) => this.handleChange(e.target.value, 'body')}
                                                        required/>
                                             </Form.Item>

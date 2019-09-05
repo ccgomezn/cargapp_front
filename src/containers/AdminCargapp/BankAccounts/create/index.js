@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select } from 'antd';
+import {Row, Col, Form, Input, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import { postBankAccount } from '../../../../helpers/api/adminCalls.js';
-import {getUsers, getStatus} from "../../../../helpers/api/adminCalls";
+import {postBankAccount} from '../../../../helpers/api/adminCalls.js';
+import {getActiveStatus, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -25,7 +25,7 @@ export default class BankAccountCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getStatus(), getUsers()])
+        axios.all([getActiveStatus(), getActiveUsers()])
             .then((responses) => {
                 this.setState({
                     status: responses[0].data,
@@ -95,7 +95,8 @@ export default class BankAccountCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Número de cuenta">
-                                                <Input type={"number"} value={this.state.account_number} placeholder="número de cuenta"
+                                                <Input type={"number"} value={this.state.account_number}
+                                                       placeholder="número de cuenta"
                                                        onChange={(e) => this.handleChange(e.target.value, 'account_number')}
                                                        required/>
                                             </Form.Item>
@@ -154,10 +155,6 @@ export default class BankAccountCreate extends Component {
                                         </Col>
 
                                     </Row>
-
-
-
-
 
 
                                     <Row>

@@ -6,7 +6,7 @@ import {Row, Col, Form, Input, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
-import {postUser, getRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
+import {postUser, getActiveRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
 import axios from "axios";
 
 
@@ -61,7 +61,7 @@ export default class UserCreate extends Component {
 
     componentWillMount() {
 
-        axios.all([getRoles()])
+        axios.all([getActiveRoles()])
             .then((responses) => {
                 if (responses[0]) {
                     this.setState({

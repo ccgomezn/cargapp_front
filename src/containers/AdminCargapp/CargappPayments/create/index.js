@@ -9,10 +9,10 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postCargappPayment} from '../../../../helpers/api/adminCalls.js';
 import {
-    getUsers,
-    getCompanies,
-    getPaymentMethods,
-    getStatus, getServices, getBankAccounts
+    getActivePaymentMethods,
+    getActiveUsers,
+    getActiveStatus,
+    getActiveBankAccounts, getActiveServices, getActiveCompanies
 } from "../../../../helpers/api/adminCalls";
 
 
@@ -30,7 +30,7 @@ export default class CargappPaymentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getPaymentMethods(), getUsers(), getStatus(), getBankAccounts(), getServices(), getCompanies()])
+        axios.all([getActivePaymentMethods(), getActiveUsers(), getActiveStatus(), getActiveBankAccounts(), getActiveServices(), getActiveCompanies()])
             .then((responses) => {
                 this.setState({
                     payment_methods: responses[0].data,

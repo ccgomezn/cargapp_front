@@ -10,7 +10,7 @@ import { Card, Checkbox } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import moment from 'moment';
-import { getUsers, getModels, postCoupon } from "../../../../helpers/api/adminCalls"
+import { postCoupon, getActiveUsers, getActiveModels} from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 
@@ -27,7 +27,7 @@ export default class CouponCreate extends Component {
 
 
   componentWillMount() {
-    axios.all([getUsers(), getModels()])
+    axios.all([getActiveUsers(), getActiveModels()])
       .then((responses) => {
 
         this.setState({

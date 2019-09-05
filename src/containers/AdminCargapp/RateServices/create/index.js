@@ -8,7 +8,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postRateService} from '../../../../helpers/api/adminCalls.js';
-import {getUsers, getServices} from "../../../../helpers/api/adminCalls";
+import {getActiveServices, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -25,7 +25,7 @@ export default class RateServiceCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getServices(), getUsers()])
+        axios.all([getActiveServices(), getActiveUsers()])
             .then((responses) => {
                 this.setState({
                     services: responses[0].data,
@@ -127,8 +127,6 @@ export default class RateServiceCreate extends Component {
                                         </Col>
 
                                     </Row>
-
-
 
 
                                     <Row gutter={10}>

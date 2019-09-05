@@ -9,11 +9,11 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postPayment} from '../../../../helpers/api/adminCalls.js';
 import {
-    getCoupons,
-    getPaymentMethods,
-    getStatus,
-    getServices,
-    getUsers, getUserPaymentMethods
+    getActiveCoupons,
+    getActivePaymentMethods,
+    getActiveStatus,
+    getActiveServices,
+    getActiveUsers, getActiveUserPaymentMethods
 } from "../../../../helpers/api/adminCalls";
 
 
@@ -31,7 +31,7 @@ export default class PaymentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getCoupons(), getPaymentMethods(), getStatus(), getServices(), getUsers(), getUserPaymentMethods()])
+        axios.all([getActiveCoupons(), getActivePaymentMethods(), getActiveStatus(), getActiveServices(), getActiveUsers(), getActiveUserPaymentMethods()])
             .then((responses) => {
                 this.setState({
                     coupons: responses[0].data,
