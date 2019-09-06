@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="99" height="105" viewBox="0 0 66 70">
+    <defs>
+        <radialGradient id="c" cx="10.331%" cy="11.879%" r="152.903%" fx="10.331%" fy="11.879%">
+            <stop offset="0%" stop-color="#007AFF"/>
+            <stop offset="100%" stop-color="#0F7"/>
+        </radialGradient>
+        <circle id="b" cx="128" cy="33" r="33"/>
+        <filter id="a" width="106.1%" height="112.1%" x="-3%" y="-3%" filterUnits="objectBoundingBox">
+            <feOffset dy="4" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+            <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.102218094 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(-95)">
+        <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+        <circle cx="128" cy="33" r="30" fill="url(#c)" stroke="#FFF" stroke-linejoin="square" stroke-width="6"/>
+    </g>
+</svg>
