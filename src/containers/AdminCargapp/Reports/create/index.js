@@ -8,7 +8,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {getUsers, postReport, findParameters} from '../../../../helpers/api/adminCalls.js';
+import { postReport, findParameters} from '../../../../helpers/api/adminCalls.js';
+import {getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -26,7 +27,7 @@ export default class ReportCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), findParameters('REPORT_TYPES')])
+        axios.all([getActiveUsers(), findParameters('REPORT_TYPES')])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,

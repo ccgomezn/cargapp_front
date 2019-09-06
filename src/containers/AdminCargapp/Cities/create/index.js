@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { postCity, getStates } from "../../../../helpers/api/adminCalls"
+import {postCity, getActiveStates} from "../../../../helpers/api/adminCalls"
 
 const { Option } = Select;
 
@@ -36,7 +36,7 @@ export default class StateCreate extends Component {
   
 
   componentWillMount() {
-    axios.all([getStates()])
+    axios.all([getActiveStates()])
       .then((responses) => {
 
         

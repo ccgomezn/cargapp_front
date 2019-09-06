@@ -7,7 +7,8 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers, postUserPaymentMethod, getPaymentMethods} from '../../../../helpers/api/adminCalls.js';
+import {postUserPaymentMethod} from '../../../../helpers/api/adminCalls.js';
+import {getActivePaymentMethods, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select
@@ -24,7 +25,7 @@ export default class UserPaymentMethodCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), getPaymentMethods()])
+        axios.all([getActiveUsers(), getActivePaymentMethods()])
             .then((responses) => {
 
                 this.setState({

@@ -8,7 +8,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {getUsers, postPaymentMethod} from '../../../../helpers/api/adminCalls.js';
+import {postPaymentMethod} from '../../../../helpers/api/adminCalls.js';
+import {getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select
@@ -25,7 +26,7 @@ export default class PaymentMethodCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers()])
+        axios.all([getActiveUsers()])
             .then((responses) => {
 
                 this.setState({

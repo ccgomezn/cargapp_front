@@ -9,9 +9,9 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import { getUsers, getRateServices, getServices} from "../../../helpers/api/adminCalls";
+import {getCargappPayments, getCompanies} from "../../../helpers/api/adminCalls";
 
-export default class RateService extends Component {
+export default class CargappPayment extends Component {
 
 
     constructor(props) {
@@ -36,11 +36,11 @@ export default class RateService extends Component {
 
     componentWillMount() {
 
-        axios.all([getRateServices(), getUsers(), getServices()])
+        axios.all([getCargappPayments(), getCompanies()])
             .then((responses) => {
 
                 if (responses[0] !== undefined) {
-                    let data_services = this.transformDataToMap(responses[2].data, 'name');
+                    let data_companies = this.transformDataToMap(responses[1].data, 'name');
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
@@ -49,11 +49,11 @@ export default class RateService extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
-                        item.service = data_services[item.service_id];
+                        item.company = data_companies[item.company_id];
                         return item;
                     });
                     this.setState({
-                        rate_services: responses[0].data
+                        cargapp_payments: responses[0].data
                     });
                 }
             })
@@ -61,7 +61,7 @@ export default class RateService extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/rate_services/add')
+        this.props.history.push('/admin/cargapp_payments/add')
     }
 
     render() {
@@ -69,7 +69,7 @@ export default class RateService extends Component {
         const {reload} = this.state;
 
         if (reload) {
-            return <Redirect to='/admin/rate_services'/>
+            return <Redirect to='/admin/cargapp_payments'/>
         }
         return (
             <LayoutWrapper>
@@ -82,7 +82,7 @@ export default class RateService extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="rateServices.title"/>
+                                        <IntlMessages id="cargappPayments.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -97,8 +97,8 @@ export default class RateService extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.rate_services &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.rate_services}/>
+                                {this.state && this.state.cargapp_payments &&
+                                <SortView tableInfo={tableinfos[1]} dataList={this.state.cargapp_payments}/>
                                 }
                             </Col>
                         </Row>

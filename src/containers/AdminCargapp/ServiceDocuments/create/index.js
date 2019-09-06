@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select } from 'antd';
+import {Row, Col, Form, Input, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers, postServiceDocument, getServices} from '../../../../helpers/api/adminCalls.js';
+import {postServiceDocument} from '../../../../helpers/api/adminCalls.js';
+import {getActiveServices, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -24,7 +25,7 @@ export default class ServiceDocumentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), getServices()])
+        axios.all([getActiveUsers(), getActiveServices()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,

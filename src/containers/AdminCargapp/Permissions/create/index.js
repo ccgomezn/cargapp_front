@@ -4,12 +4,13 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Select } from "antd";
+import {Form, Select} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers, getModels, getRoles, postPermission, findParameters} from '../../../../helpers/api/adminCalls.js';
+import {postPermission, findParameters} from '../../../../helpers/api/adminCalls.js';
+import {getActiveModels, getActiveRoles, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 const {Option} = Select;
 
@@ -53,7 +54,7 @@ export default class PermissionCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), getModels(), getRoles(), findParameters('ACTIONS'), findParameters('METHODS')])
+        axios.all([getActiveUsers(), getActiveModels(), getActiveRoles(), findParameters('ACTIONS'), findParameters('METHODS')])
             .then((responses) => {
 
                 this.setState({

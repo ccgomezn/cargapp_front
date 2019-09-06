@@ -10,7 +10,7 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {getUsers, postChallenge} from "../../../../helpers/api/adminCalls"
+import {getActiveUsers, postChallenge} from "../../../../helpers/api/adminCalls"
 
 const {Option} = Select;
 
@@ -27,7 +27,7 @@ export default class ChallengeCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers()])
+        axios.all([getActiveUsers()])
             .then((responses) => {
 
                 this.setState({

@@ -401,6 +401,38 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/RateServices/show'))
     },
     {
+        path: 'cargapp_payments',
+        component: asyncComponent(() => import('../AdminCargapp/CargappPayments'))
+    },
+    {
+        path: 'cargapp_payments/add',
+        component: asyncComponent(() => import('../AdminCargapp/CargappPayments/create'))
+    },
+    {
+        path: 'cargapp_payments/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappPayments/edit'))
+    },
+    {
+        path: 'cargapp_payments/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/CargappPayments/show'))
+    },
+    {
+        path: 'payments',
+        component: asyncComponent(() => import('../AdminCargapp/Payments'))
+    },
+    {
+        path: 'payments/add',
+        component: asyncComponent(() => import('../AdminCargapp/Payments/create'))
+    },
+    {
+        path: 'payments/edit/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Payments/edit'))
+    },
+    {
+        path: 'payments/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Payments/show'))
+    },
+    {
         path: 'cargapp_models',
         component: asyncComponent(() => import('../AdminCargapp/CargappModels'))
     },

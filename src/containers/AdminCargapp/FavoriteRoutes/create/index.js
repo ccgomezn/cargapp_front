@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postFavoriteRoute, getUsers, getCities} from '../../../../helpers/api/adminCalls.js';
+import {postFavoriteRoute} from '../../../../helpers/api/adminCalls.js';
+import {getActiveCities, getActiveUsers} from "../../../../helpers/api/adminCalls";
 
 const {Option} = Select;
 
@@ -56,7 +57,7 @@ export default class FavoriteRouteCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getUsers(), getCities()])
+        axios.all([getActiveUsers(), getActiveCities()])
             .then((responses) => {
 
                 this.setState({
