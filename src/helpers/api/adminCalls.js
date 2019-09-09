@@ -15,7 +15,7 @@ export function getUsers() {
 }
 
 export function getActiveUsers() {
-    return get(httpAddr + `/users/active`, true);
+    return get(httpAddr + `/users`, true);
 }
 
 
