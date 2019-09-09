@@ -45,11 +45,7 @@ export default class CargappModelCreate extends Component {
 
       }, true).then(() => {
         this.setState({ redirect: true })
-      }).catch(error => {
-        let errorObject = JSON.parse(JSON.stringify(error));
-
-        message.warning(errorObject.message);
-      });
+      })
   }
 
   render() {
