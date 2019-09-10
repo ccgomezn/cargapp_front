@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getDocuments} from "../../../helpers/api/adminCalls"
+import {getDocuments, getDocumentsOfUser,} from "../../../helpers/api/adminCalls"
 
 export default class Document extends Component {
 
@@ -34,7 +34,20 @@ export default class Document extends Component {
     }
 
     componentWillMount() {
-        axios.all([getDocuments()])
+        let id = this.props.match.params.id;
+        var getDocumentsFunction = function () {
+            return getDocuments();
+        };
+        if (id !== null && id !== undefined) {
+            getDocumentsFunction = function () {
+                return getDocumentsOfUser({
+                    user: {
+                        id: id
+                    }
+                });
+            }
+        }
+        axios.all([getDocumentsFunction()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {

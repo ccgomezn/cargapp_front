@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getPayments} from "../../../helpers/api/adminCalls";
+import { getPayments, getPaymentsOfUser} from "../../../helpers/api/adminCalls";
 
 export default class Payment extends Component {
 
@@ -35,8 +35,16 @@ export default class Payment extends Component {
 
 
     componentWillMount() {
-
-        axios.all([getPayments()])
+        let id = this.props.match.params.id;
+        var getPaymentsFunction = function () {
+            return getPayments();
+        };
+        if (id !== null && id !== undefined) {
+            getPaymentsFunction = function () {
+                return getPaymentsOfUser(id);
+            }
+        }
+        axios.all([getPaymentsFunction()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {

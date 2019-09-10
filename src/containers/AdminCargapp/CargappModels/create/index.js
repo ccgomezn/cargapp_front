@@ -6,7 +6,7 @@ import { Row, Col } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form, Input } from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
-import { Card, message } from 'antd';
+import { Card } from 'antd';
 import { Redirect } from 'react-router-dom'
 import { postModel } from "../../../../helpers/api/adminCalls"
 

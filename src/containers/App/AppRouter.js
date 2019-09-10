@@ -3,11 +3,10 @@ import {Route} from 'react-router-dom';
 import asyncComponent from '../../helpers/AsyncFunc';
 
 
-
 const shared_routes = [
     {
         path: 'configurations',
-        component: asyncComponent(()=> import('../Users/Configurations/Configuration.js'))
+        component: asyncComponent(() => import('../Users/Configurations/Configuration.js'))
     }
 ];
 
@@ -294,6 +293,20 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Users/create'))
     },
     {
+        path: 'users/documents/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Documents'))
+    },
+    {
+        path: 'users/favorite_routes/:id',
+        component: asyncComponent(() => import('../AdminCargapp/FavoriteRoutes'))
+    }, {
+        path: 'users/payments/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Payments'))
+    }, {
+        path: 'users/reports/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Reports'))
+    },
+    {
         path: 'service_documents/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/edit'))
     }, {
@@ -383,7 +396,7 @@ const routes_admin = [
     {
         path: 'service_locations/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/ServiceLocations/edit'))
-    },{
+    }, {
         path: 'bank_accounts',
         component: asyncComponent(() => import('../AdminCargapp/BankAccounts'))
     },
@@ -394,7 +407,7 @@ const routes_admin = [
     {
         path: 'bank_accounts/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/BankAccounts/edit'))
-    },{
+    }, {
         path: 'rate_services',
         component: asyncComponent(() => import('../AdminCargapp/RateServices'))
     },

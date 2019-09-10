@@ -8,7 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getFavoriteRoutes, getUsers, getCities} from '../../../helpers/api/adminCalls.js';
+import {getUsers, getCities} from '../../../helpers/api/adminCalls.js';
+import {getDocuments, getFavoriteRoutesOfUser} from "../../../helpers/api/adminCalls";
 
 export default class FavoriteRoute extends Component {
 
@@ -24,7 +25,20 @@ export default class FavoriteRoute extends Component {
     }
 
     componentWillMount() {
-        axios.all([getFavoriteRoutes(), getUsers(), getCities()])
+        let id = this.props.match.params.id;
+        var getFavoriteFunction = function () {
+            return getDocuments();
+        };
+        if (id !== null && id !== undefined) {
+            getFavoriteFunction = function () {
+                return getFavoriteRoutesOfUser({
+                    user: {
+                        id: id
+                    }
+                });
+            }
+        }
+        axios.all([getFavoriteFunction(), getUsers(), getCities()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     var dataUser = this.transformDataToMap(responses[1].data, 'email');
