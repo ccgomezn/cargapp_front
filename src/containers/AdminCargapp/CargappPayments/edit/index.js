@@ -17,6 +17,9 @@ import {
     getStatus, getServices, getBankAccounts
 } from '../../../../helpers/api/adminCalls.js';
 import {getCargappPayment} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import importantVariables from "../../../../helpers/hashVariables";
 
 
 const {Option} = Select;
@@ -73,7 +76,15 @@ export default class CargappPaymentEdit extends Component {
     }
 
     handlePut() {
-
+        const payment_method_id = this.state.payment_method_id !== undefined && this.state.payment_method_id.key !== undefined ? this.state.payment_method_id.key : this.state.payment_method_id;
+        const statu_id = this.state.statu_id !== undefined && this.state.statu_id.key !== undefined ? this.state.statu_id.key : this.state.statu_id;
+        const generator_id = this.state.generator_id !== undefined && this.state.generator_id.key !== undefined ? this.state.generator_id.key : this.state.generator_id;
+        const receiver_id = this.state.receiver_id !== undefined && this.state.receiver_id.key !== undefined ? this.state.receiver_id.key : this.state.receiver_id;
+        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
+        const bank_account_id = this.state.bank_account_id !== undefined && this.state.bank_account_id.key !== undefined ? this.state.bank_account_id.key : this.state.bank_account_id;
+        const service_id = this.state.service_id !== undefined && this.state.service_id.key !== undefined ? this.state.service_id.key : this.state.service_id;
+        const company_id = this.state.company_id !== undefined && this.state.company_id.key !== undefined ? this.state.company_id.key : this.state.company_id;
+        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
 
         putCargappPayment(this.props.match.params.id,
             {
@@ -82,15 +93,15 @@ export default class CargappPaymentEdit extends Component {
                     amount: this.state.amount,
                     transaction_code: this.state.transaction_code,
                     observation: this.state.observation,
-                    payment_method_id: this.state.payment_method_id,
-                    statu_id: this.state.statu_id,
-                    generator_id: this.state.generator_id,
-                    receiver_id: this.state.receiver_id,
-                    user_id: this.state.user_id,
-                    bank_account_id: this.state.bank_account_id,
-                    service_id: this.state.service_id,
-                    company_id: this.state.company_id,
-                    active: this.state.active
+                    payment_method_id: payment_method_id,
+                    statu_id: statu_id,
+                    generator_id: generator_id,
+                    receiver_id: receiver_id,
+                    user_id: user_id,
+                    bank_account_id: bank_account_id,
+                    service_id: service_id,
+                    company_id: company_id,
+                    active: active
                 }
             }).then(() => {
             this.setState({redirect: true})
@@ -128,18 +139,20 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Uuid">
-                                                <Input value={this.state.uuid}
-                                                       placeholder="uuid"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'uuid')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.uuid}
+                                                                 placeholder="uuid"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'uuid')}
+                                                                 label_id={'admin.title.uuid'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Cantidad">
-                                                <Input type={"number"} value={this.state.amount}
-                                                       placeholder="cantidad"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'amount')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.amount}
+                                                                 placeholder="cantidad"
+                                                                 label_id={'admin.title.quantity'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'amount')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -147,18 +160,21 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Codigo de transacción">
-                                                <Input value={this.state.transaction_code}
-                                                       placeholder="codigo de transacción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'transaction_code')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.transaction_code}
+                                                                 placeholder="codigo de transacción"
+                                                                 label_id={'admin.title.transactionCode'}
+
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'transaction_code')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Observación">
-                                                <Input value={this.state.observation}
-                                                       placeholder="observación"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'observation')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.observation}
+                                                                 label_id={'admin.title.observation'}
+                                                                 placeholder="observación"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'observation')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -167,33 +183,37 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Método de pago">
-                                                <Select value={this.state.payment_method_id}
-                                                        placeholder="método de pago"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.payment_method_id}
+                                                                   placeholder="método de pago"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'payment_method_id')
-                                                }}>
-                                                    {this.state && this.state.payment_methods &&
+                                                }}
+                                                                   options={this.state && this.state.payment_methods &&
 
-                                                    this.state.payment_methods.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.payment_methods.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })}
+                                                                   label_id={'admin.title.paymentMethod'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.statu_id} placeholder="status"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'statu_id')
-                                                }}>
-                                                    {this.state && this.state.status &&
+                                                }}
+                                                                   label_id={'admin.title.status'}
+                                                                   options={this.state && this.state.status &&
 
-                                                    this.state.status.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.status.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
@@ -202,33 +222,41 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Generador">
-                                                <Select value={this.state.generator_id} placeholder="conductor"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.generator_id}
+                                                                   placeholder="conductor"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'generator_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.generator'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Receptor">
-                                                <Select value={this.state.receiver_id} placeholder="receptor"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.receiver_id} placeholder="receptor"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'receiver_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.receiver'}
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -236,33 +264,40 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   label_id={'admin.title.user'}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Cuenta bancaria">
-                                                <Select value={this.state.bank_account_id} placeholder="cuenta bancaria"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.bank_account_id}
+                                                                   placeholder="cuenta bancaria"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'bank_account_id')
-                                                }}>
-                                                    {this.state && this.state.bank_accounts &&
+                                                }}
+                                                                   label_id={'admin.title.bankAccount'}
+                                                                   options={this.state && this.state.bank_accounts &&
 
-                                                    this.state.bank_accounts.map((item) => {
-                                                        return <Option value={item.id}>{item.account_number}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.bank_accounts.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.account_number}</Option>
+                                                                   })
+                                                                   }>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -270,48 +305,56 @@ export default class CargappPaymentEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
-                                                <Select value={this.state.service_id} placeholder="servicio"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.service_id} placeholder="servicio"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'service_id')
-                                                }}>
-                                                    {this.state && this.state.services &&
+                                                }}
+                                                                   options={this.state && this.state.services &&
 
-                                                    this.state.services.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.services.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.service'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Compañia">
-                                                <Select value={this.state.company_id} placeholder="compañia"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.company_id} placeholder="compañia"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'company_id')
-                                                }}>
-                                                    {this.state && this.state.companies &&
+                                                }}
+                                                                   options={this.state && this.state.companies &&
 
-                                                    this.state.companies.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.companies.map((item) => {
+                                                                       return <Option value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.company'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Estado">
-                                                <Select required value={this.state.active} placeholder="estado"
+                                                <SelectInputCustom required value={this.state.active} placeholder="estado"
                                                         style={{width: 120}} onChange={(e) => {
                                                     this.handleChange(e, 'active')
-                                                }}>
-                                                    <Option value={true}>Activo</Option>
-                                                    <Option value={false}>Desactivado</Option>
+                                                }}
+                                                label_id={'admin.title.active'}
+                                                options={importantVariables.activeOptions.map((item) => {
+                                                    return <Option value={item.key}>{item.label}</Option>
+                                                })}>
 
-                                                </Select>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

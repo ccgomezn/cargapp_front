@@ -201,7 +201,7 @@ export function getCompanies() {
 }
 
 export function getActiveCompanies() {
-    return get(httpAddr + '/companies/active', true)
+    return get(httpAddr + '/companies/', true)
 }
 
 export function getCompany(id) {

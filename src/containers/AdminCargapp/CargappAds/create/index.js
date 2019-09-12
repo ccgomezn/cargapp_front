@@ -9,6 +9,8 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postCargappAd} from '../../../../helpers/api/adminCalls.js';
 import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
 
 
 const {Option} = Select;
@@ -47,6 +49,7 @@ export default class CargappAdCreate extends Component {
     handlePost() {
 
         const formData = new FormData();
+        const user_id = this.state.user_id && this.state.user_id.key ? this.state.user_id.key : this.state.user_id;
         formData.append('cargapp_ad[name]', this.state.name);
         formData.append('cargapp_ad[price]', this.state.price);
         formData.append('cargapp_ad[description]', this.state.description);
@@ -57,7 +60,7 @@ export default class CargappAdCreate extends Component {
         formData.append('cargapp_ad[discoun]', this.state.discoun);
         formData.append('cargapp_ad[image]', this.state.image, this.state.image.name);
         formData.append('cargapp_ad[media]', this.state.media, this.state.media.name);
-        formData.append('cargapp_ad[user_id]', this.state.user_id);
+        formData.append('cargapp_ad[user_id]', user_id);
         formData.append('cargapp_ad[active]', true);
         postCargappAd(
             formData).then(() => {
@@ -97,16 +100,20 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 label_id={'admin.title.name'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Precio">
-                                                <Input type={"number"} value={this.state.price} placeholder="precio"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'price')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.price}
+                                                                 placeholder="precio"
+                                                                 label_id={'admin.title.price'}
+
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'price')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -114,16 +121,21 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <Input value={this.state.description} placeholder="descripción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'description')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.description}
+                                                                 placeholder="descripción"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}
+                                                                 label_id={'admin.title.description'}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Cuerpo">
-                                                <Input value={this.state.body} placeholder="cuerpo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'body')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.body} placeholder="cuerpo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'body')}
+                                                                 label_id={'admin.title.body'}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -131,9 +143,10 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Url">
-                                                <Input value={this.state.url} placeholder="url"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'url')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.url} placeholder="url"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'url')}
+                                                                 label_id={'admin.title.url'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
@@ -184,24 +197,29 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descuento">
-                                                <Input value={this.state.discoun} placeholder="descuento"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'discoun')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.discoun} placeholder="descuento"
+                                                                 label_id={'admin.title.discount'}
+
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'discoun')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

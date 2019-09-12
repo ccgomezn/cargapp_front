@@ -41,7 +41,11 @@ export default class Payment extends Component {
         };
         if (id !== null && id !== undefined) {
             getPaymentsFunction = function () {
-                return getPaymentsOfUser(id);
+                return getPaymentsOfUser({
+                    user: {
+                        id: id
+                    }
+                });
             }
         }
         axios.all([getPaymentsFunction()])

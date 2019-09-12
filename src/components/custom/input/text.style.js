@@ -10,6 +10,7 @@ textarea {
 }
 input
         {
+        margin-top: 3px;
           padding: 26px 12px 13px 10px !important;
 
           width: 100% !important;
