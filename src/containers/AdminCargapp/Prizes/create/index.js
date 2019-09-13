@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker, Form, Input, Card, Select} from 'antd';
+import {Row, Col, DatePicker, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
@@ -10,6 +10,9 @@ import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {postPrize} from '../../../../helpers/api/adminCalls.js';
 import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -49,6 +52,7 @@ export default class PrizeCreate extends Component {
     }
 
     handlePost() {
+        const user_id = transformInputData(this.state.user_id);
         const formData = new FormData();
         formData.append('prize[name]', this.state.name)
         formData.append('prize[code]', this.state.code)
@@ -57,7 +61,7 @@ export default class PrizeCreate extends Component {
         formData.append('prize[point]', this.state.point)
         formData.append('prize[description]', this.state.description)
         formData.append('prize[body]', this.state.body)
-        formData.append('prize[user_id]', this.state.user_id)
+        formData.append('prize[user_id]', user_id)
         formData.append('prize[expire_date]', this.state.expire_date)
         formData.append('prize[active]', true)
         postPrize(
@@ -98,32 +102,38 @@ export default class PrizeCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 required
+                                                                 label_id={'admin.title.name'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Codigo">
-                                                <Input value={this.state.code} placeholder="codigo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'code')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.code} placeholder="codigo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'code')}
+                                                                 label_id={'admin.title.code'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Puntos">
-                                                <Input type="number" value={this.state.point} placeholder="puntos"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'point')}
-                                                       required/>
+                                                <TextInputCustom type="number" value={this.state.point}
+                                                                 placeholder="puntos"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'point')}
+                                                                 label_id={'admin.title.points'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <Input value={this.state.description} placeholder="descripción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'description')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.description}
+                                                                 placeholder="descripción"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}
+                                                                 label_id={'admin.title.description'}
+                                                                 required/>
 
                                             </Form.Item>
                                         </Col>
@@ -131,9 +141,10 @@ export default class PrizeCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Cuerpo">
-                                                <Input value={this.state.body} placeholder="cuerpo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'body')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.body} placeholder="cuerpo"
+                                                                 label_id={'admin.title.body'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'body')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
@@ -157,17 +168,20 @@ export default class PrizeCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>

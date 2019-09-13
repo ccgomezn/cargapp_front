@@ -11,6 +11,8 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
 import {putFavoriteRoute, getFavoriteRoute, getUsers, getCities} from '../../../../helpers/api/adminCalls.js';
+import SelectInputCustom from "../../../../components/custom/input/select";
+import importantVariables from "../../../../helpers/hashVariables";
 
 const {Option} = Select;
 export default class FavoriteRouteEdit extends Component {
@@ -55,13 +57,17 @@ export default class FavoriteRouteEdit extends Component {
     }
 
     handlePut() {
+        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
+        const destination_city_id = this.state.destination_city_id !== undefined && this.state.destination_city_id.key !== undefined ? this.state.destination_city_id.key : this.state.destination_city_id;
+        const origin_city_id = this.state.origin_city_id !== undefined && this.state.origin_city_id.key !== undefined ? this.state.origin_city_id.key : this.state.origin_city_id;
+        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
         putFavoriteRoute(this.props.match.params.id,
             {
                 favorite_route: {
-                    user_id: this.state.user_id,
-                    origin_city_id: this.state.origin_city_id,
-                    destination_city_id: this.state.destination_city_id,
-                    active: this.state.active,
+                    user_id: user_id,
+                    origin_city_id: origin_city_id,
+                    destination_city_id: destination_city_id,
+                    active: active,
                 }
 
             }).then(() => {
@@ -103,17 +109,18 @@ export default class FavoriteRouteEdit extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Usuario">
-                                            <Select value={this.state.user_id} placeholder="usuario"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'user_id')
-                                            }}>
-                                                {this.state && this.state.users &&
+                                            }}
+                                                               options={this.state && this.state.users &&
 
-                                                this.state.users.map((item) => {
-                                                    return <Option value={item.id}>{item.email}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                                               this.state.users.map((item) => {
+                                                                   return <Option value={item.id}>{item.email}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.user'}>
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
 
@@ -121,47 +128,55 @@ export default class FavoriteRouteEdit extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Ciudad de origen">
-                                            <Select value={this.state.origin_city_id} placeholder="Ciudad de origen"
-                                                    style={{width: '100%'}}
-                                                    onChange={(e) => {
-                                                        this.handleChange(e, 'origin_city_id')
-                                                    }}>
-                                                {this.state && this.state.cities &&
-                                                this.state.cities.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            <SelectInputCustom value={this.state.origin_city_id}
+                                                               placeholder="Ciudad de origen"
+                                                               style={{width: '100%'}}
+                                                               onChange={(e) => {
+                                                                   this.handleChange(e, 'origin_city_id')
+                                                               }}
+                                                               options={this.state && this.state.cities &&
+                                                               this.state.cities.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.city'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item label="Ciudad de destino">
-                                            <Select value={this.state.destination_city_id}
-                                                    placeholder="Ciudad de destino"
-                                                    style={{width: '100%'}}
-                                                    onChange={(e) => {
-                                                        this.handleChange(e, 'destination_city_id')
-                                                    }}>
-                                                {this.state && this.state.cities &&
-                                                this.state.cities.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            <SelectInputCustom value={this.state.destination_city_id}
+                                                               placeholder="Ciudad de destino"
+                                                               style={{width: '100%'}}
+                                                               onChange={(e) => {
+                                                                   this.handleChange(e, 'destination_city_id')
+                                                               }}
+                                                               options={this.state && this.state.cities &&
+                                                               this.state.cities.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.city'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                 </Row>
                                 <Row gutter={10}>
-                                    <Col span={24}>
+                                    <Col span={12}>
                                         <Form.Item label="Estado">
-                                            <Select value={this.state.active} placeholder="estado" style={{width: 240}}
-                                                    onChange={(e) => {
-                                                        this.handleChange(e, 'active')
-                                                    }}>
-                                                <Option value={true}>Activo</Option>
-                                                <Option value={false}>Desactivado</Option>
-
-                                            </Select>
+                                            <SelectInputCustom value={this.state.active} placeholder="estado"
+                                                               style={{width: 240}}
+                                                               onChange={(e) => {
+                                                                   this.handleChange(e, 'active')
+                                                               }}
+                                                               options={importantVariables.activeOptions.map((item) => {
+                                                                   return <Option
+                                                                       value={item.key}>{item.label}</Option>;
+                                                               })}
+                                                               label_id={'admin.title.active'}>
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
 

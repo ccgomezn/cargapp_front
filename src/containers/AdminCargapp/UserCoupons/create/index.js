@@ -9,8 +9,10 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postCoupon} from '../../../../helpers/api/adminCalls.js';
-import {getActiveCoupons, getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveCoupons, getActiveModels, getActiveUsers, postUserCoupon} from "../../../../helpers/api/adminCalls";
+import {transformInputData} from "../../../../helpers/utility";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import TextInputCustom from "../../../../components/custom/input/text";
 
 const {Option} = Select;
 
@@ -36,13 +38,13 @@ export default class UserCouponCreate extends Component {
     }
 
     handlePost() {
-        postCoupon(
+        postUserCoupon(
             {
                 user_coupon: {
-                    user_id: this.state.user_id,
-                    coupon_id: this.state.coupon_id,
-                    cargapp_model_id: this.state.cargapp_model_id,
-                    applied_item_id: this.state.applied_item_id,
+                    user_id: transformInputData(this.state.user_id),
+                    coupon_id: transformInputData(this.state.coupon_id),
+                    cargapp_model_id: transformInputData(this.state.cargapp_model_id),
+                    applied_item_id: transformInputData(this.state.applied_item_id),
                     discount: this.state.discount,
                     active: true,
                 }
@@ -101,53 +103,62 @@ export default class UserCouponCreate extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Usuario">
-                                            <Select value={this.state.user_id} placeholder="usuario"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'user_id')
-                                            }}>
-                                                {this.state && this.state.users &&
+                                            }}
+                                                               options={this.state && this.state.users &&
 
-                                                this.state.users.map((item) => {
-                                                    return <Option value={item.id}>{item.email}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                                               this.state.users.map((item) => {
+                                                                   return <Option value={item.id}>{item.email}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.user'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item label="Cupon">
-                                            <Select value={this.state.coupon_id} placeholder="cupon"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.coupon_id} placeholder="cupon"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'coupon_id')
-                                            }}>
-                                                {this.state && this.state.coupons &&
-                                                this.state.coupons.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            }}
+                                                               options={this.state && this.state.coupons &&
+                                                               this.state.coupons.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.coupon'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                 </Row>
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Modelo cargapp">
-                                            <Select value={this.state.cargapp_model_id} placeholder="modelo cargapp"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.cargapp_model_id}
+                                                               placeholder="modelo cargapp"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'cargapp_model_id')
-                                            }}>
-                                                {this.state && this.state.cargapp_models &&
-                                                this.state.cargapp_models.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            }}
+                                                               options={this.state && this.state.cargapp_models &&
+                                                               this.state.cargapp_models.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.model'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item label="Descuento">
-                                            <Input type="number" value={this.state.discount} placeholder="descuento"
-                                                   onChange={(e) => this.handleChange(e.target.value, 'discount')}/>
+                                            <TextInputCustom type="number" value={this.state.discount}
+                                                             placeholder="descuento"
+                                                             onChange={(e) => this.handleChange(e.target.value, 'discount')}
+                                                             label_id={'admin.title.discount'}/>
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -155,9 +166,10 @@ export default class UserCouponCreate extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Id de item">
-                                            <Input type="number" value={this.state.applied_item_id}
-                                                   placeholder="id de item"
-                                                   onChange={(e) => this.handleChange(e.target.value, 'applied_item_id')}/>
+                                            <TextInputCustom type="number" value={this.state.applied_item_id}
+                                                             placeholder="id de item"
+                                                             onChange={(e) => this.handleChange(e.target.value, 'applied_item_id')}
+                                                             label_id={'admin.title.item'}/>
 
                                         </Form.Item>
                                     </Col>

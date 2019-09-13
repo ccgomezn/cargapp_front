@@ -10,6 +10,9 @@ import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {postPaymentMethod} from '../../../../helpers/api/adminCalls.js';
 import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select
@@ -48,6 +51,7 @@ export default class PaymentMethodCreate extends Component {
     }
 
     handlePost() {
+        const user_id = transformInputData(this.state.user_id);
         postPaymentMethod(
             {
                 payment_method: {
@@ -58,7 +62,7 @@ export default class PaymentMethodCreate extends Component {
                     aap_id: this.state.app_id,
                     secret_id: this.state.secret_id,
                     password: this.state.password,
-                    user_id: this.state.user_id,
+                    user_id: user_id,
                     token: this.state.token,
                     active: true,
                 }
@@ -99,32 +103,37 @@ export default class PaymentMethodCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 required
+                                                                 label_id={'admin.title.name'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Uuid">
-                                                <Input value={this.state.uuid} placeholder="uuid"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'uuid')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.uuid} placeholder="uuid"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'uuid')}
+                                                                 label_id={'admin.title.uuid'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <Input value={this.state.description} placeholder="descripción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'description')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.description}
+                                                                 placeholder="descripción"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}
+                                                                 label_id={'admin.title.description'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Email">
-                                                <Input value={this.state.email} placeholder="email"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'email')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.email} placeholder="email"
+                                                                 label_id={'admin.title.email'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'email')}
+                                                                 required/>
 
                                             </Form.Item>
                                         </Col>
@@ -132,16 +141,20 @@ export default class PaymentMethodCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Id de aplicación">
-                                                <Input value={this.state.app_id} placeholder="id de aplicación"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'app_id')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.app_id}
+                                                                 placeholder="id de aplicación"
+                                                                 label_id={'admin.title.aplication'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'app_id')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Id de secreto">
-                                                <Input value={this.state.secret_id} placeholder="id de secreto"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'secret_id')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.secret_id}
+                                                                 placeholder="id de secreto"
+                                                                 label_id={'admin.title.secret'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'secret_id')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -149,34 +162,39 @@ export default class PaymentMethodCreate extends Component {
 
                                         <Col span={12}>
                                             <Form.Item label="Token">
-                                                <Input value={this.state.token} placeholder="token"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'token')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.token} placeholder="token"
+                                                                 label_id={'admin.title.token'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'token')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Password">
-                                                <Input value={this.state.password} type={"password"}
-                                                       placeholder="password"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'password')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.password} type={"password"}
+                                                                 placeholder="password"
+                                                                 label_id={'admin.title.password'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'password')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

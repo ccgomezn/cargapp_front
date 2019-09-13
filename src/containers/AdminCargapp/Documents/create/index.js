@@ -13,6 +13,8 @@ import {
     getActiveUsers,
     getActiveStatus, getActiveDocumentTypes
 } from "../../../../helpers/api/adminCalls"
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -54,12 +56,15 @@ export default class DocumentCreate extends Component {
     }
 
     handlePost() {
+        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
+        const statu_id = this.state.statu_id !== undefined && this.state.statu_id.key !== undefined ? this.state.statu_id.key : this.state.statu_id;
+        const document_type_id = this.state.document_type_id !== undefined && this.state.document_type_id.key !== undefined ? this.state.document_type_id.key : this.state.document_type_id;
         const formData = new FormData();
         formData.append('document[document_id]', this.state.document_id)
-        formData.append('document[document_type_id]', this.state.document_type_id)
+        formData.append('document[document_type_id]', document_type_id)
         formData.append('document[file]', this.state.file, this.state.file.name)
-        formData.append('document[statu_id]', this.state.statu_id)
-        formData.append('document[user_id]', this.state.user_id)
+        formData.append('document[statu_id]', statu_id)
+        formData.append('document[user_id]', user_id)
         formData.append('document[expire_date]', this.state.expire_date)
         formData.append('document[approved]', this.state.approved)
         formData.append('document[active]', true)
@@ -101,25 +106,31 @@ export default class DocumentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Id de documento">
-                                                <Input value={this.state.document_id} placeholder="id de documento"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'document_id')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.document_id}
+                                                                 placeholder="id de documento"
+                                                                 label_id={'admin.title.document'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'document_id')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de documento">
-                                                <Select value={this.state.document_type_id}
-                                                        placeholder="tipo de documento" style={{width: '100%'}}
-                                                        onChange={(e) => {
-                                                            this.handleChange(e, 'document_type_id')
-                                                        }}>
-                                                    {this.state && this.state.document_types &&
+                                                <SelectInputCustom value={this.state.document_type_id}
+                                                                   placeholder="tipo de documento"
+                                                                   style={{width: '100%'}}
+                                                                   onChange={(e) => {
+                                                                       this.handleChange(e, 'document_type_id')
+                                                                   }}
+                                                                   options={this.state && this.state.document_types &&
 
-                                                    this.state.document_types.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.document_types.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.document'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -132,34 +143,39 @@ export default class DocumentCreate extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.statu_id} placeholder="status"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'statu_id')
-                                                }}>
-                                                    {this.state && this.state.status &&
+                                                }}
+                                                                   options={this.state && this.state.status &&
 
-                                                    this.state.status.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.status.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.status'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>

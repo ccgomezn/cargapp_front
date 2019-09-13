@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Select, DatePicker, Input} from "antd";
+import {Form, Select, DatePicker} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
@@ -12,6 +12,9 @@ import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {postUserPrize} from '../../../../helpers/api/adminCalls.js';
 import {getActivePrizes, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import TextInputCustom from "../../../../components/custom/input/text";
+import {transformInputData} from "../../../../helpers/utility";
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
@@ -42,8 +45,8 @@ export default class UserPrizeCreate extends Component {
         postUserPrize(
             {
                 user_prize: {
-                    user_id: this.state.user_id,
-                    prize_id: this.state.prize_id,
+                    user_id: transformInputData(this.state.user_id),
+                    prize_id: transformInputData(this.state.prize_id),
                     point: this.state.point,
                     expire_date: this.state.expire_date,
                     active: true,
@@ -103,17 +106,19 @@ export default class UserPrizeCreate extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Usuario">
-                                            <Select value={this.state.user_id} placeholder="usuario"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'user_id')
-                                            }}>
-                                                {this.state && this.state.users &&
+                                            }}
+                                                               options={this.state && this.state.users &&
 
-                                                this.state.users.map((item) => {
-                                                    return <Option value={item.id}>{item.email}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                                               this.state.users.map((item) => {
+                                                                   return <Option value={item.id}>{item.email}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.user'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
 
@@ -121,16 +126,18 @@ export default class UserPrizeCreate extends Component {
                                 <Row>
                                     <Col span={12}>
                                         <Form.Item label="Premio">
-                                            <Select value={this.state.prize_id} placeholder="rol"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.prize_id} placeholder="rol"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'prize_id')
-                                            }}>
-                                                {this.state && this.state.prizes &&
-                                                this.state.prizes.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            }}
+                                                               options={this.state && this.state.prizes &&
+                                                               this.state.prizes.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.prizes'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -148,9 +155,10 @@ export default class UserPrizeCreate extends Component {
 
                                     <Col span={12}>
                                         <Form.Item label="Puntos">
-                                            <Input type="number" value={this.state.point} placeholder="puntos"
-                                                   onChange={(e) => this.handleChange(e.target.value, 'point')}
-                                                   required/>
+                                            <TextInputCustom type="number" value={this.state.point} placeholder="puntos"
+                                                             onChange={(e) => this.handleChange(e.target.value, 'point')}
+                                                             required
+                                                             label_id={'admin.title.points'}/>
                                         </Form.Item>
                                     </Col>
                                 </Row>

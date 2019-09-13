@@ -9,6 +9,9 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postUserLocation} from '../../../../helpers/api/adminCalls.js';
 import {getActiveCities, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select;
@@ -53,8 +56,8 @@ export default class UserLocationCreate extends Component {
                 "user_location": {
                     "longitude": this.state.longitude,
                     "latitude": this.state.latitude,
-                    "city_id": this.state.city_id,
-                    "user_id": this.state.user_id,
+                    "city_id": transformInputData(this.state.city_id),
+                    "user_id": transformInputData(this.state.user_id),
                     "active": true
                 }
             }).then(() => {
@@ -94,16 +97,18 @@ export default class UserLocationCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Longitud">
-                                                <Input value={this.state.longitude} placeholder="longitud"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'longitude')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.longitude} placeholder="longitud"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'longitude')}
+                                                                 required
+                                                                 label_id={'admin.title.longitude'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Latitud">
-                                                <Input value={this.state.latitude} placeholder="latitud"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'latitude')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.latitude} placeholder="latitud"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'latitude')}
+                                                                 label_id={'admin.title.latitude'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -112,32 +117,37 @@ export default class UserLocationCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Ciudad">
-                                                <Select value={this.state.city_id} placeholder="ciudad"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.city_id} placeholder="ciudad"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'city_id')
-                                                }}>
-                                                    {this.state && this.state.cities &&
+                                                }}
+                                                                   options={this.state && this.state.cities &&
 
-                                                    this.state.cities.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.cities.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.city'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

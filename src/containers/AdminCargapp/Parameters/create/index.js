@@ -11,6 +11,8 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postParameter} from '../../../../helpers/api/adminCalls.js';
 import {getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
 
 const {Option} = Select;
 
@@ -34,14 +36,17 @@ export default class ParameterCreate extends Component {
     }
 
     handlePost() {
+        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
+        const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
+
         postParameter(
             {
                 parameter: {
                     name: this.state.name,
                     code: this.state.code,
                     description: this.state.description,
-                    user_id: this.state.user_id,
-                    cargapp_model_id: this.state.cargapp_model_id,
+                    user_id: user_id,
+                    cargapp_model_id: cargapp_model_id,
                     value: this.state.value,
                     active: true,
                 }
@@ -102,63 +107,75 @@ export default class ParameterCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input required value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}/>
+                                                <TextInputCustom required value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 label_id={'admin.title.name'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Código">
-                                                <Input required value={this.state.code} placeholder="código"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'code')}/>
+                                                <TextInputCustom required value={this.state.code} placeholder="código"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'code')}
+                                                                 label_id={'admin.title.code'}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <Input required value={this.state.description} placeholder="descripción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'description')}/>
+                                                <TextInputCustom required value={this.state.description}
+                                                                 placeholder="descripción"
+                                                                 label_id={'admin.title.description'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Valor">
-                                                <Input required value={this.state.value} placeholder="valor"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'value')}/>
+                                                <TextInputCustom required value={this.state.value} placeholder="valor"
+                                                                 label_id={'admin.title.value'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'value')}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select required value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: 240}} onChange={(e) => {
+                                                <SelectInputCustom required value={this.state.user_id}
+                                                                   placeholder="usuario"
+                                                                   style={{width: 240}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                     </Row>
                                     <Row>
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Modelo">
 
-                                                <Select required value={this.state.cargapp_model_id}
-                                                        placeholder="modelo" style={{width: 240}} onChange={(e) => {
-                                                    this.handleChange(e, 'cargapp_model_id')
-                                                }}>
-                                                    {this.state && this.state.models &&
-                                                    this.state.models.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                <SelectInputCustom required value={this.state.cargapp_model_id}
+                                                                   placeholder="modelo" style={{width: 240}}
+                                                                   onChange={(e) => {
+                                                                       this.handleChange(e, 'cargapp_model_id')
+                                                                   }}
+                                                                   options={this.state && this.state.models &&
+                                                                   this.state.models.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.model'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>

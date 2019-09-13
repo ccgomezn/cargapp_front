@@ -15,6 +15,9 @@ import {
     getActiveServices,
     getActiveUsers, getActiveUserPaymentMethods
 } from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select;
@@ -56,7 +59,12 @@ export default class PaymentCreate extends Component {
     }
 
     handlePost() {
-
+        const coupon_id = transformInputData(this.state.coupon_id);
+        const user_id = transformInputData(this.state.user_id);
+        const statu_id = transformInputData(this.state.statu_id);
+        const service_id = transformInputData(this.state.service_id);
+        const payment_method_id = transformInputData(this.state.payment_method_id);
+        const user_payment_method_id = transformInputData(this.state.user_payment_method_id);
 
         postPayment(
             {
@@ -67,15 +75,15 @@ export default class PaymentCreate extends Component {
                     taxes: this.state.taxes,
                     transaction_code: this.state.transaction_code,
                     observation: this.state.observation,
-                    coupon_id: this.state.coupon_id,
+                    coupon_id: coupon_id,
                     coupon_code: this.state.coupon_code,
                     coupon_amount: this.state.coupon_amount,
-                    user_payment_method_id: this.state.user_payment_method_id,
-                    payment_method_id: this.state.payment_method_id,
+                    user_payment_method_id: user_payment_method_id,
+                    payment_method_id: payment_method_id,
                     is_service: this.state.is_service,
-                    user_id: this.state.user_id,
-                    statu_id: this.state.statu_id,
-                    service_id: this.state.service_id,
+                    user_id: user_id,
+                    statu_id: statu_id,
+                    service_id: service_id,
                     active: true
                 }
             }
@@ -119,18 +127,20 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Uuid">
-                                                <Input value={this.state.uuid}
-                                                       placeholder="uuid"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'uuid')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.uuid}
+                                                                 placeholder="uuid"
+                                                                 label_id={'admin.title.uuid'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'uuid')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Total">
-                                                <Input type={"number"} value={this.state.total}
-                                                       placeholder="total"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'total')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.total}
+                                                                 label_id={'admin.title.total'}
+                                                                 placeholder="total"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'total')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -138,18 +148,22 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Subtotal">
-                                                <Input value={this.state.sub_total}
-                                                       placeholder="subtotal"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'sub_total')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.sub_total}
+                                                                 label_id={'admin.title.subTotal'}
+
+                                                                 placeholder="subtotal"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'sub_total')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Impuestos">
-                                                <Input value={this.state.taxes}
-                                                       placeholder="impuestos"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'taxes')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.taxes}
+                                                                 label_id={'admin.title.taxes'}
+
+                                                                 placeholder="impuestos"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'taxes')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -158,18 +172,21 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Código de transacción">
-                                                <Input value={this.state.transaction_code}
-                                                       placeholder="código de transacción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'transaction_code')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.transaction_code}
+                                                                 label_id={'admin.title.transaction'}
+                                                                 placeholder="código de transacción"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'transaction_code')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Observaciones">
-                                                <Input value={this.state.observation}
-                                                       placeholder="observaciones"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'observation')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.observation}
+                                                                 label_id={'admin.title.observation'}
+
+                                                                 placeholder="observaciones"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'observation')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -178,26 +195,30 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Cupon">
-                                                <Select value={this.state.coupon_id}
-                                                        placeholder="cupon"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.coupon_id}
+                                                                   label_id={'admin.title.coupon'}
+                                                                   options={this.state && this.state.coupons &&
+
+                                                                   this.state.coupons.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   placeholder="cupon"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'coupon_id')
                                                 }}>
-                                                    {this.state && this.state.coupons &&
 
-                                                    this.state.coupons.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Código de cupon">
-                                                <Input value={this.state.coupon_code}
-                                                       placeholder="código de cupon"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'coupon_code')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.coupon_code}
+                                                                 label_id={'admin.title.code'}
+                                                                 placeholder="código de cupon"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'coupon_code')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
@@ -206,26 +227,33 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Valor de cupon">
-                                                <Input value={this.state.coupon_amount}
-                                                       placeholder="valor de cupon"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'coupon_amount')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.coupon_amount}
+                                                                 label_id={'admin.title.amount'}
+
+                                                                 placeholder="valor de cupon"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'coupon_amount')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Método de pago de usuario">
-                                                <Select value={this.state.user_payment_method_id} placeholder="método de pago de usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_payment_method_id}
+                                                                   placeholder="método de pago de usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_payment_method_id')
-                                                }}>
-                                                    {this.state && this.state.user_payment_methods &&
+                                                }}
+                                                                   label_id={'admin.title.method'}
+                                                                   options={this.state && this.state.user_payment_methods &&
 
-                                                    this.state.user_payment_methods.map((item) => {
-                                                        return <Option value={item.id}>{item.email} {item.uuid}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.user_payment_methods.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email} {item.uuid}</Option>
+                                                                   })
+                                                                   }
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -233,33 +261,40 @@ export default class PaymentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Método de pago">
-                                                <Select value={this.state.payment_method_id} placeholder="método de pago"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.payment_method_id}
+                                                                   placeholder="método de pago"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'payment_method_id')
-                                                }}>
-                                                    {this.state && this.state.payment_methods &&
+                                                }}
+                                                                   options={this.state && this.state.payment_methods &&
 
-                                                    this.state.payment_methods.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.payment_methods.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.method'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.statu_id} placeholder="status"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'statu_id')
-                                                }}>
-                                                    {this.state && this.state.status &&
+                                                }}
+                                                                   options={this.state && this.state.status &&
 
-                                                    this.state.status.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.status.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.status'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -278,34 +313,40 @@ export default class PaymentCreate extends Component {
 
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
-                                                <Select value={this.state.service_id} placeholder="servicio"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.service_id} placeholder="servicio"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'service_id')
-                                                }}>
-                                                    {this.state && this.state.services &&
+                                                }}
+                                                                   options={this.state && this.state.services &&
 
-                                                    this.state.services.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.services.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.service'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>

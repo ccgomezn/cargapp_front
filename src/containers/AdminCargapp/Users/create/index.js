@@ -8,6 +8,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
 import {postUser, getActiveRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
 import axios from "axios";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select;
@@ -42,11 +45,11 @@ export default class UserCreate extends Component {
                     password_confirmation: this.state.password_confirmation,
                 }
             }).then((response) => {
-                console.log(response);
+            console.log(response);
             postUserRole(
                 {
                     user_role: {
-                        role_id: this.state.role_id,
+                        role_id: transformInputData(this.state.role_id),
                         user_id: response.data.id,
                         admin_id: 1,
                         active: true
@@ -103,45 +106,52 @@ export default class UserCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Email">
-                                                <Input value={this.state.email} placeholder="email"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'email')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.email} placeholder="email"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'email')}
+                                                                 label_id={'admin.title.email'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Password">
-                                                <Input type={"password"} value={this.state.password}
-                                                       placeholder="password"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'password')}
-                                                       required/>
+                                                <TextInputCustom type={"password"} value={this.state.password}
+                                                                 placeholder="password"
+                                                                 label_id={'admin.title.password'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'password')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Confirmación de password">
-                                                <Input type={"password"} value={this.state.password_confirmation}
-                                                       placeholder="confirmación de password"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
-                                                       required/>
+                                                <TextInputCustom type={"password"}
+                                                                 value={this.state.password_confirmation}
+                                                                 placeholder="confirmación de password"
+                                                                 label_id={'admin.title.password'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Rol">
-                                                <Select value={this.state.role_id} placeholder="rol"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.role_id} placeholder="rol"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'role_id')
 
                                                 }}
-                                                >
-                                                    {this.state && this.state.roles &&
+                                                                   options={this.state && this.state.roles &&
 
-                                                    this.state.roles.map((item) => {
-                                                        return <Option value={item.id}>{item.code}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.roles.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.code}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.role'}
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

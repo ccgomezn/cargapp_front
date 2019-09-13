@@ -11,6 +11,9 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postUserChallenge} from '../../../../helpers/api/adminCalls.js';
 import {getActiveChallenges, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import TextInputCustom from "../../../../components/custom/input/text";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 
@@ -38,8 +41,8 @@ export default class UserChallengeCreate extends Component {
         postUserChallenge(
             {
                 user_challenge: {
-                    user_id: this.state.user_id,
-                    challenge_id: this.state.challenge_id,
+                    user_id: transformInputData(this.state.user_id),
+                    challenge_id: transformInputData(this.state.challenge_id),
                     position: this.state.position,
                     point: this.state.point,
                     active: true,
@@ -98,45 +101,51 @@ export default class UserChallengeCreate extends Component {
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Usuario">
-                                            <Select value={this.state.user_id} placeholder="usuario"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'user_id')
-                                            }}>
-                                                {this.state && this.state.users &&
+                                            }}
+                                                               options={this.state && this.state.users &&
 
-                                                this.state.users.map((item) => {
-                                                    return <Option value={item.id}>{item.email}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                                               this.state.users.map((item) => {
+                                                                   return <Option value={item.id}>{item.email}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.user'}>
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item label="Reto">
-                                            <Select value={this.state.challenge_id} placeholder="reto"
-                                                    style={{width: '100%'}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.challenge_id} placeholder="reto"
+                                                               style={{width: '100%'}} onChange={(e) => {
                                                 this.handleChange(e, 'challenge_id')
-                                            }}>
-                                                {this.state && this.state.challenges &&
-                                                this.state.challenges.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            }}
+                                                               options={this.state && this.state.challenges &&
+                                                               this.state.challenges.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.challenge'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                 </Row>
                                 <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Posición">
-                                            <Input type="number" value={this.state.position} placeholder="posición"
-                                                   onChange={(e) => this.handleChange(e.target.value, 'position')}/>
+                                            <TextInputCustom type="number" value={this.state.position}
+                                                             placeholder="posición"
+                                                             label_id={'admin.title.position'}
+                                                             onChange={(e) => this.handleChange(e.target.value, 'position')}/>
                                         </Form.Item>
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item label="Puntos">
-                                            <Input type="number" value={this.state.point} placeholder="puntos"
-                                                   onChange={(e) => this.handleChange(e.target.value, 'point')}/>
+                                            <TextInputCustom type="number" value={this.state.point} placeholder="puntos"
+                                                             label_id={'admin.title.points'}
+                                                             onChange={(e) => this.handleChange(e.target.value, 'point')}/>
                                         </Form.Item>
                                     </Col>
                                 </Row>
