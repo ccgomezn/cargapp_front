@@ -50,7 +50,7 @@ export const optionsAdmin = [
                 key: 'users',
                 label: 'sidebar.users',
                 leftIcon: 'ion-android-person',
-            },{
+            }, {
                 key: 'user_roles',
                 label: 'sidebar.userRoles',
                 leftIcon: 'ion-android-person',
@@ -157,6 +157,9 @@ export const optionsAdmin = [
         children: [{
             key: 'cargapp_models',
             label: 'sidebar.cargappModels',
+        },{
+            key: 'cargapp_ads',
+            label: 'sidebar.cargappAds',
         },
             {
                 key: 'parameters',
@@ -177,7 +180,17 @@ export const optionsAdmin = [
             }, {
                 key: 'reports',
                 label: 'sidebar.reports',
-            },]
+            },
+            {
+                key: 'service_locations',
+                label: 'sidebar.serviceLocations',
+                leftIcon: 'ion-android-person',
+            },
+            {
+                key: 'user_locations',
+                label: 'sidebar.userLocations',
+                leftIcon: 'ion-android-person',
+            }]
     }
     , {
         key: 'payments',
@@ -186,11 +199,22 @@ export const optionsAdmin = [
         children: [{
             key: 'payment_methods',
             label: 'sidebar.payment_methods',
+        },{
+            key: 'bank_accounts',
+            label: 'sidebar.bankAccounts',
         },
             {
                 key: 'user_payment_methods',
                 label: 'sidebar.user_payment_methods',
-            }]
+            },
+            {
+                key: 'payments',
+                label: 'sidebar.payments',
+            },
+            {
+                key: 'cargapp_payments',
+                label: 'sidebar.cargappPayments',
+            },]
     }, {
         key: 'services',
         label: 'sidebar.services',
@@ -198,9 +222,12 @@ export const optionsAdmin = [
         children: [{
             key: 'services',
             label: 'sidebar.services',
-        },{
+        }, {
             key: 'service_documents',
             label: 'sidebar.serviceDocuments',
+        }, {
+            key: 'rate_services',
+            label: 'sidebar.rateServices',
         }]
     },
     {

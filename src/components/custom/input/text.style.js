@@ -10,9 +10,10 @@ textarea {
 }
 input
         {
+        margin-top: 3px;
           padding: 26px 12px 13px 10px !important;
 
-          width: 366px !important;
+          width: 100% !important;
           height: 55px !important;
           border-radius: 2px !important;
           border: solid 1.2px #ecf0f1 !important;

@@ -14,10 +14,23 @@ export function getUsers() {
     return get(httpAddr + `/users`, true);
 }
 
-export function getActiveUsers() {
-    return get(httpAddr + `/users/active`, true);
+export function getDocumentsOfUser(data) {
+    return post(httpAddr + `/documents/find_user`, data, true);
 }
 
+export function getFavoriteRoutesOfUser(data){
+    return post(httpAddr + `/favorite_routes/find_user`, data, true);
+}
+
+export function getPaymentsOfUser(data){
+    return post(httpAddr + `/payments/find_user`, data, true);
+}
+export function getReportsOfUser(data){
+    return post(httpAddr + `/reports/find_user`, data, true);
+}
+export function getActiveUsers() {
+    return get(httpAddr + `/users`, true);
+}
 
 
 export function postUser(data) {
@@ -142,7 +155,6 @@ export function getActiveStatus() {
 }
 
 
-
 export function putCountry(id, data) {
     return put(httpAddr + '/countries/' + id, data, true)
 }
@@ -179,7 +191,7 @@ export function postCity(data) {
     return post(httpAddr + `/cities`, data, true);
 }
 
-export function getMineBankAccount(){
+export function getMineBankAccount() {
     return get(httpAddr + '/bank_account/me', true)
 
 }
@@ -189,7 +201,7 @@ export function getCompanies() {
 }
 
 export function getActiveCompanies() {
-    return get(httpAddr + '/companies/active', true)
+    return get(httpAddr + '/companies/', true)
 }
 
 export function getCompany(id) {
@@ -835,11 +847,9 @@ export function deleteUserLocation(id) {
 }
 
 
-
 export function getServiceLocations() {
     return get(httpAddr + `/service_locations/`, true);
 }
-
 
 
 export function getActiveServiceLocations() {
@@ -911,7 +921,6 @@ export function deleteRateService(id) {
 }
 
 
-
 export function getCargappPayments() {
     return get(httpAddr + `/cargapp_payments/`, true);
 }
@@ -936,9 +945,6 @@ export function postCargappPayment(data) {
 export function deleteCargappPayment(id) {
     return del(httpAddr + `/cargapp_payments/` + id, true)
 }
-
-
-
 
 
 export function getPayments() {

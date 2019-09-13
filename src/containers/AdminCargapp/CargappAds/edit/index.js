@@ -10,8 +10,11 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select, Input} from 'antd';
-import {putCargappAd,  getUsers } from '../../../../helpers/api/adminCalls.js';
-import {getCargappAd } from "../../../../helpers/api/adminCalls";
+import {putCargappAd, getUsers} from '../../../../helpers/api/adminCalls.js';
+import {getCargappAd} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import importantVariables from "../../../../helpers/hashVariables";
 
 
 const {Option} = Select;
@@ -61,6 +64,7 @@ export default class CargappAdEdit extends Component {
 
     handlePut() {
         const formData = new FormData();
+
         formData.append('cargapp_ad[name]', this.state.name);
         formData.append('cargapp_ad[price]', this.state.price);
         formData.append('cargapp_ad[description]', this.state.description);
@@ -75,9 +79,12 @@ export default class CargappAdEdit extends Component {
         if (this.state.media) {
             formData.append('service_document[media]', this.state.media, this.state.media.name);
         }
-        formData.append('cargapp_ad[user_id]', this.state.user_id);
-        formData.append('cargapp_ad[active]', true);
 
+        const user_id = this.state.user_id && this.state.user_id.key ? this.state.user_id.key : this.state.user_id;
+        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
+
+        formData.append('cargapp_ad[user_id]', user_id);
+        formData.append('cargapp_ad[active]', active);
 
 
         putCargappAd(this.props.match.params.id,
@@ -117,16 +124,20 @@ export default class CargappAdEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 label_id={'admin.title.name'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Precio">
-                                                <Input type={"number"} value={this.state.price} placeholder="precio"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'price')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.price}
+                                                                 placeholder="precio"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'price')}
+                                                                 label_id={'admin.title.price'}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -134,16 +145,20 @@ export default class CargappAdEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <Input value={this.state.description} placeholder="descripción"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'description')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.description}
+                                                                 placeholder="descripción"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}
+                                                                 label_id={'admin.title.description'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Cuerpo">
-                                                <Input  value={this.state.body} placeholder="cuerpo"
-                                                        onChange={(e) => this.handleChange(e.target.value, 'body')}
-                                                        required/>
+                                                <TextInputCustom value={this.state.body} placeholder="cuerpo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'body')}
+                                                                 label_id={'admin.title.body'}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -151,9 +166,11 @@ export default class CargappAdEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Url">
-                                                <Input value={this.state.url} placeholder="url"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'url')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.url} placeholder="url"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'url')}
+                                                                 required
+                                                                 label_id={'admin.title.url'}
+                                                />
                                             </Form.Item>
                                         </Col>
 
@@ -204,39 +221,50 @@ export default class CargappAdEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descuento">
-                                                <Input value={this.state.discoun} placeholder="descuento"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'discoun')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.discoun} placeholder="descuento"
+                                                                 label_id={'admin.title.discount'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'discoun')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                     </Row>
                                     <Row gutter={10}>
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Estado">
-                                                <Select required value={this.state.active} placeholder="estado"
-                                                        style={{width: 120}} onChange={(e) => {
+                                                <SelectInputCustom required value={this.state.active}
+                                                                   placeholder="estado"
+                                                                   style={{width: 120}} onChange={(e) => {
                                                     this.handleChange(e, 'active')
-                                                }}>
-                                                    <Option value={true}>Activo</Option>
-                                                    <Option value={false}>Desactivado</Option>
+                                                }}
 
-                                                </Select>
+                                                                   options={importantVariables.activeOptions.map((item) => {
+                                                                       return <Option
+                                                                           value={item.key}>{item.label}</Option>
+                                                                   })}
+                                                                   label_id={'admin.title.user'}
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

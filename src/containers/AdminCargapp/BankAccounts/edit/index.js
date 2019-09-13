@@ -9,10 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, Input} from 'antd';
+import {Select} from 'antd';
 import {putBankAccount, getUsers, getStatus} from '../../../../helpers/api/adminCalls.js';
 import {getBankAccount} from "../../../../helpers/api/adminCalls";
-
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import importantVariables from "../../../../helpers/hashVariables";
 
 const {Option} = Select;
 
@@ -23,7 +25,9 @@ export default class BankAccountEdit extends Component {
     constructor(props) {
         super();
         this.state = {
-            redirect: false
+            redirect: false,
+            statu_id: '',
+            user_id: ''
         }
     }
 
@@ -53,21 +57,24 @@ export default class BankAccountEdit extends Component {
             {
                 [type]: value
             }
-        )
+        );
+
     }
 
     handlePut() {
 
-
+        const user_id = this.state.user_id && this.state.user_id.key ? this.state.user_id.key : this.state.user_id;
+        const statu_id = this.state.statu_id && this.state.statu_id.key ? this.state.statu_id.key : this.state.statu_id;
+        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
         putBankAccount(this.props.match.params.id,
             {
                 "bank_account": {
                     "account_number": this.state.account_number,
                     "account_type": this.state.account_type,
                     "bank": this.state.bank,
-                    "user_id": this.state.user_id,
-                    "statu_id": this.state.statu_id,
-                    "active": this.state.active
+                    "user_id": user_id,
+                    "statu_id": statu_id,
+                    "active": active
                 }
             }).then(() => {
             this.setState({redirect: true})
@@ -77,6 +84,7 @@ export default class BankAccountEdit extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
+
 
         if (redirect) {
             return <Redirect to='/admin/bank_accounts'/>
@@ -105,16 +113,21 @@ export default class BankAccountEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Número de cuenta">
-                                                <Input type={"number"} value={this.state.account_number} placeholder="número de cuenta"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'account_number')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.account_number}
+                                                                 placeholder="número de cuenta"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'account_number')}
+                                                                 label_id={"admin.title.bankAccount"}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de cuenta">
-                                                <Input value={this.state.account_type} placeholder="tipo de cuenta"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'account_type')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.account_type}
+                                                                 placeholder="tipo de cuenta"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'account_type')}
+                                                                 label_id={"admin.title.type"}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -122,9 +135,11 @@ export default class BankAccountEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Banco">
-                                                <Input value={this.state.bank} placeholder="banco"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'bank')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.bank} placeholder="banco"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'bank')}
+                                                                 label_id={"admin.title.bank"}
+
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
@@ -134,48 +149,64 @@ export default class BankAccountEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           key={item.id}
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })}
+                                                                   label_id={"admin.title.user"}>
+                                                </SelectInputCustom>
+
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom defaultValue={this.state.statu_id}
+                                                                   value={this.state.statu_id} placeholder="status"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'statu_id')
-                                                }}>
-                                                    {this.state && this.state.status &&
+                                                }}
+                                                                   options={this.state && this.state.status &&
 
-                                                    this.state.status.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.status.map((item) => {
+                                                                       return <Option
+                                                                           key={item.id}
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })}
+                                                                   label_id={'admin.title.status'}>
+
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Estado">
-                                                <Select required value={this.state.active} placeholder="estado"
-                                                        style={{width: 120}} onChange={(e) => {
+                                                <SelectInputCustom required value={this.state.active}
+                                                                   placeholder="estado"
+                                                                   label_id={'admin.title.status'}
+                                                                   style={{width: 120}} onChange={(e) => {
                                                     this.handleChange(e, 'active')
-                                                }}>
-                                                    <Option value={true}>Activo</Option>
-                                                    <Option value={false}>Desactivado</Option>
+                                                }}
+                                                                   options={
+                                                                       importantVariables.activeOptions.map((item) => {
+                                                                           return <Option
+                                                                               key={item.key}
+                                                                               value={item.key}>{item.label}</Option>
+                                                                       })
+                                                                   }>
 
-                                                </Select>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

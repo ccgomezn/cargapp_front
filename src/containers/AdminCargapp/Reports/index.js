@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getReports, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getReports, getUsers, getReportsOfUser} from '../../../helpers/api/adminCalls.js';
 
 export default class Report extends Component {
 
@@ -35,7 +35,20 @@ export default class Report extends Component {
 
 
     componentWillMount() {
-        axios.all([getReports(), getUsers()])
+        let id = this.props.match.params.id;
+        var getReportsFunction = function () {
+            return getReports();
+        };
+        if (id !== null && id !== undefined) {
+            getReportsFunction = function () {
+                return getReportsOfUser({
+                    user: {
+                        id: id
+                    }
+                });
+            }
+        }
+        axios.all([getReportsFunction(), getUsers()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let user_data = this.transformDataToMap(responses[1].data, 'email');
