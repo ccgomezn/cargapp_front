@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, DatePicker, Input} from 'antd';
+import {Select, DatePicker} from 'antd';
 import moment from 'moment';
 import {putUserPrize, getUserPrize, getUsers, getPrizes} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";

@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, Input} from 'antd';
+import {Select} from 'antd';
 import {putServiceLocation, getUsers, getCities, getServices} from '../../../../helpers/api/adminCalls.js';
 import {getServiceLocation} from "../../../../helpers/api/adminCalls";
 import {transformInputData} from "../../../../helpers/utility";
