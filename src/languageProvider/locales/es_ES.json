@@ -10,6 +10,7 @@
   "sidebar.signin": "Iniciar sesión",
   "sidebar.rolesUsers": "Roles y usuarios",
   "sidebar.userRoles": "Roles de usuarios",
+  "page.emailDuplicated": "Correo Electrónico en uso",
   "widget.title_configuration_profile": "Perfil",
   "Profile.changePassword": "Cambiar contraseña",
   "Profile.currentPassword": "Contraseña actual",

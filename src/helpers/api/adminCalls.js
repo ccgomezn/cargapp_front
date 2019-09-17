@@ -18,16 +18,18 @@ export function getDocumentsOfUser(data) {
     return post(httpAddr + `/documents/find_user`, data, true);
 }
 
-export function getFavoriteRoutesOfUser(data){
+export function getFavoriteRoutesOfUser(data) {
     return post(httpAddr + `/favorite_routes/find_user`, data, true);
 }
 
-export function getPaymentsOfUser(data){
+export function getPaymentsOfUser(data) {
     return post(httpAddr + `/payments/find_user`, data, true);
 }
-export function getReportsOfUser(data){
+
+export function getReportsOfUser(data) {
     return post(httpAddr + `/reports/find_user`, data, true);
 }
+
 export function getActiveUsers() {
     return get(httpAddr + `/users`, true);
 }
@@ -969,4 +971,9 @@ export function postPayment(data) {
 
 export function deletePayment(id) {
     return del(httpAddr + `/payments/` + id, true)
+}
+
+
+export function verifyEmail(email) {
+    return post(httpAddr + '/users/email_verify', {user: {email: email}}, false);
 }

@@ -11,6 +11,7 @@ import axios from "axios";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import {verifyEmail} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -21,13 +22,25 @@ export default class UserCreate extends Component {
     constructor() {
         super();
         this.state = {
-            redirect: false
+            redirect: false,
+            duplicated: false
         }
     }
 
 
     handleChange(value, type) {
+        if (type === 'email') {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                verifyEmail(value).then((response) => {
+                    if (response.data.email) {
 
+                        this.setState({duplicated: true});
+                    } else {
+                        this.setState({duplicated: false});
+                    }
+                })
+            }
+        }
         this.setState(
             {
                 [type]: value
@@ -105,7 +118,8 @@ export default class UserCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Email">
+                                            <Form.Item
+                                                label={this.state.duplicated ? "Email (el email esta duplicado)" : "Email"}>
                                                 <TextInputCustom value={this.state.email} placeholder="email"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'email')}
                                                                  label_id={'admin.title.email'}
@@ -159,7 +173,8 @@ export default class UserCreate extends Component {
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>
-                                                <PrimaryButton htmlType={"submit"} message_id={"general.add"}
+                                                <PrimaryButton disabled={this.state.duplicated} htmlType={"submit"}
+                                                               message_id={"general.add"}
                                                                style={{width: '200px'}}
                                                                onClick={() => this.handlePost()}/>
                                             </Form.Item>
