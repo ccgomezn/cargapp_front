@@ -10,7 +10,7 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postUserRole} from '../../../../helpers/api/adminCalls.js';
-import {getActiveRoles, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveRoles, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 
@@ -38,22 +38,29 @@ export default class RoleCreate extends Component {
     }
 
     handlePost() {
-        postUserRole(
-            {
-                user_role: {
-                    user_id: transformInputData(this.state.user_id),
-                    role_id: transformInputData(this.state.role_id),
-                    admin_id: 1,
-                    active: true,
-                }
+        getMineUser().then((response) => {
+            postUserRole(
+                {
+                    user_role: {
+                        user_id: transformInputData(this.state.user_id),
+                        role_id: transformInputData(this.state.role_id),
+                        admin_id: response.data.user.user_id,
+                        active: true,
+                    }
 
-            }).then(() => {
-            this.setState({redirect: true})
+                }).then(() => {
+                this.setState({redirect: true})
+            }).catch(error => {
+                let errorObject = JSON.parse(JSON.stringify(error));
+
+                message.warning(errorObject.message);
+            });
         }).catch(error => {
             let errorObject = JSON.parse(JSON.stringify(error));
 
             message.warning(errorObject.message);
         });
+
     }
 
 

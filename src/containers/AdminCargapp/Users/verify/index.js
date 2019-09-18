@@ -55,8 +55,6 @@ export default class UserCreate extends Component {
                 user: {
                     email: this.state.email,
                     password: this.state.password,
-                    identification: this.state.identification,
-                    phone_number: this.state.phone_number,
                     password_confirmation: this.state.password_confirmation,
                 }
             }).then((response) => {
@@ -121,76 +119,44 @@ export default class UserCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item
-                                                label={this.state.duplicated ? "Email (el email esta duplicado)" : "Email"}>
-                                                <TextInputCustom value={this.state.email} placeholder="email"
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'email')}
-                                                                 label_id={'admin.title.email'}
-                                                                 required/>
+                                                label={"Calificación vehícular"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Password">
-                                                <TextInputCustom type={"password"} value={this.state.password}
-                                                                 placeholder="password"
-                                                                 label_id={'admin.title.password'}
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'password')}
-                                                                 required/>
+                                            <Form.Item
+                                                label={"Identidad personal"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item
-                                                label={"Cédula"}>
-                                                <TextInputCustom value={this.state.identification} placeholder="cédula"
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'identification')}
-                                                                 label_id={'admin.title.identification'}
-                                                                 required/>
+                                                label={"Calificación vehícular"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Teléfono">
-                                                <TextInputCustom value={this.state.phone_number}
-                                                                 placeholder="teléfono"
-                                                                 label_id={'admin.title.phone_number'}
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'phone_number')}
-                                                                 required/>
+                                            <Form.Item
+                                                label={"Identidad personal"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Confirmación de password">
-                                                <TextInputCustom type={"password"}
-                                                                 value={this.state.password_confirmation}
-                                                                 placeholder="confirmación de password"
-                                                                 label_id={'admin.title.password'}
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
-                                                                 required/>
+                                            <Form.Item
+                                                label={"Calificación vehícular"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
-
                                         <Col span={12}>
-                                            <Form.Item label="Rol">
-                                                <SelectInputCustom value={this.state.role_id} placeholder="rol"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'role_id')
-
-                                                }}
-                                                                   options={this.state && this.state.roles &&
-
-                                                                   this.state.roles.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.code}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.role'}
-                                                >
-
-                                                </SelectInputCustom>
+                                            <Form.Item
+                                                label={"Identidad personal"}>
+                                                10/10
                                             </Form.Item>
                                         </Col>
-
                                     </Row>
                                     <Row>
                                         <Col span={24}>

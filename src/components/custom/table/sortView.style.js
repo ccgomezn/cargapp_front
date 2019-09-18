@@ -342,6 +342,10 @@ const TableWrapper = styled(Table)`
             border-left: ${props => (props['data-rtl'] === 'rtl' ? '1px' : '0')}
               solid ${palette('border', 0)};
           }
+          div{
+                    text-align: left !important;
+
+          }
 
           &.isoImageCell {
             padding: 3px;

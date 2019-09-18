@@ -34,6 +34,10 @@ export function getActiveUsers() {
     return get(httpAddr + `/users`, true);
 }
 
+export function getMineUser() {
+    return get(httpAddr + `/users/me`, true);
+}
+
 
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
