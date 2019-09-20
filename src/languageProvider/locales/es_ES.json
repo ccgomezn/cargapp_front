@@ -844,6 +844,7 @@
   "antTable.title.lastName": "Apellido",
   "antTable.title.city": "Ciudad",
   "widget.reportswidget.titledashboard": "Que bueno tenerlo de regreso",
+  "antTable.title.configuration": "Configuración",
   "widget.reportswidget.subtitledashboard": "Todos sus envios van sin contratiempos. Actualmente tiene 5 envios en proceso.",
   "widget.reportswidget.titlevehiclesontrack": "Vehiculos en la via",
   "widget.reportswidget.titleservice": "Solicitar un servicio",
