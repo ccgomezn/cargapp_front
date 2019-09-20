@@ -31,6 +31,34 @@ export const options = [
     }
 ];
 
+export const optionsVehicle = [
+    {
+        key: '',
+        label: 'sidebar.home',
+        leftIcon: 'ion-android-apps',
+    },
+    {
+        key: 'tracking',
+        label: 'sidebar.travels',
+        leftIcon: 'ion-android-car',
+    },
+    {
+        key: 'trackingmap',
+        label: 'sidebar.map',
+        leftIcon: 'ion-map'
+    },
+    {
+        key: 'chat',
+        label: 'sidebar.chat',
+        leftIcon: 'ion-email',
+    },
+    {
+        key: 'settings',
+        label: 'sidebar.settings',
+        leftIcon: 'ion-gear-b',
+    }
+];
+
 export const optionsAdmin = [
     {
         key: '',
@@ -157,7 +185,7 @@ export const optionsAdmin = [
         children: [{
             key: 'cargapp_models',
             label: 'sidebar.cargappModels',
-        },{
+        }, {
             key: 'cargapp_ads',
             label: 'sidebar.cargappAds',
         },
@@ -199,7 +227,7 @@ export const optionsAdmin = [
         children: [{
             key: 'payment_methods',
             label: 'sidebar.payment_methods',
-        },{
+        }, {
             key: 'bank_accounts',
             label: 'sidebar.bankAccounts',
         },

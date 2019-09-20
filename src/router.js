@@ -12,7 +12,7 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVeh
         {...rest}
         render={props =>
             isLoggedIn && (isUser || isVehicleManager)? (
-                <Component {...props} admin={admin}/>
+                <Component {...props} admin={admin} isUser={isUser} isVehicleManager={isVehicleManager}/>
             ) : (
                 <Redirect
                     to={{
@@ -182,7 +182,7 @@ export default connect(state => {
     return (
         {
             isLoggedIn: idToken !== null && idToken !== undefined,
-            isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.user_role_id)),
+            isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.load_generator_role_id)),
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
             isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),
         }
