@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {getUsers, getCities} from '../../../helpers/api/adminCalls.js';
-import {getDocuments, getFavoriteRoutesOfUser} from "../../../helpers/api/adminCalls";
+import {getFavoriteRoutes, getFavoriteRoutesOfUser} from "../../../helpers/api/adminCalls";
 
 export default class FavoriteRoute extends Component {
 
@@ -27,7 +27,7 @@ export default class FavoriteRoute extends Component {
     componentWillMount() {
         let id = this.props.match.params.id;
         var getFavoriteFunction = function () {
-            return getDocuments();
+            return getFavoriteRoutes();
         };
         if (id !== null && id !== undefined) {
             getFavoriteFunction = function () {

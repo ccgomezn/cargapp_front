@@ -9,9 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, Input} from 'antd';
+import {Select} from 'antd';
 import {putServiceLocation, getUsers, getCities, getServices} from '../../../../helpers/api/adminCalls.js';
 import {getServiceLocation} from "../../../../helpers/api/adminCalls";
+import {transformInputData} from "../../../../helpers/utility";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
 
 
 const {Option} = Select;
@@ -65,10 +68,10 @@ export default class ServiceLocationEdit extends Component {
                 "service_location": {
                     "longitude": this.state.longitude,
                     "latitude": this.state.latitude,
-                    "city_id": this.state.city_id,
-                    "user_id": this.state.user_id,
-                    "service_id": this.state.service_id,
-                    "active": this.state.active
+                    "city_id": transformInputData(this.state.city_id),
+                    "user_id": transformInputData(this.state.user_id),
+                    "service_id": transformInputData(this.state.service_id),
+                    "active": transformInputData(this.state.active)
                 }
             }).then(() => {
             this.setState({redirect: true})
@@ -80,7 +83,7 @@ export default class ServiceLocationEdit extends Component {
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/user_locations'/>
+            return <Redirect to='/admin/service_locations'/>
         }
         return (
 
@@ -94,7 +97,7 @@ export default class ServiceLocationEdit extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="userLocations.title"/>
+                                        <IntlMessages id="servicelocations.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -106,16 +109,18 @@ export default class ServiceLocationEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Longitud">
-                                                <Input value={this.state.longitude} placeholder="longitud"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'longitude')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.longitude} placeholder="longitud"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'longitude')}
+                                                                 label_id={'admin.title.longitude'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Latitud">
-                                                <Input value={this.state.latitude} placeholder="latitud"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'latitude')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.latitude} placeholder="latitud"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'latitude')}
+                                                                 label_id={'admin.title.latitude'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -124,32 +129,37 @@ export default class ServiceLocationEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Ciudad">
-                                                <Select value={this.state.city_id} placeholder="ciudad"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.city_id} placeholder="ciudad"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'city_id')
-                                                }}>
-                                                    {this.state && this.state.cities &&
+                                                }}
+                                                                   options={this.state && this.state.cities &&
 
-                                                    this.state.cities.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.cities.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.city'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
-                                                <Select value={this.state.service_id} placeholder="servicio"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.service_id} placeholder="servicio"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'service_id')
-                                                }}>
-                                                    {this.state && this.state.services &&
+                                                }}
+                                                                   options={this.state && this.state.services &&
 
-                                                    this.state.services.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.services.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.service'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
@@ -158,17 +168,20 @@ export default class ServiceLocationEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

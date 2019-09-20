@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, Input} from 'antd';
+import {Select} from 'antd';
 import {putCargappAd, getUsers} from '../../../../helpers/api/adminCalls.js';
 import {getCargappAd} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";

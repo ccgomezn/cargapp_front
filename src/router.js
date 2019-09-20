@@ -7,12 +7,12 @@ import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
 import {decrypt} from "./helpers/utility";
 
-const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, ...rest}) => (
+const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && isUser ? (
-                <Component {...props} admin={admin}/>
+            isLoggedIn && (isUser || isVehicleManager)? (
+                <Component {...props} admin={admin} isUser={isUser} isVehicleManager={isVehicleManager}/>
             ) : (
                 <Redirect
                     to={{
@@ -26,11 +26,11 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, ...re
 );
 
 
-const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, ...rest}) => (
+const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && isUser && admin ? (
+            isLoggedIn  && admin ? (
                 <Redirect
                     to={{
                         pathname: "/admin/",
@@ -38,7 +38,7 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, ...rest})
                     }}
                 />
             ) : (
-                isLoggedIn && isUser ? (
+                isLoggedIn && (isUser || isVehicleManager)? (
                     <Redirect
                         to={{
                             pathname: "/dashboard",
@@ -55,7 +55,7 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, ...rest})
     />
 );
 
-const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
+const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) => {
     return (
         <ConnectedRouter history={history}>
             <div>
@@ -66,7 +66,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
-
+                    isVehicleManager={isVehicleManager}
                 />
                 <Route
                     exact
@@ -85,6 +85,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
 
                 />
                 <PublicRoute
@@ -94,6 +95,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
 
                 />
                 <PublicRoute
@@ -103,6 +105,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
 
                 />
                 <PublicRoute
@@ -123,6 +126,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
 
                 />
                 <PublicRoute
@@ -134,6 +138,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
 
                 />
 
@@ -143,6 +148,8 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isAdmin}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+
                 />
                 <RestrictedRoute
                     path="/dashboard"
@@ -150,6 +157,8 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin}) => {
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+
                 />
 
 
@@ -173,8 +182,9 @@ export default connect(state => {
     return (
         {
             isLoggedIn: idToken !== null && idToken !== undefined,
-            isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.user_role_id)),
+            isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.load_generator_role_id)),
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
+            isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),
         }
     )
 })(PublicRoutes);

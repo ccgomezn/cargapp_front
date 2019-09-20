@@ -11,6 +11,8 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postPermission, findParameters} from '../../../../helpers/api/adminCalls.js';
 import {getActiveModels, getActiveRoles, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 
@@ -35,21 +37,26 @@ export default class PermissionCreate extends Component {
     }
 
     handlePost() {
-        postPermission(
-            {
-                permission: {
-                    role_id: this.state.role_id,
-                    cargapp_model_id: this.state.model_id,
-                    action: this.state.action,
-                    method: this.state.method,
-                    allow: this.state.allow,
-                    user_id: this.state.user_id,
-                    active: true,
-                }
+        const role_id = transformInputData(this.state.role_id);
+        const cargapp_model_id = transformInputData(this.state.model_id);
+        const action = transformInputData(this.state.action);
+        const method = transformInputData(this.state.method);
+        const user_id = transformInputData(this.state.user_id);
+            postPermission(
+                {
+                    permission: {
+                        role_id: role_id,
+                        cargapp_model_id: cargapp_model_id,
+                        action: action,
+                        method: method,
+                        allow: this.state.allow,
+                        user_id: user_id,
+                        active: true,
+                    }
 
-            }).then(() => {
-            this.setState({redirect: true})
-        })
+                }).then(() => {
+                this.setState({redirect: true})
+            })
     }
 
 
@@ -101,49 +108,58 @@ export default class PermissionCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Rol">
-                                                <Select required value={this.state.role_id} placeholder="rol"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom required value={this.state.role_id} placeholder="rol"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'role_id')
-                                                }}>
-                                                    {this.state && this.state.roles &&
+                                                }}
+                                                                   options={this.state && this.state.roles &&
 
-                                                    this.state.roles.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.roles.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.role'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Modelo">
-                                                <Select required value={this.state.model_id} placeholder="modelo"
-                                                        style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'model_id')
-                                                }}>
-                                                    {this.state && this.state.models &&
+                                                <SelectInputCustom
+                                                    options={this.state && this.state.models &&
 
                                                     this.state.models.map((item) => {
                                                         return <Option value={item.id}>{item.name}</Option>
                                                     })
                                                     }
-                                                </Select>
+                                                    label_id={'admin.title.model'}
+                                                    required value={this.state.model_id} placeholder="modelo"
+                                                    style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'model_id')
+                                                }}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Form.Item label="Usuario">
-                                                <Select required value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '50%'}} onChange={(e) => {
+                                                <SelectInputCustom required value={this.state.user_id}
+                                                                   placeholder="usuario"
+                                                                   style={{width: '50%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
@@ -151,32 +167,38 @@ export default class PermissionCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Acción">
-                                                <Select value={this.state.action} placeholder="acción"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.action} placeholder="acción"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'action')
-                                                }}>
-                                                    {this.state && this.state.actions &&
+                                                }}
+                                                                   options={this.state && this.state.actions &&
 
-                                                    this.state.actions.map((item) => {
-                                                        return <Option value={item.code}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.actions.map((item) => {
+                                                                       return <Option
+                                                                           value={item.code}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.action'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Método">
-                                                <Select value={this.state.method} placeholder="método"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.method} placeholder="método"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'method')
-                                                }}>
-                                                    {this.state && this.state.methods &&
+                                                }}
+                                                                   options={this.state && this.state.methods &&
 
-                                                    this.state.methods.map((item) => {
-                                                        return <Option value={item.code}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.methods.map((item) => {
+                                                                       return <Option
+                                                                           value={item.code}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.method'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>

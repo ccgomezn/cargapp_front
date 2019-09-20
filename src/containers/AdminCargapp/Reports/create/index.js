@@ -2,14 +2,17 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select, DatePicker} from 'antd';
+import {Row, Col, Form, Card, Select, DatePicker} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import { postReport, findParameters} from '../../../../helpers/api/adminCalls.js';
+import {postReport, findParameters} from '../../../../helpers/api/adminCalls.js';
 import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -50,7 +53,8 @@ export default class ReportCreate extends Component {
     }
 
     handlePost() {
-
+        const user_id = transformInputData(this.state.user_id);
+        const report_type = transformInputData(this.state.report_type);
         const formData = new FormData();
         formData.append('report[name]', this.state.name);
         formData.append('report[origin]', this.state.origin);
@@ -62,8 +66,8 @@ export default class ReportCreate extends Component {
         formData.append('report[image]', this.state.image, this.state.image.name);
         formData.append('report[start_date]', this.state.start_date);
         formData.append('report[end_date]', this.state.end_date);
-        formData.append('report[report_type]', this.state.report_type);
-        formData.append('report[user_id]', this.state.user_id);
+        formData.append('report[report_type]', report_type);
+        formData.append('report[user_id]', user_id);
         formData.append('report[active]', true);
         postReport(
             formData).then(() => {
@@ -103,32 +107,36 @@ export default class ReportCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 label_id={'admin.title.name'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Origen">
-                                                <Input value={this.state.origin} placeholder="origen"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'origin')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.origin} placeholder="origen"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'origin')}
+                                                                 label_id={'admin.title.origin'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Destino">
-                                                <Input value={this.state.destination} placeholder="destino"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'destination')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.destination} placeholder="destino"
+                                                                 label_id={'admin.title.destination'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'destination')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Causa">
-                                                <Input value={this.state.cause} placeholder="causa"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'cause')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.cause} placeholder="causa"
+                                                                 label_id={'admin.title.cause'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'cause')}
+                                                                 required/>
 
                                             </Form.Item>
                                         </Col>
@@ -136,16 +144,18 @@ export default class ReportCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Sentido">
-                                                <Input value={this.state.sense} placeholder="Sentido"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'sense')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.sense} placeholder="Sentido"
+                                                                 label_id={'admin.title.sense'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'sense')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Gravedad">
-                                                <Input value={this.state.novelty} placeholder="gravedad"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'novelty')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.novelty} placeholder="gravedad"
+                                                                 label_id={'admin.title.strength'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'novelty')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -153,9 +163,11 @@ export default class ReportCreate extends Component {
 
                                         <Col span={12}>
                                             <Form.Item label="Geolocalización">
-                                                <Input value={this.state.geolocation} placeholder="geolocalización"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'geolocation')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.geolocation}
+                                                                 placeholder="geolocalización"
+                                                                 label_id={'admin.title.geo'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'geolocation')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
@@ -191,32 +203,39 @@ export default class ReportCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de reporte">
-                                                <Select value={this.state.report_type} placeholder="tipo de reporte"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.report_type}
+                                                                   placeholder="tipo de reporte"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'report_type')
-                                                }}>
-                                                    {this.state && this.state.report_types &&
+                                                }}
+                                                                   options={this.state && this.state.report_types &&
 
-                                                    this.state.report_types.map((item) => {
-                                                        return <Option value={item.code}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.report_types.map((item) => {
+                                                                       return <Option
+                                                                           value={item.code}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.type'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

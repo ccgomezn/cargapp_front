@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, Input} from 'antd';
+import {Select} from 'antd';
 import {getIntegration, getUsers, putIntegration} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
@@ -36,9 +36,7 @@ export default class CargappIntegrationEdit extends Component {
                 } else {
                     responses[0].data.active = false;
                 }
-                const user_id = this.state.user_id && this.state.user_id.key ? this.state.user_id.key : this.state.user_id;
-                const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
-
+                
                 this.setState({
                     users: responses[1].data,
                     name: responses[0].data.name,

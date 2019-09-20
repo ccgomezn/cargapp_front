@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { palette } from 'styled-theme';
+import {palette} from 'styled-theme';
 
 const WidgetWrapper = styled.div`
   
@@ -66,17 +66,16 @@ const WidgetWrapper = styled.div`
     }
 
     h2 {
-      padding-left: 19px;
 
       opacity: 0.5;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.36;
-  letter-spacing: -0.2px;
-  color: #010935;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.36;
+      letter-spacing: -0.2px;
+      color: #010935;
     }
   }
 
@@ -123,4 +122,4 @@ const WidgetColumn = styled.div`
   align-content: flex-start;
 `;
 
-export { WidgetWrapper, WidgetBox, WidgetColumn };
+export {WidgetWrapper, WidgetBox, WidgetColumn};

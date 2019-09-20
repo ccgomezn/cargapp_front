@@ -10,7 +10,9 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postUserRole} from '../../../../helpers/api/adminCalls.js';
-import {getActiveRoles, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveRoles, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 
@@ -36,22 +38,29 @@ export default class RoleCreate extends Component {
     }
 
     handlePost() {
-        postUserRole(
-            {
-                user_role: {
-                    user_id: this.state.user_id,
-                    role_id: this.state.role_id,
-                    admin_id: 1,
-                    active: true,
-                }
+        getMineUser().then((response) => {
+            postUserRole(
+                {
+                    user_role: {
+                        user_id: transformInputData(this.state.user_id),
+                        role_id: transformInputData(this.state.role_id),
+                        admin_id: response.data.user.user_id,
+                        active: true,
+                    }
 
-            }).then(() => {
-            this.setState({redirect: true})
+                }).then(() => {
+                this.setState({redirect: true})
+            }).catch(error => {
+                let errorObject = JSON.parse(JSON.stringify(error));
+
+                message.warning(errorObject.message);
+            });
         }).catch(error => {
             let errorObject = JSON.parse(JSON.stringify(error));
 
             message.warning(errorObject.message);
         });
+
     }
 
 
@@ -100,17 +109,19 @@ export default class RoleCreate extends Component {
                                 <Row gutter={10}>
                                     <Col span={24}>
                                         <Form.Item label="Usuario">
-                                            <Select value={this.state.user_id} placeholder="usuario"
-                                                    style={{width: 240}} onChange={(e) => {
+                                            <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                               style={{width: 240}} onChange={(e) => {
                                                 this.handleChange(e, 'user_id')
-                                            }}>
-                                                {this.state && this.state.users &&
+                                            }}
+                                                               options={this.state && this.state.users &&
 
-                                                this.state.users.map((item) => {
-                                                    return <Option value={item.id}>{item.email}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                                               this.state.users.map((item) => {
+                                                                   return <Option value={item.id}>{item.email}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.user'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
 
@@ -118,16 +129,19 @@ export default class RoleCreate extends Component {
                                 <Row>
                                     <Col span={24}>
                                         <Form.Item label="Rol">
-                                            <Select value={this.state.role_id} placeholder="rol" style={{width: 240}}
-                                                    onChange={(e) => {
-                                                        this.handleChange(e, 'role_id')
-                                                    }}>
-                                                {this.state && this.state.roles &&
-                                                this.state.roles.map((item) => {
-                                                    return <Option value={item.id}>{item.name}</Option>
-                                                })
-                                                }
-                                            </Select>
+                                            <SelectInputCustom value={this.state.role_id} placeholder="rol"
+                                                               style={{width: 240}}
+                                                               onChange={(e) => {
+                                                                   this.handleChange(e, 'role_id')
+                                                               }}
+                                                               options={this.state && this.state.roles &&
+                                                               this.state.roles.map((item) => {
+                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                               })
+                                                               }
+                                                               label_id={'admin.title.role'}>
+
+                                            </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
                                 </Row>

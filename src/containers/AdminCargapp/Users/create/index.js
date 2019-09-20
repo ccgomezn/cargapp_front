@@ -2,12 +2,16 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select} from 'antd';
+import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
 import {postUser, getActiveRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
 import axios from "axios";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
+import {verifyEmail} from "../../../../helpers/api/adminCalls";
 
 
 const {Option} = Select;
@@ -18,13 +22,25 @@ export default class UserCreate extends Component {
     constructor() {
         super();
         this.state = {
-            redirect: false
+            redirect: false,
+            duplicated: false
         }
     }
 
 
     handleChange(value, type) {
+        if (type === 'email') {
+            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                verifyEmail(value).then((response) => {
+                    if (response.data.email) {
 
+                        this.setState({duplicated: true});
+                    } else {
+                        this.setState({duplicated: false});
+                    }
+                })
+            }
+        }
         this.setState(
             {
                 [type]: value
@@ -39,14 +55,16 @@ export default class UserCreate extends Component {
                 user: {
                     email: this.state.email,
                     password: this.state.password,
+                    identification: this.state.identification,
+                    phone_number: this.state.phone_number,
                     password_confirmation: this.state.password_confirmation,
                 }
             }).then((response) => {
-                console.log(response);
+            console.log(response);
             postUserRole(
                 {
                     user_role: {
-                        role_id: this.state.role_id,
+                        role_id: transformInputData(this.state.role_id),
                         user_id: response.data.id,
                         admin_id: 1,
                         active: true
@@ -102,46 +120,74 @@ export default class UserCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={12}>
-                                            <Form.Item label="Email">
-                                                <Input value={this.state.email} placeholder="email"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'email')}
-                                                       required/>
+                                            <Form.Item
+                                                label={this.state.duplicated ? "Email (el email esta duplicado)" : "Email"}>
+                                                <TextInputCustom value={this.state.email} placeholder="email"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'email')}
+                                                                 label_id={'admin.title.email'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Password">
-                                                <Input type={"password"} value={this.state.password}
-                                                       placeholder="password"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'password')}
-                                                       required/>
+                                                <TextInputCustom type={"password"} value={this.state.password}
+                                                                 placeholder="password"
+                                                                 label_id={'admin.title.password'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'password')}
+                                                                 required/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                            <Form.Item
+                                                label={"Cédula"}>
+                                                <TextInputCustom value={this.state.identification} placeholder="cédula"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'identification')}
+                                                                 label_id={'admin.title.identification'}
+                                                                 required/>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Teléfono">
+                                                <TextInputCustom value={this.state.phone_number}
+                                                                 placeholder="teléfono"
+                                                                 label_id={'admin.title.phone_number'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'phone_number')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Confirmación de password">
-                                                <Input type={"password"} value={this.state.password_confirmation}
-                                                       placeholder="confirmación de password"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
-                                                       required/>
+                                                <TextInputCustom type={"password"}
+                                                                 value={this.state.password_confirmation}
+                                                                 placeholder="confirmación de password"
+                                                                 label_id={'admin.title.password'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Rol">
-                                                <Select value={this.state.role_id} placeholder="rol"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.role_id} placeholder="rol"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'role_id')
 
                                                 }}
-                                                >
-                                                    {this.state && this.state.roles &&
+                                                                   options={this.state && this.state.roles &&
 
-                                                    this.state.roles.map((item) => {
-                                                        return <Option value={item.id}>{item.code}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.roles.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.code}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.role'}
+                                                >
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
@@ -149,7 +195,8 @@ export default class UserCreate extends Component {
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>
-                                                <PrimaryButton htmlType={"submit"} message_id={"general.add"}
+                                                <PrimaryButton disabled={this.state.duplicated} htmlType={"submit"}
+                                                               message_id={"general.add"}
                                                                style={{width: '200px'}}
                                                                onClick={() => this.handlePost()}/>
                                             </Form.Item>

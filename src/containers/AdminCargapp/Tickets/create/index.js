@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select} from 'antd';
+import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postTicket} from '../../../../helpers/api/adminCalls.js';
 import {getActiveStatus, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select
 
@@ -47,13 +50,13 @@ export default class TicketCreate extends Component {
 
 
         const formData = new FormData();
-        formData.append('ticket[title]', this.state.title)
-        formData.append('ticket[body]', this.state.body)
-        formData.append('ticket[image]', this.state.image, this.state.media.image)
-        formData.append('ticket[media]', this.state.media, this.state.media.name)
-        formData.append('ticket[statu_id]', this.state.statu_id)
-        formData.append('ticket[user_id]', this.state.user_id)
-        formData.append('ticket[active]', true)
+        formData.append('ticket[title]', this.state.title);
+        formData.append('ticket[body]', this.state.body);
+        formData.append('ticket[image]', this.state.image, this.state.media.image);
+        formData.append('ticket[media]', this.state.media, this.state.media.name);
+        formData.append('ticket[statu_id]', transformInputData(this.state.statu_id));
+        formData.append('ticket[user_id]', transformInputData(this.state.user_id));
+        formData.append('ticket[active]', true);
 
         postTicket(
             formData
@@ -95,16 +98,18 @@ export default class TicketCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Titulo">
-                                                <Input value={this.state.title} placeholder="titulo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'title')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.title} placeholder="titulo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'title')}
+                                                                 label_id={'admin.title.title'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Cuerpo">
-                                                <Input value={this.state.body} placeholder="cuerpo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'body')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.body} placeholder="cuerpo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'body')}
+                                                                 required
+                                                                 label_id={'admin.title.body'}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -126,32 +131,38 @@ export default class TicketCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Status">
-                                                <Select value={this.state.statu_id} placeholder="status"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.statu_id} placeholder="status"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'statu_id')
-                                                }}>
-                                                    {this.state && this.state.status &&
+                                                }}
+                                                                   options={this.state && this.state.status &&
 
-                                                    this.state.status.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.status.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.status'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuarios">
-                                                <Select value={this.state.user_id} placeholder="usuarios"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuarios"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>

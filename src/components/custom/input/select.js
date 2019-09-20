@@ -3,7 +3,6 @@ import React, {Component} from "react";
 import IntlMessages from "../../utility/intlMessages";
 import SelectWrapper from './select.style'
 
-const {Option} = Select;
 export default class SelectInputCustom extends Component {
     render() {
         return (

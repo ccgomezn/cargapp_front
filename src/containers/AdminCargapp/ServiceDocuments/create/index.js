@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select} from 'antd';
+import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postServiceDocument} from '../../../../helpers/api/adminCalls.js';
 import {getActiveServices, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select;
@@ -48,11 +51,12 @@ export default class ServiceDocumentCreate extends Component {
     handlePost() {
 
         const formData = new FormData();
+
         formData.append('service_document[name]', this.state.name);
         formData.append('service_document[document_type]', this.state.document_type);
         formData.append('service_document[document]', this.state.document, this.state.document.name);
-        formData.append('service_document[service_id]', this.state.service_id);
-        formData.append('service_document[user_id]', this.state.user_id);
+        formData.append('service_document[service_id]', transformInputData(this.state.service_id));
+        formData.append('service_document[user_id]', transformInputData(this.state.user_id));
         formData.append('service_document[active]', true);
         postServiceDocument(
             formData).then(() => {
@@ -92,16 +96,19 @@ export default class ServiceDocumentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
-                                                <Input value={this.state.name} placeholder="nombre"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                 label_id={'admin.title.name'}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de documento">
-                                                <Input value={this.state.document_type} placeholder="tipo de documento"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'document_type')}
-                                                       required/>
+                                                <TextInputCustom value={this.state.document_type}
+                                                                 placeholder="tipo de documento"
+                                                                 label_id={'admin.title.type'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'document_type')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -109,32 +116,38 @@ export default class ServiceDocumentCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
-                                                <Select value={this.state.service_id} placeholder="servicoi"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.service_id} placeholder="servicoi"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'service_id')
-                                                }}>
-                                                    {this.state && this.state.services &&
+                                                }}
+                                                                   options={this.state && this.state.services &&
 
-                                                    this.state.services.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.services.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.service'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

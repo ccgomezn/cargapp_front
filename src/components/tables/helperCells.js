@@ -36,9 +36,21 @@ const MultipleButtonCell = (text1, text2, function1, function2, type1, type2) =>
     )
 };
 
+
+const ButtonCell = (text1, function1, type1) => {
+    return (
+        <div>
+            <Button type={type1} onClick={function1}>
+                {text1}
+            </Button>
+        </div>
+
+    )
+};
+
 const TripleButtonCell = (text1, text2, text3, function1, function2, function3, type1, type2, type3) => {
     return (
-        <div style={{textAlign: 'right'}}>
+        <div style={{textAlign: 'left'}}>
             <Button type={type1} onClick={function1}>
                 {text1}
             </Button>
@@ -82,5 +94,6 @@ export {
     MultipleButtonCell,
     TextColorCell,
     TripleButtonCell,
-    DropdownCell
+    DropdownCell,
+    ButtonCell
 };

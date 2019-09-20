@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import clone from "clone";
 import {Link} from "react-router-dom";
 import {Layout} from "antd";
-import {options, optionsAdmin} from "./options";
+import {options, optionsAdmin, optionsVehicle} from "./options";
 import Scrollbars from "../../components/utility/customScrollBar.js";
 import Menu from "../../components/uielements/menu";
 import IntlMessages from "../../components/utility/intlMessages";
@@ -116,7 +116,7 @@ class Sidebar extends Component {
     render() {
         const {toggleCollapsed} = this.props;
 
-        const {app, customizedTheme, height, admin} = this.props;
+        const {app, customizedTheme, height, admin, isUser, isVehicleManager} = this.props;
         const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
         const mode = collapsed === true ? "vertical" : "inline";
 
@@ -155,11 +155,14 @@ class Sidebar extends Component {
                             optionsAdmin.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            {!admin &&
+                            {!admin && isUser &&
                             options.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-
+                            {!admin && isVehicleManager &&
+                            optionsVehicle.map(singleOption =>
+                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
+                            )}
                         </Menu>
                     </Scrollbars>
                 </Sider>

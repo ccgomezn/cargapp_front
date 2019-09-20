@@ -104,7 +104,7 @@ export default class extends Component {
                                                     <h1>
                                                         <IntlMessages id="widget.reportswidget.titledashboard"/>
                                                     </h1>
-                                                    <h2 style={{paddingBottom: '30px'}}>
+                                                    <h2 style={{padding: '10px 0px 30px 19px'}}>
                                                         <IntlMessages id="widget.reportswidget.subtitledashboard"/>
                                                     </h2>
                                                 </div>
@@ -165,7 +165,7 @@ export default class extends Component {
                                     <div style={{height: 500, width: '100%'}}>
                                         <Row>
                                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                             <MapContainer center={{
+                                                <MapContainer center={{
                                                     lat: 4.710989,
                                                     lng: -74.072090
                                                 }} block style={{height: 500}} isFreight={true}/>

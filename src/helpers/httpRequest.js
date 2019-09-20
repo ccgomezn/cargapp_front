@@ -62,9 +62,14 @@ export function post(url, data, secured = false) {
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
+
+
     return axios.post(url, data, {headers: headers}).catch((error) => {
-        catchError(error);
-        throw error;
+        if(error.response.status !== 302){
+            catchError(error);
+            throw error;
+        }
+        return error.response;
     })
 }
 

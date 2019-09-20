@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Input, Card, Select} from 'antd';
+import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postRateService} from '../../../../helpers/api/adminCalls.js';
 import {getActiveServices, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 
 const {Option} = Select;
@@ -47,6 +50,9 @@ export default class RateServiceCreate extends Component {
 
     handlePost() {
 
+        const user_id = transformInputData(this.state.user_id);
+        const driver_id = transformInputData(this.state.driver_id);
+        const service_id = transformInputData(this.state.service_id);
 
         postRateService(
             {
@@ -54,9 +60,9 @@ export default class RateServiceCreate extends Component {
                     "service_point": this.state.service_point,
                     "driver_point": this.state.driver_point,
                     "point": this.state.point,
-                    "service_id": this.state.service_id,
-                    "user_id": this.state.user_id,
-                    "driver_id": this.state.driver_id,
+                    "service_id": service_id,
+                    "user_id": user_id,
+                    "driver_id": driver_id,
                     "active": true
                 }
             }
@@ -100,18 +106,20 @@ export default class RateServiceCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Puntos de servicio">
-                                                <Input type={"number"} value={this.state.service_point}
-                                                       placeholder="puntos de servicio"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'service_point')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.service_point}
+                                                                 label_id={'admin.title.points'}
+                                                                 placeholder="puntos de servicio"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'service_point')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Puntos de conductor">
-                                                <Input type={"number"} value={this.state.driver_point}
-                                                       placeholder="puntos de conductor"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'driver_point')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.driver_point}
+                                                                 label_id={'admin.title.points'}
+                                                                 placeholder="puntos de conductor"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'driver_point')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -119,10 +127,11 @@ export default class RateServiceCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Puntos">
-                                                <Input type={"number"} value={this.state.point}
-                                                       placeholder="puntos"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'point')}
-                                                       required/>
+                                                <TextInputCustom type={"number"} value={this.state.point}
+                                                                 placeholder="puntos"
+                                                                 label_id={'admin.title.points'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'point')}
+                                                                 required/>
                                             </Form.Item>
                                         </Col>
 
@@ -132,32 +141,36 @@ export default class RateServiceCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Servicio">
-                                                <Select value={this.state.service_id} placeholder="servicio"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.service_id} placeholder="servicio"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'service_id')
-                                                }}>
-                                                    {this.state && this.state.services &&
+                                                }}
+                                                                   options={this.state && this.state.services &&
 
-                                                    this.state.services.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.services.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.service'}>
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 
@@ -166,17 +179,20 @@ export default class RateServiceCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Conductor">
-                                                <Select value={this.state.driver_id} placeholder="conductor"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.driver_id} placeholder="conductor"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'driver_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.driver'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                     </Row>

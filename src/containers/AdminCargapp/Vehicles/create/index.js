@@ -4,13 +4,16 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Input} from "antd";
+import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Select} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postVehicle} from '../../../../helpers/api/adminCalls.js';
 import {getActiveDocumentTypes, getActiveUsers, getActiveVehicleTypes} from "../../../../helpers/api/adminCalls";
+import TextInputCustom from "../../../../components/custom/input/text";
+import SelectInputCustom from "../../../../components/custom/input/select";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 export default class VehicleCreate extends Component {
@@ -59,10 +62,10 @@ export default class VehicleCreate extends Component {
                     plate: this.state.plate,
                     chassis: this.state.chassis,
                     owner_vehicle: this.state.owner_vehicle,
-                    vehicle_type_id: this.state.vehicle_type_id,
-                    owner_document_type_id: this.state.owner_document_type_id,
-                    owner_document_id: this.state.owner_document_id,
-                    user_id: this.state.user_id,
+                    vehicle_type_id: transformInputData(this.state.vehicle_type_id),
+                    owner_document_type_id: transformInputData(this.state.owner_document_type_id),
+                    owner_document_id: transformInputData(this.state.owner_document_id),
+                    user_id: transformInputData(this.state.user_id),
                     active: true,
                 }
 
@@ -103,68 +106,79 @@ export default class VehicleCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Marca">
-                                                <Input value={this.state.brand} placeholder="marca"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'brand')}/>
+                                                <TextInputCustom value={this.state.brand} placeholder="marca"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'brand')}
+                                                                 label_id={'admin.title.brand'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Modelo">
-                                                <Input value={this.state.model} placeholder="modelo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'model')}/>
+                                                <TextInputCustom value={this.state.model} placeholder="modelo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'model')}
+                                                                 label_id={'admin.title.model'}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Año del modelo">
-                                                <Input type="number" value={this.state.model_year}
-                                                       placeholder="año del modelo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'model_year')}/>
+                                                <TextInputCustom type="number" value={this.state.model_year}
+                                                                 placeholder="año del modelo"
+                                                                 label_id={'admin.title.year'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'model_year')}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Color">
-                                                <Input value={this.state.color} placeholder="color"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'color')}/>
+                                                <TextInputCustom value={this.state.color} placeholder="color"
+                                                                 label_id={'admin.title.color'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'color')}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Placa">
-                                                <Input value={this.state.plate} placeholder="placa"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'plate')}/>
+                                                <TextInputCustom value={this.state.plate} placeholder="placa"
+                                                                 label_id={'admin.title.plate'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'plate')}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Chasis">
-                                                <Input value={this.state.chassis} placeholder="chasis"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'chassis')}/>
+                                                <TextInputCustom value={this.state.chassis} placeholder="chasis"
+                                                                 label_id={'admin.title.chassis'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'chassis')}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Tipo del vehiculo">
-                                                <Select value={this.state.vehicle_type_id}
-                                                        placeholder="tipo del vehiculo" style={{width: '100%'}}
-                                                        onChange={(e) => {
-                                                            this.handleChange(e, 'vehicle_type_id')
-                                                        }}>
-                                                    {this.state && this.state.vehicle_types &&
+                                                <SelectInputCustom value={this.state.vehicle_type_id}
+                                                                   placeholder="tipo del vehiculo"
+                                                                   style={{width: '100%'}}
+                                                                   onChange={(e) => {
+                                                                       this.handleChange(e, 'vehicle_type_id')
+                                                                   }}
+                                                                   options={this.state && this.state.vehicle_types &&
 
-                                                    this.state.vehicle_types.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.vehicle_types.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.type'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Nombre del dueño del vehiculo">
-                                                <Input value={this.state.owner_vehicle}
-                                                       placeholder="nombre del dueño del vehiculo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'owner_vehicle')}/>
+                                                <TextInputCustom value={this.state.owner_vehicle}
+                                                                 label_id={'admin.title.name'}
+                                                                 placeholder="nombre del dueño del vehiculo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'owner_vehicle')}/>
                                             </Form.Item>
                                         </Col>
 
@@ -173,25 +187,29 @@ export default class VehicleCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de documento del dueño del vehiculo">
-                                                <Select value={this.state.owner_document_type_id}
-                                                        placeholder="tipo de documento del dueño del vehiculo"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.owner_document_type_id}
+                                                                   placeholder="tipo de documento del dueño del vehiculo"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'owner_document_type_id')
-                                                }}>
-                                                    {this.state && this.state.document_types &&
+                                                }}
+                                                                   options={this.state && this.state.document_types &&
 
-                                                    this.state.document_types.map((item) => {
-                                                        return <Option value={item.id}>{item.name}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.document_types.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.name}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.type'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Número de documento del dueño del vehiculo">
-                                                <Input value={this.state.owner_document_id}
-                                                       placeholder="número de documento del dueño del vehiculo"
-                                                       onChange={(e) => this.handleChange(e.target.value, 'owner_document_id')}/>
+                                                <TextInputCustom value={this.state.owner_document_id}
+                                                                 label_id={'admin.title.document'}
+                                                                 placeholder="número de documento del dueño del vehiculo"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'owner_document_id')}/>
                                             </Form.Item>
                                         </Col>
 
@@ -200,17 +218,20 @@ export default class VehicleCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
-                                                <Select value={this.state.user_id} placeholder="usuario"
-                                                        style={{width: '100%'}} onChange={(e) => {
+                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
+                                                                   style={{width: '100%'}} onChange={(e) => {
                                                     this.handleChange(e, 'user_id')
-                                                }}>
-                                                    {this.state && this.state.users &&
+                                                }}
+                                                                   options={this.state && this.state.users &&
 
-                                                    this.state.users.map((item) => {
-                                                        return <Option value={item.id}>{item.email}</Option>
-                                                    })
-                                                    }
-                                                </Select>
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.user'}>
+
+                                                </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
 

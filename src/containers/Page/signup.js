@@ -13,6 +13,7 @@ import axios from 'axios';
 import httpAddr from "../../helpers/http_helper"
 import {Redirect} from 'react-router-dom'
 import importantVariables from '../../helpers/hashVariables'
+import {verifyEmail} from "../../helpers/api/adminCalls";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
@@ -21,6 +22,7 @@ class SignUp extends Component {
 
     state = {
         redirect: false,
+        duplicated: false,
         email: '',
         password: '',
         password_confirmation: ''
@@ -40,7 +42,18 @@ class SignUp extends Component {
     };
 
     handleChange(value, type) {
+        if (type === 'email') {
+            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                verifyEmail(value).then((response) => {
+                    if (response.data.email) {
 
+                        this.setState({duplicated: true});
+                    } else {
+                        this.setState({duplicated: false});
+                    }
+                })
+            }
+        }
         this.setState(
             {
                 [type]: value
@@ -184,7 +197,7 @@ class SignUp extends Component {
                                 <div className="formData">
 
                                     <div className="isoInputWrapper">
-                                        <TextInputCustom required label_id='page.email' value={this.state.email}
+                                        <TextInputCustom required label_id={this.state.duplicated?'page.emailDuplicated':'page.email'} value={this.state.email}
                                                          placeholder='Correo eléctronico'
                                                          onChange={(e) => this.handleChange(e.target.value, 'email')}/>
                                     </div>
@@ -214,7 +227,7 @@ class SignUp extends Component {
 
                                             <div className="button-sign">
 
-                                                <PrimaryButton  message_id="page.signup"
+                                                <PrimaryButton disabled={this.state.duplicated} message_id="page.signup"
                                                                onClick={() => this.handlePostRegister()}/>
                                             </div>
                                         </Col>
