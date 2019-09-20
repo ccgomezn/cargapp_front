@@ -77,7 +77,7 @@ const columns = [
             render: object => renderCell(object, 'dropdown', 'información general', 'color', 'información adicional', menuOptions(object['id']))
         },
         {
-            title: <IntlMessages style={{alignItems:'right'}} id="antTable.title.verify"/>,
+            title: <IntlMessages style={{alignItems:'right'}} id="antTable.title.configuration"/>,
             key: 'verify',
             width: '12%',
             render: object => renderCell(object, 'button')

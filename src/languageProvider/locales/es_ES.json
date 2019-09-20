@@ -833,6 +833,7 @@
   "antTable.title.state_location": "Estado(Ubicación)",
   "antTable.title.verify": "Verificar usuario",
   "admin.title.phone_number": "Teléfono",
+  "general.verify_new": "Verificar",
   "admin.title.identification": "Cédula",
   "sidebar.users": "Usuarios",
   "sidebar.roles": "Roles",

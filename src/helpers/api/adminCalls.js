@@ -43,6 +43,16 @@ export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
 }
 
+export function verifyUser(id, force_creation) {
+    return post(httpAddr + `/users/truora_check_user`, {
+        user: {
+            id: id,
+            force_creation: force_creation
+        }
+    }, true)
+
+}
+
 export function getIntegration(id) {
     return get(httpAddr + `/cargapp_integrations/` + id, true)
 }
