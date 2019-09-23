@@ -9,13 +9,14 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, DatePicker} from 'antd';
+import {Select} from 'antd';
 import moment from 'moment';
 import {putUserPrize, getUserPrize, getUsers, getPrizes} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -151,9 +152,11 @@ export default class UserPrizeEdit extends Component {
                                         <Form.Item label="Fecha de expiración">
                                             {
                                                 this.state && this.state.expire_date &&
-                                                <DatePicker defaultValue={moment(this.state.expire_date, dateFormat)}
-                                                            format={dateFormat}
-                                                            onChange={(e) => this.handleChange(e, 'expire_date')}/>
+                                                <DatePickerCustom
+                                                    defaultValue={moment(this.state.expire_date, dateFormat)}
+                                                    format={dateFormat}
+                                                    label_id={'label.date'}
+                                                    onChange={(e) => this.handleChange(e, 'expire_date')}/>
                                             }
                                         </Form.Item>
                                     </Col>

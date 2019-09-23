@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -16,6 +16,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 
 const dateFormat = 'YYYY-MM-DD';
@@ -217,9 +218,11 @@ export default class ReportEdit extends Component {
                                             <Form.Item label="Fecha de inicio">
                                                 {
                                                     this.state && this.state.start_date &&
-                                                    <DatePicker defaultValue={moment(this.state.start_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'start_date')}/>
+                                                    <DatePickerCustom
+                                                        defaultValue={moment(this.state.start_date, dateFormat)}
+                                                        format={dateFormat}
+                                                        label_id={'label.date'}
+                                                        onChange={(e) => this.handleChange(e, 'start_date')}/>
                                                 }
                                             </Form.Item>
                                         </Col>
@@ -227,9 +230,11 @@ export default class ReportEdit extends Component {
                                             <Form.Item label="Fecha de fin">
                                                 {
                                                     this.state && this.state.end_date &&
-                                                    <DatePicker defaultValue={moment(this.state.end_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'end_date')}/>
+                                                    <DatePickerCustom
+                                                        defaultValue={moment(this.state.end_date, dateFormat)}
+                                                        format={dateFormat}
+                                                        label_id={'label.date'}
+                                                        onChange={(e) => this.handleChange(e, 'end_date')}/>
                                                 }
                                             </Form.Item>
                                         </Col>

@@ -9,12 +9,13 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, DatePicker} from 'antd';
+import {Select} from 'antd';
 import moment from 'moment';
 import {putProfile, getProfile, getUsers, getDocumentTypes} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -212,9 +213,11 @@ export default class ProfileEdit extends Component {
                                             <Form.Item label="Fecha de nacimiento">
                                                 {
                                                     this.state && this.state.birth_date &&
-                                                    <DatePicker defaultValue={moment(this.state.birth_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'birth_date')}/>
+                                                    <DatePickerCustom
+                                                        defaultValue={moment(this.state.birth_date, dateFormat)}
+                                                        format={dateFormat}
+                                                        label_id={'label.date'}
+                                                        onChange={(e) => this.handleChange(e, 'birth_date')}/>
                                                 }
                                             </Form.Item>
                                         </Col>

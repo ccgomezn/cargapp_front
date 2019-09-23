@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker, message} from 'antd';
+import {Row, Col, message} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -28,6 +28,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import importantVariables from "../../../../helpers/hashVariables";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 
 const dateFormat = 'YYYY-MM-DD';
@@ -575,9 +576,10 @@ export default class ServiceEdit extends Component {
                                             <Form.Item label="Fecha de expiración">
                                                 {
                                                     this.state && this.state.expiration_date &&
-                                                    <DatePicker
+                                                    <DatePickerCustom
                                                         defaultValue={moment(this.state.expiration_date, dateFormat)}
                                                         format={dateFormat}
+                                                        label_id={'label.date'}
                                                         onChange={(e) => this.handleChange(e, 'expiration_date')}/>
                                                 }
                                             </Form.Item>

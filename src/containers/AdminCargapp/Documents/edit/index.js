@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form, Checkbox} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -21,6 +21,7 @@ import {
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
@@ -221,9 +222,10 @@ export default class DocumentEdit extends Component {
                                             <Form.Item label="Fecha de expiración">
                                                 {
                                                     this.state && this.state.expire_date &&
-                                                    <DatePicker
+                                                    <DatePickerCustom
                                                         defaultValue={moment(this.state.expire_date, dateFormat)}
                                                         format={dateFormat}
+                                                        label_id={'label.date'}
                                                         onChange={(e) => this.handleChange(e, 'expire_date')}/>
                                                 }
                                             </Form.Item>

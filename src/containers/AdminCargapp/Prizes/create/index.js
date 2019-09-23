@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker, Form, Card, Select} from 'antd';
+import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
@@ -14,6 +14,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -225,9 +226,10 @@ export default class PrizeCreate extends Component {
                                             <Form.Item label="Fecha de expiración">
                                                 {
                                                     this.state && this.state.expire_date &&
-                                                    <DatePicker
+                                                    <DatePickerCustom
                                                         defaultValue={moment(this.state.expire_date, dateFormat)}
                                                         format={dateFormat}
+                                                        label_id={'label.date'}
                                                         onChange={(e) => this.handleChange(e, 'expire_date')}/>
                                                 }
                                             </Form.Item>

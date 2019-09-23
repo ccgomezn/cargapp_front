@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Select, DatePicker} from "antd";
+import {Form, Select} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import {getActivePrizes, getActiveUsers} from "../../../../helpers/api/adminCall
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import {transformInputData} from "../../../../helpers/utility";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
@@ -146,9 +147,11 @@ export default class UserPrizeCreate extends Component {
                                         <Form.Item label="Fecha de expiración">
                                             {
                                                 this.state && this.state.expire_date &&
-                                                <DatePicker defaultValue={moment(this.state.expire_date, dateFormat)}
-                                                            format={dateFormat}
-                                                            onChange={(e) => this.handleChange(e, 'expire_date')}/>
+                                                <DatePickerCustom
+                                                    defaultValue={moment(this.state.expire_date, dateFormat)}
+                                                    format={dateFormat}
+                                                    label_id={'label.date'}
+                                                    onChange={(e) => this.handleChange(e, 'expire_date')}/>
                                             }
                                         </Form.Item>
                                     </Col>
