@@ -4,12 +4,12 @@ import ReactPlaceholder from 'react-placeholder';
 import 'nprogress/nprogress.css';
 import 'react-placeholder/lib/reactPlaceholder.css';
 
-export default function asyncComponent(importComponent) {
+export default function asyncComponent(importComponent, prop) {
   class AsyncFunc extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        component: null,
+        component: null
       };
     }
     componentWillMount() {
@@ -24,7 +24,7 @@ export default function asyncComponent(importComponent) {
       Nprogress.done();
       if (this.mounted) {
         this.setState({
-          component: <Component {...this.props} />,
+          component: <Component {...this.props} {...prop} />,
         });
       }
     }

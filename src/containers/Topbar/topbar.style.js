@@ -207,6 +207,8 @@ const TopbarWrapper = styled.div`
   }
 
   .isoUserDropdown {
+  
+  
     .ant-popover-inner {
       .ant-popover-inner-content {
         .isoUserDropdownContent {
@@ -226,14 +228,14 @@ const TopbarWrapper = styled.div`
           ${transition()};
 
           .isoDropdownLink {
-            font-size: 13px;
-            color: ${palette('text', 1)};
-            line-height: 1.1;
-            padding: 7px 15px;
-            background-color: transparent;
-            text-decoration: none;
-            display: flex;
-            justify-content: flex-start;
+            font-family: Roboto !important;
+              font-size: 14px !important;
+              font-weight: bold !important;
+              font-style: normal !important;
+              font-stretch: normal !important;
+              line-height: 1.36 !important;
+              letter-spacing: normal !important;
+              color: #010935 !important;
             ${transition()};
 
             &:hover {

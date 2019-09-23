@@ -2,18 +2,16 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Card, Select} from 'antd';
+import {Row, Col, Form, Card} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
-import {postUser, getActiveRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
-import axios from "axios";
+import {postUser, postUserRole} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
+
 import {verifyEmail} from "../../../../helpers/api/adminCalls";
-import SelectMultipleInputCustom from "../../../../components/custom/input/selectMultiple";
 
 
-const {Option} = Select;
 
 export default class UserCreate extends Component {
 
@@ -59,23 +57,16 @@ export default class UserCreate extends Component {
                     password_confirmation: this.state.password_confirmation,
                 }
             }).then((response) => {
-            let role_calls = [];
-            this.state.role_id.map((role) => {
 
-                role_calls.push(postUserRole({
-                        user_role: {
-                            role_id: role,
-                            user_id: response.data.id,
-                            admin_id: 1,
-                            active: true
-                        }
-                    }
-                ));
-                return role;
 
-            });
-
-            axios.all(role_calls)
+            postUserRole({
+                user_role: {
+                    role_id: 11,
+                    user_id: response.data.id,
+                    admin_id: 1,
+                    active: true
+                }
+            })
                 .then(() => {
                     this.setState({redirect: true});
                 })
@@ -83,24 +74,13 @@ export default class UserCreate extends Component {
         })
     }
 
-    componentWillMount() {
-
-        axios.all([getActiveRoles()])
-            .then((responses) => {
-                if (responses[0]) {
-                    this.setState({
-                        roles: responses[0].data
-                    });
-                }
-            })
-    }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
 
         if (redirect) {
-            return <Redirect to='/admin/users'/>
+            return <Redirect to='/admin/drivers'/>
         }
         return (
 
@@ -114,7 +94,7 @@ export default class UserCreate extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="users.title"/>
+                                        <IntlMessages id="drivers.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -156,7 +136,6 @@ export default class UserCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-
                                             <Form.Item
                                                 label={"Cédula"}>
                                                 <TextInputCustom value={this.state.identification} placeholder="cédula"
@@ -168,7 +147,6 @@ export default class UserCreate extends Component {
 
                                     </Row>
                                     <Row gutter={10}>
-
                                         <Col span={12}>
                                             <Form.Item label="Teléfono">
                                                 <TextInputCustom value={this.state.phone_number}
@@ -178,28 +156,7 @@ export default class UserCreate extends Component {
                                                                  required/>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Rol">
-                                                <SelectMultipleInputCustom value={this.state.role_id} placeholder="rol"
-                                                                           style={{width: '100%'}}
 
-                                                                           onChange={(e) => {
-                                                                               this.handleChange(e, 'role_id')
-
-                                                                           }}
-                                                                           options={this.state && this.state.roles &&
-
-                                                                           this.state.roles.map((item) => {
-                                                                               return <Option
-                                                                                   value={item.id}>{item.code}</Option>
-                                                                           })
-                                                                           }
-                                                                           label_id={'admin.title.role'}
-                                                >
-
-                                                </SelectMultipleInputCustom>
-                                            </Form.Item>
-                                        </Col>
 
                                     </Row>
                                     <Row>

@@ -26,11 +26,18 @@ export default class User extends Component {
     transformDataToMap(data, key, key2 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            if(key2 === null){
+            if (key2 === null) {
                 dataTransformed[item.id] = item[key];
                 return item;
-            }else{
-                dataTransformed[item[key2]] = item[key];
+            } else {
+                if (dataTransformed[item[key2]]) {
+                    dataTransformed[item[key2]].push(item[key]);
+
+                } else {
+                    dataTransformed[item[key2]] = [item[key]];
+
+                }
+
                 return item;
             }
 
@@ -54,10 +61,20 @@ export default class User extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
-                        item.role = data_roles[data_user_roles[item.id]];
+                        if (data_user_roles[item.id]) {
+                            data_user_roles[item.id].map((role) => {
+
+                                if (item.role !== '' && item.role !== undefined) {
+                                    item.role += ', ' + data_roles[role];
+                                } else {
+                                    item.role = data_roles[role];
+                                }
+                                return role;
+                            });
+                        }
+
                         return item;
                     });
-                    console.log(responses[0].data);
                     this.setState({
                         users: responses[0].data
                     });
@@ -66,14 +83,20 @@ export default class User extends Component {
     }
 
 
-    redirectAdd() {
-        this.props.history.push('/admin/users/add')
+    redirectAdd(driver) {
+        if (driver) {
+            this.props.history.push('/admin/drivers/add')
+
+        } else {
+            this.props.history.push('/admin/users/add')
+
+        }
     }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
-
+        const {driver} = this.props;
         if (reload) {
             return <Redirect to='/admin/users'/>
         }
@@ -88,7 +111,7 @@ export default class User extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="users.title"/>
+                                        {driver ? <IntlMessages id="drivers.title"/> : <IntlMessages id="users.title"/>}
 
                                     </h1>
                                 </PageHeader>
@@ -98,14 +121,21 @@ export default class User extends Component {
                                 <PrimaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
-                                    onClick={() => this.redirectAdd()}/>
+                                    onClick={() => this.redirectAdd(driver)}/>
                             </Col>
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.users &&
+                                {this.state && this.state.users && driver &&
+
+                                <SortView tableInfo={tableinfos[2]} dataList={this.state.users}/>
+                                }
+                                {this.state && this.state.users && !driver &&
+
                                 <SortView tableInfo={tableinfos[1]} dataList={this.state.users}/>
                                 }
+
+
                             </Col>
                         </Row>
 
