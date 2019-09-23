@@ -158,8 +158,26 @@ export default class ServiceDocumentCreate extends Component {
 
                                         <Col span={12}>
                                             <Form.Item label="Documento">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'document')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'document')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.document && this.state.document.name}
+                                                    </label>
+                                                </div>
                                             </Form.Item>
                                         </Col>
                                     </Row>

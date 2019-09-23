@@ -12,12 +12,16 @@ export default class SelectInputCustom extends Component {
                 </label>
                 <Select
                     labelInValue
+                    showSearch
                     placeholder={this.props.placeholder}
-
+                    optionFilterProp="children"
                     value={this.props.value !== undefined && this.props.value.key !== undefined ? this.props.value : {key: this.props.value}}
                     onChange={this.props.onChange}
                     style={{width: '100%'}}
                     block
+                    filterOption={(input, option) =>
+                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
                 >
                     {this.props.options}
                 </Select>

@@ -12,6 +12,7 @@ import {Redirect} from 'react-router-dom'
 import {postCity, getActiveStates} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 
@@ -113,7 +114,7 @@ export default class StateCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom value={this.state.description}
+                                                <AreaInputCustom value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}
                                                                  label_id={'admin.title.description'}/>

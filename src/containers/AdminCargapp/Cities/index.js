@@ -41,10 +41,15 @@ export default class City extends Component {
         axios.all([getCities(), getStates(), getCountries()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
-                    let data_states = this.transformDataToMap(responses[1].data, ['name', 'country_id']);
-                    let data_countries = this.transformDataToMap(responses[2].data, ['name']);
+                    let data_states = this.transformDataToMap(responses[1].data, ['name', 'country_id', 'active']);
+                    let data_countries = this.transformDataToMap(responses[2].data, ['name', 'active']);
+
                     responses[0].data.map((item) => {
-                        if (item.active) {
+                        if (data_countries[data_states[item.state_id]['country_id']] !== undefined) {
+                            item.state = data_states[item.state_id]['name'] + ' - ' + data_countries[data_states[item.state_id]['country_id']]['name'];
+
+                        }
+                        if (item.active && data_countries[data_states[item.state_id]['country_id']]['active'] && data_states[item.state_id]['active']) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
                         } else {

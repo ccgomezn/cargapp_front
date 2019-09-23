@@ -10,6 +10,7 @@ import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {postLoadType} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 
 export default class LoadCreate extends Component {
@@ -118,7 +119,7 @@ export default class LoadCreate extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
                                                                  onChange={(e) => this.handleChange(e, 'description')}/>

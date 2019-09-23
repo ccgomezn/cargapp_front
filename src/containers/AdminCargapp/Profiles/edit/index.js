@@ -129,8 +129,26 @@ export default class ProfileEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Foto">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'avatar')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'avatar')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.avatar && this.state.avatar.name}
+                                                    </label>
+                                                </div>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
@@ -201,7 +219,6 @@ export default class ProfileEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-
 
 
                                     <Row>

@@ -14,6 +14,7 @@ import {getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCall
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import {transformInputData} from "../../../../helpers/utility";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 
@@ -158,7 +159,7 @@ export default class StatusCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom value={this.state.description}
+                                                <AreaInputCustom value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}/>
