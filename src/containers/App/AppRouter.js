@@ -99,6 +99,10 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
     },
     {
+        path: 'vehicles/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+    },
+    {
         path: 'vehicles/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/Vehicles/edit'))
     },

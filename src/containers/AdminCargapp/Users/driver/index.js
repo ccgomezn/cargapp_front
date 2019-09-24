@@ -12,7 +12,6 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import {verifyEmail} from "../../../../helpers/api/adminCalls";
 
 
-
 export default class UserCreate extends Component {
 
 
@@ -56,8 +55,9 @@ export default class UserCreate extends Component {
                     phone_number: this.state.phone_number,
                     password_confirmation: this.state.password_confirmation,
                 }
-            }).then((response) => {
 
+            }).then((response) => {
+            this.setState({userId: response.data.id});
 
             postUserRole({
                 user_role: {
@@ -77,10 +77,9 @@ export default class UserCreate extends Component {
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
-        const {redirect} = this.state;
-
+        const {redirect, userId} = this.state;
         if (redirect) {
-            return <Redirect to='/admin/drivers'/>
+            return <Redirect to={'/admin/vehicles/add/' + userId}/>
         }
         return (
 
