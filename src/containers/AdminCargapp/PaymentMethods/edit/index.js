@@ -42,7 +42,6 @@ export default class PaymentMethodEdit extends Component {
                     email: responses[0].data.email,
                     app_id: responses[0].data.aap_id,
                     secret_id: responses[0].data.secret_id,
-                    user_id: responses[0].data.user_id,
                     token: responses[0].data.token,
                     password: responses[0].data.password,
                     active: responses[0].data.active,
@@ -63,7 +62,6 @@ export default class PaymentMethodEdit extends Component {
     }
 
     handlePut() {
-        const user_id = transformInputData(this.state.user_id);
         const active = transformInputData(this.state.active);
 
         putPaymentMethod(this.props.match.params.id,
@@ -76,7 +74,6 @@ export default class PaymentMethodEdit extends Component {
                     aap_id: this.state.app_id,
                     secret_id: this.state.secret_id,
                     password: this.state.password,
-                    user_id: user_id,
                     token: this.state.token,
                     active: active,
                 }
@@ -191,27 +188,7 @@ export default class PaymentMethodEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Form.Item label="Estado">

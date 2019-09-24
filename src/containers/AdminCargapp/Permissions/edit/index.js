@@ -40,7 +40,6 @@ export default class PermissionEdit extends Component {
                     users: responses[1].data,
                     models: responses[2].data,
                     roles: responses[3].data,
-                    user_id: responses[0].data.user_id,
                     model_id: responses[0].data.cargapp_model_id,
                     role_id: responses[0].data.role_id,
                     action: responses[0].data.action,
@@ -67,7 +66,6 @@ export default class PermissionEdit extends Component {
         const cargapp_model_id = transformInputData(this.state.model_id);
         const action = transformInputData(this.state.action);
         const method = transformInputData(this.state.method);
-        const user_id = transformInputData(this.state.user_id);
         const active = transformInputData(this.state.active);
 
         put(httpAddr + '/permissions/' + this.props.match.params.id,
@@ -78,7 +76,6 @@ export default class PermissionEdit extends Component {
                     action: action,
                     method: method,
                     allow: this.state.allow,
-                    user_id: user_id,
                     active: active,
                 }
             }, true).then(() => {
@@ -151,28 +148,7 @@ export default class PermissionEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom required value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: '50%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Acción">

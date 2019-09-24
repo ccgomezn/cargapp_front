@@ -39,7 +39,6 @@ export default class ParameterEdit extends Component {
                     name: responses[0].data.name,
                     code: responses[0].data.code,
                     description: responses[0].data.description,
-                    user_id: responses[0].data.user_id,
                     cargapp_model_id: responses[0].data.cargapp_model_id,
                     value: responses[0].data.value,
                     active: responses[0].data.active,
@@ -59,7 +58,6 @@ export default class ParameterEdit extends Component {
     }
 
     handlePut() {
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
         const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
 
@@ -69,7 +67,6 @@ export default class ParameterEdit extends Component {
                     name: this.state.name,
                     code: this.state.code,
                     description: this.state.description,
-                    user_id: user_id,
                     cargapp_model_id: cargapp_model_id,
                     value: this.state.value,
                     active: active,
@@ -145,27 +142,7 @@ export default class ParameterEdit extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom required value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: 240}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Modelo">

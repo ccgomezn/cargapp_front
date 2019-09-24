@@ -2,23 +2,20 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Card, Select} from 'antd';
+import {Row, Col, Form, Card} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {postPrize} from '../../../../helpers/api/adminCalls.js';
-import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
-import SelectInputCustom from "../../../../components/custom/input/select";
-import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
 import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
-const {Option} = Select
 
 export default class PrizeCreate extends Component {
 
@@ -54,22 +51,24 @@ export default class PrizeCreate extends Component {
     }
 
     handlePost() {
-        const user_id = transformInputData(this.state.user_id);
-        const formData = new FormData();
-        formData.append('prize[name]', this.state.name)
-        formData.append('prize[code]', this.state.code)
-        formData.append('prize[image]', this.state.image, this.state.image.name)
-        formData.append('prize[media]', this.state.media, this.state.media.name)
-        formData.append('prize[point]', this.state.point)
-        formData.append('prize[description]', this.state.description)
-        formData.append('prize[body]', this.state.body)
-        formData.append('prize[user_id]', user_id)
-        formData.append('prize[expire_date]', this.state.expire_date)
-        formData.append('prize[active]', true)
-        postPrize(
-            formData).then(() => {
-            this.setState({redirect: true})
-        })
+        getMineUser().then((response) => {
+            const formData = new FormData();
+            formData.append('prize[name]', this.state.name);
+            formData.append('prize[code]', this.state.code);
+            formData.append('prize[image]', this.state.image, this.state.image.name);
+            formData.append('prize[media]', this.state.media, this.state.media.name);
+            formData.append('prize[point]', this.state.point);
+            formData.append('prize[description]', this.state.description);
+            formData.append('prize[body]', this.state.body);
+            formData.append('prize[user_id]', response.data.user.id);
+            formData.append('prize[expire_date]', this.state.expire_date);
+            formData.append('prize[active]', true);
+            postPrize(
+                formData).then(() => {
+                this.setState({redirect: true})
+            })
+        });
+
     }
 
     render() {
@@ -167,7 +166,8 @@ export default class PrizeCreate extends Component {
                                                         left: '0px',
                                                         zIndex: 1
                                                     }}>
-                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        <PrimaryButton message_id={'widget.load'}
+                                                                       style={{marginTop: '5px'}}/>
                                                         {this.state.image && this.state.image.name}
                                                     </label>
                                                 </div>
@@ -177,7 +177,7 @@ export default class PrizeCreate extends Component {
                                     </Row>
                                     <Row gutter={10}>
 
-                                        <Col span={24}>
+                                        <Col span={12}>
                                             <Form.Item label="Media">
                                                 <div style={{position: 'relative'}}>
                                                     <input type="file"
@@ -195,33 +195,15 @@ export default class PrizeCreate extends Component {
                                                         left: '0px',
                                                         zIndex: 1
                                                     }}>
-                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        <PrimaryButton message_id={'widget.load'}
+                                                                       style={{marginTop: '5px'}}/>
                                                         {this.state.media && this.state.media.name}
                                                     </label>
                                                 </div>
 
                                             </Form.Item>
                                         </Col>
-                                    </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
                                         <Col span={12}>
                                             <Form.Item label="Fecha de expiración">
                                                 {

@@ -10,7 +10,7 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postParameter} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import AreaInputCustom from "../../../../components/custom/input/area";
@@ -37,28 +37,29 @@ export default class ParameterCreate extends Component {
     }
 
     handlePost() {
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
 
-        postParameter(
-            {
-                parameter: {
-                    name: this.state.name,
-                    code: this.state.code,
-                    description: this.state.description,
-                    user_id: user_id,
-                    cargapp_model_id: cargapp_model_id,
-                    value: this.state.value,
-                    active: true,
-                }
+        getMineUser().then((response) => {
+            postParameter(
+                {
+                    parameter: {
+                        name: this.state.name,
+                        code: this.state.code,
+                        description: this.state.description,
+                        user_id: response.data.user.id,
+                        cargapp_model_id: cargapp_model_id,
+                        value: this.state.value,
+                        active: true,
+                    }
 
-            }).then(() => {
-            this.setState({redirect: true})
-        }).catch(error => {
-            let errorObject = JSON.parse(JSON.stringify(error));
+                }).then(() => {
+                this.setState({redirect: true})
+            }).catch(error => {
+                let errorObject = JSON.parse(JSON.stringify(error));
 
-            message.warning(errorObject.message);
-        });
+                message.warning(errorObject.message);
+            });
+        })
     }
 
 
@@ -138,27 +139,7 @@ export default class ParameterCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom required value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: 240}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
                                     <Row>
                                         <Col span={12}>
                                             <Form.Item label="Modelo">

@@ -21,8 +21,8 @@ const LoaderComponent = styled.div`
   }
 
   .isoContentLoader {
-    width: 50px;
-    height: 50px;
+    width: 300px;
+    height: 300px;
     animation: svgSpinner 1.4s linear infinite;
   }
 

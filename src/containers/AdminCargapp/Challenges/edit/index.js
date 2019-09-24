@@ -35,7 +35,6 @@ export default class ChallengeEdit extends Component {
                     name: responses[0].data[0].name,
                     body: responses[0].data[0].body,
                     point: responses[0].data[0].point,
-                    user_id: responses[0].data[0].user_id,
                     active: responses[0].data[0].active,
                 });
             }).catch((error) => {
@@ -60,10 +59,8 @@ export default class ChallengeEdit extends Component {
             formData.append('challenge[image]', this.state.image, this.state.image.name)
         }
         formData.append('challenge[point]', this.state.point);
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
         const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
 
-        formData.append('challenge[user_id]', user_id);
         formData.append('challenge[active]', active);
 
         putChallenge(this.props.match.params.id, formData).then(() => {
@@ -151,27 +148,7 @@ export default class ChallengeEdit extends Component {
                                         </Col>
                                     </Row>
 
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
-
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
+                                    
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Estado">

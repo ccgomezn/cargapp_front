@@ -61,7 +61,6 @@ export default class RoleEdit extends Component {
                 user_role: {
                     user_id: transformInputData(this.state.user_id),
                     role_id: transformInputData(this.state.role_id),
-                    admin_id: 1,
                     active: transformInputData(this.state.active),
                 }
 

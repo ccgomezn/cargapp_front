@@ -4,17 +4,15 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Select} from "antd";
+import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {getActiveUsers, postChallenge} from "../../../../helpers/api/adminCalls"
+import {getActiveUsers, getMineUser, postChallenge} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
-import SelectInputCustom from "../../../../components/custom/input/select";
 
-const {Option} = Select;
 
 export default class ChallengeCreate extends Component {
 
@@ -52,20 +50,21 @@ export default class ChallengeCreate extends Component {
     }
 
     handlePost() {
+        getMineUser().then((response) => {
+            const formData = new FormData();
+            formData.append('challenge[name]', this.state.name);
+            formData.append('challenge[body]', this.state.body);
+            formData.append('challenge[image]', this.state.image, this.state.image.name);
+            formData.append('challenge[point]', this.state.point);
 
-        const formData = new FormData();
-        formData.append('challenge[name]', this.state.name);
-        formData.append('challenge[body]', this.state.body);
-        formData.append('challenge[image]', this.state.image, this.state.image.name);
-        formData.append('challenge[point]', this.state.point);
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
-
-        formData.append('challenge[user_id]', user_id);
-        formData.append('challenge[active]', true);
-
-        postChallenge(formData).then(() => {
-            this.setState({redirect: true})
+            formData.append('challenge[user_id]', response.data.user.id);
+            formData.append('challenge[active]', true);
+            postChallenge(formData).then(() => {
+                this.setState({redirect: true})
+            })
         })
+
+
     }
 
     render() {
@@ -149,27 +148,7 @@ export default class ChallengeCreate extends Component {
                                         </Col>
                                     </Row>
 
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
 
 
                                     <Row>
