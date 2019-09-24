@@ -1,9 +1,9 @@
 import {Select} from "antd";
 import React, {Component} from "react";
 import IntlMessages from "../../utility/intlMessages";
-import SelectWrapper from './select.style'
+import SelectWrapper from './selectMultiple.style'
 
-export default class SelectInputCustom extends Component {
+export default class SelectMultipleInputCustom extends Component {
     render() {
         return (
             <SelectWrapper>
@@ -11,17 +11,13 @@ export default class SelectInputCustom extends Component {
                     <IntlMessages id={this.props.label_id}/>
                 </label>
                 <Select
-                    labelInValue
-                    showSearch
+                    mode={'multiple'}
                     placeholder={this.props.placeholder}
-                    optionFilterProp="children"
-                    value={this.props.value !== undefined && this.props.value.key !== undefined ? this.props.value : {key: this.props.value}}
+                    value={this.props.value}
                     onChange={this.props.onChange}
                     style={{width: '100%'}}
                     block
-                    filterOption={(input, option) =>
-                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
+
                 >
                     {this.props.options}
                 </Select>

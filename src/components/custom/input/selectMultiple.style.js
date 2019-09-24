@@ -11,13 +11,16 @@ const SelectWrapper = styled.div`
         }
     }
     select,
+    .ant-select-selection{
+                  border: solid 1.2px #ecf0f1 !important;
+    }
+    select,
     .ant-select-selection,
     input
         {
           width: 100% !important;
           height: 55px !important;
           border-radius: 2px !important;
-          border: solid 1.2px #ecf0f1 !important;
           background-color: var(--white) !important;
           font-family: Roboto !important;
           font-size: 14px !important;
@@ -27,7 +30,10 @@ const SelectWrapper = styled.div`
           line-height: normal !important;
           letter-spacing: -0.35px !important;
           color: #010935 !important;
-          :focus {
+          
+          
+        }
+        .ant-select-focused{
             border-left: 2px solid transparent !important;
             background-image: radial-gradient(circle at 236% 0, #ff2557, #320d8e) !important;
             background-size: 2px calc(100% + 4px) !important; /* 4px extra to cater for 2px border on right + 2px on left */
@@ -35,11 +41,7 @@ const SelectWrapper = styled.div`
             background-origin: border-box !important; /* make background start from border area itself instead of content/padding area */
             background-position: bottom left !important;
             box-sizing: border-box !important !important;
-  
-          }
-          
         }
-        
         input:-webkit-autofill {
             background-color: red !important;
         }
@@ -78,6 +80,19 @@ input: -webkit-autofill {
   margin-top: -1px;
 }
 
+
+    .ant-select-selection__choice{
+    margin-top: 20px !important;
+        user-select: none;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: normal !important;
+    letter-spacing: -0.28px !important;
+    color: #010935 !important;
+    padding-top: 5px !important;
+    }
 
 `;
 

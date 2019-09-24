@@ -10,6 +10,7 @@ import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {postRole} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 
 export default class RoleCreate extends Component {
@@ -101,7 +102,7 @@ export default class RoleCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
 

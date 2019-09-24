@@ -10,6 +10,7 @@ import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {postVehicleType} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 
 export default class VehicleTypeCreate extends Component {
@@ -117,7 +118,7 @@ export default class VehicleTypeCreate extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom label_id={'admin.title.description'} required
+                                                <AreaInputCustom label_id={'admin.title.description'} required
                                                                  value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e, 'description')}/>

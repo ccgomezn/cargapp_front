@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -15,6 +15,7 @@ import {getUsers, getCompany, getLoadTypes, putCompany} from "../../../../helper
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;
@@ -198,9 +199,10 @@ export default class CompanyEdit extends Component {
                                             <Form.Item label="Fecha de constitución">
                                                 {
                                                     this.state && this.state.constitution_date &&
-                                                    <DatePicker
+                                                    <DatePickerCustom
                                                         defaultValue={moment(this.state.constitution_date, dateFormat)}
                                                         format={dateFormat}
+                                                        label_id={'label.date'}
                                                         onChange={(e) => this.handleChange(e, 'constitution_date')}/>
                                                 }
 

@@ -14,6 +14,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 export default class VehicleTypeEdit extends Component {
@@ -139,7 +140,7 @@ export default class VehicleTypeEdit extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom label_id={'admin.title.description'} required
+                                                <AreaInputCustom label_id={'admin.title.description'} required
                                                                  value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}/>

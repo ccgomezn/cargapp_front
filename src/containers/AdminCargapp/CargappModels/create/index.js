@@ -10,6 +10,7 @@ import {Card} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {postModel} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 export default class CargappModelCreate extends Component {
 
@@ -106,7 +107,7 @@ export default class CargappModelCreate extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e, 'description')}
                                                                  label_id={'admin.title.description'}/>

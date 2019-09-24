@@ -13,6 +13,7 @@ import {getLoadType, putLoadType} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 export default class LoadTypeEdit extends Component {
@@ -141,7 +142,7 @@ export default class LoadTypeEdit extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
                                                                  onChange={(e) => this.handleChange(e, 'description')}/>

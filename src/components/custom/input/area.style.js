@@ -3,19 +3,17 @@ import WithDirection from '../../../settings/withDirection';
 
 
 
-const SelectWrapper = styled.div`
-    .ant-select-search,.ant-select-search--inline{
-        margin-left: -12.1px !important;
-        input{
-            padding-left: 12.1px;
-        }
-    }
-    select,
-    .ant-select-selection,
-    input
+const TextWrapper = styled.div`
+textarea {
+            padding: 26px 12px 13px 10px !important;
+
+}
+textarea
         {
+        margin-top: 3px;
+          padding: 26px 12px 13px 10px !important;
+
           width: 100% !important;
-          height: 55px !important;
           border-radius: 2px !important;
           border: solid 1.2px #ecf0f1 !important;
           background-color: var(--white) !important;
@@ -27,6 +25,7 @@ const SelectWrapper = styled.div`
           line-height: normal !important;
           letter-spacing: -0.35px !important;
           color: #010935 !important;
+
           :focus {
             border-left: 2px solid transparent !important;
             background-image: radial-gradient(circle at 236% 0, #ff2557, #320d8e) !important;
@@ -65,20 +64,6 @@ const SelectWrapper = styled.div`
           padding-left: 12px !important;
           padding-top: 10px !important;
         }
-
-input: -webkit-autofill {
-  background-color: red !important;
-}
-.ant-select-selection-selected-value, .ant-select-selection__placeholder {
-  width: 366px !important;
-  height: 55px !important;
-  padding: 16px 12px 15px 0px !important;
-}
-.ant-select-selection-selected-value {
-  margin-top: -1px;
-}
-
-
 `;
 
-export default WithDirection(SelectWrapper);
+export default WithDirection(TextWrapper);

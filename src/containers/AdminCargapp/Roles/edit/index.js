@@ -14,6 +14,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 export default class RoleEdit extends Component {
@@ -123,7 +124,7 @@ export default class RoleEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
 

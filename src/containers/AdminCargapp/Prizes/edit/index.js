@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
@@ -16,6 +16,8 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import AreaInputCustom from "../../../../components/custom/input/area";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 
 const dateFormat = 'YYYY-MM-DD';
@@ -154,7 +156,7 @@ export default class PrizeEdit extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom value={this.state.description}
+                                                <AreaInputCustom value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}
                                                                  label_id={'admin.title.description'}
@@ -174,8 +176,26 @@ export default class PrizeEdit extends Component {
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Imagen">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'image')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'image')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.image && this.state.image.name}
+                                                    </label>
+                                                </div>
 
                                             </Form.Item>
                                         </Col>
@@ -184,8 +204,26 @@ export default class PrizeEdit extends Component {
 
                                         <Col span={24}>
                                             <Form.Item label="Media">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'media')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'media')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.media && this.state.media.name}
+                                                    </label>
+                                                </div>
 
                                             </Form.Item>
                                         </Col>
@@ -213,9 +251,10 @@ export default class PrizeEdit extends Component {
                                             <Form.Item label="Fecha de expiración">
                                                 {
                                                     this.state && this.state.expire_date &&
-                                                    <DatePicker
+                                                    <DatePickerCustom
                                                         defaultValue={moment(this.state.expire_date, dateFormat)}
                                                         format={dateFormat}
+                                                        label_id={'label.date'}
                                                         onChange={(e) => this.handleChange(e, 'expire_date')}/>
                                                 }
                                             </Form.Item>

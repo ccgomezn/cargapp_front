@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import asyncComponent from '../../helpers/AsyncFunc';
 
-
 const shared_routes = [
     {
         path: 'configurations',
@@ -291,6 +290,13 @@ const routes_admin = [
     {
         path: 'users/add',
         component: asyncComponent(() => import('../AdminCargapp/Users/create'))
+    }, {
+        path: 'drivers',
+        component: asyncComponent(() => import('../AdminCargapp/Users'),{driver: true})
+    },
+    {
+        path: 'drivers/add',
+        component: asyncComponent(() => import('../AdminCargapp/Users/driver'))
     },
     {
         path: 'users/verify/:id',

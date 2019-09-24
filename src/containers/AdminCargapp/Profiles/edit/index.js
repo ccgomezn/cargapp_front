@@ -9,12 +9,13 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {Select, DatePicker} from 'antd';
+import {Select} from 'antd';
 import moment from 'moment';
 import {putProfile, getProfile, getUsers, getDocumentTypes} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -129,8 +130,26 @@ export default class ProfileEdit extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Foto">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'avatar')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'avatar')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.avatar && this.state.avatar.name}
+                                                    </label>
+                                                </div>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
@@ -194,14 +213,15 @@ export default class ProfileEdit extends Component {
                                             <Form.Item label="Fecha de nacimiento">
                                                 {
                                                     this.state && this.state.birth_date &&
-                                                    <DatePicker defaultValue={moment(this.state.birth_date, dateFormat)}
-                                                                format={dateFormat}
-                                                                onChange={(e) => this.handleChange(e, 'birth_date')}/>
+                                                    <DatePickerCustom
+                                                        defaultValue={moment(this.state.birth_date, dateFormat)}
+                                                        format={dateFormat}
+                                                        label_id={'label.date'}
+                                                        onChange={(e) => this.handleChange(e, 'birth_date')}/>
                                                 }
                                             </Form.Item>
                                         </Col>
                                     </Row>
-
 
 
                                     <Row>

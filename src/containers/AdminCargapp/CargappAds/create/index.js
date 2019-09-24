@@ -11,6 +11,7 @@ import {postCargappAd} from '../../../../helpers/api/adminCalls.js';
 import {getActiveUsers} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 
 const {Option} = Select;
@@ -121,7 +122,7 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom value={this.state.description}
+                                                <AreaInputCustom value={this.state.description}
                                                                  placeholder="descripción"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}
                                                                  label_id={'admin.title.description'}
@@ -155,15 +156,51 @@ export default class CargappAdCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Media">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'media')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'media')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.media && this.state.media.name}
+                                                    </label>
+                                                </div>
                                             </Form.Item>
                                         </Col>
 
                                         <Col span={12}>
                                             <Form.Item label="Imagen">
-                                                <input type="file"
-                                                       onChange={(e) => this.handleChange(e.target.files[0], 'image')}/>
+                                                <div style={{position: 'relative'}}>
+                                                    <input type="file"
+                                                           id="contained-button-file"
+                                                           onChange={(e) => this.handleChange(e.target.files[0], 'image')}
+                                                           style={{
+                                                               position: 'relative',
+                                                               textAlign: 'right',
+                                                               opacity: 0,
+                                                               zIndex: 2
+                                                           }}/>
+                                                    <label htmlFor="contained-button-file" style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        zIndex: 1
+                                                    }}>
+                                                        <PrimaryButton message_id={'widget.load'}/>
+                                                        {this.state.image && this.state.image.name}
+                                                    </label>
+                                                </div>
                                             </Form.Item>
                                         </Col>
                                     </Row>

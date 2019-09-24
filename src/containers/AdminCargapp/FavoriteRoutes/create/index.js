@@ -119,8 +119,6 @@ export default class FavoriteRouteCreate extends Component {
                                         </Form.Item>
                                     </Col>
 
-                                </Row>
-                                <Row gutter={10}>
                                     <Col span={12}>
                                         <Form.Item label="Ciudad de origen">
                                             <SelectInputCustom value={this.state.origin_city_id}
@@ -139,7 +137,10 @@ export default class FavoriteRouteCreate extends Component {
                                             </SelectInputCustom>
                                         </Form.Item>
                                     </Col>
-                                    <Col span={12}>
+                                </Row>
+                                <Row gutter={10}>
+
+                                    <Col span={24}>
                                         <Form.Item label="Ciudad de destino">
                                             <SelectInputCustom value={this.state.destination_city_id}
                                                                placeholder="Ciudad de destino"
@@ -149,7 +150,8 @@ export default class FavoriteRouteCreate extends Component {
                                                                }}
                                                                options={this.state && this.state.cities &&
                                                                this.state.cities.map((item) => {
-                                                                   return <Option value={item.id}>{item.name}</Option>
+                                                                   return <Option
+                                                                       value={item.id}>{item.name}</Option>
                                                                })
                                                                }
                                                                label_id={'admin.title.city'}>

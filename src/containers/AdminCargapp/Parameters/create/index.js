@@ -13,6 +13,7 @@ import {postParameter} from '../../../../helpers/api/adminCalls.js';
 import {getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import AreaInputCustom from "../../../../components/custom/input/area";
 
 const {Option} = Select;
 
@@ -123,7 +124,7 @@ export default class ParameterCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Descripción">
-                                                <TextInputCustom required value={this.state.description}
+                                                <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
                                                                  label_id={'admin.title.description'}
                                                                  onChange={(e) => this.handleChange(e.target.value, 'description')}/>

@@ -39,8 +39,9 @@ export default class State extends Component {
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let data_countries = this.transformDataToMap(responses[1].data, 'name')
+                    let data_countries_active = this.transformDataToMap(responses[1].data, 'active')
                     responses[0].data.map((item) => {
-                        if (item.active) {
+                        if (item.active && data_countries_active[item.country_id]) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
                         } else {
