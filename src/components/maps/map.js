@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps"
+import {withScriptjs, withGoogleMap, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps"
 
 import {compose, withProps} from "recompose"
 import MapControl from "./map_control"
@@ -35,7 +35,6 @@ const MyMapComponent = compose(
                     defaultCenter={{lat: props.center.lat, lng: props.center.lng}}
 
                     defaultOptions={{
-                        // these following 7 options turn certain controls off see link below
                         streetViewControl: false,
                         scaleControl: false,
                         mapTypeControl: false,
@@ -50,7 +49,7 @@ const MyMapComponent = compose(
                             {...marker}
                         />
                     ))}
-
+                    {props.directions && <DirectionsRenderer directions={props.directions} />}
 
                     <MapControl style={{position: 'relative'}} id="area"
                                 position={google.maps.ControlPosition.RIGHT_BOTTOM}>
@@ -174,6 +173,24 @@ export class MapContainer extends Component {
     }
 
     render() {
+        const {direction} = this.props;
+        if (direction) {
+            const DirectionsService = new google.maps.DirectionsService();
+
+            DirectionsService.route({
+                origin: direction.origin,
+                destination: direction.destination,
+                travelMode: google.maps.TravelMode.DRIVING,
+            }, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    this.setState({
+                        directions: result,
+                    });
+                }
+            });
+        }
+        console.log(this.state.directions);
+
         return (
             <MyMapComponent
                 isFreight={this.props.isFreight}
@@ -181,6 +198,7 @@ export class MapContainer extends Component {
                 markers={this.props.markers}
                 center={this.props.center}
                 load={this.state.load}
+                directions={this.state.directions}
             />
         )
     }

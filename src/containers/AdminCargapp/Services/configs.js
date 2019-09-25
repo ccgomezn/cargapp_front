@@ -98,11 +98,10 @@ const columns = [
     },
     {
         title: <IntlMessages id="antTable.title.seeDocuments"/>,
-        key: 'active',
+        key: 'documents',
         width: '12%',
         render: object => renderCell(object, 'LinkCell', 'id')
     },
-
     {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
@@ -118,7 +117,7 @@ const sortColumns = [
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
     {...columns[5], sorter: true},
-    {...columns[6], sorter: true},
+    {...columns[6], sorter: false},
     {...columns[7], sorter: false},
 ];
 const editColumns = [

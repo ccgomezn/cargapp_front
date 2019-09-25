@@ -24,7 +24,43 @@ const LayoutContentWrapper = styled.div`
       letter-spacing: -0.2px;
       color: rgb(1, 9, 53);
     }
+    
+     p {
+      width: 93px;
+      height: 44px;
+      opacity: 0.7;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.29;
+      letter-spacing: normal;
+      color: #3f3356;
   }
+  a {
+      height: 44px;
+      opacity: 0.7;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.29;
+      letter-spacing: normal;
+  }
+  }
+  
+  label {
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.64;
+      letter-spacing: -0.2px;
+      color: rgb(1, 9, 53);
+    }
 `;
 
 export { LayoutContentWrapper };

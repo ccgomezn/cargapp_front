@@ -12,7 +12,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import {verifyEmail} from "../../../../helpers/api/adminCalls";
 
 
-export default class UserCreate extends Component {
+export default class DriverCreate extends Component {
 
 
     constructor() {
