@@ -304,6 +304,10 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Users/create'))
     },
     {
+        path: 'users/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'))
+    },
+    {
         path: 'drivers',
         component: asyncComponent(() => import('../AdminCargapp/Users'), {driver: true})
     },

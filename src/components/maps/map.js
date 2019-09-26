@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withScriptjs, withGoogleMap, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps"
+import {withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline} from "react-google-maps"
 
 import {compose, withProps} from "recompose"
 import MapControl from "./map_control"
@@ -31,10 +31,9 @@ const MyMapComponent = compose(
             return (
                 <GoogleMap
                     defaultZoom={6}
-                    center={{lat: props.center.lat, lng: props.center.lng}}
                     defaultCenter={{lat: props.center.lat, lng: props.center.lng}}
-
                     defaultOptions={{
+
                         streetViewControl: false,
                         scaleControl: false,
                         mapTypeControl: false,
@@ -49,7 +48,18 @@ const MyMapComponent = compose(
                             {...marker}
                         />
                     ))}
-                    {props.directions && <DirectionsRenderer directions={props.directions} />}
+                    {props.directions && <Polyline geodesic={true}
+                                                   options={{
+                                                       path: props.directions,
+                                                       strokeColor: 'red',
+                                                       strokeOpacity: 0.5,
+                                                       strokeWeight: 2,
+                                                       icons: [{
+                                                           offset: '0',
+                                                           repeat: '10px'
+                                                       }],
+                                                   }}
+                    />}
 
                     <MapControl style={{position: 'relative'}} id="area"
                                 position={google.maps.ControlPosition.RIGHT_BOTTOM}>
@@ -184,7 +194,7 @@ export class MapContainer extends Component {
             }, (result, status) => {
                 if (status === google.maps.DirectionsStatus.OK) {
                     this.setState({
-                        directions: result,
+                        directions: result.routes[0].overview_path,
                     });
                 }
             });

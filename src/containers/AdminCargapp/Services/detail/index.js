@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form} from "antd";
+import {Form, Card} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
@@ -88,7 +88,7 @@ export default class ServiceDetail extends Component {
                 });
                 getUserLocation(1).then((response) => {
                     this.setState({
-                        user_location: [{
+                        user_location: {
                             position: {
                                 lat: parseInt(response.data.latitude),
                                 lng: parseInt(response.data.longitude)
@@ -96,10 +96,22 @@ export default class ServiceDetail extends Component {
                             icon: {
                                 url: require('../../../../image/truck_down_right.svg'),
                             }
-                        }],
+                        },
+                        origin_marker: {
+                            position: {
+                                lat: parseInt(this.state.origin_latitude),
+                                lng: parseInt(this.state.origin_longitude)
+                            }
+                        },
+                        destination_marker: {
+                            position: {
+                                lat: parseInt(this.state.destination_latitude),
+                                lng: parseInt(this.state.destination_longitude)
+                            }
+                        },
                         direction: {
-                            origin: this.state.origin_latitude + ', ' +this.state.origin_longitude,
-                            destination: this.state.destination_latitude + ', ' +this.state.destination_longitude
+                            origin: this.state.origin_latitude + ', ' + this.state.origin_longitude,
+                            destination: this.state.destination_latitude + ', ' + this.state.destination_longitude
                         }
                     })
                     ;
@@ -142,8 +154,7 @@ export default class ServiceDetail extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="service.title"/>
-
+                                        <IntlMessages id={"service.title"}/>
                                     </h1>
                                 </PageHeader>
                             </Col>
@@ -159,7 +170,7 @@ export default class ServiceDetail extends Component {
                                                     lat: 4.710989,
                                                     lng: -74.072090
                                                 }} block style={{height: 500}}
-                                                              markers={this.state.user_location}
+                                                              markers={[this.state.user_location, this.state.origin_marker, this.state.destination_marker]}
                                                               direction={this.state.direction}/>
                                             </Col>
 
@@ -170,10 +181,10 @@ export default class ServiceDetail extends Component {
                                 </Col>
                                 <Col lg={6} md={6} sm={6} xs={6} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack">
+                                        <div className="vehiclesOnTrack" style={{height: 500}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}
-
+                                                style={{height: 500}}
                                                 hr={<hr style={{marginTop: 0}}/>}
                                             >
                                                 <LayoutWrapper>
@@ -250,8 +261,13 @@ export default class ServiceDetail extends Component {
                                     </IsoWidgetsWrapper>
                                 </Col>
                             </Row>
+                            <Row>
 
-
+                            </Row>
+                            <Col span={24}>
+                                <Card style={{marginBottom: 30}} className="cardContent">
+                                </Card>
+                            </Col>
                             <Row>
                                 <Col span={24}>
                                     <Form.Item wrapperCol={{span: 24}}>

@@ -60,7 +60,6 @@ export default class UserLocation extends Component {
                         user_locations: responses[0].data,
                         locations: locations
                     });
-                    console.log(locations);
                 }
             })
     }

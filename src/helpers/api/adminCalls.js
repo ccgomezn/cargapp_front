@@ -868,6 +868,10 @@ export function getServiceLocations() {
 }
 
 
+export function getUser(id) {
+    return get(httpAddr+'/users/'+id, true);
+}
+
 export function getActiveServiceLocations() {
     return get(httpAddr + `/service_locations/active`, true);
 }

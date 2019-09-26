@@ -58,7 +58,6 @@ export default class ReportCreate extends Component {
             }
             return item;
         });
-        console.log(data_by_id)
         return data_by_id;
     }
 
