@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import LayoutWrapper from '../../../components/utility/layoutWrapper.js';
-import {tableinfos} from './configs';
-import SortView from '../../../components/custom/table/sortView';
-import PageHeader from '../../../components/utility/pageHeader';
-import IntlMessages from '../../../components/utility/intlMessages';
+import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
+import {tableinfos} from '../configs';
+import SortView from '../../../../components/custom/table/sortView';
+import PageHeader from '../../../../components/utility/pageHeader';
+import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
-import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
+import basicStyle from '../../../../settings/basicStyle';
+import PrimaryButton from "../../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getUserLocations, getCities, getUsers} from "../../../helpers/api/adminCalls";
-import MapContainer from "../../../components/maps/map";
+import {getUserLocations, getCities, getUsers} from "../../../../helpers/api/adminCalls";
+import MapContainer from "../../../../components/maps/map";
 
-export default class UserLocation extends Component {
+export default class DriverDashboard extends Component {
 
 
     constructor(props) {
@@ -60,6 +60,7 @@ export default class UserLocation extends Component {
                         user_locations: responses[0].data,
                         locations: locations
                     });
+                    console.log(locations);
                 }
             })
     }
@@ -87,7 +88,7 @@ export default class UserLocation extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="userLocations.title"/>
+                                        <IntlMessages id="dashboard.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -102,7 +103,7 @@ export default class UserLocation extends Component {
                         </Row>
                         <div style={{height: 500, width: '100%'}}>
                             <Row>
-                                <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+                                <Col lg={18} md={18} sm={18} xs={18} style={colStyle}>
                                     <MapContainer center={{
                                         lat: 4.710989,
                                         lng: -74.072090

@@ -40,7 +40,6 @@ export default class CouponEdit extends Component {
                     value: responses[0].data.value,
                     quantity: responses[0].data.quantity,
                     cargapp_model_id: responses[0].data.cargapp_model_id,
-                    user_id: responses[0].data.user_id,
                     active: responses[0].data.active,
                 });
             }).catch((error) => {
@@ -58,7 +57,6 @@ export default class CouponEdit extends Component {
     }
 
     handlePut() {
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
         const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
         putCoupon(this.props.match.params.id,
@@ -70,7 +68,6 @@ export default class CouponEdit extends Component {
                     is_porcentage: this.state.is_porcentage,
                     value: this.state.value,
                     quantity: this.state.quantity,
-                    user_id: user_id,
                     cargapp_model_id: cargapp_model_id,
                     active: active,
                 }
@@ -162,24 +159,7 @@ export default class CouponEdit extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
                                         <Col span={12}>
                                             <Form.Item label="Modelo cargapp">
                                                 <SelectInputCustom value={this.state.cargapp_model_id}

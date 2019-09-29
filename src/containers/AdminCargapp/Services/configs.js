@@ -25,7 +25,7 @@ const deleteFunction = (id) => {
     }
 }
 
-const renderCell = (object, type, key, color = false) => {
+const renderCell = (object, type, key, color = false, link, link_name) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -33,7 +33,7 @@ const renderCell = (object, type, key, color = false) => {
         case 'DateCell':
             return DateCell(value);
         case 'LinkCell':
-            return LinkCell('Ver documentos', window.location.protocol + '//' + window.location.host + '/admin/service_documents/detailed/' + value);
+            return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
         case 'MultipleButtonCell':
             var text1 = 'Editar';
             var text2 = 'Ver';
@@ -98,11 +98,16 @@ const columns = [
     },
     {
         title: <IntlMessages id="antTable.title.seeDocuments"/>,
-        key: 'active',
+        key: 'documents',
         width: '12%',
-        render: object => renderCell(object, 'LinkCell', 'id')
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/service_documents/detailed/', 'Ver documentos')
     },
-
+    {
+        title: <IntlMessages id="antTable.title.details"/>,
+        key: 'details',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/services/detail/', 'Detalles')
+    },
     {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
@@ -118,8 +123,9 @@ const sortColumns = [
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
     {...columns[5], sorter: true},
-    {...columns[6], sorter: true},
+    {...columns[6], sorter: false},
     {...columns[7], sorter: false},
+    {...columns[8], sorter: false},
 ];
 const editColumns = [
     {...columns[1], width: 300},

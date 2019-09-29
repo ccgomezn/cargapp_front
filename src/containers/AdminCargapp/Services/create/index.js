@@ -58,7 +58,6 @@ export default class ReportCreate extends Component {
             }
             return item;
         });
-        console.log(data_by_id)
         return data_by_id;
     }
 
@@ -73,6 +72,7 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
+
         axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
                 this.setState({
@@ -114,35 +114,40 @@ export default class ReportCreate extends Component {
     }
 
     handlePost() {
-        postService(
-            {
-                service: {
-                    name: this.state.name,
-                    origin: this.state.origin,
-                    origin_city_id: transformInputData(this.state.origin_city_id),
-                    origin_address: this.state.origin_address,
-                    origin_longitude: this.state.origin_longitude,
-                    origin_latitude: this.state.origin_latitude,
-                    destination: this.state.destination,
-                    destination_city_id: transformInputData(this.state.destination_city_id),
-                    destination_address: this.state.destination_address,
-                    destination_latitude: this.state.destination_latitude,
-                    destination_longitude: this.state.destination_longitude,
-                    price: this.state.price,
-                    description: this.state.description,
-                    note: this.state.note,
-                    user_id: transformInputData(this.state.user_id),
-                    company_id: transformInputData(this.state.company_id),
-                    user_driver_id: transformInputData(this.state.user_driver_id),
-                    user_receiver_id: transformInputData(this.state.user_receiver_id),
-                    vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    vehicle_id: transformInputData(this.state.vehicle_id),
-                    statu_id: transformInputData(this.state.statu_id),
-                    expiration_date: this.state.expiration_date,
-                    contact: this.state.contact,
-                    active: true,
-                }
-            }).then(() => {
+        let data = {
+            service: {
+                name: this.state.name,
+                origin: this.state.origin,
+                origin_city_id: transformInputData(this.state.origin_city_id),
+                origin_address: this.state.origin_address,
+                origin_longitude: this.state.origin_longitude,
+                origin_latitude: this.state.origin_latitude,
+                destination: this.state.destination,
+                destination_city_id: transformInputData(this.state.destination_city_id),
+                destination_address: this.state.destination_address,
+                destination_latitude: this.state.destination_latitude,
+                destination_longitude: this.state.destination_longitude,
+                price: this.state.price,
+                description: this.state.description,
+                note: this.state.note,
+                user_id: transformInputData(this.state.user_id),
+                company_id: transformInputData(this.state.company_id),
+                user_receiver_id: transformInputData(this.state.user_receiver_id),
+                vehicle_type_id: transformInputData(this.state.vehicle_type_id),
+                statu_id: transformInputData(this.state.statu_id),
+                expiration_date: this.state.expiration_date,
+                contact: this.state.contact,
+                active: true,
+            }
+        };
+        if (this.props.assign) {
+            data.service.user_driver_id = transformInputData(this.state.user_driver_id);
+            data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+        }
+
+
+        postService(data).then(() => {
+
             this.setState({redirect: true})
         })
     }
@@ -179,6 +184,7 @@ export default class ReportCreate extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
+        const {assign} = this.props;
 
         if (redirect) {
             return <Redirect to='/admin/services'/>
@@ -448,29 +454,6 @@ export default class ReportCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Conductor">
-                                                <SelectInputCustom value={this.state.user_driver_id}
-                                                                   placeholder="conductor"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_driver_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
-
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.driver'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
-
-                                    <Row gutter={10}>
-                                        <Col span={12}>
                                             <Form.Item label="Receptor de carga">
                                                 <SelectInputCustom value={this.state.user_receiver_id}
                                                                    placeholder="receptor de carga"
@@ -490,6 +473,11 @@ export default class ReportCreate extends Component {
                                                 </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
+
+                                    </Row>
+
+
+                                    <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Tipo de vehiculo">
                                                 <SelectInputCustom value={this.state.vehicle_type_id}
@@ -505,28 +493,6 @@ export default class ReportCreate extends Component {
                                                                    })
                                                                    }
                                                                    label_id={'admin.title.type'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Vehiculos">
-                                                <SelectInputCustom value={this.state.vehicle_id}
-                                                                   placeholder="vehiculos"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'vehicle_id')
-                                                }}
-                                                                   options={this.state && this.state.vehicles &&
-
-                                                                   this.state.vehicles.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.plate} {item.brand}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.vehicle'}>
 
                                                 </SelectInputCustom>
                                             </Form.Item>
@@ -574,6 +540,49 @@ export default class ReportCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
+                                    {assign &&
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                            <Form.Item label="Conductor">
+                                                <SelectInputCustom value={this.state.user_driver_id}
+                                                                   placeholder="conductor"
+                                                                   style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'user_driver_id')
+                                                }}
+                                                                   options={this.state && this.state.users &&
+
+                                                                   this.state.users.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.email}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.driver'}>
+
+                                                </SelectInputCustom>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Vehiculos">
+                                                <SelectInputCustom value={this.state.vehicle_id}
+                                                                   placeholder="vehiculos"
+                                                                   style={{width: '100%'}} onChange={(e) => {
+                                                    this.handleChange(e, 'vehicle_id')
+                                                }}
+                                                                   options={this.state && this.state.vehicles &&
+
+                                                                   this.state.vehicles.map((item) => {
+                                                                       return <Option
+                                                                           value={item.id}>{item.plate} {item.brand}</Option>
+                                                                   })
+                                                                   }
+                                                                   label_id={'admin.title.vehicle'}>
+
+                                                </SelectInputCustom>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    }
+
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>

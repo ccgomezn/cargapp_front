@@ -10,7 +10,7 @@ import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postPermission, findParameters} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveRoles, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getActiveRoles, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 
@@ -36,12 +36,14 @@ export default class PermissionCreate extends Component {
         )
     }
 
+
     handlePost() {
+
         const role_id = transformInputData(this.state.role_id);
         const cargapp_model_id = transformInputData(this.state.model_id);
         const action = transformInputData(this.state.action);
         const method = transformInputData(this.state.method);
-        const user_id = transformInputData(this.state.user_id);
+        getMineUser().then((response)=>{
             postPermission(
                 {
                     permission: {
@@ -50,13 +52,15 @@ export default class PermissionCreate extends Component {
                         action: action,
                         method: method,
                         allow: this.state.allow,
-                        user_id: user_id,
+                        user_id: response.data.user.id,
                         active: true,
                     }
 
                 }).then(() => {
                 this.setState({redirect: true})
             })
+        });
+
     }
 
 
@@ -142,28 +146,7 @@ export default class PermissionCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom required value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: '50%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Acción">

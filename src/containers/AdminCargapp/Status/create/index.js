@@ -10,7 +10,7 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postStatu} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import {transformInputData} from "../../../../helpers/utility";
@@ -39,20 +39,23 @@ export default class StatusCreate extends Component {
     }
 
     handlePost() {
-        postStatu(
-            {
-                statu: {
-                    name: this.state.name,
-                    code: this.state.code,
-                    description: this.state.description,
-                    user_id: transformInputData(this.state.user_id),
-                    cargapp_model_id: transformInputData(this.state.model_id),
-                    active: true,
-                }
+        getMineUser().then((response)=>{
+            postStatu(
+                {
+                    statu: {
+                        name: this.state.name,
+                        code: this.state.code,
+                        user_id: response.data.user.id,
+                        description: this.state.description,
+                        cargapp_model_id: transformInputData(this.state.model_id),
+                        active: true,
+                    }
 
-            }).then(() => {
-            this.setState({redirect: true})
-        })
+                }).then(() => {
+                this.setState({redirect: true})
+            })
+        });
+
     }
 
 
@@ -99,27 +102,9 @@ export default class StatusCreate extends Component {
                                 <Form>
 
                                     <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom required value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: 240}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
 
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                        <Col span={12}>
+                                        <Col span={24}>
                                             <Form.Item label="Modelo">
                                                 <SelectInputCustom required value={this.state.model_id}
                                                                    placeholder="modelo"

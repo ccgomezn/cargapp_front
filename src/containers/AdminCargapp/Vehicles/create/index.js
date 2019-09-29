@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form} from "antd";
+import {Form, Modal} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Select} from 'antd';
 import axios from 'axios';
@@ -52,6 +52,7 @@ export default class VehicleCreate extends Component {
     }
 
     handlePost() {
+        let userId = this.props.match.params.id ? this.props.match.params.id : transformInputData(this.state.user_id);
         postVehicle(
             {
                 vehicle: {
@@ -65,20 +66,42 @@ export default class VehicleCreate extends Component {
                     vehicle_type_id: transformInputData(this.state.vehicle_type_id),
                     owner_document_type_id: transformInputData(this.state.owner_document_type_id),
                     owner_document_id: transformInputData(this.state.owner_document_id),
-                    user_id: transformInputData(this.state.user_id),
+                    user_id: userId,
                     active: true,
                 }
 
             }).then(() => {
-            this.setState({redirect: true})
+            this.confirm();
         })
+    }
+
+    confirm() {
+        Modal.confirm({
+            title: 'Nuevo vehículo',
+            content: '¿Desea agragar un nuevo vehículo?',
+            okText: 'SI',
+            cancelText: 'NO',
+            onOk: () => {
+                this.setState({redirect: true})
+            },
+            onCancel: () => {
+                this.setState({redirectList: true})
+            }
+        });
     }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
-        const {redirect} = this.state;
-
+        const {redirect, redirectList} = this.state;
+        const {id} = this.props.match.params;
         if (redirect) {
+            if(id){
+                window.location.reload()
+            }else{
+                return <Redirect to={'/admin/vehicles/add'}/>
+            }
+        }
+        if (redirectList) {
             return <Redirect to='/admin/vehicles'/>
         }
         return (
@@ -214,8 +237,7 @@ export default class VehicleCreate extends Component {
                                         </Col>
 
                                     </Row>
-
-                                    <Row gutter={10}>
+                                    {!id && <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Usuario">
                                                 <SelectInputCustom value={this.state.user_id} placeholder="usuario"
@@ -235,7 +257,8 @@ export default class VehicleCreate extends Component {
                                             </Form.Item>
                                         </Col>
 
-                                    </Row>
+                                    </Row>}
+
 
                                     <Row>
                                         <Col span={24}>

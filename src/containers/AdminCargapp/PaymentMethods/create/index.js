@@ -2,20 +2,17 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col, Form, Card, Select} from 'antd';
+import {Row, Col, Form, Card} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
 import {postPaymentMethod} from '../../../../helpers/api/adminCalls.js';
-import {getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
-import SelectInputCustom from "../../../../components/custom/input/select";
-import {transformInputData} from "../../../../helpers/utility";
 
 
-const {Option} = Select
 
 export default class PaymentMethodCreate extends Component {
 
@@ -51,24 +48,26 @@ export default class PaymentMethodCreate extends Component {
     }
 
     handlePost() {
-        const user_id = transformInputData(this.state.user_id);
-        postPaymentMethod(
-            {
-                payment_method: {
-                    name: this.state.name,
-                    uuid: this.state.uuid,
-                    description: this.state.description,
-                    email: this.state.email,
-                    aap_id: this.state.app_id,
-                    secret_id: this.state.secret_id,
-                    password: this.state.password,
-                    user_id: user_id,
-                    token: this.state.token,
-                    active: true,
-                }
-            }).then(() => {
-            this.setState({redirect: true})
-        })
+        getMineUser().then((response) => {
+            postPaymentMethod(
+                {
+                    payment_method: {
+                        name: this.state.name,
+                        uuid: this.state.uuid,
+                        description: this.state.description,
+                        email: this.state.email,
+                        aap_id: this.state.app_id,
+                        secret_id: this.state.secret_id,
+                        password: this.state.password,
+                        user_id: response.data.user.id,
+                        token: this.state.token,
+                        active: true,
+                    }
+                }).then(() => {
+                this.setState({redirect: true})
+            })
+        });
+
     }
 
     render() {
@@ -178,27 +177,7 @@ export default class PaymentMethodCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
-
-                                    </Row>
 
                                     <Row>
                                         <Col span={24}>

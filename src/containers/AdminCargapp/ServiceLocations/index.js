@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getServiceLocations, getCities, getServices} from "../../../helpers/api/adminCalls";
+import MapContainer from "../../../components/maps/map";
 
 export default class ServiceLocation extends Component {
 
@@ -38,11 +39,13 @@ export default class ServiceLocation extends Component {
 
         axios.all([getServiceLocations(), getCities(), getServices()])
             .then((responses) => {
-
+                let locations = [];
                 if (responses[0] !== undefined) {
                     let data_cities = this.transformDataToMap(responses[1].data, 'name');
                     let data_services = this.transformDataToMap(responses[2].data, 'name');
                     responses[0].data.map((item) => {
+                        locations.push({position: {lat: parseInt(item.latitude), lng: parseInt(item.longitude)}});
+
                         if (item.active) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
@@ -55,7 +58,8 @@ export default class ServiceLocation extends Component {
                         return item;
                     });
                     this.setState({
-                        service_locations: responses[0].data
+                        service_locations: responses[0].data,
+                        locations: locations
                     });
                 }
             })
@@ -97,6 +101,18 @@ export default class ServiceLocation extends Component {
                                     onClick={() => this.redirectAdd()}/>
                             </Col>
                         </Row>
+                        <div style={{height: 500, width: '100%'}}>
+                            <Row>
+                                <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+                                    <MapContainer center={{
+                                        lat: 4.710989,
+                                        lng: -74.072090
+                                    }} block style={{height: 500}} markers={this.state.locations}/>
+                                </Col>
+
+                            </Row>
+
+                        </div>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.service_locations &&

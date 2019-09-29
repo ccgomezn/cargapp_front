@@ -99,6 +99,10 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
     },
     {
+        path: 'vehicles/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+    },
+    {
         path: 'vehicles/edit/:id',
         component: asyncComponent(() => import('../AdminCargapp/Vehicles/edit'))
     },
@@ -262,8 +266,16 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/Services/show'))
     },
     {
+        path: 'services/detail/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/detail'))
+    },
+    {
         path: 'services/add',
         component: asyncComponent(() => import('../AdminCargapp/Services/create'))
+    },
+    {
+        path: 'services/assign',
+        component: asyncComponent(() => import('../AdminCargapp/Services/create'), {assign: true})
     },
     {
         path: 'services/edit/:id',
@@ -290,13 +302,22 @@ const routes_admin = [
     {
         path: 'users/add',
         component: asyncComponent(() => import('../AdminCargapp/Users/create'))
-    }, {
+    },
+    {
+        path: 'users/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'))
+    },
+    {
         path: 'drivers',
-        component: asyncComponent(() => import('../AdminCargapp/Users'),{driver: true})
+        component: asyncComponent(() => import('../AdminCargapp/Users'), {driver: true})
+    },
+    {
+        path: 'drivers/dashboard/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/dashboard'), {driver: true})
     },
     {
         path: 'drivers/add',
-        component: asyncComponent(() => import('../AdminCargapp/Users/driver'))
+        component: asyncComponent(() => import('../AdminCargapp/Users/driverCreate'))
     },
     {
         path: 'users/verify/:id',

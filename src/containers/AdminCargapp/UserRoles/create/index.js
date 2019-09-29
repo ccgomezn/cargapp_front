@@ -44,7 +44,7 @@ export default class RoleCreate extends Component {
                     user_role: {
                         user_id: transformInputData(this.state.user_id),
                         role_id: transformInputData(this.state.role_id),
-                        admin_id: response.data.user.user_id,
+                        admin_id: response.data.user.id,
                         active: true,
                     }
 

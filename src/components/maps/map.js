@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps"
+import {withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline} from "react-google-maps"
 
 import {compose, withProps} from "recompose"
 import MapControl from "./map_control"
@@ -31,11 +31,9 @@ const MyMapComponent = compose(
             return (
                 <GoogleMap
                     defaultZoom={6}
-                    center={{lat: props.center.lat, lng: props.center.lng}}
                     defaultCenter={{lat: props.center.lat, lng: props.center.lng}}
-
                     defaultOptions={{
-                        // these following 7 options turn certain controls off see link below
+
                         streetViewControl: false,
                         scaleControl: false,
                         mapTypeControl: false,
@@ -50,7 +48,18 @@ const MyMapComponent = compose(
                             {...marker}
                         />
                     ))}
-
+                    {props.directions && <Polyline geodesic={true}
+                                                   options={{
+                                                       path: props.directions,
+                                                       strokeColor: 'red',
+                                                       strokeOpacity: 0.5,
+                                                       strokeWeight: 2,
+                                                       icons: [{
+                                                           offset: '0',
+                                                           repeat: '10px'
+                                                       }],
+                                                   }}
+                    />}
 
                     <MapControl style={{position: 'relative'}} id="area"
                                 position={google.maps.ControlPosition.RIGHT_BOTTOM}>
@@ -174,6 +183,24 @@ export class MapContainer extends Component {
     }
 
     render() {
+        const {direction} = this.props;
+        if (direction) {
+            const DirectionsService = new google.maps.DirectionsService();
+
+            DirectionsService.route({
+                origin: direction.origin,
+                destination: direction.destination,
+                travelMode: google.maps.TravelMode.DRIVING,
+            }, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    this.setState({
+                        directions: result.routes[0].overview_path,
+                    });
+                }
+            });
+        }
+        console.log(this.state.directions);
+
         return (
             <MyMapComponent
                 isFreight={this.props.isFreight}
@@ -181,6 +208,7 @@ export class MapContainer extends Component {
                 markers={this.props.markers}
                 center={this.props.center}
                 load={this.state.load}
+                directions={this.state.directions}
             />
         )
     }

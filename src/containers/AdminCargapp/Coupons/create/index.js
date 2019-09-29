@@ -10,7 +10,7 @@ import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {postCoupon, getActiveUsers, getActiveModels} from "../../../../helpers/api/adminCalls"
+import {postCoupon, getActiveUsers, getActiveModels, getMineUser} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 
@@ -51,25 +51,28 @@ export default class CouponCreate extends Component {
         )
     }
 
+
     handlePost() {
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
-        postCoupon(
-            {
-                coupon: {
-                    name: this.state.name,
-                    code: this.state.code,
-                    description: this.state.description,
-                    is_porcentage: this.state.is_porcentage,
-                    value: this.state.value,
-                    quantity: this.state.quantity,
-                    user_id: user_id,
-                    cargapp_model_id: cargapp_model_id,
-                    active: true,
-                }
-            }).then(() => {
-            this.setState({redirect: true})
+        getMineUser().then((response) => {
+            postCoupon(
+                {
+                    coupon: {
+                        name: this.state.name,
+                        code: this.state.code,
+                        description: this.state.description,
+                        is_porcentage: this.state.is_porcentage,
+                        value: this.state.value,
+                        quantity: this.state.quantity,
+                        user_id: response.data.user.id,
+                        cargapp_model_id: cargapp_model_id,
+                        active: true,
+                    }
+                }).then(() => {
+                this.setState({redirect: true})
+            })
         })
+
     }
 
     render() {
@@ -156,24 +159,7 @@ export default class CouponCreate extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id} placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
                                         <Col span={12}>
                                             <Form.Item label="Modelo cargapp">
                                                 <SelectInputCustom value={this.state.cargapp_model_id}
