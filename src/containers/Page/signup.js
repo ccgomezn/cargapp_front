@@ -12,8 +12,7 @@ import TextInputCustom from '../../components/custom/input/text'
 import axios from 'axios';
 import httpAddr from "../../helpers/http_helper"
 import {Redirect} from 'react-router-dom'
-import importantVariables from '../../helpers/hashVariables'
-import {verifyEmail} from "../../helpers/api/adminCalls";
+import {verifyEmail, verifyPhoneNumber} from "../../helpers/api/adminCalls";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
@@ -23,6 +22,7 @@ class SignUp extends Component {
     state = {
         redirect: false,
         duplicated: false,
+        duplicated_phone: false,
         email: '',
         password: '',
         password_confirmation: '',
@@ -51,6 +51,19 @@ class SignUp extends Component {
                         this.setState({duplicated: true});
                     } else {
                         this.setState({duplicated: false});
+                    }
+                })
+            }
+        }
+
+        if (type === 'phone_number') {
+            if (/^\d{10}\d+$/.test(value)) {
+                verifyPhoneNumber(parseInt(value)).then((response) => {
+                    if (response.data.phone_number) {
+
+                        this.setState({duplicated_phone: true});
+                    } else {
+                        this.setState({duplicated_phone: false});
                     }
                 })
             }
@@ -87,10 +100,17 @@ class SignUp extends Component {
                             user: {
                                 email: this.state.email,
                                 password: this.state.password,
+                                identification: this.state.identification,
+                                phone_number: parseInt(this.state.phone_number),
                                 password_confirmation: this.state.password_confirmation,
                                 role_id: this.state.role_id
                             }
-                        })
+                        }).then(() => {
+                        this.setState({redirect: true})
+
+                    }).catch((error) => {
+                        message.warning("Error al crear el usuario");
+                    })
                 }
 
             } else {
@@ -142,7 +162,8 @@ class SignUp extends Component {
                         <div className="isoSignUpForm">
                             <div className="isoSelectWrapper">
                                 <Row>
-                                    <Radio.Group defaultValue={15} onChange={(e) => this.handleChange(e.target.value, 'role_id')}>
+                                    <Radio.Group defaultValue={15}
+                                                 onChange={(e) => this.handleChange(e.target.value, 'role_id')}>
 
                                         <Col span={11}>
                                             <Radio.Button value={15} className="buttonSelect">
@@ -185,7 +206,9 @@ class SignUp extends Component {
                                 <div className="formData">
 
                                     <div className="isoInputWrapper">
-                                        <TextInputCustom required label_id={this.state.duplicated?'page.emailDuplicated':'page.email'} value={this.state.email}
+                                        <TextInputCustom required
+                                                         label_id={this.state.duplicated ? 'page.emailDuplicated' : 'page.email'}
+                                                         value={this.state.email}
                                                          placeholder='Correo eléctronico'
                                                          onChange={(e) => this.handleChange(e.target.value, 'email')}/>
                                     </div>
@@ -200,7 +223,19 @@ class SignUp extends Component {
                                                          placeholder='Contraseña' type='password'
                                                          onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}/>
                                     </div>
-
+                                    <div className="isoInputWrapper">
+                                        <TextInputCustom required
+                                                         label_id={this.state.duplicated_phone ? 'page.phoneDuplicated' : 'page.phone'}
+                                                         value={this.state.phone_number}
+                                                         placeholder='Número de teléfono'
+                                                         onChange={(e) => this.handleChange(e.target.value, 'phone_number')}/>
+                                    </div>
+                                    <div className="isoInputWrapper">
+                                        <TextInputCustom required label_id={'page.identification'}
+                                                         value={this.state.identification}
+                                                         placeholder='Número de identificación'
+                                                         onChange={(e) => this.handleChange(e.target.value, 'identification')}/>
+                                    </div>
                                 </div>
 
 
@@ -215,8 +250,10 @@ class SignUp extends Component {
 
                                             <div className="button-sign">
 
-                                                <PrimaryButton disabled={this.state.duplicated} message_id="page.signup"
-                                                               onClick={() => this.handlePostRegister()}/>
+                                                <PrimaryButton
+                                                    disabled={this.state.duplicated || this.state.duplicated_phone}
+                                                    message_id="page.signup"
+                                                    onClick={() => this.handlePostRegister()}/>
                                             </div>
                                         </Col>
                                     </Row>
