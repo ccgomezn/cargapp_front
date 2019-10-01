@@ -16,7 +16,7 @@ import {
     getActiveCities,
     getActiveCompanies, getActiveStatus,
     getActiveUsers,
-    getActiveVehicles, getActiveVehicleTypes,
+    getActiveVehicles, getActiveVehicleTypes, getMineUser,
 
 } from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
@@ -114,42 +114,48 @@ export default class ReportCreate extends Component {
     }
 
     handlePost() {
-        let data = {
-            service: {
-                name: this.state.name,
-                origin: this.state.origin,
-                origin_city_id: transformInputData(this.state.origin_city_id),
-                origin_address: this.state.origin_address,
-                origin_longitude: this.state.origin_longitude,
-                origin_latitude: this.state.origin_latitude,
-                destination: this.state.destination,
-                destination_city_id: transformInputData(this.state.destination_city_id),
-                destination_address: this.state.destination_address,
-                destination_latitude: this.state.destination_latitude,
-                destination_longitude: this.state.destination_longitude,
-                price: this.state.price,
-                description: this.state.description,
-                note: this.state.note,
-                user_id: transformInputData(this.state.user_id),
-                company_id: transformInputData(this.state.company_id),
-                user_receiver_id: transformInputData(this.state.user_receiver_id),
-                vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                statu_id: transformInputData(this.state.statu_id),
-                expiration_date: this.state.expiration_date,
-                contact: this.state.contact,
-                active: true,
+
+        getMineUser().then((response) => {
+            let data = {
+                service: {
+                    name: this.state.name,
+                    origin: this.state.origin,
+                    origin_city_id: transformInputData(this.state.origin_city_id),
+                    origin_address: this.state.origin_address,
+                    origin_longitude: this.state.origin_longitude,
+                    origin_latitude: this.state.origin_latitude,
+                    destination: this.state.destination,
+                    destination_city_id: transformInputData(this.state.destination_city_id),
+                    destination_address: this.state.destination_address,
+                    destination_latitude: this.state.destination_latitude,
+                    destination_longitude: this.state.destination_longitude,
+                    price: this.state.price,
+                    description: this.state.description,
+                    note: this.state.note,
+                    user_id: response.data.user.id,
+                    company_id: transformInputData(this.state.company_id),
+                    user_receiver_id: transformInputData(this.state.user_receiver_id),
+                    vehicle_type_id: transformInputData(this.state.vehicle_type_id),
+                    statu_id: transformInputData(this.state.statu_id),
+                    expiration_date: this.state.expiration_date,
+                    contact: this.state.contact,
+                    vehicle_id: 2,
+                    active: true,
+                }
+            };
+            if (this.props.assign) {
+                data.service.user_driver_id = transformInputData(this.state.user_driver_id);
+                data.service.vehicle_id = transformInputData(this.state.vehicle_id);
             }
-        };
-        if (this.props.assign) {
-            data.service.user_driver_id = transformInputData(this.state.user_driver_id);
-            data.service.vehicle_id = transformInputData(this.state.vehicle_id);
-        }
 
 
-        postService(data).then(() => {
+            postService(data).then(() => {
 
-            this.setState({redirect: true})
+                this.setState({redirect: true})
+            })
         })
+
+
     }
 
     handleSearchLocation(city_id, address, type) {
@@ -412,25 +418,7 @@ export default class ReportCreate extends Component {
                                                                  label_id={'admin.title.note'}/>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Usuario">
-                                                <SelectInputCustom value={this.state.user_id}
-                                                                   placeholder="usuario"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.user'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
 
                                     </Row>
                                     <Row gutter={10}>

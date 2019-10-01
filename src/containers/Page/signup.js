@@ -25,7 +25,8 @@ class SignUp extends Component {
         duplicated: false,
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        role_id: 15
     };
 
     componentWillReceiveProps(nextProps) {
@@ -87,22 +88,9 @@ class SignUp extends Component {
                                 email: this.state.email,
                                 password: this.state.password,
                                 password_confirmation: this.state.password_confirmation,
-
+                                role_id: this.state.role_id
                             }
-                        }).then((response) => {
-                        axios.post(httpAddr + '/user_roles',
-                            {
-                                user_role: {
-                                    user_id: response.data.id,
-                                    role_id: importantVariables.user_role_id,
-                                }
-                            }).then(() => {
-                            message.success('El usuario fue cerado correctamente');
-                            this.setState({redirect: true})
                         })
-                    }).catch(() => {
-                        message.warning('La contraseña no cumple los criterios');
-                    });
                 }
 
             } else {
@@ -154,10 +142,10 @@ class SignUp extends Component {
                         <div className="isoSignUpForm">
                             <div className="isoSelectWrapper">
                                 <Row>
-                                    <Radio.Group defaultValue="a">
+                                    <Radio.Group defaultValue={15} onChange={(e) => this.handleChange(e.target.value, 'role_id')}>
 
                                         <Col span={11}>
-                                            <Radio.Button value="a" className="buttonSelect">
+                                            <Radio.Button value={15} className="buttonSelect">
                                                 <div className="isoCenterComponent">
                                                     <div>
                                                         <p className="title">
@@ -174,7 +162,7 @@ class SignUp extends Component {
                                         </Col>
                                         <Col span={2}></Col>
                                         <Col span={11}>
-                                            <Radio.Button value="b" className="buttonSelect">
+                                            <Radio.Button value={27} className="buttonSelect">
                                                 <div className="isoCenterComponent">
                                                     <div>
                                                         <p className="title">

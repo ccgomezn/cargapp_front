@@ -38,6 +38,10 @@ export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
 
+export function getMineServices() {
+    return get(httpAddr+'/services/me', true)
+}
+
 
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
