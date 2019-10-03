@@ -5,6 +5,7 @@ const preKeys = getDefaultPath();
 
 const initState = {
   collapsed: window.innerWidth > 1220 ? false : true,
+  loading: false,
   view: getView(window.innerWidth),
   height: window.innerHeight,
   openDrawer: false,
@@ -18,6 +19,17 @@ export default function appReducer(state = initState, action) {
       return {
         ...state,
         collapsed: !state.collapsed
+      };
+
+    case actions.LOAD_ADD_CHANGE:
+      return {
+        ...state,
+        loading: state.loading + 1
+      };
+    case actions.LOAD_RED_CHANGE:
+      return {
+        ...state,
+        loading: state.loading - 1
       };
     case actions.COLLPSE_OPEN_DRAWER:
       return {

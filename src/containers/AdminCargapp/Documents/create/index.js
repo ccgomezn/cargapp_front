@@ -19,7 +19,7 @@ import DatePickerCustom from "../../../../components/custom/input/date";
 
 const dateFormat = 'YYYY-MM-DD';
 
-const {Option} = Select
+const {Option} = Select;
 
 export default class DocumentCreate extends Component {
 

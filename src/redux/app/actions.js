@@ -8,6 +8,8 @@ export function getView(width) {
   return newView;
 }
 const actions = {
+  LOAD_ADD_CHANGE: "LOAD_ADD_CHANGE",
+  LOAD_RED_CHANGE: "LOAD_RED_CHANGE",
   COLLPSE_CHANGE: "COLLPSE_CHANGE",
   COLLPSE_OPEN_DRAWER: "COLLPSE_OPEN_DRAWER",
   CHANGE_OPEN_KEYS: "CHANGE_OPEN_KEYS",
@@ -16,6 +18,12 @@ const actions = {
   CLEAR_MENU: "CLEAR_MENU",
   toggleCollapsed: () => ({
     type: actions.COLLPSE_CHANGE
+  }),
+  loadAddChange: () => ({
+    type: actions.LOAD_ADD_CHANGE
+  }),
+  loadRedChange: () => ({
+    type: actions.LOAD_RED_CHANGE
   }),
   toggleAll: (width, height) => {
     const view = getView(width);

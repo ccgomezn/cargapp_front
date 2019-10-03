@@ -144,7 +144,15 @@ export function getCountries() {
 }
 
 export function getActiveCountries() {
-    return get(httpAddr + '/countries/active', true)
+    return get(httpAddr + '/countries/active', false)
+}
+
+export function confirmUser(data){
+    return post(httpAddr + '/users/validate_number', data,false)
+}
+
+export function resendCode(data){
+    return post(httpAddr + '/users/resend_code', data,false)
 }
 
 export function getCountry(id) {

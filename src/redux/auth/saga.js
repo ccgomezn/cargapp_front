@@ -40,9 +40,9 @@ export function* loginRequest() {
             let roles_array = [];
             let token_encrypted = encrypt(token);
             roles.map((role) => {
-                roles_array.push(role.role_id)
+                roles_array.push(role.role_id);
                 return role
-            })
+            });
             let roles_encrypted = encrypt(token + roles_array.toString());
 
             yield put({

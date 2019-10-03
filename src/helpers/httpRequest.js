@@ -10,6 +10,18 @@ function authError() {
     }
 }
 
+function updateAddLoad() {
+    return {
+        type: 'LOAD_ADD_CHANGE'
+    }
+}
+
+function updateRedLoad() {
+    return {
+        type: 'LOAD_RED_CHANGE'
+    }
+}
+
 function getError(response) {
     let error = 'Error en ';
     const keys = Object.keys(response);
@@ -22,7 +34,7 @@ function getError(response) {
         }
         error += key;
     });
-    if(first) return '';
+    if (first) return '';
     return error;
 }
 
@@ -31,14 +43,14 @@ function showError(response) {
     message.error("No se puede realizar la acción. " + error_data + ".");
 }
 
-function catchError(error){
+function catchError(error) {
     if (error.response &&
         (error.response.status === 401 ||
             (error.response.status === 422 && error.response.data.response === "Does not have permissions"))) {
         store.dispatch(authError());
-    } else if(error.response.status !== 500 && error.response.status !== 404) {
+    } else if (error.response.status !== 500 && error.response.status !== 404) {
         showError(error.response.data);
-    }else {
+    } else {
         message.error('No se puede realizar la acción.')
     }
 }
@@ -48,9 +60,13 @@ export function get(url, secured = false) {
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
+    store.dispatch(updateAddLoad());
 
-
-    return axios.get(url, {headers: headers}).catch((error) => {
+    return axios.get(url, {headers: headers}).then((response) => {
+        store.dispatch(updateRedLoad());
+        return response;
+    }).catch((error) => {
+        store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })
@@ -63,9 +79,13 @@ export function post(url, data, secured = false) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
 
-
-    return axios.post(url, data, {headers: headers}).catch((error) => {
-        if(error.response.status !== 302){
+    store.dispatch(updateAddLoad());
+    return axios.post(url, data, {headers: headers}).then((response) => {
+        store.dispatch(updateRedLoad());
+        return response;
+    }).catch((error) => {
+        store.dispatch(updateRedLoad());
+        if (error.response.status !== 302) {
             catchError(error);
             throw error;
         }
@@ -79,7 +99,12 @@ export function put(url, data, secured = false) {
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
-    return axios.put(url, data, {headers: headers}).catch((error) => {
+    store.dispatch(updateAddLoad());
+    return axios.put(url, data, {headers: headers}).then((response)=>{
+        store.dispatch(updateRedLoad());
+        return response;
+    }).catch((error) => {
+        store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })
@@ -91,7 +116,12 @@ export function del(url, secured = false) {
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
-    return axios.delete(url, {headers: headers, }).catch((error) => {
+    store.dispatch(updateAddLoad());
+    return axios.delete(url, {headers: headers,}).then((response)=>{
+        store.dispatch(updateRedLoad());
+        return response;
+    }).catch((error) => {
+        store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })
