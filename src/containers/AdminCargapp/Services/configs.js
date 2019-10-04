@@ -14,10 +14,9 @@ const deleteFunction = (id) => {
     return function () {
         (deleteService(id)
             .then((response) => {
-                setTimeout(() => {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/';
 
-                }, 3000);
+
 
             }).catch((error) => {
                 console.error(error);

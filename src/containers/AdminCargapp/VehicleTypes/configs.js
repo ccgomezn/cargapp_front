@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
     return function () {
         (deleteVehicleType(id)
             .then(() => {
-                setTimeout(() => {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/admin/vehicle_types/';
 
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);

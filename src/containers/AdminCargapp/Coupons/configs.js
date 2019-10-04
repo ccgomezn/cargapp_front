@@ -14,10 +14,7 @@ const deleteFunction = (id) => {
   return function () {
     (deleteCoupon(id)
       .then((response) => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/coupons/';
-
-        }, 3000);
 
       }).catch((error) => {
         console.error(error);
@@ -113,7 +110,7 @@ const sortColumns = [
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
   { ...columns[6], sorter: false },
-  
+
 
 ];
 const editColumns = [

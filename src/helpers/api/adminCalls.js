@@ -1008,6 +1008,11 @@ export function verifyEmail(email) {
     return post(httpAddr + '/users/email_verify', {user: {email: email}}, false, false);
 }
 
+export function getServicesOfDriver(id){
+    return get(httpAddr + `/services/find_driver/` + id, true);
+
+}
+
 export function verifyPhoneNumber(number) {
     return post(httpAddr + '/users/phone_verify', {user: {phone_number: number}}, false, false);
 }

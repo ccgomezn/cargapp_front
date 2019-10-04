@@ -14,15 +14,12 @@ const deleteFunction = (id) => {
   return function(){
     (deletePermission(id)
     .then((response) => {
-      setTimeout(() => {
         window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/';
-
-      }, 3000);
 
     }).catch((error) => {
       console.error(error);
     }));
-  } 
+  }
 }
 
 const renderCell = (object, type, key, color = false) => {
@@ -47,7 +44,7 @@ const renderCell = (object, type, key, color = false) => {
       var function2 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/admin/permissions/show/' + object['id'];
       }
-      
+
       return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
     default:
       var color_val = '';
