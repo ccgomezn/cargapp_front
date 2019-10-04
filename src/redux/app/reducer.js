@@ -5,7 +5,7 @@ const preKeys = getDefaultPath();
 
 const initState = {
   collapsed: window.innerWidth > 1220 ? false : true,
-  loading: false,
+  loading: 0,
   view: getView(window.innerWidth),
   height: window.innerHeight,
   openDrawer: false,

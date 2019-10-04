@@ -10,10 +10,17 @@ const SelectWrapper = styled.div`
             padding-left: 12.1px;
         }
     }
+    
+    .ant-select {
+    
+        margin-top: 3px;
+    }
+    
     select,
     .ant-select-selection,
     input
         {
+
           width: 100% !important;
           height: 55px !important;
           border-radius: 2px !important;
@@ -70,6 +77,8 @@ input: -webkit-autofill {
   background-color: red !important;
 }
 .ant-select-selection-selected-value, .ant-select-selection__placeholder {
+                margin-top: 3px;
+
   width: 366px !important;
   height: 55px !important;
   padding: 16px 12px 15px 0px !important;

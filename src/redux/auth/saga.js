@@ -1,32 +1,30 @@
 import {all, takeEvery, put, fork, call} from 'redux-saga/effects';
 import {getToken, clearToken, makeAuthorizationHeader} from '../../helpers/utility';
-import axios from 'axios';
 import actions from './actions';
 import {encrypt} from '../../helpers/utility'
 import {message} from "antd";
+import {post, getWithHeader} from "../../helpers/httpRequest";
 
 function loginApi(url, data) {
-    return axios.post(
+    return post(
         url,
-        data
+        data, false
     ).catch((e) => {
         message.error('El usuario no es valido');
     });
 }
 
 
-function refresh(){
+function refresh() {
     console.log('refresh_token')
 }
 
 
 function roleApi(url, token) {
-    let header = makeAuthorizationHeader(token)
-    return axios.get(
+    let header = makeAuthorizationHeader(token);
+    return getWithHeader(
         url,
-        {
-            headers: header
-        }
+        header
     );
 }
 

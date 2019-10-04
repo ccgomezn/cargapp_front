@@ -1,15 +1,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import authAction from "../../redux/auth/actions";
-import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
-import {Row, Col, Select} from "antd";
+import {Row, Col, Select, Spin} from "antd";
 import {Radio, message} from 'antd';
 import PrimaryButton from '../../components/custom/button/primary'
 import SecondaryButton from "../../components/custom/button/secondary";
 import TextInputCustom from '../../components/custom/input/text'
-import axios from 'axios';
 import httpAddr from "../../helpers/http_helper"
 import {Redirect} from 'react-router-dom'
 import {
@@ -22,9 +19,8 @@ import {
 import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
 import Modal from "../../components/feedback/modal";
+import {post} from "../../helpers/httpRequest";
 
-const {login} = authAction;
-const {clearMenu} = appActions;
 const {Option} = Select;
 
 class SignUp extends Component {
@@ -39,7 +35,6 @@ class SignUp extends Component {
         role_id: 15,
         mobile_code: "57",
         visible: false,
-        loading: false
     };
 
     componentWillReceiveProps(nextProps) {
@@ -59,6 +54,8 @@ class SignUp extends Component {
                 countries: response.data
             })
         });
+
+
     }
 
     handleLogin = () => {
@@ -68,7 +65,7 @@ class SignUp extends Component {
     handleConfirmUser() {
         confirmUser({
             user: {
-                phone_number: parseInt(transformInputData(this.state.country_code) + '3023462490'),
+                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
                 mobile_code: this.state.pin
             }
         }).then((response) => {
@@ -87,7 +84,7 @@ class SignUp extends Component {
         resendCode({
                 user:
                     {
-                        phone_number: parseInt(transformInputData(this.state.country_code) + '3023462490')
+                        phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number)
                     }
 
             }
@@ -144,22 +141,18 @@ class SignUp extends Component {
         if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
             return null;
         }
-        axios.post(httpAddr + '/users/email_verify', {
+        post(httpAddr + '/users/email_verify', {
             user: {
                 email: this.state.email
             }
-        }).then((response) => {
+        }, false).then((response) => {
             if (response.status === 200) {
                 message.warning('El usuario ya existe en el sistema');
-            }
-        }).catch(error => {
-            console.log(error);
-            let errorObject = JSON.parse(JSON.stringify(error));
-            if (error.response.status === 302) {
+            } else if (response.status === 302) {
                 if (this.state.password !== this.state.password_confirmation) {
                     message.warning('La contraseña no coincide');
                 } else {
-                    axios.post(httpAddr + '/users',
+                    post(httpAddr + '/users',
                         {
                             user: {
                                 email: this.state.email,
@@ -169,7 +162,7 @@ class SignUp extends Component {
                                 password_confirmation: this.state.password_confirmation,
                                 role_id: this.state.role_id
                             }
-                        }).then(() => {
+                        }, false).then(() => {
                         this.setState({visible: true})
 
                     }).catch((error) => {
@@ -177,10 +170,12 @@ class SignUp extends Component {
                     })
                 }
 
-            } else {
-
-                message.warning(errorObject.message);
             }
+        }).catch(error => {
+            let errorObject = JSON.parse(JSON.stringify(error));
+
+            message.warning(errorObject.message);
+
 
         });
 
@@ -193,7 +188,10 @@ class SignUp extends Component {
             return <Redirect to='/signin'/>
         }
 
+        console.log(this.props.loading);
+
         return (
+            <Spin spinning={this.props.loading > 0}>
 
                 <SignUpStyleWrapper className="isoSignUpPage">
                     <div className="isoSignUpContentWrapper">
@@ -405,6 +403,7 @@ class SignUp extends Component {
                         </div>
                     </div>
                 </SignUpStyleWrapper>
+            </Spin>
 
         );
     }
@@ -412,7 +411,8 @@ class SignUp extends Component {
 
 export default connect(
     state => ({
-        isLoggedIn: state.Auth.idToken !== null ? true : false
+        loading: state.App.loading,
+        isLoggedIn: state.Auth.idToken !== null
     }),
-    {login, clearMenu}
+    {}
 )(SignUp);

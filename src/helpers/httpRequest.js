@@ -55,36 +55,36 @@ function catchError(error) {
     }
 }
 
-export function get(url, secured = false) {
+export function get(url, secured = false, loading = true) {
     let headers = {};
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
-    store.dispatch(updateAddLoad());
+    if(loading)  store.dispatch(updateAddLoad());
 
     return axios.get(url, {headers: headers}).then((response) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         return response;
     }).catch((error) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })
 }
 
-export function post(url, data, secured = false) {
+export function post(url, data, secured = false, loading = true) {
     let headers = {};
 
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
 
-    store.dispatch(updateAddLoad());
+    if(loading) store.dispatch(updateAddLoad());
     return axios.post(url, data, {headers: headers}).then((response) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         return response;
     }).catch((error) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         if (error.response.status !== 302) {
             catchError(error);
             throw error;
@@ -93,35 +93,48 @@ export function post(url, data, secured = false) {
     })
 }
 
-export function put(url, data, secured = false) {
+export function put(url, data, secured = false, loading = true) {
     let headers = {};
 
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
-    store.dispatch(updateAddLoad());
+    if(loading) store.dispatch(updateAddLoad());
     return axios.put(url, data, {headers: headers}).then((response)=>{
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         return response;
     }).catch((error) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })
 }
 
-export function del(url, secured = false) {
+export function getWithHeader(url, header, loading = true){
+    if(loading) store.dispatch(updateAddLoad());
+
+    return axios.get(url, {headers: header}).then((response)=>{
+        if(loading) store.dispatch(updateRedLoad());
+        return response;
+    }).catch((error) => {
+        if(loading) store.dispatch(updateRedLoad());
+        catchError(error);
+        throw error;
+    })
+}
+
+export function del(url, secured = false, loading = true) {
     let headers = {};
 
     if (secured) {
         headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
     }
-    store.dispatch(updateAddLoad());
+    if(loading) store.dispatch(updateAddLoad());
     return axios.delete(url, {headers: headers,}).then((response)=>{
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         return response;
     }).catch((error) => {
-        store.dispatch(updateRedLoad());
+        if(loading) store.dispatch(updateRedLoad());
         catchError(error);
         throw error;
     })

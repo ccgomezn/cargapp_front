@@ -46,8 +46,8 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicle
                         }}
                     />
                 ) : (
-                    <Component {...props} />
 
+                        <Component {...props} />
                 )
 
             )
@@ -70,6 +70,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                 />
                 <Route
                     exact
+
                     path={"/404"}
                     component={asyncComponent(() => import("./containers/Page/404"))}
                 />
@@ -86,7 +87,6 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
                 />
                 <PublicRoute
                     exact
@@ -106,7 +106,6 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
                 />
                 <PublicRoute
                     exact
@@ -114,7 +113,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     component={asyncComponent(() => import("./containers/Page/signupFinancial"))}
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
-                    admin={isAdmin}
+                    dmin={isAdmin}
 
                 />
                 <PublicRoute
