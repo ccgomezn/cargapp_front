@@ -151,10 +151,8 @@ export default class ServiceEdit extends Component {
                     note: this.state.note,
                     user_id: transformInputData(this.state.user_id),
                     company_id: transformInputData(this.state.company_id),
-                    user_driver_id: transformInputData(this.state.user_driver_id),
                     user_receiver_id: transformInputData(this.state.user_receiver_id),
                     vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    vehicle_id: transformInputData(this.state.vehicle_id),
                     statu_id: transformInputData(this.state.statu_id),
                     expiration_date: this.state.expiration_date,
                     contact: this.state.contact,
@@ -466,25 +464,7 @@ export default class ServiceEdit extends Component {
                                                 </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Conductor">
-                                                <SelectInputCustom value={this.state.user_driver_id}
-                                                                   placeholder="conductor"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'user_driver_id')
-                                                }}
-                                                                   options={this.state && this.state.users &&
 
-                                                                   this.state.users.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.email}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.driver'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
 
                                     </Row>
 
@@ -531,25 +511,7 @@ export default class ServiceEdit extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Vehiculos">
-                                                <SelectInputCustom value={this.state.vehicle_id}
-                                                                   placeholder="vehiculos"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'vehicle_id')
-                                                }}
-                                                                   options={this.state && this.state.vehicles &&
 
-                                                                   this.state.vehicles.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.plate} {item.brand}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.vehicle'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
                                         <Col span={12}>
                                             <Form.Item label="Status">
                                                 <SelectInputCustom value={this.state.statu_id}

@@ -14,10 +14,7 @@ const deleteFunction = (id) => {
   return function () {
     (deleteCountry(id)
       .then((response) => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/countries/';
-
-        }, 3000);
 
       }).catch((error) => {
         console.error(error);

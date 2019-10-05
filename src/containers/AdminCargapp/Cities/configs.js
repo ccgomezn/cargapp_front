@@ -14,10 +14,7 @@ const deleteFunction = (id) => {
   return function () {
     (deleteCity(id)
       .then((response) => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cities/';
-
-        }, 3000);
 
       }).catch((error) => {
         console.error(error);
@@ -42,7 +39,7 @@ const renderCell = (object, type, key, color = false) => {
       var function1 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cities/edit/' + object['id'];
       }
-      
+
 
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
     default:

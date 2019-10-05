@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
     return function () {
         (deleteBankAccount(id)
             .then((response) => {
-                setTimeout(() => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/bank_accounts/';
+                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/bank_accounts/';
 
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);
@@ -83,7 +81,7 @@ const columns = [
         key: 'user',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'user')
-    },{
+    }, {
         title: <IntlMessages id="antTable.title.status"/>,
         key: 'status',
         width: '12%',

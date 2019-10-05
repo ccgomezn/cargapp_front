@@ -199,6 +199,7 @@ export class MapContainer extends Component {
                 }
             });
         }
+        console.log('dir');
         console.log(this.state.directions);
 
         return (

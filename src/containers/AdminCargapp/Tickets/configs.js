@@ -14,10 +14,7 @@ const deleteFunction = (id) => {
     return function () {
         (deleteTicket(id)
             .then(() => {
-                setTimeout(() => {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/admin/tickets/';
-
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);

@@ -17,9 +17,8 @@ export default class Vehicle extends Component {
     constructor() {
         super();
         this.state = {
-            reload: false
-        }
-
+            reload: false,
+        };
     }
 
 

@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
     return function () {
         (deleteCargappPayment(id)
             .then((response) => {
-                setTimeout(() => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_payments/';
+                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_payments/';
 
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);
@@ -83,7 +81,7 @@ const columns = [
         key: 'company',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'company')
-    },{
+    }, {
         title: <IntlMessages id="antTable.title.observation"/>,
         key: 'observation',
         width: '12%',

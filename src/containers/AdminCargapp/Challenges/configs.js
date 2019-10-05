@@ -14,16 +14,14 @@ const deleteFunction = (id) => {
   return function () {
     (deleteChallenge(id)
       .then((response) => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/challenges/';
 
-        }, 3000);
 
       }).catch((error) => {
         console.error(error);
       }));
   }
-}
+};
 
 const renderCell = (object, type, key, color = false) => {
   const value = object[key];

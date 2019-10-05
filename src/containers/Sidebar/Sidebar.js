@@ -38,7 +38,8 @@ class Sidebar extends Component {
         this.props.changeCurrent([e.key]);
         if (this.props.app.view === "MobileView") {
             setTimeout(() => {
-                this.props.toggleCollapsed();
+
+
                 this.props.toggleOpenDrawer();
             }, 100);
         }

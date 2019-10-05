@@ -10,6 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getServices} from '../../../helpers/api/adminCalls.js';
+import {getServicesOfDriver} from "../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
 
@@ -35,8 +36,18 @@ export default class Service extends Component {
 
 
     componentWillMount() {
-
-        axios.all([getServices()])
+        let id = this.props.match.params.id;
+        var getServicesFunction = function () {
+            return getServices();
+        };
+        if (id !== null && id !== undefined) {
+            getServicesFunction = function () {
+                return getServicesOfDriver(
+                    id
+                );
+            }
+        }
+        axios.all([getServicesFunction()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {

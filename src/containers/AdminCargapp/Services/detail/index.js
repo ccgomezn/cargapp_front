@@ -16,7 +16,7 @@ import {
     getVehicles,
     getVehicleTypes,
 } from '../../../../helpers/api/adminCalls.js';
-import {getStatus, getUserLocation} from "../../../../helpers/api/adminCalls";
+import {getStatus, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
@@ -81,6 +81,7 @@ export default class ServiceDetail extends Component {
                     vehicle_type: data_vehicle_types[responses[0].data.vehicle_type_id],
                     vehicle: data_vehicles[responses[0].data.vehicle_id],
                     status: data_status[responses[0].data.statu_id],
+                    statu_id: responses[0].data.statu_id,
                     expiration_date: responses[0].data.expiration_date,
                     contact: responses[0].data.contact,
                     report_type: responses[0].data.report_type,
@@ -134,6 +135,15 @@ export default class ServiceDetail extends Component {
         this.props.history.push('/admin/services')
     }
 
+
+    changeStatus() {
+        let newStatus = 11;
+        if (this.state.statu_id < 8) {
+            newStatus = this.state.statu_id + 1;
+        }
+        console.log(this.state.statu_id)
+        putService(this.props.match.params.id, {statu_id: newStatus}).then(()=> window.location.reload());
+    }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
@@ -266,6 +276,25 @@ export default class ServiceDetail extends Component {
                             </Row>
                             <Col span={24}>
                                 <Card style={{marginBottom: 30}} className="cardContent">
+                                    <Row>
+                                        <Col lg={24} md={24} sm={24} xs={24}>
+                                            <Row>
+                                                <label>
+                                                    <IntlMessages id={'service.status'}/>:
+                                                    {' ' + this.state.status}
+                                                </label>
+
+                                            </Row>
+                                        </Col>
+                                        <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>
+                                            <Row>
+                                                <PrimaryButton message_id={"general.changeStatus"}
+                                                               style={{width: '200px'}}
+                                                               onClick={() => this.changeStatus()}/>
+
+                                            </Row>
+                                        </Col>
+                                    </Row>
                                 </Card>
                             </Col>
                             <Row>

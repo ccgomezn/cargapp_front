@@ -12,13 +12,14 @@ import {Link} from "react-router-dom";
 import {tableinfos} from './tablesConfig'
 import IntlMessages from '../../components/utility/intlMessages';
 import MapContainer from '../../components/maps/map';
-import {List, Avatar, Skeleton, Checkbox} from 'antd';
+import {List, Avatar, Skeleton} from 'antd';
 import DashboardRow from '../../components/custom/information_display/dashboardRow';
 import reqwest from 'reqwest';
 import SimpleView from '../../components/custom/table/simpleView'
 import fakeData from '../Tables/fakeData';
 import ResponsiveLineChart from '../../components/custom/chart/responsiveLineChart'
-import RoundBadge from '../../components/custom/information_display/roundBadge'
+import {getActiveStatus, getMineServices} from "../../helpers/api/adminCalls";
+import axios from "axios";
 
 const tableDataList = new fakeData(10);
 tableDataList.size = 5;
@@ -36,8 +37,42 @@ export default class extends Component {
     };
     _isMounted = false;
 
+
     componentDidMount() {
         this._isMounted = true;
+
+        axios.all([getMineServices(), getActiveStatus()]).then((responses) => {
+            let markers = [];
+            let status_data = {};
+            let ongoing = [];
+            let booked = [];
+            responses[1].data.map((status) => {
+                status_data[status.id] = [status.code, status.name];
+                return status.id;
+            });
+            responses[0].data.map((service) => {
+                service.status = status_data[service.statu_id][1];
+                markers.push({
+                    direction: {
+                        origin: service.origin_latitude + ', ' + service.origin_longitude,
+                        destination: service.destination_latitude + ', ' + service.destination_longitude
+                    }
+                });
+                if (status_data[service.statu_id][0] !== 'Closed' && status_data[service.statu_id][0] !== 'PendingForApproval') {
+                    ongoing.push(service);
+                } else if (status_data[service.statu_id][0] === 'PendingForApproval') {
+                    booked.push(service);
+                }
+                return service;
+            });
+            this.setState({
+                markers: markers,
+                ongoing: ongoing,
+                booked: booked
+            })
+
+
+        });
 
         this.getData(res => {
             if (this._isMounted) {
@@ -94,7 +129,6 @@ export default class extends Component {
                                                 <ColorCircleProgress
 
                                                     percent={70}
-                                                    barHeight={6}
                                                     status="active"
                                                     info={true} // Boolean: true, false
                                                 />
@@ -105,22 +139,26 @@ export default class extends Component {
                                                         <IntlMessages id="widget.reportswidget.titledashboard"/>
                                                     </h1>
                                                     <h2 style={{padding: '10px 0px 30px 19px'}}>
-                                                        <IntlMessages id="widget.reportswidget.subtitledashboard"/>
+                                                        <IntlMessages id="general.booked"/>
                                                     </h2>
                                                 </div>
                                             </Col>
                                         </Row>
                                         <Divider orientation="left" style={{marginTop: '0px'}}></Divider>
-                                        <DashboardRow mainInfo={'1.428'}
-                                                      mainInfoSubId={'widget.reportswidget.vehicules'}
+                                        <DashboardRow mainInfo={this.state.ongoing ? this.state.ongoing.length : ''}
+                                                      mainInfoSubId={
+                                                          this.state.ongoing && this.state.ongoing.length !== 1 ? 'widget.reportswidget.vehicules' : 'widget.reportswidget.vehicule'
+                                                      }
                                                       subIcon={'fall'}
                                                       subInfo={'-7,6%'}
                                                       backgroundColor={'rgb(255, 37, 87, 0.25)'}
                                                       color={'rgb(255, 37, 87)'}
                                                       botMargin={4}/>
                                         <Divider orientation="left"></Divider>
-                                        <DashboardRow mainInfo={'158.2'}
-                                                      mainInfoSubId={'general.kilometer'}
+                                        <DashboardRow mainInfo={this.state.booked ? this.state.booked.length : ''}
+                                                      mainInfoSubId={
+                                                          this.state.ongoing && this.state.ongoing.length !== 1 ? 'widget.reportswidget.services' : 'widget.reportswidget.service'
+                                                      }
                                                       subIcon={'rise'}
                                                       subInfo={'+2,4%'}
                                                       backgroundColor={'rgb(0, 255, 119, 0.25)'}
@@ -140,13 +178,14 @@ export default class extends Component {
                                         options={
                                             <Link style={{
                                                 color: '#0168ff', textTransform: 'uppercase'
-                                            }} to="/dashboard"><IntlMessages id="dashboard.onroad.showall"/></Link>
+                                            }} to="/admin/services"><IntlMessages id="dashboard.onroad.showall"/></Link>
 
                                         }
                                         hr={<hr style={{marginTop: 0}}/>}
                                     >
 
-                                        <SimpleView tableInfo={tableinfos[0]} dataList={tableDataList}/>
+                                        {this.state.ongoing &&
+                                        <SimpleView tableInfo={tableinfos[0]} dataSource={this.state.ongoing}/>}
                                     </ReportsSmallWidget>
                                 </div>
                             </IsoWidgetsWrapper>
@@ -168,7 +207,8 @@ export default class extends Component {
                                                 <MapContainer center={{
                                                     lat: 4.710989,
                                                     lng: -74.072090
-                                                }} block style={{height: 500}} isFreight={true}/>
+                                                }} block style={{height: 500}} isFreight={true}
+                                                              direction={this.state.direction}/>
                                             </Col>
 
                                         </Row>
@@ -239,40 +279,25 @@ export default class extends Component {
 
 
                         <Col lg={12} md={12} sm={24} xs={24} style={colStyle}>
-                            <IsoWidgetsWrapper>
+                            <IsoWidgetsWrapper style={{height: '100% !important'}}>
                                 <div className="vehiclesOnTrack" style={{height: '100%'}}>
-
                                     <ReportsSmallWidget
-                                        label={<IntlMessages id="widget.reportswidget.booked"/>}
+                                        label={<IntlMessages id="widget.reportswidget.titleBooked"/>}
+                                        options={
+                                            <Link style={{
+                                                color: '#0168ff', textTransform: 'uppercase'
+                                            }} to="/admin/services"><IntlMessages id="dashboard.onroad.showall"/></Link>
+
+                                        }
                                         hr={<hr style={{marginTop: 0}}/>}
                                     >
-                                        <List
-                                            className="demo-loadmore-list"
-                                            itemLayout="horizontal"
-                                            dataSource={list}
-                                            renderItem={item => (
-                                                <List.Item actions={[<RoundBadge color={'rgb(0, 255, 119, 0.25)'}
-                                                                                 borderRadius={'15px'}
-                                                                                 data={'Inicia hoy'}
-                                                                                 textColor={'rgb(0, 211, 98)'}/>]}>
-                                                    <Skeleton avatar title={false} loading={item.loading} active>
-                                                        <List.Item.Meta
-                                                            avatar={
-                                                                <Checkbox
-                                                                >
-                                                                </Checkbox>
-                                                            }
-                                                            title={<div className="titleBooked">
-                                                                <h3>Destino-Carga</h3>
-                                                            </div>}
-                                                        />
-                                                    </Skeleton>
-                                                </List.Item>
-                                            )}
-                                        />
+
+                                        {this.state.ongoing &&
+                                        <SimpleView tableInfo={tableinfos[2]} dataSource={this.state.booked}/>}
                                     </ReportsSmallWidget>
                                 </div>
                             </IsoWidgetsWrapper>
+
                         </Col>
 
                     </Row>

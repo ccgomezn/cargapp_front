@@ -28,7 +28,7 @@ const renderCell = (object, type, key1, key2, href) => {
       return MultipleLinkedCell(value, value2linked, link);
     default:
       return TextCell(value);
-    
+
   }
 };
 
@@ -37,35 +37,34 @@ const columnsSimple = [
     title: <IntlMessages id="antTable.title.name" />,
     key: 'nameId',
     width: 100,
-    render: object => renderCell(object, 'MultipleCell', 'firstName', 'firstName')
+    render: object => renderCell(object, 'TextCell', 'name')
   },
   {
     title: <IntlMessages id="antTable.title.date" />,
     key: 'loadType',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'firstName')
+    render: object => renderCell(object, 'TextCell', 'created_at')
   },
   {
     title: <IntlMessages id="antTable.title.origin" />,
     key: 'initialDate',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'lastName')
+    render: object => renderCell(object, 'TextCell', 'origin')
   },
   {
     title: <IntlMessages id="antTable.title.destination" />,
     key: 'destiny',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'city')
+    render: object => renderCell(object, 'TextCell', 'destination')
   },
   {
-    title: <IntlMessages id="antTable.title.status"/>,
-    key: 'state',
+    title: <IntlMessages id="antTable.title.status" />,
+    key: 'status',
     width: 100,
-    align: 'right',
-    render: object => renderCell(object, 'MultipleLinkedCell', 'street', 'street', 'street')
-  }
+    render: object => renderCell(object, 'TextCell', 'status')
+  },
 ];
-const smallColumns = [columnsSimple[0], columnsSimple[1], columnsSimple[2], columnsSimple[3], columnsSimple[4]];
+const smallColumns = [columnsSimple[0], columnsSimple[1], columnsSimple[2], columnsSimple[3]];
 const sortColumns = [
   { ...columnsSimple[0], sorter: true },
   { ...columnsSimple[1], sorter: true },

@@ -38,6 +38,10 @@ export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
 
+export function getMineServices() {
+    return get(httpAddr+'/services/me', true)
+}
+
 
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
@@ -140,7 +144,15 @@ export function getCountries() {
 }
 
 export function getActiveCountries() {
-    return get(httpAddr + '/countries/active', true)
+    return get(httpAddr + '/countries/active', false)
+}
+
+export function confirmUser(data){
+    return post(httpAddr + '/users/validate_number', data,false)
+}
+
+export function resendCode(data){
+    return post(httpAddr + '/users/resend_code', data,false)
 }
 
 export function getCountry(id) {
@@ -993,5 +1005,14 @@ export function deletePayment(id) {
 
 
 export function verifyEmail(email) {
-    return post(httpAddr + '/users/email_verify', {user: {email: email}}, false);
+    return post(httpAddr + '/users/email_verify', {user: {email: email}}, false, false);
+}
+
+export function getServicesOfDriver(id){
+    return get(httpAddr + `/services/find_driver/` + id, true);
+
+}
+
+export function verifyPhoneNumber(number) {
+    return post(httpAddr + '/users/phone_verify', {user: {phone_number: number}}, false, false);
 }

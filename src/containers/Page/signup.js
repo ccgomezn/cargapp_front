@@ -1,31 +1,40 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import authAction from "../../redux/auth/actions";
-import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
-import {Row, Col} from "antd";
+import {Row, Col, Select, Spin} from "antd";
 import {Radio, message} from 'antd';
 import PrimaryButton from '../../components/custom/button/primary'
 import SecondaryButton from "../../components/custom/button/secondary";
 import TextInputCustom from '../../components/custom/input/text'
-import axios from 'axios';
 import httpAddr from "../../helpers/http_helper"
 import {Redirect} from 'react-router-dom'
-import importantVariables from '../../helpers/hashVariables'
-import {verifyEmail} from "../../helpers/api/adminCalls";
+import {
+    confirmUser,
+    getActiveCountries,
+    resendCode,
+    verifyEmail,
+    verifyPhoneNumber
+} from "../../helpers/api/adminCalls";
+import SelectInputCustom from "../../components/custom/input/select";
+import {transformInputData} from "../../helpers/utility";
+import Modal from "../../components/feedback/modal";
+import {post} from "../../helpers/httpRequest";
 
-const {login} = authAction;
-const {clearMenu} = appActions;
+const {Option} = Select;
 
 class SignUp extends Component {
 
     state = {
         redirect: false,
         duplicated: false,
+        duplicated_phone: false,
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        role_id: 15,
+        mobile_code: "57",
+        visible: false,
     };
 
     componentWillReceiveProps(nextProps) {
@@ -35,13 +44,61 @@ class SignUp extends Component {
         ) {
             this.setState({redirectToReferrer: true});
         }
+
+
+    }
+
+    componentDidMount() {
+        getActiveCountries().then((response) => {
+            this.setState({
+                countries: response.data
+            })
+        });
+
+
     }
 
     handleLogin = () => {
         this.props.history.push("/signin")
     };
 
+    handleConfirmUser() {
+        confirmUser({
+            user: {
+                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
+                mobile_code: this.state.pin
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                message.success("Usuario registrado correctamente");
+                this.setState({
+                    redirect: true
+                });
+            } else {
+                message.warning("Codigo incorrecto");
+            }
+        })
+    }
+
+    handleResendCode() {
+        resendCode({
+                user:
+                    {
+                        phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number)
+                    }
+
+            }
+        ).then(
+            message.success("Codigo reenviado")
+        )
+    }
+
     handleChange(value, type) {
+        this.setState(
+            {
+                [type]: value
+            }
+        );
         if (type === 'email') {
             if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
                 verifyEmail(value).then((response) => {
@@ -54,61 +111,71 @@ class SignUp extends Component {
                 })
             }
         }
-        this.setState(
-            {
-                [type]: value
+        if (type === 'phone_number') {
+            if (/^\d{10}\d+$/.test(transformInputData(this.state.country_code) + value)) {
+                verifyPhoneNumber(parseInt(transformInputData(this.state.country_code) + value)).then((response) => {
+                    if (response.data.phone_number) {
+
+                        this.setState({duplicated_phone: true});
+                    } else {
+                        this.setState({duplicated_phone: false});
+                    }
+                })
             }
-        )
+        } else if (type === 'country_code') {
+            if (/^\d{10}\d+$/.test(transformInputData(value) + this.state.phone_number)) {
+                verifyPhoneNumber(parseInt(transformInputData(value) + this.state.phone_number)).then((response) => {
+                    if (response.data.phone_number) {
+
+                        this.setState({duplicated_phone: true});
+                    } else {
+                        this.setState({duplicated_phone: false});
+                    }
+                })
+            }
+        }
+
     }
 
     handlePostRegister() {
         if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
             return null;
         }
-        axios.post(httpAddr + '/users/email_verify', {
+        post(httpAddr + '/users/email_verify', {
             user: {
                 email: this.state.email
             }
-        }).then((response) => {
-            console.log(response);
+        }, false).then((response) => {
             if (response.status === 200) {
                 message.warning('El usuario ya existe en el sistema');
-            }
-        }).catch(error => {
-            console.log(error);
-            let errorObject = JSON.parse(JSON.stringify(error));
-            if (error.response.status === 302) {
+            } else if (response.status === 302) {
                 if (this.state.password !== this.state.password_confirmation) {
                     message.warning('La contraseña no coincide');
                 } else {
-                    axios.post(httpAddr + '/users',
+                    post(httpAddr + '/users',
                         {
                             user: {
                                 email: this.state.email,
                                 password: this.state.password,
+                                identification: this.state.identification,
+                                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
                                 password_confirmation: this.state.password_confirmation,
-
+                                role_id: this.state.role_id
                             }
-                        }).then((response) => {
-                        axios.post(httpAddr + '/user_roles',
-                            {
-                                user_role: {
-                                    user_id: response.data.id,
-                                    role_id: importantVariables.user_role_id,
-                                }
-                            }).then(() => {
-                            message.success('El usuario fue cerado correctamente');
-                            this.setState({redirect: true})
-                        })
-                    }).catch(() => {
-                        message.warning('La contraseña no cumple los criterios');
-                    });
+                        }, false).then(() => {
+                        this.setState({visible: true})
+
+                    }).catch((error) => {
+                        message.warning("Error al crear el usuario");
+                    })
                 }
 
-            } else {
-
-                message.warning(errorObject.message);
             }
+        }).catch(error => {
+            let errorObject = JSON.parse(JSON.stringify(error));
+
+            message.warning(errorObject.message);
+
 
         });
 
@@ -121,142 +188,231 @@ class SignUp extends Component {
             return <Redirect to='/signin'/>
         }
 
+        console.log(this.props.loading);
+
         return (
-            <SignUpStyleWrapper className="isoSignUpPage">
-                <div className="isoSignUpContentWrapper">
-                    <div className="isoSignUpContent">
-                        <div className="isoLogoWrapper">
-                            <div>
-                                <Row>
-                                    <Col span={24}>
-                                        <div>
-                                            <div class="Bienvenido-a-Cargapp">
-                                                <IntlMessages id="page.welcomeTo"/>
+            <Spin spinning={this.props.loading > 0}>
 
-                                                <div class="text-style-1">
-                                                    Cargapp
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <div class="Una-solucin-digital">
-                                            <IntlMessages id="page.signInSubtitle"/>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </div>
-
-                        <div className="isoSignUpForm">
-                            <div className="isoSelectWrapper">
-                                <Row>
-                                    <Radio.Group defaultValue="a">
-
-                                        <Col span={11}>
-                                            <Radio.Button value="a" className="buttonSelect">
-                                                <div className="isoCenterComponent">
-                                                    <div>
-                                                        <p className="title">
-                                                            <IntlMessages id="page.admin"/>
-                                                        </p>
-
-                                                        <p className="subtitle">
-                                                            <IntlMessages id="page.adminSub"/>
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-                                            </Radio.Button>
-                                        </Col>
-                                        <Col span={2}></Col>
-                                        <Col span={11}>
-                                            <Radio.Button value="b" className="buttonSelect">
-                                                <div className="isoCenterComponent">
-                                                    <div>
-                                                        <p className="title">
-                                                            <IntlMessages id="page.oper"/>
-                                                        </p>
-                                                        <p className="subtitle">
-                                                            <IntlMessages id="page.operSub"/>
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-                                            </Radio.Button>
-                                        </Col>
-                                    </Radio.Group>
-                                </Row>
-
-                            </div>
-                            <form autoComplete="new-password">
-
-                                <div className="formData">
-
-                                    <div className="isoInputWrapper">
-                                        <TextInputCustom required label_id={this.state.duplicated?'page.emailDuplicated':'page.email'} value={this.state.email}
-                                                         placeholder='Correo eléctronico'
-                                                         onChange={(e) => this.handleChange(e.target.value, 'email')}/>
-                                    </div>
-                                    <div className="isoInputWrapper">
-                                        <TextInputCustom required label_id='page.password' value={this.state.password}
-                                                         placeholder='Contraseña' type='password'
-                                                         onChange={(e) => this.handleChange(e.target.value, 'password')}/>
-                                    </div>
-                                    <div className="isoInputWrapper">
-                                        <TextInputCustom required label_id='page.passwordConfirmation'
-                                                         value={this.state.password_confirmation}
-                                                         placeholder='Contraseña' type='password'
-                                                         onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}/>
-                                    </div>
-
-                                </div>
-
-
-                                <div className="sign-buttons">
+                <SignUpStyleWrapper className="isoSignUpPage">
+                    <div className="isoSignUpContentWrapper">
+                        <div className="isoSignUpContent">
+                            <div className="isoLogoWrapper">
+                                <div>
                                     <Row>
-                                        <Col span={24} align={'right'}>
-                                            <div className="button-sign" style={{marginRight: '10px'}}>
-                                                <SecondaryButton message_id="sidebar.signin"
-                                                                 onClick={() => this.handleLogin()}/>
+                                        <Col span={24}>
+                                            <div>
+                                                <div class="Bienvenido-a-Cargapp">
+                                                    <IntlMessages id="page.welcomeTo"/>
 
+                                                    <div class="text-style-1">
+                                                        Cargapp
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div className="button-sign">
-
-                                                <PrimaryButton disabled={this.state.duplicated} message_id="page.signup"
-                                                               onClick={() => this.handlePostRegister()}/>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <div class="Una-solucin-digital">
+                                                <IntlMessages id="page.signInSubtitle"/>
                                             </div>
                                         </Col>
                                     </Row>
                                 </div>
-                            </form>
-
-
-                            <div className="footer">
-                                <Row>
-                                    <Col span={24} align={'center'}>
-                                        <IntlMessages id="app.footer"/>
-
-                                    </Col>
-                                </Row>
-
                             </div>
-                        </div>
 
+                            <div className="isoSignUpForm">
+                                <div className="isoSelectWrapper">
+                                    <Row>
+                                        <Radio.Group defaultValue={15}
+                                                     onChange={(e) => this.handleChange(e.target.value, 'role_id')}>
+
+                                            <Col span={11}>
+                                                <Radio.Button value={15} className="buttonSelect">
+                                                    <div className="isoCenterComponent">
+                                                        <div>
+                                                            <p className="title">
+                                                                <IntlMessages id="page.admin"/>
+                                                            </p>
+
+                                                            <p className="subtitle">
+                                                                <IntlMessages id="page.adminSub"/>
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </Radio.Button>
+                                            </Col>
+                                            <Col span={2}></Col>
+                                            <Col span={11}>
+                                                <Radio.Button value={27} className="buttonSelect">
+                                                    <div className="isoCenterComponent">
+                                                        <div>
+                                                            <p className="title">
+                                                                <IntlMessages id="page.oper"/>
+                                                            </p>
+                                                            <p className="subtitle">
+                                                                <IntlMessages id="page.operSub"/>
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </Radio.Button>
+                                            </Col>
+                                        </Radio.Group>
+                                    </Row>
+
+                                </div>
+                                <form autoComplete="new-password">
+
+                                    <div className="formData">
+
+                                        <div className="isoInputWrapper">
+                                            <TextInputCustom required
+                                                             label_id={this.state.duplicated ? 'page.emailDuplicated' : 'page.email'}
+                                                             value={this.state.email}
+                                                             placeholder='Correo eléctronico'
+                                                             onChange={(e) => this.handleChange(e.target.value, 'email')}/>
+                                        </div>
+                                        <div className="isoInputWrapper">
+                                            <TextInputCustom required label_id='page.password'
+                                                             value={this.state.password}
+                                                             placeholder='Contraseña' type='password'
+                                                             onChange={(e) => this.handleChange(e.target.value, 'password')}/>
+                                        </div>
+                                        <div className="isoInputWrapper">
+                                            <TextInputCustom required label_id='page.passwordConfirmation'
+                                                             value={this.state.password_confirmation}
+                                                             placeholder='Contraseña' type='password'
+                                                             onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}/>
+                                        </div>
+                                        <div className="isoInputWrapper">
+                                            <Row>
+                                                {this.state.countries && <Col span={6}>
+                                                    <SelectInputCustom placeholder={'page.country'}
+                                                                       label_id={'page.country'}
+                                                                       onChange={(e) => {
+                                                                           this.handleChange(e, 'country_code')
+                                                                       }}
+                                                                       defaultValue={{key: 57}}
+                                                                       value={this.state.country_code}
+                                                                       options={this.state.countries.map((item) => {
+                                                                           return <Option
+                                                                               value={item.code}><img alt={""}
+                                                                                                      style={{
+                                                                                                          width: '10px',
+                                                                                                          height: '10px'
+                                                                                                      }}
+                                                                                                      src={item.image}/> +{item.code}
+                                                                           </Option>
+                                                                       })}/>
+                                                </Col>}
+
+                                                <Col span={18}>
+                                                    <TextInputCustom required
+                                                                     label_id={this.state.duplicated_phone ? 'page.phoneDuplicated' : 'page.phone'}
+                                                                     value={this.state.phone_number}
+                                                                     placeholder='Número de teléfono'
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'phone_number')}/>
+                                                </Col>
+
+                                            </Row>
+
+                                        </div>
+                                        <div className="isoInputWrapper">
+                                            <TextInputCustom required label_id={'page.identification'}
+                                                             value={this.state.identification}
+                                                             placeholder='Número de identificación'
+                                                             onChange={(e) => this.handleChange(e.target.value, 'identification')}/>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="sign-buttons">
+                                        <Row>
+                                            <Col span={24} align={'right'}>
+                                                <div className="button-sign" style={{marginRight: '10px'}}>
+                                                    <SecondaryButton message_id="sidebar.signin"
+                                                                     onClick={() => this.handleLogin()}/>
+
+                                                </div>
+
+                                                <div className="button-sign">
+
+                                                    <PrimaryButton
+                                                        disabled={this.state.duplicated || this.state.duplicated_phone}
+                                                        message_id="page.signup"
+                                                        onClick={() => this.handlePostRegister()}/>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </form>
+                                <Modal
+                                    title="Ingresa el pin"
+                                    visible={this.state.visible}
+                                    cancelText={'Cancelar'}
+                                    style={{width: '100%'}}
+                                    image={'smartphone.svg'}
+                                    body={
+                                        <div>
+                                            <Row type="flex" style={{textAlign: 'center', justifyContent: 'center'}}>
+                                                <h1>Ingresa el pin</h1>
+
+                                            </Row>
+
+                                            <Row type={"flex"} style={{
+                                                textAlign: 'center',
+                                                justifyContent: 'center',
+                                                marginTop: '-20px'
+                                            }}>
+                                                <h2>Debes ingresar el pin que te acaba
+                                                    de llegar a tu celular para validar</h2>
+                                            </Row>
+
+                                            <Row style={{marginTop: '20px'}}>
+                                                <TextInputCustom
+                                                    value={this.state.pin}
+                                                    placeholder={'Pin'}
+                                                    label_id={'Signup.pin'}
+                                                    onChange={(e) => this.handleChange(e.target.value, 'pin')}/>
+                                            </Row>
+
+                                            <PrimaryButton message_id={'page.confirm'}
+                                                           onClick={() => this.handleConfirmUser()}
+                                                           style={{marginTop: '20px', width: '100% '}}/>
+                                            <SecondaryButton message_id={'page.sendAgain'}
+                                                             onClick={() => this.handleResendCode()}
+                                                             style={{marginTop: '20px', width: '100% '}}/>
+                                        </div>
+                                    }
+                                />
+
+                                <div className="footer">
+                                    <Row>
+                                        <Col span={24} align={'center'}>
+                                            <IntlMessages id="app.footer"/>
+
+                                        </Col>
+                                    </Row>
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-            </SignUpStyleWrapper>
+                </SignUpStyleWrapper>
+            </Spin>
+
         );
     }
 }
 
 export default connect(
     state => ({
-        isLoggedIn: state.Auth.idToken !== null ? true : false
+        loading: state.App.loading,
+        isLoggedIn: state.Auth.idToken !== null
     }),
-    {login, clearMenu}
+    {}
 )(SignUp);

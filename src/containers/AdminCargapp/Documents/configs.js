@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
   return function () {
     (deleteDocument(id)
       .then((response) => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/documents/';
 
-        }, 3000);
 
       }).catch((error) => {
         console.error(error);

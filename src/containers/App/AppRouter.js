@@ -26,6 +26,7 @@ const routes_admin = [
         path: 'roles',
         component: asyncComponent(() => import('../AdminCargapp/Roles'))
     },
+
     {
         path: 'roles/add',
         component: asyncComponent(() => import('../AdminCargapp/Roles/create'))

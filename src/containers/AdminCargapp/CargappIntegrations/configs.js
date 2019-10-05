@@ -16,10 +16,8 @@ const deleteFunction = (id) => {
   return function () {
     (deleteIntegration(id)
       .then(() => {
-        setTimeout(() => {
           window.location.href = window.location.protocol + '//' + window.location.host + '/admin/cargapp_integrations/';
 
-        }, 3000);
 
 
       }).catch((error) => {

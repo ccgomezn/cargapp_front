@@ -36,6 +36,20 @@ const ModalHolder = styled.div`
           letter-spacing: normal;
           color: #010935;
           }
+          
+          h2{
+          height: 38px;
+          opacity: 0.5;
+          font-family: Roboto;
+          font-size: 20px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.36;
+          letter-spacing: normal;
+          text-align: center;
+          color: #010935;
+          }
 `;
 
 export default ModalHolder;

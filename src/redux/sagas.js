@@ -10,6 +10,7 @@ import cardsSagas from './card/saga';
 import chatSagas from './chat/sagas';
 import articles from './articles/sagas';
 import investors from './investors/sagas';
+import appSagas from './app/saga';
 
 export default function* rootSaga(getState) {
   yield all([
@@ -24,5 +25,6 @@ export default function* rootSaga(getState) {
     chatSagas(),
     articles(),
     investors(),
+    appSagas()
   ]);
 }

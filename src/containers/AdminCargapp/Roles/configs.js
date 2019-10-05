@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
     return function () {
         (deleteRole(id)
             .then(() => {
-                setTimeout(() => {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/admin/roles/';
 
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);

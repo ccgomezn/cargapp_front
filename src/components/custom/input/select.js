@@ -11,6 +11,7 @@ export default class SelectInputCustom extends Component {
                     <IntlMessages id={this.props.label_id}/>
                 </label>
                 <Select
+                    defaultValue={this.props.defaultValue}
                     labelInValue
                     showSearch
                     placeholder={this.props.placeholder}
