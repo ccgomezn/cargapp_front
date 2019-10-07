@@ -618,6 +618,13 @@ const routes_admin = [
     ...shared_routes
 ];
 
+const generator_routes = [
+    {
+        path: 'services/add',
+        component: asyncComponent(() => import('../AdminCargapp/Services/create'))
+    }
+];
+
 class AppRouter extends Component {
     render() {
         const {url, style} = this.props;

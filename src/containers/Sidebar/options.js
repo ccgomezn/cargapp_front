@@ -59,6 +59,51 @@ export const optionsVehicle = [
     }
 ];
 
+export const optionsGenerator = [
+    {
+        key: '',
+        label: 'sidebar.home',
+        leftIcon: 'ion-android-apps',
+    },
+    {
+        key: 'services',
+        label: 'sidebar.services',
+        leftIcon: 'ion-lightbulb',
+    },
+    {
+        key: 'mine_services',
+        label: 'sidebar.mineServices',
+        leftIcon: 'ion-lightbulb',
+    },{
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
+    },
+];
+
+
+export const optionsConveyor = [
+    {
+        key: '',
+        label: 'sidebar.home',
+        leftIcon: 'ion-android-apps',
+    },
+    {
+        key: 'services',
+        label: 'sidebar.services',
+        leftIcon: 'ion-lightbulb',
+    },
+    {
+        key: 'mine_services',
+        label: 'sidebar.mineServices',
+        leftIcon: 'ion-lightbulb',
+    },{
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
+    },
+];
+
 export const optionsAdmin = [
     {
         key: '',

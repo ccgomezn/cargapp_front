@@ -23,10 +23,11 @@ const {toggleAll, loadChange} = appActions;
 export class App extends Component {
     render() {
         const {url} = this.props.match;
-        const {locale, selectedTheme, height, admin, isUser, isVehicleManager, loading} = this.props;
+        const {locale, selectedTheme, height, admin, isUser, isVehicleManager, loading, isGenerator, isConveyor} = this.props;
         const currentAppLocale = AppLocale[locale];
         const appHeight = window.innerHeight;
-        console.log("load: " + loading);
+        console.log(this.props);
+
         return (
             <LocaleProvider locale={currentAppLocale.antd}>
                 <IntlProvider
@@ -48,7 +49,8 @@ export class App extends Component {
                                 </Debounce>
                                 <Topbar url={url}/>
                                 <Layout style={{flexDirection: 'row', overflowX: 'hidden'}}>
-                                    <Sidebar url={url} admin={admin} isUser={isUser}
+                                    <Sidebar url={url} admin={admin} isUser={isUser} isGenerator={isGenerator}
+                                             isConveyor={isConveyor}
                                              isVehicleManager={isVehicleManager}/>
                                     <Layout
                                         className="isoContentMainLayout"

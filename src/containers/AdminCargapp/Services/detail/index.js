@@ -20,6 +20,7 @@ import {getStatus, getUserLocation, putService} from "../../../../helpers/api/ad
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
+import importantVariables from "../../../../helpers/hashVariables";
 
 export default class ServiceDetail extends Component {
 
@@ -31,10 +32,14 @@ export default class ServiceDetail extends Component {
         }
     }
 
-    transformDataToMap(data, key) {
+    transformDataToMap(data, key, key1 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            dataTransformed[item.id] = item[key];
+            if(key1 !== null){
+                dataTransformed[item.id] = item[key];
+            }else{
+                dataTransformed[item[key1]] = item[key];
+            }
             return item;
         });
 
@@ -58,6 +63,8 @@ export default class ServiceDetail extends Component {
                 let data_vehicles = this.transformDataToMap(responses[4].data, 'name');
                 let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
                 let data_status = this.transformDataToMap(responses[6].data, 'name');
+                let data_status_code = this.transformDataToMap(responses[6].data, 'code');
+                let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
                 this.setState({
                     name: responses[0].data.name,
                     origin: responses[0].data.origin,
@@ -86,6 +93,8 @@ export default class ServiceDetail extends Component {
                     contact: responses[0].data.contact,
                     report_type: responses[0].data.report_type,
                     active: responses[0].data.active,
+                    status_code: data_status_code,
+                    status_from_code: data_status_from_code
                 });
                 getUserLocation(1).then((response) => {
                     this.setState({
@@ -137,12 +146,9 @@ export default class ServiceDetail extends Component {
 
 
     changeStatus() {
-        let newStatus = 11;
-        if (this.state.statu_id < 8) {
-            newStatus = this.state.statu_id + 1;
-        }
-        console.log(this.state.statu_id)
-        putService(this.props.match.params.id, {statu_id: newStatus}).then(()=> window.location.reload());
+        let newCode = importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]];
+        let newId = this.state.data_status_from_code[newCode];
+        putService(this.props.match.params.id, {statu_id: newId}).then(()=> window.location.reload());
     }
 
     render() {

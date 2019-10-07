@@ -26,7 +26,7 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVeh
 );
 
 
-const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
+const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager,isGenerator, isConveyor, ...rest}) => (
     <Route
         {...rest}
         render={props =>
@@ -38,24 +38,35 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicle
                     }}
                 />
             ) : (
-                isLoggedIn && (isUser || isVehicleManager)? (
+                isLoggedIn && (isVehicleManager)? (
                     <Redirect
                         to={{
-                            pathname: "/dashboard",
+                            pathname: "/vehicle_manager",
                             state: {from: props.location}
                         }}
                     />
-                ) : (
+                ) : isLoggedIn && (isGenerator)?(
 
-                        <Component {...props} />
-                )
+                    <Redirect
+                        to={{
+                            pathname: "/vehicle_manager",
+                            state: {from: props.location}
+                        }}
+                    />
+                ): isLoggedIn && isConveyor &&
+                    <Redirect
+                        to={{
+                            pathname: "/vehicle_manager",
+                            state: {from: props.location}
+                        }}
+                    />
 
             )
         }
     />
 );
 
-const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) => {
+const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager, isGenerator, isConveyor}) => {
     return (
         <ConnectedRouter history={history}>
             <div>
@@ -66,6 +77,8 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isGenerator={isGenerator}
+                    isConveyor={isConveyor}
                     isVehicleManager={isVehicleManager}
                 />
                 <Route
@@ -159,6 +172,33 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isVehicleManager={isVehicleManager}
 
                 />
+                <RestrictedRoute
+                    path="/vehicle_manager"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+                    isGenerator={isGenerator}
+                    isConveyor={isConveyor}
+                />
+                <RestrictedRoute
+                    path="/dashboard"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+                />
+                <RestrictedRoute
+                    path="/dashboard"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+
+                />
 
 
             </div>
@@ -184,6 +224,8 @@ export default connect(state => {
             isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.load_generator_role_id)),
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
             isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),
+            isConveyor: roles !== null && roles !== undefined && roles.includes(String(importantVariables.conveyor_role_id)),
+            isGenerator: roles !== null && roles !== undefined && roles.includes(String(importantVariables.generator_role_id))
         }
     )
 })(PublicRoutes);
