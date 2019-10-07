@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getServices} from '../../../helpers/api/adminCalls.js';
-import {getServicesOfDriver} from "../../../helpers/api/adminCalls";
+import {getMineServices, getServicesOfDriver} from "../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
 
@@ -36,7 +36,8 @@ export default class Service extends Component {
 
 
     componentWillMount() {
-        let id = this.props.match.params.id;
+        const {id} = this.props.match.params;
+        const {generator} = this.props;
         var getServicesFunction = function () {
             return getServices();
         };
@@ -45,6 +46,10 @@ export default class Service extends Component {
                 return getServicesOfDriver(
                     id
                 );
+            }
+        } else if (generator) {
+            getServicesFunction = function () {
+                return getMineServices(id);
             }
         }
         axios.all([getServicesFunction()])
@@ -69,16 +74,26 @@ export default class Service extends Component {
     }
 
 
-    redirectAdd() {
-        this.props.history.push('/admin/services/add')
+    redirectAdd(generator) {
+        if(generator){
+            this.props.history.push('/generator/services/add')
+        }else{
+            this.props.history.push('/admin/services/add')
+        }
     }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
-
+        const {generator} = this.props;
         if (reload) {
-            return <Redirect to='/admin/services'/>
+            console.log(generator)
+            if(generator){
+                return <Redirect to='/generator/services'/>
+
+            }else{
+                return <Redirect to='/admin/services'/>
+            }
         }
         return (
             <LayoutWrapper>
@@ -101,7 +116,7 @@ export default class Service extends Component {
                                 <PrimaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
-                                    onClick={() => this.redirectAdd()}/>
+                                    onClick={() => this.redirectAdd(generator)}/>
                             </Col>
                         </Row>
                         <Row>

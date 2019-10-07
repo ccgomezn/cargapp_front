@@ -16,7 +16,7 @@ import {
     getActiveCities,
     getActiveCompanies, getActiveStatus,
     getActiveUsers,
-    getActiveVehicles, getActiveVehicleTypes, getMineUser,
+    getActiveVehicles, getActiveVehicleTypes, getMineUser, getServices,
 
 } from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
@@ -72,8 +72,14 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
-
-        axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
+        const {admin} = this.props;
+        let getCompaniesFunction = function(){};
+        if(admin){
+            getCompaniesFunction  = function () {
+                return getActiveCompanies();
+            }
+        }
+        axios.all([getActiveUsers(), getActiveCities(), getCompaniesFunction(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,
@@ -190,7 +196,7 @@ export default class ReportCreate extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
-        const {assign} = this.props;
+        const {assign, admin} = this.props;
 
         if (redirect) {
             return <Redirect to='/admin/services'/>
@@ -436,25 +442,28 @@ export default class ReportCreate extends Component {
                                                                      label_id={'admin.title.note'}/>
                                                 </Form.Item>
                                             </Col>
-                                            <Col span={12}>
-                                                <Form.Item label="Empresa">
-                                                    <SelectInputCustom value={this.state.company_id}
-                                                                       placeholder="empresa"
-                                                                       style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'company_id')
-                                                    }}
-                                                                       options={this.state && this.state.companies &&
+                                            {
+                                                admin && <Col span={12}>
+                                                    <Form.Item label="Empresa">
+                                                        <SelectInputCustom value={this.state.company_id}
+                                                                           placeholder="empresa"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'company_id')
+                                                        }}
+                                                                           options={this.state && this.state.companies &&
 
-                                                                       this.state.companies.map((item) => {
-                                                                           return <Option
-                                                                               value={item.id}>{item.name}</Option>
-                                                                       })
-                                                                       }
-                                                                       label_id={'admin.title.company'}>
+                                                                           this.state.companies.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.name}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.company'}>
 
-                                                    </SelectInputCustom>
-                                                </Form.Item>
-                                            </Col>
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
+                                                </Col>
+                                            }
+
                                         </Col>
 
 

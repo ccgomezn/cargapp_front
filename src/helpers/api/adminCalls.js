@@ -1013,6 +1013,7 @@ export function getServicesOfDriver(id){
 
 }
 
+
 export function verifyPhoneNumber(number) {
     return post(httpAddr + '/users/phone_verify', {user: {phone_number: number}}, false, false);
 }

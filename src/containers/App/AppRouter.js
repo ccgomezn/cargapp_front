@@ -622,6 +622,10 @@ const routes_generator = [
     {
         path: 'services',
         component: asyncComponent(() => import('../AdminCargapp/Services'),{generator: true})
+    },
+    {
+        path: 'services/add',
+        component: asyncComponent(() => import('../AdminCargapp/Services/create'),{generator: true})
     }
 ];
 
