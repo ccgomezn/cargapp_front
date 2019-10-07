@@ -7,12 +7,13 @@ import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
 import {decrypt} from "./helpers/utility";
 
-const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
+const RestrictedRoute = ({component: Component, isLoggedIn: isLoggedIn, isUser: isUser, admin: admin, isVehicleManager: isVehicleManager, isConveyor: isConveyor, isGenerator: isGenerator, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && (isUser || isVehicleManager)? (
-                <Component {...props} admin={admin} isUser={isUser} isVehicleManager={isVehicleManager}/>
+            isLoggedIn && (isUser || isVehicleManager || admin || isConveyor || isGenerator) ? (
+                <Component {...props} admin={admin} isUser={isUser} isConveyor={isConveyor} isGenerator={isGenerator}
+                           isVehicleManager={isVehicleManager}/>
             ) : (
                 <Redirect
                     to={{
@@ -26,11 +27,11 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVeh
 );
 
 
-const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager,isGenerator, isConveyor, ...rest}) => (
+const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isGenerator, isConveyor, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn  && admin ? (
+            isLoggedIn && admin ? (
                 <Redirect
                     to={{
                         pathname: "/admin/",
@@ -38,35 +39,38 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicle
                     }}
                 />
             ) : (
-                isLoggedIn && (isVehicleManager)? (
+                isLoggedIn && (isVehicleManager) ? (
                     <Redirect
                         to={{
                             pathname: "/vehicle_manager",
                             state: {from: props.location}
                         }}
                     />
-                ) : isLoggedIn && (isGenerator)?(
+                ) : isLoggedIn && isGenerator ? (
 
                     <Redirect
                         to={{
-                            pathname: "/vehicle_manager",
+                            pathname: "/generator",
                             state: {from: props.location}
                         }}
                     />
-                ): isLoggedIn && isConveyor &&
+                ) : isLoggedIn && isConveyor ?
                     <Redirect
                         to={{
-                            pathname: "/vehicle_manager",
+                            pathname: "/conveyor",
                             state: {from: props.location}
                         }}
-                    />
+                    /> : (
+
+                        <Component {...props} />
+                    )
 
             )
         }
     />
 );
 
-const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager, isGenerator, isConveyor}) => {
+const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, isGenerator, isConveyor}) => {
     return (
         <ConnectedRouter history={history}>
             <div>
@@ -183,21 +187,22 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager, is
                     isConveyor={isConveyor}
                 />
                 <RestrictedRoute
-                    path="/dashboard"
+                    path="/generator"
                     component={App}
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
+                    isGenerator={isGenerator}
                 />
                 <RestrictedRoute
-                    path="/dashboard"
+                    path="/conveyor"
                     component={App}
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
+                    isConveyor={isConveyor}
                 />
 
 

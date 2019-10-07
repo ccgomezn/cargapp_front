@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import clone from "clone";
 import {Link} from "react-router-dom";
 import {Layout} from "antd";
-import {options, optionsAdmin, optionsGenerator, optionsVehicle, optionsConveyor} from "./options";
+import { optionsAdmin, optionsGenerator, optionsVehicle, optionsConveyor} from "./options";
 import Scrollbars from "../../components/utility/customScrollBar.js";
 import Menu from "../../components/uielements/menu";
 import IntlMessages from "../../components/utility/intlMessages";
@@ -117,7 +117,7 @@ class Sidebar extends Component {
     render() {
         const {toggleCollapsed} = this.props;
 
-        const {app, customizedTheme, height, admin, isUser, isVehicleManager, isGenerator, isConveyor} = this.props;
+        const {app, customizedTheme, height, admin, isVehicleManager, isGenerator, isConveyor} = this.props;
         const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
         const mode = collapsed === true ? "vertical" : "inline";
 
@@ -131,6 +131,8 @@ class Sidebar extends Component {
         const submenuColor = {
             color: "rgb(178, 186, 200)"
         };
+        console.log('generador full: ');
+        console.log(isGenerator);
         return (
             <SidebarWrapper className="RealSide">
                 <Sider
@@ -156,15 +158,15 @@ class Sidebar extends Component {
                             optionsAdmin.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            {!admin && isGenerator &&
+                            { isGenerator &&
                             optionsGenerator.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            {!admin && isVehicleManager &&
+                            {isVehicleManager &&
                             optionsVehicle.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            {!admin && isConveyor &&
+                            {isConveyor &&
                             optionsConveyor.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}

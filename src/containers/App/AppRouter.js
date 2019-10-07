@@ -618,9 +618,16 @@ const routes_admin = [
     ...shared_routes
 ];
 
-const generator_routes = [
+const routes_generator = [
     {
-        path: 'services/add',
+        path: 'services',
+        component: asyncComponent(() => import('../AdminCargapp/Services'),{generator: true})
+    }
+];
+
+const routes_vehicle_manager = [
+    {
+        path: 'services',
         component: asyncComponent(() => import('../AdminCargapp/Services/create'))
     }
 ];
@@ -628,22 +635,14 @@ const generator_routes = [
 class AppRouter extends Component {
     render() {
         const {url, style} = this.props;
+        let routes;
         if (url === '/admin') {
-            return (
-                <div style={style}>
-                    {routes_admin.map(singleRoute => {
-                        const {path, exact, ...otherProps} = singleRoute;
-                        return (
-                            <Route
-                                exact={exact === false ? false : true}
-                                key={singleRoute.path}
-                                path={`${url}/${singleRoute.path}`}
-                                {...otherProps}
-                            />
-                        );
-                    })}
-                </div>
-            );
+            routes = routes_admin;
+
+        }else if(url === '/generator'){
+            routes = routes_generator;
+        }else if(url === '/vehicle_manager'){
+            routes = routes_vehicle_manager;
         }
         return (
             <div style={style}>
