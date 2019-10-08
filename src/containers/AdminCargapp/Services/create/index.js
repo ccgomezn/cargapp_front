@@ -16,7 +16,7 @@ import {
     getActiveCities,
     getActiveCompanies, getActiveStatus,
     getActiveUsers,
-    getActiveVehicles, getActiveVehicleTypes, getMineUser, getServices,
+    getActiveVehicles, getActiveVehicleTypes, getMineUser,
 
 } from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
@@ -72,20 +72,24 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
-        const {admin} = this.props;
-        let getCompaniesFunction = function(){};
-        if(admin){
-            getCompaniesFunction  = function () {
-                return getActiveCompanies();
+        const { assign} = this.props;
+
+        let getVehiclesFunction = function () {
+        };
+
+
+        if (assign) {
+            getVehiclesFunction = function () {
+                return getActiveVehicles();
             }
         }
-        axios.all([getActiveUsers(), getActiveCities(), getCompaniesFunction(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
+        axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
                 this.setState({
                     users: responses[0].data,
                     cities: responses[1].data,
                     companies: responses[2].data,
-                    vehicles_full: this.getVehicleByUser(responses[3].data),
+                    vehicles_full: responses[3] ? this.getVehicleByUser(responses[3].data) : [],
                     vehicles: [],
                     vehicle_types: responses[4].data,
                     status: responses[5].data,
@@ -196,10 +200,14 @@ export default class ReportCreate extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
-        const {assign, admin} = this.props;
+        const {assign, admin, generator} = this.props;
 
         if (redirect) {
-            return <Redirect to='/admin/services'/>
+            if(admin){
+                return <Redirect to='/admin/services'/>
+            }else if(generator){
+                return <Redirect to='/generator/services'/>
+            }
         }
         return (
 
@@ -225,7 +233,7 @@ export default class ReportCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={24}>
-                                            <Col span={12}>
+                                            <Col span={24}>
                                                 <Form.Item label="Nombre">
                                                     <TextInputCustom value={this.state.name} placeholder="nombre"
                                                                      label_id={'admin.title.name'}
@@ -233,6 +241,12 @@ export default class ReportCreate extends Component {
                                                                      required/>
                                                 </Form.Item>
                                             </Col>
+
+                                        </Col>
+
+                                    </Row>
+                                    <Row gutter={10}>
+                                        <Col span={24}>
                                             <Col span={12}>
                                                 <Form.Item label="Origen">
                                                     <TextInputCustom value={this.state.origin} placeholder="origen"
@@ -241,11 +255,6 @@ export default class ReportCreate extends Component {
                                                                      required/>
                                                 </Form.Item>
                                             </Col>
-                                        </Col>
-
-                                    </Row>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
                                             <Col span={12}>
                                                 <Form.Item label="Ciudad de origen ">
                                                     <SelectInputCustom value={this.state.origin_city_id}
@@ -265,6 +274,11 @@ export default class ReportCreate extends Component {
                                                     </SelectInputCustom>
                                                 </Form.Item>
                                             </Col>
+
+                                        </Col>
+                                    </Row>
+                                    <Row gutter={10}>
+                                        <Col span={24}>
                                             <Col span={12}>
                                                 <Form.Item label="Dirección de origen">
                                                     <TextInputCustom value={this.state.origin_address}
@@ -274,13 +288,24 @@ export default class ReportCreate extends Component {
                                                                      label_id={'admin.title.address'}/>
                                                 </Form.Item>
                                             </Col>
+                                            <Col span={12}>
+                                                <Form.Item wrapperCol={{span: 24}}>
+                                                    <SecondaryButton message_id={"general.findOrigin"}
+                                                                     style={{width: '200px', marginTop: '46px'}}
+                                                                     onClick={() => this.handleSearchLocation(this.state.origin_city_id,
+                                                                         this.state.origin_address, 'origin')}/>
+                                                </Form.Item>
+
+                                            </Col>
                                         </Col>
+
                                     </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
                                                 <Form.Item label="Destino">
-                                                    <TextInputCustom value={this.state.destination} placeholder="destino"
+                                                    <TextInputCustom value={this.state.destination}
+                                                                     placeholder="destino"
                                                                      onChange={(e) => this.handleChange(e.target.value, 'destination')}
                                                                      required
                                                                      label_id={'admin.title.destination'}/>
@@ -306,9 +331,7 @@ export default class ReportCreate extends Component {
                                                 </Form.Item>
                                             </Col>
                                         </Col>
-
                                     </Row>
-
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
@@ -320,67 +343,10 @@ export default class ReportCreate extends Component {
                                                                      label_id={'admin.title.address'}/>
                                                 </Form.Item>
                                             </Col>
-                                        </Col>
-
-
-                                    </Row>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Col span={6}>
-                                                <Form.Item label="Latitud origen">
-                                                    <TextInputCustom value={this.state.origin_latitude}
-                                                                     placeholder="latitud origen"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'origin_latitude')}
-                                                                     required
-                                                                     label_id={'admin.title.latitude'}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={6}>
-                                                <Form.Item label="Longitud origen">
-                                                    <TextInputCustom value={this.state.origin_longitude}
-                                                                     placeholder="longitud origen"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'origin_longitude')}
-                                                                     required
-                                                                     label_id={'admin.title.longitude'}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={6}>
-                                                <Form.Item label="Latitud destino">
-                                                    <TextInputCustom value={this.state.destination_latitude}
-                                                                     placeholder="latitud destino"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'destination_latitude')}
-                                                                     required
-                                                                     label_id={'admin.title.latitude'}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={6}>
-                                                <Form.Item label="Longitud destino">
-                                                    <TextInputCustom value={this.state.destination_longitude}
-                                                                     placeholder="longitud destino"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'destination_longitude')}
-                                                                     required
-                                                                     label_id={'admin.title.longitude'}/>
-                                                </Form.Item>
-                                            </Col>
-                                        </Col>
-
-
-                                    </Row>
-                                    <Row>
-                                        <Col span={24}>
-                                            <Col span={12}>
-                                                <Form.Item wrapperCol={{span: 24}}>
-                                                    <SecondaryButton message_id={"general.findOrigin"}
-                                                                     style={{width: '200px'}}
-                                                                     onClick={() => this.handleSearchLocation(this.state.origin_city_id,
-                                                                         this.state.origin_address, 'origin')}/>
-                                                </Form.Item>
-
-                                            </Col>
                                             <Col span={12}>
                                                 <Form.Item wrapperCol={{span: 24}}>
                                                     <SecondaryButton message_id={"general.findDestination"}
-                                                                     style={{width: '200px'}}
+                                                                     style={{width: '200px', marginTop: '46px'}}
                                                                      onClick={() => this.handleSearchLocation(this.state.destination_city_id,
                                                                          this.state.destination_address, 'destination')}/>
                                                 </Form.Item>
@@ -388,7 +354,54 @@ export default class ReportCreate extends Component {
                                             </Col>
                                         </Col>
 
+
                                     </Row>
+                                    {admin &&
+                                    <div>
+                                        <Row gutter={10}>
+                                            <Col span={24}>
+                                                <Col span={6}>
+                                                    <Form.Item label="Latitud origen">
+                                                        <TextInputCustom value={this.state.origin_latitude}
+                                                                         placeholder="latitud origen"
+                                                                         onChange={(e) => this.handleChange(e.target.value, 'origin_latitude')}
+                                                                         required
+                                                                         label_id={'admin.title.latitude'}/>
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <Form.Item label="Longitud origen">
+                                                        <TextInputCustom value={this.state.origin_longitude}
+                                                                         placeholder="longitud origen"
+                                                                         onChange={(e) => this.handleChange(e.target.value, 'origin_longitude')}
+                                                                         required
+                                                                         label_id={'admin.title.longitude'}/>
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <Form.Item label="Latitud destino">
+                                                        <TextInputCustom value={this.state.destination_latitude}
+                                                                         placeholder="latitud destino"
+                                                                         onChange={(e) => this.handleChange(e.target.value, 'destination_latitude')}
+                                                                         required
+                                                                         label_id={'admin.title.latitude'}/>
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <Form.Item label="Longitud destino">
+                                                        <TextInputCustom value={this.state.destination_longitude}
+                                                                         placeholder="longitud destino"
+                                                                         onChange={(e) => this.handleChange(e.target.value, 'destination_longitude')}
+                                                                         required
+                                                                         label_id={'admin.title.longitude'}/>
+                                                    </Form.Item>
+                                                </Col>
+                                            </Col>
+
+
+                                        </Row>
+                                    </div>}
+
 
                                     <Row>
                                         <Col span={24}>
@@ -442,30 +455,28 @@ export default class ReportCreate extends Component {
                                                                      label_id={'admin.title.note'}/>
                                                 </Form.Item>
                                             </Col>
-                                            {
-                                                admin && <Col span={12}>
-                                                    <Form.Item label="Empresa">
-                                                        <SelectInputCustom value={this.state.company_id}
-                                                                           placeholder="empresa"
-                                                                           style={{width: '100%'}} onChange={(e) => {
-                                                            this.handleChange(e, 'company_id')
-                                                        }}
-                                                                           options={this.state && this.state.companies &&
+                                            <Col span={12}>
+                                                <Form.Item label="Empresa">
+                                                    <SelectInputCustom value={this.state.company_id}
+                                                                       placeholder="empresa"
+                                                                       style={{width: '100%'}} onChange={(e) => {
+                                                        this.handleChange(e, 'company_id')
+                                                    }}
+                                                                       options={this.state && this.state.companies &&
 
-                                                                           this.state.companies.map((item) => {
-                                                                               return <Option
-                                                                                   value={item.id}>{item.name}</Option>
-                                                                           })
-                                                                           }
-                                                                           label_id={'admin.title.company'}>
+                                                                       this.state.companies.map((item) => {
+                                                                           return <Option
+                                                                               value={item.id}>{item.name}</Option>
+                                                                       })
+                                                                       }
+                                                                       label_id={'admin.title.company'}>
 
-                                                        </SelectInputCustom>
-                                                    </Form.Item>
-                                                </Col>
-                                            }
+                                                    </SelectInputCustom>
+                                                </Form.Item>
+                                            </Col>
+
 
                                         </Col>
-
 
 
                                     </Row>
@@ -514,7 +525,6 @@ export default class ReportCreate extends Component {
 
 
                                     </Row>
-
 
 
                                     <Row gutter={10}>

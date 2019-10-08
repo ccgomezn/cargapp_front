@@ -35,10 +35,20 @@ export default class Service extends Component {
     }
 
 
+    getActiveServices(data){
+        let data_transformed = [];
+        data.forEach((service) => {
+            if(service.statu_id !== 10 && service.statu_id !== 11){
+                data_transformed.push(service);
+            }
+        });
+        return data_transformed;
+    }
+
     componentWillMount() {
         const {id} = this.props.match.params;
-        const {generator} = this.props;
-        var getServicesFunction = function () {
+        const {generator, active_services} = this.props;
+        let getServicesFunction = function () {
             return getServices();
         };
         if (id !== null && id !== undefined) {
@@ -67,7 +77,7 @@ export default class Service extends Component {
                     });
                 }
                 this.setState({
-                    services: responses[0].data
+                    services: active_services? this.getActiveServices(responses[0].data): responses[0].data
                 });
 
             })

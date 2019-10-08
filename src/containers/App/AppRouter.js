@@ -9,17 +9,7 @@ const shared_routes = [
     }
 ];
 
-const routes = [
-    {
-        path: '',
-        component: asyncComponent(() => import('../Dashboard/index.js')),
-    },
-    {
-        path: 'tracking',
-        component: asyncComponent(() => import('../Tracking'))
-    },
-    ...shared_routes
-];
+
 const routes_admin = [
 
     {
@@ -621,12 +611,16 @@ const routes_admin = [
 const routes_generator = [
     {
         path: 'services',
-        component: asyncComponent(() => import('../AdminCargapp/Services'),{generator: true})
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true})
     },
     {
         path: 'services/add',
-        component: asyncComponent(() => import('../AdminCargapp/Services/create'),{generator: true})
-    }
+        component: asyncComponent(() => import('../AdminCargapp/Services/create'), {generator: true})
+    },
+    {
+        path: 'active_services',
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true, active_services: true})
+    },
 ];
 
 const routes_vehicle_manager = [
@@ -640,12 +634,13 @@ class AppRouter extends Component {
     render() {
         const {url, style} = this.props;
         let routes;
-        if (url === '/admin') {
+        const real_url = url.replace(/[^a-zA-Z]/g, '');
+        if (real_url === 'admin') {
             routes = routes_admin;
 
-        }else if(url === '/generator'){
+        } else if (real_url === 'generator') {
             routes = routes_generator;
-        }else if(url === '/vehicle_manager'){
+        } else if (real_url === 'vehicle_manager') {
             routes = routes_vehicle_manager;
         }
         return (

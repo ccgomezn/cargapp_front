@@ -5,7 +5,7 @@ const importantVariables = {
     conveyor_role_id: 34,
         user_role_id: 12,
         admin_role_id: 24,
-        active_options: [
+        activeOptions: [
             {key: true, label: 'Activado'},
             {key: false, label: 'Desactivado'}
         ],

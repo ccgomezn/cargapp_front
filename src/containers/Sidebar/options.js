@@ -67,13 +67,13 @@ export const optionsGenerator = [
     },
     {
         key: 'services',
-        label: 'sidebar.services',
+        label: 'sidebar.allServices',
         leftIcon: 'ion-lightbulb',
     },
     {
-        key: 'mine_services',
-        label: 'sidebar.mineServices',
-        leftIcon: 'ion-lightbulb',
+        key: 'active_services',
+        label: 'sidebar.activeServices',
+        leftIcon: 'ion-android-star',
     },{
         key: 'marketplace',
         label: 'sidebar.marketplace',

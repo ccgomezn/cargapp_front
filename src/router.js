@@ -7,7 +7,7 @@ import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
 import {decrypt} from "./helpers/utility";
 
-const RestrictedRoute = ({component: Component, isLoggedIn: isLoggedIn, isUser: isUser, admin: admin, isVehicleManager: isVehicleManager, isConveyor: isConveyor, isGenerator: isGenerator, ...rest}) => (
+const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isConveyor, isGenerator, ...rest}) => (
     <Route
         {...rest}
         render={props =>
