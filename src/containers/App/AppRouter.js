@@ -621,6 +621,23 @@ const routes_generator = [
         path: 'active_services',
         component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true, active_services: true})
     },
+    {
+        path: 'services/detail/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/detail'),{generator: true})
+    },
+    {
+        path: 'service_documents/detailed/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments', ),{generator: true})
+    },
+    {
+        path: 'service_documents/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/create'),{generator: true})
+    },
+    {
+        path: 'service_documents/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/show'), {generator: true})
+    },
+
 ];
 
 const routes_vehicle_manager = [

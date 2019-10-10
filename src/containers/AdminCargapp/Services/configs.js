@@ -10,21 +10,18 @@ import {
 } from '../../../components/tables/helperCells';
 import {deleteService} from '../../../helpers/api/adminCalls';
 
-const deleteFunction = (id) => {
+const deleteFunction = (id, type) => {
     return function () {
         (deleteService(id)
             .then((response) => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/';
-
-
-
+                    window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
             }).catch((error) => {
                 console.error(error);
             }));
     }
 }
 
-const renderCell = (object, type, key, color = false, link, link_name) => {
+const renderCell = (object, type, key, color = false, link, link_name, type_role) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -41,13 +38,13 @@ const renderCell = (object, type, key, color = false, link, link_name) => {
             var type2 = 'default';
             var type3 = 'danger';
             var function1 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/edit/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/'+type_role+'/services/edit/' + object['id'];
             }
             var function2 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/show/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/'+type_role+'/services/show/' + object['id'];
             }
 
-            return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
+            return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3)
         default:
             var color_val = '';
 
@@ -111,8 +108,24 @@ const columns = [
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '10%',
-        render: object => renderCell(object, 'MultipleButtonCell', '')
-    }
+        render: object => renderCell(object, 'MultipleButtonCell', '', null, null, null, 'admin' )
+    },
+    {
+        title: <IntlMessages id="antTable.title.options"/>,
+        key: 'option',
+        width: '10%',
+        render: object => renderCell(object, 'MultipleButtonCell', null, null, null, null, 'generator' )
+    },{
+        title: <IntlMessages id="antTable.title.details"/>,
+        key: 'details',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/services/detail/', 'Detalles')
+    },{
+        title: <IntlMessages id="antTable.title.seeDocuments"/>,
+        key: 'documents',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/service_documents/detailed/', 'Ver documentos')
+    },
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
@@ -125,6 +138,18 @@ const sortColumns = [
     {...columns[6], sorter: false},
     {...columns[7], sorter: false},
     {...columns[8], sorter: false},
+];
+
+const sortColumnsGenerator = [
+    {...columns[0], sorter: true},
+    {...columns[1], sorter: true},
+    {...columns[2], sorter: true},
+    {...columns[3], sorter: true},
+    {...columns[4], sorter: true},
+    {...columns[5], sorter: true},
+    {...columns[10], sorter: false},
+    {...columns[11], sorter: false},
+    {...columns[9], sorter: false},
 ];
 const editColumns = [
     {...columns[1], width: 300},
@@ -155,9 +180,9 @@ const tableinfos = [
         columns: clone(sortColumns)
     },
     {
-        title: 'Search Text',
-        value: 'filterView',
-        columns: clone(smallColumns)
+        title: 'Sortable Table',
+        value: 'sortView',
+        columns: clone(sortColumnsGenerator)
     },
     {
         title: 'Editable View',

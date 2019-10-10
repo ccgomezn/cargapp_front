@@ -96,8 +96,9 @@ export default class Service extends Component {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
         const {generator} = this.props;
+        let tableinforeal = generator ? tableinfos[2]: tableinfos[1];
+
         if (reload) {
-            console.log(generator)
             if(generator){
                 return <Redirect to='/generator/services'/>
 
@@ -132,7 +133,7 @@ export default class Service extends Component {
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.services &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.services}/>
+                                <SortView  tableInfo={tableinforeal} dataList={this.state.services}/>
                                 }
                             </Col>
                         </Row>

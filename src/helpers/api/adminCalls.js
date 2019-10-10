@@ -62,7 +62,7 @@ export function getIntegration(id) {
 }
 
 export function getDocumentsOfService(id) {
-    return post(httpAddr + `/service_documents/find_service/` + id, true)
+    return get(httpAddr + `/service_documents/find_service/` + id, true)
 
 }
 

@@ -10,11 +10,12 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {
     getService,
-    getUsers,
-    getCities,
-    getCompanies,
-    getVehicles,
-    getVehicleTypes,
+    getActiveUsers,
+    getActiveCities,
+    getActiveCompanies,
+    getActiveVehicles,
+    getActiveVehicleTypes,
+    getActiveStatus
 } from '../../../../helpers/api/adminCalls.js';
 import {getStatus, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
@@ -51,7 +52,7 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-        axios.all([getService(this.props.match.params.id), getUsers(), getCities(), getCompanies(), getVehicles(), getVehicleTypes(), getStatus()])
+        axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
 
                 if (responses[0].data.active) {
@@ -147,13 +148,17 @@ export default class ServiceDetail extends Component {
     }
 
     goBack() {
-        this.props.history.push('/admin/services')
+        if(this.props.generator){
+            this.props.history.push('/generator/services')
+        }else{
+            this.props.history.push('/admin/services')
+        }
     }
 
 
     changeStatus() {
-        let newCode = importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]];
-        let newId = this.state.data_status_from_code[newCode];
+        let newCode = importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].next;
+        let newId = this.state.status_from_code[newCode];
         putService(this.props.match.params.id, {statu_id: newId}).then(() => window.location.reload());
     }
 
