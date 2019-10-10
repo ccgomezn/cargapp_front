@@ -21,6 +21,10 @@ import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
 import importantVariables from "../../../../helpers/hashVariables";
+import {Steps} from 'antd';
+import SecondaryButton from "../../../../components/custom/button/secondary";
+
+const {Step} = Steps;
 
 export default class ServiceDetail extends Component {
 
@@ -35,9 +39,9 @@ export default class ServiceDetail extends Component {
     transformDataToMap(data, key, key1 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            if(key1 !== null){
+            if (key1 === null) {
                 dataTransformed[item.id] = item[key];
-            }else{
+            } else {
                 dataTransformed[item[key1]] = item[key];
             }
             return item;
@@ -64,6 +68,8 @@ export default class ServiceDetail extends Component {
                 let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
                 let data_status = this.transformDataToMap(responses[6].data, 'name');
                 let data_status_code = this.transformDataToMap(responses[6].data, 'code');
+                console.log('data_status_code:');
+                console.log(data_status_code);
                 let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
                 this.setState({
                     name: responses[0].data.name,
@@ -148,7 +154,7 @@ export default class ServiceDetail extends Component {
     changeStatus() {
         let newCode = importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]];
         let newId = this.state.data_status_from_code[newCode];
-        putService(this.props.match.params.id, {statu_id: newId}).then(()=> window.location.reload());
+        putService(this.props.match.params.id, {statu_id: newId}).then(() => window.location.reload());
     }
 
     render() {
@@ -285,16 +291,22 @@ export default class ServiceDetail extends Component {
                                     <Row>
                                         <Col lg={24} md={24} sm={24} xs={24}>
                                             <Row>
-                                                <label>
-                                                    <IntlMessages id={'service.status'}/>:
-                                                    {' ' + this.state.status}
-                                                </label>
+                                                {this.state.status_code && <Steps
+                                                    current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id}>
+                                                    <Step title="Esperando"/>
+                                                    <Step title="Camino a carga"/>
+                                                    <Step title="Cargando"/>
+                                                    <Step title="Viajando"/>
+                                                    <Step title="Descargando"/>
+                                                    <Step title="Terminado"/>
+                                                </Steps>}
+
 
                                             </Row>
                                         </Col>
                                         <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>
                                             <Row>
-                                                <PrimaryButton message_id={"general.changeStatus"}
+                                                <SecondaryButton message_id={"general.changeStatus"}
                                                                style={{width: '200px'}}
                                                                onClick={() => this.changeStatus()}/>
 

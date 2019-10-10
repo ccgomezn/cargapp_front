@@ -2,7 +2,7 @@ const importantVariables = {
         load_generator_role_id: 15,
         vehicle_admin_role_id: 27,
         generator_role_id: 15,
-    conveyor_role_id: 34,
+        conveyor_role_id: 34,
         user_role_id: 12,
         admin_role_id: 24,
         activeOptions: [
@@ -10,13 +10,15 @@ const importantVariables = {
             {key: false, label: 'Desactivado'}
         ],
         status_road_service_map: {
-            PendingForApproval: 'Waiting',
-            Waiting: 'RoadToLoad',
-            RoadToLoad: 'LoadingUp',
-            LoadingUp: 'OnRoad',
-            OnRoad: 'Unloading',
-            Unloading: 'Closed'
-        }
+            PendingForApproval: {next: 'Waiting'},
+            Waiting: {next:'RoadToLoad', id:0},
+            RoadToLoad: {next:'LoadingUp', id:1},
+            LoadingUp: {next:'OnRoad', id:2},
+            OnRoad: {next: 'Unloading', id:3},
+            Unloading: {next: 'Closed', id:4},
+            Closed: {next: null, id:5}
+        },
+
     }
 ;
 
