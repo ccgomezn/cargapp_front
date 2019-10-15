@@ -38,6 +38,14 @@ export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
 
+export function getMineCompanies(){
+    return get(httpAddr + '/company_users/me', true);
+}
+
+export function postUserCompany(data){
+    return post(httpAddr + '/company_users', data,true);
+}
+
 export function getMineServices() {
     return get(httpAddr+'/services/me', true)
 }
@@ -381,7 +389,7 @@ export function postPrize(data) {
 }
 
 export function getProfiles() {
-    return get(httpAddr + `/profiles/`, true);
+    return get(httpAddr + `/profiles/active`, true);
 }
 
 export function getActiveProfiles() {
@@ -772,6 +780,10 @@ export function postService(data) {
     return post(httpAddr + `/services`, data, true);
 }
 
+export function getUsersOfService(){
+    return get(httpAddr+'/service_users/active', true);
+}
+
 export function deleteService(id) {
     return del(httpAddr + `/services/` + id, true)
 }
@@ -929,7 +941,11 @@ export function deleteBankAccount(id) {
 }
 
 export function getRateServices() {
-    return get(httpAddr + `/rate_services/`, true);
+    return get(httpAddr + `/rate_services/active`, true);
+}
+
+export function putUserOfService(id, data){
+    return put(httpAddr+'rate_services/'+id,data, true);
 }
 
 export function getActiveRateServices() {

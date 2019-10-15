@@ -637,13 +637,28 @@ const routes_generator = [
         path: 'service_documents/show/:id',
         component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/show'), {generator: true})
     },
-
+    {
+        path: 'service_users/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/users'), {generator: true})
+    },
 ];
 
 const routes_vehicle_manager = [
     {
         path: 'services',
-        component: asyncComponent(() => import('../AdminCargapp/Services/create'))
+        component: asyncComponent(() => import('../AdminCargapp/Services'))
+    },
+    {
+        path: 'drivers',
+        component: asyncComponent(() => import('../AdminCargapp/Users'), {driver: true})
+    },
+    {
+        path: 'drivers/add',
+        component: asyncComponent(() => import('../AdminCargapp/Users/driverCreate'), {driver: true})
+    },
+    {
+        path: 'vehicles/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
     }
 ];
 
@@ -652,12 +667,14 @@ class AppRouter extends Component {
         const {url, style} = this.props;
         let routes;
         const real_url = url.replace(/[^a-zA-Z]/g, '');
+        console.log('real url: ');
+        console.log(real_url);
         if (real_url === 'admin') {
             routes = routes_admin;
 
         } else if (real_url === 'generator') {
             routes = routes_generator;
-        } else if (real_url === 'vehicle_manager') {
+        } else if (real_url === 'vehiclemanager') {
             routes = routes_vehicle_manager;
         }
         return (

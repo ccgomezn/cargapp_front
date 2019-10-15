@@ -17,7 +17,7 @@ import {
     getActiveVehicleTypes,
     getActiveStatus
 } from '../../../../helpers/api/adminCalls.js';
-import {getStatus, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
+import {getUserLocation, putService } from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
@@ -144,7 +144,7 @@ export default class ServiceDetail extends Component {
             {
                 [type]: value
             }
-        )
+        );
     }
 
     goBack() {

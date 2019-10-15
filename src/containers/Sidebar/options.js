@@ -38,25 +38,20 @@ export const optionsVehicle = [
         leftIcon: 'ion-android-apps',
     },
     {
-        key: 'tracking',
-        label: 'sidebar.travels',
+        key: 'drivers',
+        label: 'sidebar.drivers',
         leftIcon: 'ion-android-car',
     },
     {
-        key: 'trackingmap',
-        label: 'sidebar.map',
-        leftIcon: 'ion-map'
+        key: 'services',
+        label: 'sidebar.allServices',
+        leftIcon: 'ion-lightbulb',
     },
     {
-        key: 'chat',
-        label: 'sidebar.chat',
-        leftIcon: 'ion-email',
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
     },
-    {
-        key: 'settings',
-        label: 'sidebar.settings',
-        leftIcon: 'ion-gear-b',
-    }
 ];
 
 export const optionsGenerator = [
