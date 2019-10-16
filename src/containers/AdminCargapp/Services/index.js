@@ -10,7 +10,13 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getServices} from '../../../helpers/api/adminCalls.js';
-import {getActiveStatus, getMineServices, getServicesOfDriver} from "../../../helpers/api/adminCalls";
+import {
+    getActiveServices,
+    getActiveStatus,
+    getMineServices,
+    getServicesOfDriver
+} from "../../../helpers/api/adminCalls";
+import ServiceCard from "../../../components/custom/service_card/serviceCard";
 
 export default class Service extends Component {
 
@@ -35,10 +41,10 @@ export default class Service extends Component {
     }
 
 
-    getActiveServices(data){
+    getActiveServices(data) {
         let data_transformed = [];
         data.forEach((service) => {
-            if(service.statu_id !== 10 && service.statu_id !== 11){
+            if (service.statu_id !== 10 && service.statu_id !== 11) {
                 data_transformed.push(service);
             }
         });
@@ -47,7 +53,7 @@ export default class Service extends Component {
 
     componentWillMount() {
         const {id} = this.props.match.params;
-        const {generator, active_services} = this.props;
+        const {generator, active_services, vehicle_manager} = this.props;
         let getServicesFunction = function () {
             return getServices();
         };
@@ -60,6 +66,10 @@ export default class Service extends Component {
         } else if (generator) {
             getServicesFunction = function () {
                 return getMineServices(id);
+            }
+        } else if (vehicle_manager) {
+            getServicesFunction = function () {
+                return getActiveServices();
             }
         }
         axios.all([getServicesFunction(), getActiveStatus()])
@@ -79,7 +89,7 @@ export default class Service extends Component {
                     });
                 }
                 this.setState({
-                    services: active_services? this.getActiveServices(responses[0].data): responses[0].data
+                    services: active_services ? this.getActiveServices(responses[0].data) : responses[0].data
                 });
 
             })
@@ -87,9 +97,9 @@ export default class Service extends Component {
 
 
     redirectAdd(generator) {
-        if(generator){
+        if (generator) {
             this.props.history.push('/generator/services/add')
-        }else{
+        } else {
             this.props.history.push('/admin/services/add')
         }
     }
@@ -97,14 +107,14 @@ export default class Service extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
-        const {generator} = this.props;
-        let tableinforeal = generator ? tableinfos[2]: tableinfos[1];
+        const {generator, vehicle_manager} = this.props;
+        let tableinforeal = generator ? tableinfos[2] : tableinfos[1];
 
         if (reload) {
-            if(generator){
+            if (generator) {
                 return <Redirect to='/generator/services'/>
 
-            }else{
+            } else {
                 return <Redirect to='/admin/services'/>
             }
         }
@@ -126,16 +136,19 @@ export default class Service extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
-                                    message_id={"general.add"}
-                                    style={{width: '100%'}}
-                                    onClick={() => this.redirectAdd(generator)}/>
+                                {
+                                    !vehicle_manager && <PrimaryButton
+                                        message_id={"general.add"}
+                                        style={{width: '100%'}}
+                                        onClick={() => this.redirectAdd(generator)}/>
+                                }
+
                             </Col>
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.services &&
-                                <SortView  tableInfo={tableinforeal} dataList={this.state.services}/>
+                                <SortView tableInfo={tableinforeal} dataList={this.state.services}/>
                                 }
                             </Col>
                         </Row>

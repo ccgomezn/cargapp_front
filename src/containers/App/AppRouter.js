@@ -650,7 +650,7 @@ const routes_generator = [
 const routes_vehicle_manager = [
     {
         path: 'services',
-        component: asyncComponent(() => import('../AdminCargapp/Services'))
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {vehicle_manager: true})
     },
     {
         path: 'drivers',
