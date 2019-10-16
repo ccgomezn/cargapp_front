@@ -945,7 +945,7 @@ export function getRateServices() {
 }
 
 export function putUserOfService(id, data){
-    return put(httpAddr+'rate_services/'+id,data, true);
+    return put(httpAddr+'/service_users/'+id,data, true);
 }
 
 export function getActiveRateServices() {

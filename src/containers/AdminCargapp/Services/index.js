@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getServices} from '../../../helpers/api/adminCalls.js';
-import {getMineServices, getServicesOfDriver} from "../../../helpers/api/adminCalls";
+import {getActiveStatus, getMineServices, getServicesOfDriver} from "../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
 
@@ -62,9 +62,10 @@ export default class Service extends Component {
                 return getMineServices(id);
             }
         }
-        axios.all([getServicesFunction()])
+        axios.all([getServicesFunction(), getActiveStatus()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
+                    let status_data = this.transformDataToMap(responses[1].data, 'name');
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
@@ -73,6 +74,7 @@ export default class Service extends Component {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
                         }
+                        item.status = status_data[item.statu_id];
                         return item;
                     });
                 }

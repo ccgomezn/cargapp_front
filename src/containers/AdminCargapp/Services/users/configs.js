@@ -4,19 +4,21 @@ import IntlMessages from '../../../../components/utility/intlMessages';
 import {
     DateCell, DoubleButtonCell,
     ImageCell,
-    LinkCell,
     TextColorCell,
-    TripleButtonCell
 } from '../../../../components/tables/helperCells';
-import {deleteService, putUserOfService} from '../../../../helpers/api/adminCalls';
+import {putUserOfService} from '../../../../helpers/api/adminCalls';
 
 const putFunction = (id, data) => {
     return function () {
-
+        putUserOfService(id, data).then((response) => {
+            window.location.reload();
+        }).catch((error) => {
+            console.error(error);
+        });
     }
 };
 
-const renderCell = (object, type, key) => {
+const renderCell = (object, type, key, color) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -26,12 +28,20 @@ const renderCell = (object, type, key) => {
         case 'MultipleButtonCell':
             let text1 = 'Aceptar';
             let text2 = 'Rechazar';
-            let type1 = 'default';
-            let type2 = 'default';
+            let type1 = 'primary';
+            let type2 = 'danger';
             let id = object['id'];
+            if(object['approved'] !== 'En proceso'){
+                return TextColorCell('No se pueden realizar acciones', '');
+            }
             return DoubleButtonCell(text1, text2, putFunction(id, {approved: true}), putFunction(id, {approved: false}), type1, type2);
         default:
-            return ImageCell(value);
+            var color_val = '';
+
+            if (color) {
+                color_val = object['color'];
+            }
+            return TextColorCell(value, color_val);
     }
 };
 
@@ -59,16 +69,16 @@ const columns = [
         key: 'score',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'score')
-    },{
+    }, {
         title: <IntlMessages id="antTable.title.accepted"/>,
         key: 'approved',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'approved')
-    },{
+        render: object => renderCell(object, 'TextCell', 'approved', true)
+    }, {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'options',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'options')
+        render: object => renderCell(object, 'MultipleButtonCell', 'approved')
     },
 ];
 const sortColumns = [

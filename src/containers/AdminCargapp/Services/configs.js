@@ -14,14 +14,14 @@ const deleteFunction = (id, type) => {
     return function () {
         (deleteService(id)
             .then((response) => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
             }).catch((error) => {
                 console.error(error);
             }));
     }
 }
 
-const renderCell = (object, type, key, color = false, link, link_name, type_role) => {
+const renderCell = (object, type, key, color = false, link, link_name, type_role, sub_link, boolean_change) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -29,6 +29,11 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
         case 'DateCell':
             return DateCell(value);
         case 'LinkCell':
+            console.log(boolean_change);
+            console.log(object);
+            if(boolean_change && object['statu_id'] === 10){
+                return LinkCell('Ver postulados', window.location.protocol + '//' + window.location.host + sub_link + object['id']);
+            }
             return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
         case 'MultipleButtonCell':
             var text1 = 'Editar';
@@ -38,10 +43,10 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
             var type2 = 'default';
             var type3 = 'danger';
             var function1 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/'+type_role+'/services/edit/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/edit/' + object['id'];
             }
             var function2 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/'+type_role+'/services/show/' + object['id'];
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/show/' + object['id'];
             }
 
             return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3)
@@ -102,29 +107,35 @@ const columns = [
         title: <IntlMessages id="antTable.title.details"/>,
         key: 'details',
         width: '12%',
-        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/services/detail/', 'Detalles')
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/services/detail/', 'Detalles', null, '/admin/service_users/', true)
     },
     {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '10%',
-        render: object => renderCell(object, 'MultipleButtonCell', '', null, null, null, 'admin' )
+        render: object => renderCell(object, 'MultipleButtonCell', '', null, null, null, 'admin')
     },
     {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '10%',
-        render: object => renderCell(object, 'MultipleButtonCell', null, null, null, null, 'generator' )
-    },{
+        render: object => renderCell(object, 'MultipleButtonCell', null, null, null, null, 'generator')
+    }, {
         title: <IntlMessages id="antTable.title.details"/>,
         key: 'details',
         width: '12%',
-        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/services/detail/', 'Detalles')
-    },{
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/services/detail/', 'Detalles', null, '/generator/service_users/', true)
+    }, {
         title: <IntlMessages id="antTable.title.seeDocuments"/>,
         key: 'documents',
         width: '12%',
         render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/service_documents/detailed/', 'Ver documentos')
+    },
+    {
+        title: <IntlMessages id="antTable.title.status"/>,
+        key: 'status',
+        width: '12%',
+        render: object => renderCell(object, 'TextCell', 'status')
     },
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
@@ -146,6 +157,7 @@ const sortColumnsGenerator = [
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
+    {...columns[12], sorter: true},
     {...columns[5], sorter: true},
     {...columns[10], sorter: false},
     {...columns[11], sorter: false},

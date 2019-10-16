@@ -65,13 +65,14 @@ export default class Service extends Component {
                 let rate = this.meanRateServices(responses[3].data);
                 if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {
-                        if (item.active) {
-                            item.active = 'Activo';
+                        if (item.approved) {
                             item.color = '#00BFBF';
-                        } else {
-                            item.active = 'Desactivado';
+                        } else if(item.approved !== null){
                             item.color = '#ff2557';
+                        }else{
+                            item.color = '#010935';
                         }
+
                         let user_id = item.user_id;
                         item.user = profiles[user_id].first_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
                         item.document = profiles[user_id].document_id;

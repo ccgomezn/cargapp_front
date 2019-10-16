@@ -146,7 +146,7 @@ export default class ReportCreate extends Component {
                     company_id: transformInputData(this.state.company_id),
                     user_receiver_id: transformInputData(this.state.user_receiver_id),
                     vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    statu_id: 11,
+                    statu_id: 10,
                     expiration_date: this.state.expiration_date,
                     contact: this.state.contact,
                     vehicle_id: 2,
