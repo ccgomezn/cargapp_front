@@ -17,7 +17,7 @@ import {
     getActiveVehicleTypes,
     getActiveStatus
 } from '../../../../helpers/api/adminCalls.js';
-import {getUserLocation, putService } from "../../../../helpers/api/adminCalls";
+import {getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
@@ -148,9 +148,9 @@ export default class ServiceDetail extends Component {
     }
 
     goBack() {
-        if(this.props.generator){
+        if (this.props.generator) {
             this.props.history.push('/generator/services')
-        }else{
+        } else {
             this.props.history.push('/admin/services')
         }
     }
@@ -165,7 +165,8 @@ export default class ServiceDetail extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
-
+        const {generator} = this.props;
+        const {id} = this.props.match.params;
         if (redirect) {
             return <Redirect to='/admin/services'/>
         }
@@ -244,7 +245,7 @@ export default class ServiceDetail extends Component {
                                                         <Row>
 
                                                             <p>
-                                                                <a href={'/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
+                                                                <a href={generator ? '/generator/users/show/' + this.state.user_driver_id+'/'+ id : '/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
                                                             </p>
                                                         </Row>
 
@@ -312,8 +313,8 @@ export default class ServiceDetail extends Component {
                                         <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>
                                             <Row>
                                                 <SecondaryButton message_id={"general.changeStatus"}
-                                                               style={{width: '200px'}}
-                                                               onClick={() => this.changeStatus()}/>
+                                                                 style={{width: '200px'}}
+                                                                 onClick={() => this.changeStatus()}/>
 
                                             </Row>
                                         </Col>

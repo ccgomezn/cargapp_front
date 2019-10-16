@@ -1,5 +1,6 @@
 import {get, post, put, del} from '../httpRequest';
 import {httpAddr} from '../http_helper';
+import axios from 'axios';
 
 export function getIntegrations() {
     return get(httpAddr + `/cargapp_integrations/`, true);
@@ -38,16 +39,16 @@ export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
 
-export function getMineCompanies(){
+export function getMineCompanies() {
     return get(httpAddr + '/company_users/me', true);
 }
 
-export function postUserCompany(data){
-    return post(httpAddr + '/company_users', data,true);
+export function postUserCompany(data) {
+    return post(httpAddr + '/company_users', data, true);
 }
 
 export function getMineServices() {
-    return get(httpAddr+'/services/me', true)
+    return get(httpAddr + '/services/me', true)
 }
 
 
@@ -155,12 +156,12 @@ export function getActiveCountries() {
     return get(httpAddr + '/countries/active', false)
 }
 
-export function confirmUser(data){
-    return post(httpAddr + '/users/validate_number', data,false)
+export function confirmUser(data) {
+    return post(httpAddr + '/users/validate_number', data, false)
 }
 
-export function resendCode(data){
-    return post(httpAddr + '/users/resend_code', data,false)
+export function resendCode(data) {
+    return post(httpAddr + '/users/resend_code', data, false)
 }
 
 export function getCountry(id) {
@@ -780,8 +781,8 @@ export function postService(data) {
     return post(httpAddr + `/services`, data, true);
 }
 
-export function getUsersOfService(){
-    return get(httpAddr+'/service_users/active', true);
+export function getUsersOfService() {
+    return get(httpAddr + '/service_users/active', true);
 }
 
 export function deleteService(id) {
@@ -893,7 +894,7 @@ export function getServiceLocations() {
 
 
 export function getUser(id) {
-    return get(httpAddr+'/users/'+id, true);
+    return get(httpAddr + '/users/' + id, true);
 }
 
 export function getActiveServiceLocations() {
@@ -944,8 +945,13 @@ export function getRateServices() {
     return get(httpAddr + `/rate_services/active`, true);
 }
 
-export function putUserOfService(id, data){
-    return put(httpAddr+'/service_users/'+id,data, true);
+export function putUserOfService(id, data) {
+    return put(httpAddr + '/service_users/' + id, data, true);
+}
+
+export function acceptUserOfService(user_service_id, user_id, service_id) {
+    return axios.all([put(httpAddr + '/service_users/' + user_service_id, {approved: true}, true),
+        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: 12}, true)])
 }
 
 export function getActiveRateServices() {
@@ -1024,7 +1030,7 @@ export function verifyEmail(email) {
     return post(httpAddr + '/users/email_verify', {user: {email: email}}, false, false);
 }
 
-export function getServicesOfDriver(id){
+export function getServicesOfDriver(id) {
     return get(httpAddr + `/services/find_driver/` + id, true);
 
 }

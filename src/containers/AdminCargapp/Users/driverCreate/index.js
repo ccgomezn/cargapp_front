@@ -3,15 +3,17 @@ import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col, Form, Card, Select, message } from 'antd';
+import Modal from '../../../../components/feedback/modal';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
 import TextInputCustom from "../../../../components/custom/input/text";
 import axios from 'axios';
 import {
+    confirmUser,
     getActiveCountries,
     getMineCompanies, postDocument,
-    postUserCompany,
+    postUserCompany, resendCode,
     verifyEmail,
     verifyPhoneNumber
 } from "../../../../helpers/api/adminCalls";
@@ -32,6 +34,37 @@ export default class DriverCreate extends Component {
             duplicated: false,
             duplicated_phone: false,
         }
+    }
+
+    handleConfirmUser() {
+        confirmUser({
+            user: {
+                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
+                mobile_code: this.state.pin
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                message.success("Usuario registrado correctamente");
+                this.setState({
+                    redirect: true
+                });
+            } else {
+                message.warning("Codigo incorrecto");
+            }
+        })
+    }
+
+    handleResendCode() {
+        resendCode({
+                user:
+                    {
+                        phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number)
+                    }
+
+            }
+        ).then(
+            message.success("Codigo reenviado")
+        )
     }
 
 
@@ -165,7 +198,10 @@ export default class DriverCreate extends Component {
 
                                 axios.all([setCC(), setLC()]).then(()=>{
                                     message.success('Usuario creado correctamente');
-                                    this.setState({redirect: true});
+                                    this.setState({visible: true});
+
+                                }).catch((error) => {
+                                    message.warning("Error al crear el usuario");
                                 });
 
                             });
@@ -292,7 +328,7 @@ export default class DriverCreate extends Component {
                                         </Col>
 
                                     </Row>
-                                    <Row>
+                                    <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
                                                 <Form.Item
@@ -300,6 +336,24 @@ export default class DriverCreate extends Component {
                                                     <TextInputCustom value={this.state.identification} placeholder="cédula de ciudadania"
                                                                      onChange={(e) => this.handleChange(e.target.value, 'identification')}
                                                                      label_id={'admin.title.identification'}
+                                                                     required/>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={6}>
+                                                <Form.Item
+                                                    label={"Nombre"}>
+                                                    <TextInputCustom value={this.state.name} placeholder="nombre"
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'name')}
+                                                                     label_id={'admin.title.name'}
+                                                                     required/>
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={6}>
+                                                <Form.Item
+                                                    label={"Apellido"}>
+                                                    <TextInputCustom value={this.state.last_name} placeholder="apellido"
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'last_name')}
+                                                                     label_id={'admin.title.lasName'}
                                                                      required/>
                                                 </Form.Item>
                                             </Col>
@@ -426,7 +480,45 @@ export default class DriverCreate extends Component {
 
                     </Col>
                 </Row>
+                <Modal
+                    title="Ingresa el pin"
+                    visible={this.state.visible}
+                    cancelText={'Cancelar'}
+                    style={{width: '100%'}}
+                    image={'smartphone.svg'}
+                    body={
+                        <div>
+                            <Row type="flex" style={{textAlign: 'center', justifyContent: 'center'}}>
+                                <h1>Ingresa el pin</h1>
 
+                            </Row>
+
+                            <Row type={"flex"} style={{
+                                textAlign: 'center',
+                                justifyContent: 'center',
+                                marginTop: '-20px'
+                            }}>
+                                <h2>Debes ingresar el pin que te acaba
+                                    de llegar a tu celular para validar</h2>
+                            </Row>
+
+                            <Row style={{marginTop: '20px'}}>
+                                <TextInputCustom
+                                    value={this.state.pin}
+                                    placeholder={'Pin'}
+                                    label_id={'Signup.pin'}
+                                    onChange={(e) => this.handleChange(e.target.value, 'pin')}/>
+                            </Row>
+
+                            <PrimaryButton message_id={'page.confirm'}
+                                           onClick={() => this.handleConfirmUser()}
+                                           style={{marginTop: '20px', width: '100% '}}/>
+                            <SecondaryButton message_id={'page.sendAgain'}
+                                             onClick={() => this.handleResendCode()}
+                                             style={{marginTop: '20px', width: '100% '}}/>
+                        </div>
+                    }
+                />
 
             </LayoutWrapper>
         );

@@ -641,6 +641,10 @@ const routes_generator = [
         path: 'service_users/:id',
         component: asyncComponent(() => import('../AdminCargapp/Services/users'), {generator: true})
     },
+    {
+        path: 'users/show/:id/:service_id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'), {generator: true})
+    }
 ];
 
 const routes_vehicle_manager = [
@@ -659,6 +663,10 @@ const routes_vehicle_manager = [
     {
         path: 'vehicles/add/:id',
         component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+    },
+    {
+        path: 'users/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'))
     }
 ];
 
