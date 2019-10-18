@@ -24,7 +24,6 @@ const ModalContainer = styled.div`
   font-style: normal;
   line-height: 1.58;
   letter-spacing: normal;
-  color: #010935;
   }
 `;
 

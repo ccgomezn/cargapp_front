@@ -11,7 +11,7 @@ import {Redirect} from 'react-router-dom'
 import {
     getProfiles, getRateServices,
     getUsers,
-    getUsersOfService
+    getActiveUsersOfService
 } from "../../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
@@ -58,7 +58,7 @@ export default class Service extends Component {
     }
 
     componentWillMount() {
-        axios.all([getUsersOfService(), getUsers(), getProfiles(), getRateServices()])
+        axios.all([getActiveUsersOfService(), getUsers(), getProfiles(), getRateServices()])
             .then((responses) => {
                 let profiles = this.transformDataToMap(responses[2].data, 'user_id');
                 let users = this.transformDataToMap(responses[1].data);

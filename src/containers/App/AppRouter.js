@@ -653,6 +653,10 @@ const routes_vehicle_manager = [
         component: asyncComponent(() => import('../AdminCargapp/Services'), {vehicle_manager: true})
     },
     {
+        path: 'services/subscribe/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/subscribe'), {vehicle_manager: true})
+    },
+    {
         path: 'drivers',
         component: asyncComponent(() => import('../AdminCargapp/Users'), {driver: true})
     },

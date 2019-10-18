@@ -781,7 +781,7 @@ export function postService(data) {
     return post(httpAddr + `/services`, data, true);
 }
 
-export function getUsersOfService() {
+export function getActiveUsersOfService() {
     return get(httpAddr + '/service_users/active', true);
 }
 
@@ -947,6 +947,11 @@ export function getRateServices() {
 
 export function putUserOfService(id, data) {
     return put(httpAddr + '/service_users/' + id, data, true);
+}
+
+
+export function postUserOfService(data) {
+    return post(httpAddr + '/service_users', data, true);
 }
 
 export function acceptUserOfService(user_service_id, user_id, service_id) {

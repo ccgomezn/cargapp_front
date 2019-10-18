@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
-import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col, Avatar} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import {Form} from "antd";
@@ -11,7 +10,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {getUser} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
-import {getActiveProfiles, getProfiles, getRateServices} from "../../../../helpers/api/adminCalls";
+import {getActiveProfiles, getRateServices} from "../../../../helpers/api/adminCalls";
 
 export default class TicketShow extends Component {
 

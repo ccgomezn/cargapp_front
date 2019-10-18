@@ -16,7 +16,6 @@ import {
     getMineServices,
     getServicesOfDriver
 } from "../../../helpers/api/adminCalls";
-import ServiceCard from "../../../components/custom/service_card/serviceCard";
 
 export default class Service extends Component {
 
@@ -108,13 +107,16 @@ export default class Service extends Component {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
         const {generator, vehicle_manager} = this.props;
-        let tableinforeal = generator ? tableinfos[2] : tableinfos[1];
+        let tableinforeal = generator ? tableinfos[2] : vehicle_manager? tableinfos[3]: tableinfos[1];
 
         if (reload) {
             if (generator) {
                 return <Redirect to='/generator/services'/>
 
-            } else {
+            } else if(vehicle_manager){
+                return <Redirect to='/vehicle_manager/services'/>
+
+            }else{
                 return <Redirect to='/admin/services'/>
             }
         }
