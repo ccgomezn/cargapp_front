@@ -38,25 +38,65 @@ export const optionsVehicle = [
         leftIcon: 'ion-android-apps',
     },
     {
-        key: 'tracking',
-        label: 'sidebar.travels',
+        key: 'drivers',
+        label: 'sidebar.drivers',
         leftIcon: 'ion-android-car',
     },
     {
-        key: 'trackingmap',
-        label: 'sidebar.map',
-        leftIcon: 'ion-map'
+        key: 'services',
+        label: 'sidebar.allServices',
+        leftIcon: 'ion-lightbulb',
     },
     {
-        key: 'chat',
-        label: 'sidebar.chat',
-        leftIcon: 'ion-email',
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
+    },
+];
+
+export const optionsGenerator = [
+    {
+        key: '',
+        label: 'sidebar.home',
+        leftIcon: 'ion-android-apps',
     },
     {
-        key: 'settings',
-        label: 'sidebar.settings',
-        leftIcon: 'ion-gear-b',
-    }
+        key: 'services',
+        label: 'sidebar.allServices',
+        leftIcon: 'ion-lightbulb',
+    },
+    {
+        key: 'active_services',
+        label: 'sidebar.activeServices',
+        leftIcon: 'ion-android-star',
+    },{
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
+    },
+];
+
+
+export const optionsConveyor = [
+    {
+        key: '',
+        label: 'sidebar.home',
+        leftIcon: 'ion-android-apps',
+    },
+    {
+        key: 'services',
+        label: 'sidebar.services',
+        leftIcon: 'ion-lightbulb',
+    },
+    {
+        key: 'mine_services',
+        label: 'sidebar.mineServices',
+        leftIcon: 'ion-lightbulb',
+    },{
+        key: 'marketplace',
+        label: 'sidebar.marketplace',
+        leftIcon: 'ion-bag',
+    },
 ];
 
 export const optionsAdmin = [

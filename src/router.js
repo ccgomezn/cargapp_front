@@ -7,12 +7,13 @@ import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
 import {decrypt} from "./helpers/utility";
 
-const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
+const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isConveyor, isGenerator, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && (isUser || isVehicleManager)? (
-                <Component {...props} admin={admin} isUser={isUser} isVehicleManager={isVehicleManager}/>
+            isLoggedIn && (isUser || isVehicleManager || admin || isConveyor || isGenerator) ? (
+                <Component {...props} admin={admin} isUser={isUser} isConveyor={isConveyor} isGenerator={isGenerator}
+                           isVehicleManager={isVehicleManager}/>
             ) : (
                 <Redirect
                     to={{
@@ -26,11 +27,11 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVeh
 );
 
 
-const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, ...rest}) => (
+const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isGenerator, isConveyor, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn  && admin ? (
+            isLoggedIn && admin ? (
                 <Redirect
                     to={{
                         pathname: "/admin/",
@@ -38,24 +39,38 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicle
                     }}
                 />
             ) : (
-                isLoggedIn && (isUser || isVehicleManager)? (
+                isLoggedIn && (isVehicleManager) ? (
                     <Redirect
                         to={{
-                            pathname: "/dashboard",
+                            pathname: "/vehicle_manager",
                             state: {from: props.location}
                         }}
                     />
-                ) : (
+                ) : isLoggedIn && isGenerator ? (
+
+                    <Redirect
+                        to={{
+                            pathname: "/generator",
+                            state: {from: props.location}
+                        }}
+                    />
+                ) : isLoggedIn && isConveyor ?
+                    <Redirect
+                        to={{
+                            pathname: "/conveyor",
+                            state: {from: props.location}
+                        }}
+                    /> : (
 
                         <Component {...props} />
-                )
+                    )
 
             )
         }
     />
 );
 
-const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) => {
+const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, isGenerator, isConveyor}) => {
     return (
         <ConnectedRouter history={history}>
             <div>
@@ -66,6 +81,8 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
                     admin={isAdmin}
+                    isGenerator={isGenerator}
+                    isConveyor={isConveyor}
                     isVehicleManager={isVehicleManager}
                 />
                 <Route
@@ -159,6 +176,34 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin,isVehicleManager}) =
                     isVehicleManager={isVehicleManager}
 
                 />
+                <RestrictedRoute
+                    path="/vehicle_manager"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+                    isGenerator={isGenerator}
+                    isConveyor={isConveyor}
+                />
+                <RestrictedRoute
+                    path="/generator"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+                    isGenerator={isGenerator}
+                />
+                <RestrictedRoute
+                    path="/conveyor"
+                    component={App}
+                    isLoggedIn={isLoggedIn}
+                    isUser={isUser}
+                    admin={isAdmin}
+                    isVehicleManager={isVehicleManager}
+                    isConveyor={isConveyor}
+                />
 
 
             </div>
@@ -184,6 +229,8 @@ export default connect(state => {
             isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.load_generator_role_id)),
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
             isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),
+            isConveyor: roles !== null && roles !== undefined && roles.includes(String(importantVariables.conveyor_role_id)),
+            isGenerator: roles !== null && roles !== undefined && roles.includes(String(importantVariables.generator_role_id))
         }
     )
 })(PublicRoutes);

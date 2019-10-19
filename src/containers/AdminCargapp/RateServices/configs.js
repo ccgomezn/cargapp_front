@@ -14,10 +14,8 @@ const deleteFunction = (id) => {
     return function () {
         (deleteRateService(id)
             .then((response) => {
-                setTimeout(() => {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/admin/rate_services/';
 
-                }, 3000);
 
             }).catch((error) => {
                 console.error(error);

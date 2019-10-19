@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getServiceDocument, getServices, getUsers } from '../../../../helpers/api/adminCalls.js';
+import { getServiceDocument, getUsers } from '../../../../helpers/api/adminCalls.js';
+import {getActiveServices} from "../../../../helpers/api/adminCalls";
 
 export default class ServiceDocumentShow extends Component {
 
@@ -31,7 +32,7 @@ export default class ServiceDocumentShow extends Component {
   }
 
   componentWillMount() {
-    axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getServices()])
+    axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getActiveServices()])
       .then((responses) => {
 
         if (responses[0].data.active) {
@@ -66,7 +67,13 @@ export default class ServiceDocumentShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/admin/service_documents')
+    if(this.props.generator){
+      this.props.history.push('/generator/service_documents')
+
+    }else{
+      this.props.history.push('/admin/service_documents')
+
+    }
   }
 
 
@@ -75,7 +82,11 @@ export default class ServiceDocumentShow extends Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/admin/service_documents' />
+      if(this.props.generator){
+        return <Redirect to='/generator/service_documents' />
+      }else{
+        return <Redirect to='/admin/service_documents' />
+      }
     }
     return (
 

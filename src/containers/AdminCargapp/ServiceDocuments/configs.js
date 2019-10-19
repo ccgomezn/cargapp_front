@@ -10,22 +10,18 @@ import {
 } from '../../../components/tables/helperCells';
 import { deleteServiceDocument } from '../../../helpers/api/adminCalls';
 
-const deleteFunction = (id) => {
+const deleteFunction = (id, type) => {
   return function () {
     (deleteServiceDocument(id)
       .then((response) => {
-        setTimeout(() => {
-          window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/';
-
-        }, 3000);
-
+          window.location.href = window.location.protocol + '//' + window.location.host + '/'+type+'/service_documents/';
       }).catch((error) => {
         console.error(error);
       }));
   }
-}
+};
 
-const renderCell = (object, type, key, color = false) => {
+const renderCell = (object, type, key, color = false, role_type, link) => {
   const value = object[key];
   switch (type) {
     case 'ImageCell':
@@ -33,7 +29,9 @@ const renderCell = (object, type, key, color = false) => {
     case 'DateCell':
       return DateCell(value);
     case 'LinkCell':
-      return LinkCell(value);
+      let href =  window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/show/' + object['id'];
+
+      return LinkCell(link,href);
     case 'MultipleButtonCell':
       var text1 = 'Editar';
       var text2 = 'Ver';
@@ -42,13 +40,13 @@ const renderCell = (object, type, key, color = false) => {
       var type2 = 'default';
       var type3 = 'danger';
       var function1 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/edit/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/edit/' + object['id'];
       }
       var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/service_documents/show/' + object['id'];
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/show/' + object['id'];
       }
 
-      return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
+      return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], role_type), type1, type2, type3)
     default:
       var color_val = '';
 
@@ -100,9 +98,15 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
-    render: object => renderCell(object, 'MultipleButtonCell', '')
-  }
+    render: object => renderCell(object, 'MultipleButtonCell', '',null, 'admin')
+  },{
+    title: <IntlMessages id="antTable.title.options" />,
+    key: 'option',
+    width: '10%',
+    render: object => renderCell(object, 'LinkCell', null, null, 'generator', 'Ver detalle')
+  },
 ];
+
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
   { ...columns[0], sorter: true },
@@ -112,6 +116,15 @@ const sortColumns = [
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
   { ...columns[6], sorter: false },
+];
+const sortColumnsGenerator = [
+  { ...columns[0], sorter: true },
+  { ...columns[1], sorter: true },
+  { ...columns[2], sorter: true },
+  { ...columns[3], sorter: true },
+  { ...columns[4], sorter: true },
+  { ...columns[5], sorter: true },
+  { ...columns[7], sorter: false },
 ];
 const editColumns = [
   { ...columns[1], width: 300 },
@@ -142,9 +155,9 @@ const tableinfos = [
     columns: clone(sortColumns)
   },
   {
-    title: 'Search Text',
-    value: 'filterView',
-    columns: clone(smallColumns)
+    title: 'Sortable Table',
+    value: 'sortView',
+    columns: clone(sortColumnsGenerator)
   },
   {
     title: 'Editable View',

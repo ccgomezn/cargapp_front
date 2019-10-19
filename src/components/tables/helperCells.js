@@ -73,6 +73,21 @@ const TripleButtonCell = (text1, text2, text3, function1, function2, function3, 
     )
 };
 
+
+const DoubleButtonCell = (text1, text2, function1, function2, type1, type2) => {
+    return (
+        <div style={{textAlign: 'left'}}>
+            <Button type={type1} onClick={function1}>
+                {text1}
+            </Button>
+            <Button type={type2} onClick={function2}>
+                {text2}
+            </Button>
+        </div>
+
+    )
+};
+
 const TextColorCell = (text, color) => <p style={{color: color}}>{text}</p>;
 const DropdownCell = (text, menu, href) => <Dropdown overlay={menu} trigger={['click']}>
     <a className="ant-dropdown-link " href={href ? href : '#'}>
@@ -95,5 +110,6 @@ export {
     TextColorCell,
     TripleButtonCell,
     DropdownCell,
-    ButtonCell
+    ButtonCell,
+    DoubleButtonCell
 };

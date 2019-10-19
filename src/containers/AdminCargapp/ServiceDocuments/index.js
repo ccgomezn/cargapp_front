@@ -9,8 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getServiceDocuments, getUsers, getDocumentsOfService} from '../../../helpers/api/adminCalls.js';
-import {getServices} from "../../../helpers/api/adminCalls";
+import {getActiveServiceDocuments, getActiveUsers, getDocumentsOfService} from '../../../helpers/api/adminCalls.js';
+import {getActiveServices, getMineServices} from "../../../helpers/api/adminCalls";
 
 export default class ServiceDocument extends Component {
 
@@ -37,15 +37,21 @@ export default class ServiceDocument extends Component {
 
     componentWillMount() {
         let id = this.props.match.params.id;
-        var getDocumentsFunction = function () {
-            return getServiceDocuments();
+        let getDocumentsFunction = function () {
+            return getActiveServiceDocuments();
+        };
+        let getServicesFunction = function () {
+            return getActiveServices();
         };
         if (id !== null && id !== undefined) {
             getDocumentsFunction = function () {
                 return getDocumentsOfService(id);
-            }
+            };
+            getServicesFunction = function () {
+                return getMineServices();
+            };
         }
-        axios.all([getDocumentsFunction(), getUsers(), getServices()])
+        axios.all([getDocumentsFunction(), getActiveUsers(), getServicesFunction()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let user_data = this.transformDataToMap(responses[1].data, 'email');
@@ -71,15 +77,28 @@ export default class ServiceDocument extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/service_documents/add')
+        let {id} = this.props.match.params;
+        id = id? id : '';
+        if(this.props.generator){
+            this.props.history.push('/generator/service_documents/add/'+id)
+        }else{
+            this.props.history.push('/admin/service_documents/add/'+id)
+        }
     }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
-
+        const {generator} = this.props;
+        let tableInfos = generator ? tableinfos[2]: tableinfos[1];
         if (reload) {
-            return <Redirect to='/admin/service_documents'/>
+            if(this.props.generator) {
+                return <Redirect to='/generator/service_documents'/>
+
+            }else{
+                return <Redirect to='/admin/service_documents'/>
+
+            }
         }
         return (
             <LayoutWrapper>
@@ -108,7 +127,7 @@ export default class ServiceDocument extends Component {
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.service_documents &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.service_documents}/>
+                                <SortView tableInfo={tableInfos} dataList={this.state.service_documents}/>
                                 }
                             </Col>
                         </Row>

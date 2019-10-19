@@ -10,16 +10,22 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {
     getService,
-    getUsers,
-    getCities,
-    getCompanies,
-    getVehicles,
-    getVehicleTypes,
+    getActiveUsers,
+    getActiveCities,
+    getActiveCompanies,
+    getActiveVehicles,
+    getActiveVehicleTypes,
+    getActiveStatus
 } from '../../../../helpers/api/adminCalls.js';
-import {getStatus, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
+import {getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
+import importantVariables from "../../../../helpers/hashVariables";
+import {Steps} from 'antd';
+import SecondaryButton from "../../../../components/custom/button/secondary";
+
+const {Step} = Steps;
 
 export default class ServiceDetail extends Component {
 
@@ -31,10 +37,14 @@ export default class ServiceDetail extends Component {
         }
     }
 
-    transformDataToMap(data, key) {
+    transformDataToMap(data, key, key1 = null) {
         var dataTransformed = {};
         data.map((item) => {
-            dataTransformed[item.id] = item[key];
+            if (key1 === null) {
+                dataTransformed[item.id] = item[key];
+            } else {
+                dataTransformed[item[key1]] = item[key];
+            }
             return item;
         });
 
@@ -42,7 +52,7 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-        axios.all([getService(this.props.match.params.id), getUsers(), getCities(), getCompanies(), getVehicles(), getVehicleTypes(), getStatus()])
+        axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
             .then((responses) => {
 
                 if (responses[0].data.active) {
@@ -58,6 +68,10 @@ export default class ServiceDetail extends Component {
                 let data_vehicles = this.transformDataToMap(responses[4].data, 'name');
                 let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
                 let data_status = this.transformDataToMap(responses[6].data, 'name');
+                let data_status_code = this.transformDataToMap(responses[6].data, 'code');
+                console.log('data_status_code:');
+                console.log(data_status_code);
+                let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
                 this.setState({
                     name: responses[0].data.name,
                     origin: responses[0].data.origin,
@@ -86,6 +100,8 @@ export default class ServiceDetail extends Component {
                     contact: responses[0].data.contact,
                     report_type: responses[0].data.report_type,
                     active: responses[0].data.active,
+                    status_code: data_status_code,
+                    status_from_code: data_status_from_code
                 });
                 getUserLocation(1).then((response) => {
                     this.setState({
@@ -128,27 +144,29 @@ export default class ServiceDetail extends Component {
             {
                 [type]: value
             }
-        )
+        );
     }
 
     goBack() {
-        this.props.history.push('/admin/services')
+        if (this.props.generator) {
+            this.props.history.push('/generator/services')
+        } else {
+            this.props.history.push('/admin/services')
+        }
     }
 
 
     changeStatus() {
-        let newStatus = 11;
-        if (this.state.statu_id < 8) {
-            newStatus = this.state.statu_id + 1;
-        }
-        console.log(this.state.statu_id)
-        putService(this.props.match.params.id, {statu_id: newStatus}).then(()=> window.location.reload());
+        let newCode = importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].next;
+        let newId = this.state.status_from_code[newCode];
+        putService(this.props.match.params.id, {statu_id: newId}).then(() => window.location.reload());
     }
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
-
+        const {generator} = this.props;
+        const {id} = this.props.match.params;
         if (redirect) {
             return <Redirect to='/admin/services'/>
         }
@@ -227,7 +245,7 @@ export default class ServiceDetail extends Component {
                                                         <Row>
 
                                                             <p>
-                                                                <a href={'/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
+                                                                <a href={generator ? '/generator/users/show/' + this.state.user_driver_id+'/'+ id : '/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
                                                             </p>
                                                         </Row>
 
@@ -279,18 +297,24 @@ export default class ServiceDetail extends Component {
                                     <Row>
                                         <Col lg={24} md={24} sm={24} xs={24}>
                                             <Row>
-                                                <label>
-                                                    <IntlMessages id={'service.status'}/>:
-                                                    {' ' + this.state.status}
-                                                </label>
+                                                {this.state.status_code && <Steps
+                                                    current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id}>
+                                                    <Step title="Esperando"/>
+                                                    <Step title="Camino a carga"/>
+                                                    <Step title="Cargando"/>
+                                                    <Step title="Viajando"/>
+                                                    <Step title="Descargando"/>
+                                                    <Step title="Terminado"/>
+                                                </Steps>}
+
 
                                             </Row>
                                         </Col>
                                         <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>
                                             <Row>
-                                                <PrimaryButton message_id={"general.changeStatus"}
-                                                               style={{width: '200px'}}
-                                                               onClick={() => this.changeStatus()}/>
+                                                <SecondaryButton message_id={"general.changeStatus"}
+                                                                 style={{width: '200px'}}
+                                                                 onClick={() => this.changeStatus()}/>
 
                                             </Row>
                                         </Col>

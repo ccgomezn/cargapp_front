@@ -85,7 +85,7 @@ export default class User extends Component {
 
     redirectAdd(driver) {
         if (driver) {
-            this.props.history.push('/admin/drivers/add')
+            this.props.history.push('/vehicle_manager/drivers/add')
 
         } else {
             this.props.history.push('/admin/users/add')

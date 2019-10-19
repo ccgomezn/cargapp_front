@@ -9,17 +9,7 @@ const shared_routes = [
     }
 ];
 
-const routes = [
-    {
-        path: '',
-        component: asyncComponent(() => import('../Dashboard/index.js')),
-    },
-    {
-        path: 'tracking',
-        component: asyncComponent(() => import('../Tracking'))
-    },
-    ...shared_routes
-];
+
 const routes_admin = [
 
     {
@@ -618,25 +608,86 @@ const routes_admin = [
     ...shared_routes
 ];
 
+const routes_generator = [
+    {
+        path: 'services',
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true})
+    },
+    {
+        path: 'services/add',
+        component: asyncComponent(() => import('../AdminCargapp/Services/create'), {generator: true})
+    },
+    {
+        path: 'active_services',
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true, active_services: true})
+    },
+    {
+        path: 'services/detail/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/detail'),{generator: true})
+    },
+    {
+        path: 'service_documents/detailed/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments', ),{generator: true})
+    },
+    {
+        path: 'service_documents/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/create'),{generator: true})
+    },
+    {
+        path: 'service_documents/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/show'), {generator: true})
+    },
+    {
+        path: 'service_users/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/users'), {generator: true})
+    },
+    {
+        path: 'users/show/:id/:service_id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'), {generator: true})
+    }
+];
+
+const routes_vehicle_manager = [
+    {
+        path: 'services',
+        component: asyncComponent(() => import('../AdminCargapp/Services'), {vehicle_manager: true})
+    },
+    {
+        path: 'services/subscribe/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/subscribe'), {vehicle_manager: true})
+    },
+    {
+        path: 'drivers',
+        component: asyncComponent(() => import('../AdminCargapp/Users'), {driver: true})
+    },
+    {
+        path: 'drivers/add',
+        component: asyncComponent(() => import('../AdminCargapp/Users/driverCreate'), {driver: true})
+    },
+    {
+        path: 'vehicles/add/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+    },
+    {
+        path: 'users/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'))
+    }
+];
+
 class AppRouter extends Component {
     render() {
         const {url, style} = this.props;
-        if (url === '/admin') {
-            return (
-                <div style={style}>
-                    {routes_admin.map(singleRoute => {
-                        const {path, exact, ...otherProps} = singleRoute;
-                        return (
-                            <Route
-                                exact={exact === false ? false : true}
-                                key={singleRoute.path}
-                                path={`${url}/${singleRoute.path}`}
-                                {...otherProps}
-                            />
-                        );
-                    })}
-                </div>
-            );
+        let routes;
+        const real_url = url.replace(/[^a-zA-Z]/g, '');
+        console.log('real url: ');
+        console.log(real_url);
+        if (real_url === 'admin') {
+            routes = routes_admin;
+
+        } else if (real_url === 'generator') {
+            routes = routes_generator;
+        } else if (real_url === 'vehiclemanager') {
+            routes = routes_vehicle_manager;
         }
         return (
             <div style={style}>

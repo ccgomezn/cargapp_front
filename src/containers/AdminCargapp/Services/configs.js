@@ -2,6 +2,7 @@ import React from 'react';
 import clone from 'clone';
 import IntlMessages from '../../../components/utility/intlMessages';
 import {
+    ButtonCell,
     DateCell,
     ImageCell,
     LinkCell,
@@ -10,21 +11,18 @@ import {
 } from '../../../components/tables/helperCells';
 import {deleteService} from '../../../helpers/api/adminCalls';
 
-const deleteFunction = (id) => {
+const deleteFunction = (id, type) => {
     return function () {
         (deleteService(id)
             .then((response) => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/';
-
-
-
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
             }).catch((error) => {
                 console.error(error);
             }));
     }
 }
 
-const renderCell = (object, type, key, color = false, link, link_name) => {
+const renderCell = (object, type, key, color = false, link, link_name, type_role, sub_link, boolean_change) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -32,22 +30,30 @@ const renderCell = (object, type, key, color = false, link, link_name) => {
         case 'DateCell':
             return DateCell(value);
         case 'LinkCell':
+            if(boolean_change && object['statu_id'] === 10){
+                return LinkCell('Ver postulados', window.location.protocol + '//' + window.location.host + sub_link + object['id']);
+            }
             return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
         case 'MultipleButtonCell':
-            var text1 = 'Editar';
-            var text2 = 'Ver';
-            var text3 = 'Eliminar';
-            var type1 = 'default';
-            var type2 = 'default';
-            var type3 = 'danger';
-            var function1 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/edit/' + object['id'];
-            }
-            var function2 = function () {
-                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/services/show/' + object['id'];
-            }
+            let text1 = 'Editar';
+            let text2 = 'Ver';
+            let text3 = 'Eliminar';
+            let type1 = 'default';
+            let type2 = 'default';
+            let type3 = 'danger';
+            let function1 = function () {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/edit/' + object['id'];
+            };
+            let function2 = function () {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/show/' + object['id'];
+            };
 
-            return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id']), type1, type2, type3)
+            return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3);
+        case 'ActionSubscribe':
+            let signUpFunction = function(){
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/subscribe/' + object['id'];
+            };
+            return ButtonCell('Postular camioneros', signUpFunction, 'Default');
         default:
             var color_val = '';
 
@@ -105,14 +111,41 @@ const columns = [
         title: <IntlMessages id="antTable.title.details"/>,
         key: 'details',
         width: '12%',
-        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/services/detail/', 'Detalles')
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/admin/services/detail/', 'Detalles', null, '/admin/service_users/', true)
     },
     {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '10%',
-        render: object => renderCell(object, 'MultipleButtonCell', '')
-    }
+        render: object => renderCell(object, 'MultipleButtonCell', '', null, null, null, 'admin')
+    },
+    {
+        title: <IntlMessages id="antTable.title.options"/>,
+        key: 'option',
+        width: '10%',
+        render: object => renderCell(object, 'MultipleButtonCell', null, null, null, null, 'generator')
+    }, {
+        title: <IntlMessages id="antTable.title.details"/>,
+        key: 'details',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/services/detail/', 'Detalles', null, '/generator/service_users/', true)
+    }, {
+        title: <IntlMessages id="antTable.title.seeDocuments"/>,
+        key: 'documents',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/generator/service_documents/detailed/', 'Ver documentos')
+    },
+    {
+        title: <IntlMessages id="antTable.title.status"/>,
+        key: 'status',
+        width: '12%',
+        render: object => renderCell(object, 'TextCell', 'status')
+    },{
+        title: <IntlMessages id="antTable.title.signUp"/>,
+        key: 'status',
+        width: '12%',
+        render: object => renderCell(object, 'ActionSubscribe', null, null, null, null,'vehicle_manager')
+    },
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
@@ -126,12 +159,32 @@ const sortColumns = [
     {...columns[7], sorter: false},
     {...columns[8], sorter: false},
 ];
-const editColumns = [
-    {...columns[1], width: 300},
-    {...columns[2], width: 300},
-    columns[3],
-    columns[4]
+
+const sortColumnsGenerator = [
+    {...columns[0], sorter: true},
+    {...columns[1], sorter: true},
+    {...columns[2], sorter: true},
+    {...columns[3], sorter: true},
+    {...columns[4], sorter: true},
+    {...columns[12], sorter: true},
+    {...columns[5], sorter: true},
+    {...columns[10], sorter: false},
+    {...columns[11], sorter: false},
+    {...columns[9], sorter: false},
 ];
+
+const sortColumnsVehicleManager = [
+    {...columns[0], sorter: true},
+    {...columns[1], sorter: true},
+    {...columns[2], sorter: true},
+    {...columns[3], sorter: true},
+    {...columns[4], sorter: true},
+    {...columns[12], sorter: true},
+    {...columns[5], sorter: true},
+    {...columns[13], sorter: true},
+
+];
+
 const groupColumns = [
     columns[0],
     {
@@ -155,14 +208,14 @@ const tableinfos = [
         columns: clone(sortColumns)
     },
     {
-        title: 'Search Text',
-        value: 'filterView',
-        columns: clone(smallColumns)
+        title: 'Sortable Table',
+        value: 'sortView',
+        columns: clone(sortColumnsGenerator)
     },
     {
-        title: 'Editable View',
-        value: 'editView',
-        columns: clone(editColumns)
+        title: 'Sortable View',
+        value: 'sortView',
+        columns: clone(sortColumnsVehicleManager)
     },
     {
         title: 'Grouping View',
