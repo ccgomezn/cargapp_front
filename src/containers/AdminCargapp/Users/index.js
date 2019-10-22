@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getUsers} from '../../../helpers/api/adminCalls.js';
-import {getRoles, getUserRoles} from "../../../helpers/api/adminCalls";
+import {getRoles, getUserRoles, getDriversFromCompany, getMineCompanies} from "../../../helpers/api/adminCalls";
 
 export default class User extends Component {
 
@@ -48,38 +48,56 @@ export default class User extends Component {
 
     componentWillMount() {
 
-        axios.all([getUsers(), getUserRoles(), getRoles()])
-            .then((responses) => {
-                if (responses[0] !== undefined) {
-                    let data_roles = this.transformDataToMap(responses[2].data, 'name');
-                    let data_user_roles = this.transformDataToMap(responses[1].data, 'role_id', 'user_id');
-                    responses[0].data.map((item) => {
-                        if (item.active) {
-                            item.active = 'Activo';
-                            item.color = '#00BFBF';
-                        } else {
-                            item.active = 'Desactivado';
-                            item.color = '#ff2557';
-                        }
-                        if (data_user_roles[item.id]) {
-                            data_user_roles[item.id].map((role) => {
 
-                                if (item.role !== '' && item.role !== undefined) {
-                                    item.role += ', ' + data_roles[role];
-                                } else {
-                                    item.role = data_roles[role];
-                                }
-                                return role;
-                            });
-                        }
+        let getUsersFunction = function () {
+            return getUsers();
+        };
 
-                        return item;
-                    });
-                    this.setState({
-                        users: responses[0].data
-                    });
-                }
-            })
+        if (this.props.driver) {
+            getUsersFunction = function (company_id) {
+                return getDriversFromCompany(company_id);
+            };
+        }
+        getMineCompanies().then((response) => {
+            let company_id = '';
+            if(response){
+                console.log(response.data);
+                company_id = 3
+            }
+            axios.all([getUsersFunction(company_id), getUserRoles(), getRoles()])
+                .then((responses) => {
+                    if (responses[0] !== undefined) {
+                        let data_roles = this.transformDataToMap(responses[2].data, 'name');
+                        let data_user_roles = this.transformDataToMap(responses[1].data, 'role_id', 'user_id');
+                        responses[0].data.map((item) => {
+                            if (item.active) {
+                                item.active = 'Activo';
+                                item.color = '#00BFBF';
+                            } else {
+                                item.active = 'Desactivado';
+                                item.color = '#ff2557';
+                            }
+                            if (data_user_roles[item.id]) {
+                                data_user_roles[item.id].map((role) => {
+
+                                    if (item.role !== '' && item.role !== undefined) {
+                                        item.role += ', ' + data_roles[role];
+                                    } else {
+                                        item.role = data_roles[role];
+                                    }
+                                    return role;
+                                });
+                            }
+
+                            return item;
+                        });
+                        this.setState({
+                            users: responses[0].data
+                        });
+                    }
+                })
+        })
+
     }
 
 

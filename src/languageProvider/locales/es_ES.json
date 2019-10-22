@@ -38,6 +38,7 @@
   "sidebar.indoors": "Internos",
   "sidebar.drivers": "Conductores",
   "driversAdd.title": "Añadir conductores",
+  "admin.title.loadType": "Tipos de carga",
   "antTable.title.observation": "Observación",
   "antTable.title.start_date": "Fecha de inicio",
   "sidebar.reports": "Reportes",

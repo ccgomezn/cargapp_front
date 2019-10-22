@@ -20,8 +20,11 @@ import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
 import Modal from "../../components/feedback/modal";
 import {post} from "../../helpers/httpRequest";
+import {validateEmail} from "../../helpers/validations";
+import authAction from "../../redux/auth/actions";
 
 const {Option} = Select;
+const {login} = authAction;
 
 class SignUp extends Component {
 
@@ -58,9 +61,23 @@ class SignUp extends Component {
 
     }
 
-    handleLogin = () => {
+    handleLoginRedirect = () => {
         this.props.history.push("/signin")
     };
+
+    handleLogin() {
+        const {login} = this.props;
+
+        return login({
+            user: {
+                email: this.state.email.trim(),
+                password: this.state.password.trim()
+            },
+            redirect_url: '/signup_company',
+            history: this.props.history
+
+        }, httpAddr + '/users/login', httpAddr + '/users/me')
+    }
 
     handleConfirmUser() {
         confirmUser({
@@ -71,9 +88,7 @@ class SignUp extends Component {
         }).then((response) => {
             if (response.status === 200) {
                 message.success("Usuario registrado correctamente");
-                this.setState({
-                    redirect: true
-                });
+                this.handleLogin();
             } else {
                 message.warning("Codigo incorrecto");
             }
@@ -137,6 +152,7 @@ class SignUp extends Component {
 
     }
 
+
     handlePostRegister() {
         if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
             return null;
@@ -187,6 +203,8 @@ class SignUp extends Component {
         if (redirect) {
             return <Redirect to='/signin'/>
         }
+
+
 
         console.log(this.props.loading);
 
@@ -334,7 +352,7 @@ class SignUp extends Component {
                                             <Col span={24} align={'right'}>
                                                 <div className="button-sign" style={{marginRight: '10px'}}>
                                                     <SecondaryButton message_id="sidebar.signin"
-                                                                     onClick={() => this.handleLogin()}/>
+                                                                     onClick={() => this.handleLoginRedirect()}/>
 
                                                 </div>
 
@@ -414,5 +432,5 @@ export default connect(
         loading: state.App.loading,
         isLoggedIn: state.Auth.idToken !== null
     }),
-    {}
+    {login}
 )(SignUp);

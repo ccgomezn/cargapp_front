@@ -43,6 +43,11 @@ export function getMineCompanies() {
     return get(httpAddr + '/company_users/me', true);
 }
 
+export function getDriversFromCompany(company_id){
+    return get(httpAddr+'/company_users/find_company/'+company_id, true)
+}
+
+
 export function postUserCompany(data) {
     return post(httpAddr + '/company_users', data, true);
 }

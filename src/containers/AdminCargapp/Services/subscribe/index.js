@@ -54,7 +54,7 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveProfiles(), getActiveUsersOfService()])
+        axios.all([getActiveUsers(), getActiveProfiles()])
             .then((responses) => {
                 let profiles = this.transformDataToMap(responses[1].data);
                 console.log('profiles');

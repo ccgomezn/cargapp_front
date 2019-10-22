@@ -28,33 +28,39 @@ function roleApi(url, token) {
     );
 }
 
+function redirect(url, history){
+    history.push(url);
+}
+
 export function* loginRequest() {
-    yield takeEvery('LOGIN_REQUEST', function* (data) {
-        try {
-            let response_token = yield call(loginApi, data.url, data.data);
-            let token = response_token.data.access_token;
-            let response_role = yield call(roleApi, data.url_role, token);
-            let roles = response_role.data.roles;
-            let roles_array = [];
-            let token_encrypted = encrypt(token);
-            roles.map((role) => {
-                roles_array.push(role.role_id);
-                return role
-            });
-            let roles_encrypted = encrypt(token + roles_array.toString());
+        yield takeEvery('LOGIN_REQUEST', function* (data) {
+            try {
+                let response_token = yield call(loginApi, data.url, data.data);
+                let token = response_token.data.access_token;
+                let response_role = yield call(roleApi, data.url_role, token);
+                let roles = response_role.data.roles;
+                let roles_array = [];
+                let token_encrypted = encrypt(token);
+                roles.map((role) => {
+                    roles_array.push(role.role_id);
+                    return role
+                });
+                let roles_encrypted = encrypt(token + roles_array.toString());
 
-            yield put({
-                type: actions.LOGIN_SUCCESS,
-                token: token_encrypted,
-                roles: roles_encrypted,
-                profile: 'Profile'
-            });
-            yield message.success('Login correcto');
-
-        } catch (e) {
-            yield put({type: actions.LOGIN_ERROR});
-        }
-    });
+                yield put({
+                    type: actions.LOGIN_SUCCESS,
+                    token: token_encrypted,
+                    roles: roles_encrypted,
+                    profile: 'Profile'
+                });
+                yield message.success('Login correcto');
+                if(data.data.redirect_url){
+                    yield call(redirect,data.data.redirect_url, data.data.history);
+                }
+            } catch (e) {
+                yield put({type: actions.LOGIN_ERROR});
+            }
+        });
 }
 
 export function* loginSuccess() {

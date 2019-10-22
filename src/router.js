@@ -109,33 +109,23 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     exact
                     path={"/signup"}
                     component={asyncComponent(() => import("./containers/Page/signup"))}
-                    isLoggedIn={isLoggedIn}
-                    isUser={isUser}
-                    admin={isAdmin}
-                    isVehicleManager={isVehicleManager}
+
 
                 />
                 <PublicRoute
                     exact
-                    path={"/signupcompany"}
+                    path={"/signup_company"}
                     component={asyncComponent(() => import("./containers/Page/signupCompany"))}
-                    isLoggedIn={isLoggedIn}
-                    isUser={isUser}
-                    admin={isAdmin}
-                    isVehicleManager={isVehicleManager}
                 />
                 <PublicRoute
                     exact
-                    path={"/signupfinancial"}
+                    path={"/signup_financial"}
                     component={asyncComponent(() => import("./containers/Page/signupFinancial"))}
-                    isLoggedIn={isLoggedIn}
-                    isUser={isUser}
-                    dmin={isAdmin}
 
                 />
                 <PublicRoute
                     exact
-                    path={"/forgotpassword"}
+                    path={"/forgot_password"}
                     component={asyncComponent(() =>
                         import("./containers/Page/forgotPassword")
                     )}
@@ -147,7 +137,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                 />
                 <PublicRoute
                     exact
-                    path={"/resetpassword"}
+                    path={"/reset_password"}
                     component={asyncComponent(() =>
                         import("./containers/Page/resetPassword")
                     )}

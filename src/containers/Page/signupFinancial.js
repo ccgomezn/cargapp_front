@@ -8,6 +8,7 @@ import SelectInputCustom from "../../components/custom/input/select"
 import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
+import {postPaymentMethod} from "../../helpers/api/adminCalls";
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -30,6 +31,14 @@ class SignUpFinancial extends Component {
     clearMenu();
     this.props.history.push("/dashboard");
   };
+
+  handlePost(){
+    postPaymentMethod({payment_method: {
+      uuid: this.state.account_number,
+        description: this.state.bank
+      }})
+  }
+
   render() {
     return (
       <SignUpStyleWrapper className="isoSignUpPage">
@@ -84,28 +93,29 @@ class SignUpFinancial extends Component {
               </div>
             </div>
             <div className="isoSignUpForm">
-              <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <SelectInputCustom label_id='page.paymentMethod' placeholder='Medio de pago' options={
-                  <option value="Cuenta de ahorros">Cuenta de ahorros</option>
-                }/>
-                
+
+
+
+              <div className="isoInputWrapper">
+                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta'
+                                 value={this.state.account_number}
+                                 onChange={(e) => this.handleChange(e.target.value, 'account_number')}
+                                 required />
+
+
               </div>
 
 
               <div className="isoInputWrapper">
-                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta' />
+                <TextInputCustom value={this.state.bank} placeholder="banco"
+                                 label_id="admin.title.bank"
 
-               
+                                 onChange={(e) => this.handleChange(e.target.value, 'bank')}
+                                 required />
+
               </div>
 
 
-              <div className="isoInputWrapper">
-                <SelectInputCustom label_id='page.bank' placeholder='Banco' options={
-                  <option value="Davivienda">Davivienda</option>
-                } />
-              </div>
-
-              
 
               <div className="sign-buttons">
                 <Row>
@@ -125,7 +135,7 @@ class SignUpFinancial extends Component {
                   </Col>
                 </Row>
 
-              </div>  
+              </div>
 
             </div>
           </div>
