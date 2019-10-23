@@ -4,7 +4,6 @@ import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
-import SelectInputCustom from "../../components/custom/input/select"
 import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
 import PrimaryButton from '../../components/custom/button/primary'

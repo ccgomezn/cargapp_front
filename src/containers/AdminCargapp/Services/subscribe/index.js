@@ -10,7 +10,7 @@ import {
     getActiveUsers,
 
 } from '../../../../helpers/api/adminCalls.js';
-import {getActiveProfiles, getActiveUsersOfService, putService} from "../../../../helpers/api/adminCalls";
+import {getActiveProfiles, putService} from "../../../../helpers/api/adminCalls";
 
 import importantVariables from "../../../../helpers/hashVariables";
 import SortView from "../../../../components/custom/table/sortView";

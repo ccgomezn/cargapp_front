@@ -20,7 +20,6 @@ import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
 import Modal from "../../components/feedback/modal";
 import {post} from "../../helpers/httpRequest";
-import {validateEmail} from "../../helpers/validations";
 import authAction from "../../redux/auth/actions";
 
 const {Option} = Select;
@@ -119,7 +118,7 @@ class SignUp extends Component {
             }
         );
         if (type === 'email') {
-            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(value)) {
                 verifyEmail(value).then((response) => {
                     if (response.data.email) {
 
