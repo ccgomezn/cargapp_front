@@ -39,6 +39,7 @@
   "sidebar.drivers": "Conductores",
   "driversAdd.title": "Añadir conductores",
   "admin.title.loadType": "Tipos de carga",
+  "admin.title.bankAccountType": "Tipo de cuenta",
   "antTable.title.observation": "Observación",
   "antTable.title.start_date": "Fecha de inicio",
   "sidebar.reports": "Reportes",

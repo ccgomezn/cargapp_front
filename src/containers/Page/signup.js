@@ -67,13 +67,17 @@ class SignUp extends Component {
 
     handleLogin() {
         const {login} = this.props;
+        let redirect = '/signup_company';
 
+        if(this.state.role_id === 15){
+            redirect = 'signup_financial';
+        }
         return login({
             user: {
                 email: this.state.email.trim(),
                 password: this.state.password.trim()
             },
-            redirect_url: '/signup_company',
+            redirect_url: redirect,
             history: this.props.history
 
         }, httpAddr + '/users/login', httpAddr + '/users/me')

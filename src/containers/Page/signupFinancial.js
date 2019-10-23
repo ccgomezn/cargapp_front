@@ -8,7 +8,8 @@ import SelectInputCustom from "../../components/custom/input/select"
 import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
-import {postPaymentMethod} from "../../helpers/api/adminCalls";
+import {getMineUser, postPaymentMethod} from "../../helpers/api/adminCalls";
+import {Redirect} from "react-router";
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -32,14 +33,33 @@ class SignUpFinancial extends Component {
     this.props.history.push("/dashboard");
   };
 
+  handleChange(value, type) {
+
+    this.setState(
+        {
+          [type]: value
+        }
+    )
+  }
+
   handlePost(){
-    postPaymentMethod({payment_method: {
-      uuid: this.state.account_number,
-        description: this.state.bank
-      }})
+    getMineUser().then((response) => {
+      postPaymentMethod({payment_method: {
+          uuid: this.state.account_number,
+          description: this.state.account_type + this.state.bank,
+          name: 'Cuenta de ahorros',
+          user_id: response.data.user.id
+        }}).then((response) => {
+        this.setState({redirect: true})
+      })
+    })
+
   }
 
   render() {
+    if(this.state.redirect){
+      return <Redirect to={'/'}/>
+    }
     return (
       <SignUpStyleWrapper className="isoSignUpPage">
         <div className="isoSignUpContentWrapper">
@@ -94,7 +114,14 @@ class SignUpFinancial extends Component {
             </div>
             <div className="isoSignUpForm">
 
+              <div className="isoInputWrapper">
+                <TextInputCustom value={this.state.account_type} placeholder="tipo de cuenta"
+                                 label_id="admin.title.bankAccountType"
 
+                                 onChange={(e) => this.handleChange(e.target.value, 'account_type')}
+                                 required />
+
+              </div>
 
               <div className="isoInputWrapper">
                 <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta'
@@ -117,11 +144,13 @@ class SignUpFinancial extends Component {
 
 
 
+
+
               <div className="sign-buttons">
                 <Row>
                   <Col align={'right'}>
 
-                    <PrimaryButton message_id="page.end" />
+                    <PrimaryButton message_id="page.end" onClick={() => this.handlePost()}/>
 
 
                   </Col>

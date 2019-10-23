@@ -158,7 +158,6 @@ class SignUpCompany extends Component {
                                 <Row>
                                     <Col align={'right'}>
                                         <PrimaryButton htmlType={"submit"} message_id={"general.add"}
-                                                       style={{width: '200px'}}
                                                        onClick={() => this.handlePost()}/>
                                     </Col>
                                 </Row>
