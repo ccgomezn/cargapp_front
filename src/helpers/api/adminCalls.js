@@ -790,6 +790,10 @@ export function getActiveUsersOfService() {
     return get(httpAddr + '/service_users/active', true);
 }
 
+export function getUsersOfService(service_id){
+    return get(httpAddr + '/service_users/find_service/' + service_id, true);
+}
+
 export function deleteService(id) {
     return del(httpAddr + `/services/` + id, true)
 }
@@ -877,8 +881,17 @@ export function getActiveUserLocations() {
 }
 
 export function getUserLocation(id) {
+    return get(httpAddr + `/user_locations/find_user/` + id, true);
+}
+
+export function getUserLocationSpecific(id){
     return get(httpAddr + `/user_locations/` + id, true);
 }
+
+export function getStatusOfModel(model){
+    return get(httpAddr+'/status/find_model/'+model, true);
+}
+
 
 export function putUserLocation(id, data) {
     return put(httpAddr + '/user_locations/' + id, data, true);

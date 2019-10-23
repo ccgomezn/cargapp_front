@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getTicket, getUsers, getStatus } from '../../../../helpers/api/adminCalls.js';
+import { getTicket, getUsers, getStatusOfModel } from '../../../../helpers/api/adminCalls.js';
+import {getActiveModels} from "../../../../helpers/api/adminCalls";
 
 export default class TicketShow extends Component {
 
@@ -29,33 +30,42 @@ export default class TicketShow extends Component {
 
     return dataTransformed
   }
-  
+
 
   componentWillMount() {
-    axios.all([getTicket(this.props.match.params.id), getUsers(), getStatus()])
-      .then((responses) => {
-
-        if (responses[0].data.active) {
-          responses[0].data.active = 'Activo';
-        } else {
-          responses[0].data.active = 'Desactivado';
+    getActiveModels().then((response) => {
+      let id_model = 0;
+      response.data.forEach(model => {
+        if(model.code === 'TICKETS'){
+          id_model = model.id
         }
-        let data_users = this.transformDataToMap(responses[1].data, 'email')
-        let data_status = this.transformDataToMap(responses[2].data, 'name')
-        this.setState({
-          title: responses[0].data.title,
-          body: responses[0].data.body,
-          image: responses[0].data.image,
-          media: responses[0].data.media,
-          status: data_status[responses[0].data.statu_id],
-          user: data_users[responses[0].data.user_id],
-          active: responses[0].data.active,
-        });
+      });
+      axios.all([getTicket(this.props.match.params.id), getUsers(), getStatusOfModel(id_model)])
+          .then((responses) => {
 
-      }).catch((error) => {
+            if (responses[0].data.active) {
+              responses[0].data.active = 'Activo';
+            } else {
+              responses[0].data.active = 'Desactivado';
+            }
+            let data_users = this.transformDataToMap(responses[1].data, 'email')
+            let data_status = this.transformDataToMap(responses[2].data, 'name')
+            this.setState({
+              title: responses[0].data.title,
+              body: responses[0].data.body,
+              image: responses[0].data.image,
+              media: responses[0].data.media,
+              status: data_status[responses[0].data.statu_id],
+              user: data_users[responses[0].data.user_id],
+              active: responses[0].data.active,
+            });
+
+          }).catch((error) => {
         console.error(error);
       });
+    });
   }
+
   handleChange(value, type) {
 
     this.setState(

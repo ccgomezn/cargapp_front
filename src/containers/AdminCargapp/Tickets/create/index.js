@@ -8,7 +8,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postTicket} from '../../../../helpers/api/adminCalls.js';
-import {getActiveStatus, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getActiveStatus, getActiveUsers, getStatusOfModel} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
@@ -26,15 +26,23 @@ export default class TicketCreate extends Component {
     }
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveStatus()])
-            .then((responses) => {
+        getActiveModels().then((response) => {
+            let id_model = 0;
+            response.data.forEach(model => {
+                if(model.code === 'TICKETS'){
+                    id_model = model.id
+                }
+            });
+            axios.all([getActiveUsers(), getStatusOfModel(id_model)])
+                .then((responses) => {
 
-                this.setState({
-                    users: responses[0].data,
-                    status: responses[1].data,
-                });
+                    this.setState({
+                        users: responses[0].data,
+                        status: responses[1].data,
+                    });
 
-            })
+                })
+        });
 
     }
 

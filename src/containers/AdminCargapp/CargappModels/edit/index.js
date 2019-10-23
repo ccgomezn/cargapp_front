@@ -43,12 +43,10 @@ export default class CargappModelEdit extends Component {
                     active: response.data.active,
                 });
             }).catch((error) => {
-            console.error(error);
         });
     }
 
     handleChange(value, type) {
-
         this.setState(
             {
                 [type]: value
@@ -110,14 +108,14 @@ export default class CargappModelEdit extends Component {
                                         <Col span={12}>
                                             <Form.Item label="Nombre">
                                                 <TextInputCustom required value={this.state.name} placeholder="nombre"
-                                                                 onChange={(e) => this.handleChange(e, 'name')}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'name')}
                                                                  label_id={'admin.title.name'}/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item label="Codigo">
                                                 <TextInputCustom required value={this.state.code} placeholder="código"
-                                                                 onChange={(e) => this.handleChange(e, 'code')}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'code')}
                                                                  label_id={'admin.title.code'}/>
 
 
@@ -128,7 +126,7 @@ export default class CargappModelEdit extends Component {
                                         <Col span={12}>
                                             <Form.Item label="Valor">
                                                 <TextInputCustom required value={this.state.value} placeholder="valor"
-                                                                 onChange={(e) => this.handleChange(e, 'value')}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'value')}
                                                                  label_id={'admin.title.value'}/>
                                             </Form.Item>
                                         </Col>
@@ -136,7 +134,7 @@ export default class CargappModelEdit extends Component {
                                             <Form.Item label="Descripción">
                                                 <AreaInputCustom required value={this.state.description}
                                                                  placeholder="descripción"
-                                                                 onChange={(e) => this.handleChange(e, 'description')}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}
                                                                  label_id={'admin.title.description'}/>
 
                                             </Form.Item>

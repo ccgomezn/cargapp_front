@@ -26,7 +26,6 @@ export class App extends Component {
         const {locale, selectedTheme, height, admin, isUser, isVehicleManager, loading, isGenerator, isConveyor} = this.props;
         const currentAppLocale = AppLocale[locale];
         const appHeight = window.innerHeight;
-        console.log(this.props);
 
         return (
             <LocaleProvider locale={currentAppLocale.antd}>

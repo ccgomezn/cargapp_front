@@ -208,9 +208,6 @@ class SignUp extends Component {
         }
 
 
-
-        console.log(this.props.loading);
-
         return (
             <Spin spinning={this.props.loading > 0}>
 
@@ -316,7 +313,7 @@ class SignUp extends Component {
                                                                        onChange={(e) => {
                                                                            this.handleChange(e, 'country_code')
                                                                        }}
-                                                                       defaultValue={{key: 57}}
+                                                                       defaultValue={[{key: '57'}]}
                                                                        value={this.state.country_code}
                                                                        options={this.state.countries.map((item) => {
                                                                            return <Option

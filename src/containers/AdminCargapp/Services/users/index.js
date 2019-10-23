@@ -11,7 +11,7 @@ import {Redirect} from 'react-router-dom'
 import {
     getProfiles, getRateServices,
     getUsers,
-    getActiveUsersOfService
+    getUsersOfService
 } from "../../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
@@ -58,13 +58,14 @@ export default class Service extends Component {
     }
 
     componentWillMount() {
-        axios.all([getActiveUsersOfService(), getUsers(), getProfiles(), getRateServices()])
+        axios.all([getUsersOfService(this.props.match.params.id), getUsers(), getProfiles(), getRateServices()])
             .then((responses) => {
                 let profiles = this.transformDataToMap(responses[2].data, 'user_id');
                 let users = this.transformDataToMap(responses[1].data);
                 let rate = this.meanRateServices(responses[3].data);
                 if (responses[0] !== undefined) {
                     responses[0].data.map((item) => {
+                        item = item.service_user;
                         if (item.approved) {
                             item.color = '#00BFBF';
                         } else if(item.approved !== null){
@@ -72,9 +73,8 @@ export default class Service extends Component {
                         }else{
                             item.color = '#010935';
                         }
-
                         let user_id = item.user_id;
-                        item.user = profiles[user_id].first_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
+                        item.user = profiles[user_id].firt_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
                         item.document = profiles[user_id].document_id;
                         if(rate[user_id]){
                             item.score = String(parseInt(rate[user_id].sum / rate[user_id].count)) + ' Puntos';
@@ -93,11 +93,12 @@ export default class Service extends Component {
                         return item;
                     });
                 }
-                console.log('user_services');
-                console.log(responses[0].data)
-
+                let data = [];
+                responses[0].data.forEach(item => {
+                    data.push(item.service_user);
+                });
                 this.setState({
-                    user_services: responses[0].data,
+                    user_services: data,
                 });
 
             })

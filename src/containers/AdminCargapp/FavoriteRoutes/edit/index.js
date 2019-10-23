@@ -27,7 +27,6 @@ export default class FavoriteRouteEdit extends Component {
 
 
     componentWillMount() {
-        console.log(this.props);
         axios.all([getFavoriteRoute(this.props.match.params.id), getUsers(), getCities()])
             .then((responses) => {
 

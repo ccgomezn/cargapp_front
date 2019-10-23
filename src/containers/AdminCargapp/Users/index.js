@@ -10,7 +10,12 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getUsers} from '../../../helpers/api/adminCalls.js';
-import {getRoles, getUserRoles, getDriversFromCompany, getMineCompanies} from "../../../helpers/api/adminCalls";
+import {
+    getRoles,
+    getDriversFromCompany,
+    getMineCompanies,
+    getActiveUserRoles
+} from "../../../helpers/api/adminCalls";
 
 export default class User extends Component {
 
@@ -60,11 +65,10 @@ export default class User extends Component {
         }
         getMineCompanies().then((response) => {
             let company_id = '';
-            if(response){
-                console.log(response.data);
-                company_id = 3
+            if(response.data[0]){
+                company_id = response.data[0].id
             }
-            axios.all([getUsersFunction(company_id), getUserRoles(), getRoles()])
+            axios.all([getUsersFunction(company_id), getActiveUserRoles(), getRoles()])
                 .then((responses) => {
                     if (responses[0] !== undefined) {
                         let data_roles = this.transformDataToMap(responses[2].data, 'name');

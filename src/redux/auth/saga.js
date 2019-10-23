@@ -53,7 +53,7 @@ export function* loginRequest() {
                     roles: roles_encrypted,
                     profile: 'Profile'
                 });
-                yield message.success('Login correcto');
+                message.success('Login correcto');
                 if(data.data.redirect_url){
                     yield call(redirect,data.data.redirect_url, data.data.history);
                 }

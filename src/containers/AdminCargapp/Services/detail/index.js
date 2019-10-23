@@ -103,17 +103,22 @@ export default class ServiceDetail extends Component {
                     status_code: data_status_code,
                     status_from_code: data_status_from_code
                 });
-                getUserLocation(1).then((response) => {
-                    this.setState({
-                        user_location: {
-                            position: {
-                                lat: parseInt(response.data.latitude),
-                                lng: parseInt(response.data.longitude)
+                getUserLocation(this.state.user_driver_id).then((response) => {
+                    if (response.data[0]) {
+                        this.setState({
+                            user_location: {
+                                position: {
+                                    lat: parseInt(response.data[0].latitude),
+                                    lng: parseInt(response.data[0].longitude)
+                                },
+                                icon: {
+                                    url: require('../../../../image/truck_down_right.svg'),
+                                }
                             },
-                            icon: {
-                                url: require('../../../../image/truck_down_right.svg'),
-                            }
-                        },
+                        })
+                    }
+                    this.setState({
+
                         origin_marker: {
                             position: {
                                 lat: parseInt(this.state.origin_latitude),
@@ -198,7 +203,7 @@ export default class ServiceDetail extends Component {
                                                     lat: 4.710989,
                                                     lng: -74.072090
                                                 }} block style={{height: 500}}
-                                                              markers={[this.state.user_location, this.state.origin_marker, this.state.destination_marker]}
+                                                              markers={[ this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
                                                               direction={this.state.direction}/>
                                             </Col>
 
@@ -245,7 +250,7 @@ export default class ServiceDetail extends Component {
                                                         <Row>
 
                                                             <p>
-                                                                <a href={generator ? '/generator/users/show/' + this.state.user_driver_id+'/'+ id : '/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
+                                                                <a href={generator ? '/generator/users/show/' + this.state.user_driver_id + '/' + id : '/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
                                                             </p>
                                                         </Row>
 

@@ -679,8 +679,6 @@ class AppRouter extends Component {
         const {url, style} = this.props;
         let routes;
         const real_url = url.replace(/[^a-zA-Z]/g, '');
-        console.log('real url: ');
-        console.log(real_url);
         if (real_url === 'admin') {
             routes = routes_admin;
 
