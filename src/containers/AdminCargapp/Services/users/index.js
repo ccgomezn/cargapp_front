@@ -144,8 +144,12 @@ export default class Service extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.user_services &&
-                                <SortView tableInfo={tableinfos[0]} dataList={this.state.user_services}/>
+                                {generator ? this.state && this.state.user_services &&
+                                    <SortView tableInfo={tableinfos[0]} dataList={this.state.user_services}/> :
+                                    this.state && this.state.user_services &&
+                                    <SortView tableInfo={tableinfos[1]} dataList={this.state.user_services}/>}
+                                {
+
                                 }
                             </Col>
                         </Row>

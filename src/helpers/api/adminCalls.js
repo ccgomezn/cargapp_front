@@ -963,6 +963,7 @@ export function getRateServices() {
     return get(httpAddr + `/rate_services/active`, true);
 }
 
+
 export function putUserOfService(id, data) {
     return put(httpAddr + '/service_users/' + id, data, true);
 }

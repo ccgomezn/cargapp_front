@@ -11,8 +11,8 @@ import {postCargappPayment} from '../../../../helpers/api/adminCalls.js';
 import {
     getActivePaymentMethods,
     getActiveUsers,
-    getActiveStatus,
-    getActiveBankAccounts, getActiveServices, getActiveCompanies
+    getStatusOfModel,
+    getActiveBankAccounts, getActiveServices, getActiveCompanies, getActiveModels
 } from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
@@ -32,18 +32,28 @@ export default class CargappPaymentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActivePaymentMethods(), getActiveUsers(), getActiveStatus(), getActiveBankAccounts(), getActiveServices(), getActiveCompanies()])
-            .then((responses) => {
-                this.setState({
-                    payment_methods: responses[0].data,
-                    users: responses[1].data,
-                    status: responses[2].data,
-                    bank_accounts: responses[3].data,
-                    services: responses[4].data,
-                    companies: responses[5].data
-                });
+        getActiveModels().then(response => {
+            let model_id = '';
 
-            })
+            response.data.forEach(model => {
+                if(model.code === 'CARGAPP_PAYMENTS'){
+                    model_id = model.id
+                }
+            });
+            axios.all([getActivePaymentMethods(), getActiveUsers(), getStatusOfModel(model_id), getActiveBankAccounts(), getActiveServices(), getActiveCompanies()])
+                .then((responses) => {
+                    this.setState({
+                        payment_methods: responses[0].data,
+                        users: responses[1].data,
+                        status: responses[2].data,
+                        bank_accounts: responses[3].data,
+                        services: responses[4].data,
+                        companies: responses[5].data
+                    });
+
+                })
+        })
+
 
     }
 

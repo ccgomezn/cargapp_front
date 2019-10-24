@@ -602,9 +602,14 @@ const routes_admin = [
         component: asyncComponent(() => import('../AdminCargapp/CargappModels/edit'))
     },
     {
+        path: 'service_users/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Services/users'))
+    },
+    {
         path: 'cargapp_models/add',
         component: asyncComponent(() => import('../AdminCargapp/CargappModels/create'))
     },
+
     ...shared_routes
 ];
 

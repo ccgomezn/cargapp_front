@@ -14,9 +14,9 @@ import {
 } from '../../../../helpers/api/adminCalls.js';
 import {
     getActiveCities,
-    getActiveCompanies, getActiveStatus,
+    getActiveCompanies, getStatusOfModel,
     getActiveUsers,
-    getActiveVehicles, getActiveVehicleTypes, getMineUser,
+    getActiveVehicles, getActiveVehicleTypes, getMineUser, getActiveModels,
 
 } from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
@@ -83,27 +83,36 @@ export default class ReportCreate extends Component {
                 return getActiveVehicles();
             }
         }
-        axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getActiveStatus()])
-            .then((responses) => {
-                this.setState({
-                    users: responses[0].data,
-                    cities: responses[1].data,
-                    companies: responses[2].data,
-                    vehicles_full: responses[3] ? this.getVehicleByUser(responses[3].data) : [],
-                    vehicles: [],
-                    vehicle_types: responses[4].data,
-                    status: responses[5].data,
-                    cities_proc: this.transformDataToMap(responses[1].data, 'name'),
-                    expiration_date: moment(),
-                    origin_latitude: 4.710989,
-                    origin_longitude: -74.072090,
-                    destination_latitude: 4.710989,
-                    destination_longitude: -74.072090,
-                    center: {lat: 4.710989, lng: -74.072090}
-                });
+        getActiveModels().then((response) => {
+            let model_id = '';
 
+            response.data.forEach(model => {
+                if (model.code === 'SERVICE') {
+                    model_id = model.id
+                }
             });
 
+            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id)])
+                .then((responses) => {
+                    this.setState({
+                        users: responses[0].data,
+                        cities: responses[1].data,
+                        companies: responses[2].data,
+                        vehicles_full: responses[3] ? this.getVehicleByUser(responses[3].data) : [],
+                        vehicles: [],
+                        vehicle_types: responses[4].data,
+                        status: responses[5].data,
+                        cities_proc: this.transformDataToMap(responses[1].data, 'name'),
+                        expiration_date: moment(),
+                        origin_latitude: 4.710989,
+                        origin_longitude: -74.072090,
+                        destination_latitude: 4.710989,
+                        destination_longitude: -74.072090,
+                        center: {lat: 4.710989, lng: -74.072090}
+                    });
+
+                });
+        });
 
     }
 

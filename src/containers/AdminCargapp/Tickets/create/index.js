@@ -8,7 +8,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postTicket} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveStatus, getActiveUsers, getStatusOfModel} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getActiveUsers, getStatusOfModel} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";

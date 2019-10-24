@@ -15,9 +15,9 @@ import {
     getActiveCompanies,
     getActiveVehicles,
     getActiveVehicleTypes,
-    getActiveStatus
+    getStatusOfModel
 } from '../../../../helpers/api/adminCalls.js';
-import {getUserLocation, putService} from "../../../../helpers/api/adminCalls";
+import {getActiveModels, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
@@ -52,95 +52,107 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-        axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getActiveStatus()])
-            .then((responses) => {
 
-                if (responses[0].data.active) {
-                    responses[0].data.active = 'Activo';
-                } else {
-                    responses[0].data.active = 'Desactivado';
+
+        getActiveModels().then(response => {
+            let model_id = '';
+
+            response.data.forEach(model => {
+                if (model.code === 'SERVICE') {
+                    model_id = model.id
                 }
+            });
+            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getStatusOfModel(model_id)])
+                .then((responses) => {
+
+                    if (responses[0].data.active) {
+                        responses[0].data.active = 'Activo';
+                    } else {
+                        responses[0].data.active = 'Desactivado';
+                    }
 
 
-                let data_users = this.transformDataToMap(responses[1].data, 'email');
-                let data_cities = this.transformDataToMap(responses[2].data, 'name');
-                let data_companies = this.transformDataToMap(responses[3].data, 'name');
-                let data_vehicles = this.transformDataToMap(responses[4].data, 'name');
-                let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
-                let data_status = this.transformDataToMap(responses[6].data, 'name');
-                let data_status_code = this.transformDataToMap(responses[6].data, 'code');
-                console.log('data_status_code:');
-                console.log(data_status_code);
-                let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
-                this.setState({
-                    name: responses[0].data.name,
-                    origin: responses[0].data.origin,
-                    origin_city: data_cities[responses[0].data.origin_city_id],
-                    origin_address: responses[0].data.origin_address,
-                    origin_longitude: responses[0].data.origin_longitude,
-                    origin_latitude: responses[0].data.origin_latitude,
-                    destination: responses[0].data.destination,
-                    destination_city: data_cities[responses[0].data.destination_city_id],
-                    destination_address: responses[0].data.destination_address,
-                    destination_latitude: responses[0].data.destination_latitude,
-                    destination_longitude: responses[0].data.destination_longitude,
-                    price: responses[0].data.price,
-                    description: responses[0].data.description,
-                    note: responses[0].data.note,
-                    user: data_users[responses[0].data.user_id],
-                    company: data_companies[responses[0].data.company_id],
-                    user_driver: data_users[responses[0].data.user_driver_id],
-                    user_driver_id: responses[0].data.user_driver_id,
-                    user_receiver: data_users[responses[0].data.user_receiver_id],
-                    vehicle_type: data_vehicle_types[responses[0].data.vehicle_type_id],
-                    vehicle: data_vehicles[responses[0].data.vehicle_id],
-                    status: data_status[responses[0].data.statu_id],
-                    statu_id: responses[0].data.statu_id,
-                    expiration_date: responses[0].data.expiration_date,
-                    contact: responses[0].data.contact,
-                    report_type: responses[0].data.report_type,
-                    active: responses[0].data.active,
-                    status_code: data_status_code,
-                    status_from_code: data_status_from_code
-                });
-                getUserLocation(this.state.user_driver_id).then((response) => {
-                    if (response.data[0]) {
-                        this.setState({
-                            user_location: {
-                                position: {
-                                    lat: parseInt(response.data[0].latitude),
-                                    lng: parseInt(response.data[0].longitude)
+                    let data_users = this.transformDataToMap(responses[1].data, 'email');
+                    let data_cities = this.transformDataToMap(responses[2].data, 'name');
+                    let data_companies = this.transformDataToMap(responses[3].data, 'name');
+                    let data_vehicles = this.transformDataToMap(responses[4].data, 'name');
+                    let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
+                    let data_status = this.transformDataToMap(responses[6].data, 'name');
+                    let data_status_code = this.transformDataToMap(responses[6].data, 'code');
+                    console.log('data_status_code:');
+                    console.log(data_status_code);
+                    let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
+                    this.setState({
+                        name: responses[0].data.name,
+                        origin: responses[0].data.origin,
+                        origin_city: data_cities[responses[0].data.origin_city_id],
+                        origin_address: responses[0].data.origin_address,
+                        origin_longitude: responses[0].data.origin_longitude,
+                        origin_latitude: responses[0].data.origin_latitude,
+                        destination: responses[0].data.destination,
+                        destination_city: data_cities[responses[0].data.destination_city_id],
+                        destination_address: responses[0].data.destination_address,
+                        destination_latitude: responses[0].data.destination_latitude,
+                        destination_longitude: responses[0].data.destination_longitude,
+                        price: responses[0].data.price,
+                        description: responses[0].data.description,
+                        note: responses[0].data.note,
+                        user: data_users[responses[0].data.user_id],
+                        company: data_companies[responses[0].data.company_id],
+                        user_driver: data_users[responses[0].data.user_driver_id],
+                        user_driver_id: responses[0].data.user_driver_id,
+                        user_receiver: data_users[responses[0].data.user_receiver_id],
+                        vehicle_type: data_vehicle_types[responses[0].data.vehicle_type_id],
+                        vehicle: data_vehicles[responses[0].data.vehicle_id],
+                        status: data_status[responses[0].data.statu_id],
+                        statu_id: responses[0].data.statu_id,
+                        expiration_date: responses[0].data.expiration_date,
+                        contact: responses[0].data.contact,
+                        report_type: responses[0].data.report_type,
+                        active: responses[0].data.active,
+                        status_code: data_status_code,
+                        status_from_code: data_status_from_code
+                    });
+                    getUserLocation(this.state.user_driver_id).then((response) => {
+                        if (response.data[0]) {
+                            this.setState({
+                                user_location: {
+                                    position: {
+                                        lat: parseInt(response.data[0].latitude),
+                                        lng: parseInt(response.data[0].longitude)
+                                    },
+                                    icon: {
+                                        url: require('../../../../image/truck_down_right.svg'),
+                                    }
                                 },
-                                icon: {
-                                    url: require('../../../../image/truck_down_right.svg'),
+                            })
+                        }
+                        this.setState({
+
+                            origin_marker: {
+                                position: {
+                                    lat: parseInt(this.state.origin_latitude),
+                                    lng: parseInt(this.state.origin_longitude)
                                 }
                             },
+                            destination_marker: {
+                                position: {
+                                    lat: parseInt(this.state.destination_latitude),
+                                    lng: parseInt(this.state.destination_longitude)
+                                }
+                            },
+                            direction: {
+                                origin: this.state.origin_latitude + ', ' + this.state.origin_longitude,
+                                destination: this.state.destination_latitude + ', ' + this.state.destination_longitude
+                            }
                         })
-                    }
-                    this.setState({
-
-                        origin_marker: {
-                            position: {
-                                lat: parseInt(this.state.origin_latitude),
-                                lng: parseInt(this.state.origin_longitude)
-                            }
-                        },
-                        destination_marker: {
-                            position: {
-                                lat: parseInt(this.state.destination_latitude),
-                                lng: parseInt(this.state.destination_longitude)
-                            }
-                        },
-                        direction: {
-                            origin: this.state.origin_latitude + ', ' + this.state.origin_longitude,
-                            destination: this.state.destination_latitude + ', ' + this.state.destination_longitude
-                        }
+                        ;
                     })
-                    ;
-                })
-            }).catch((error) => {
-            console.error(error);
-        });
+                }).catch((error) => {
+                console.error(error);
+            });
+        })
+
     }
 
     handleChange(value, type) {
@@ -203,7 +215,7 @@ export default class ServiceDetail extends Component {
                                                     lat: 4.710989,
                                                     lng: -74.072090
                                                 }} block style={{height: 500}}
-                                                              markers={[ this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
+                                                              markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
                                                               direction={this.state.direction}/>
                                             </Col>
 

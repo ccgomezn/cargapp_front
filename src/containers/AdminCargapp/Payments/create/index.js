@@ -11,9 +11,9 @@ import {postPayment} from '../../../../helpers/api/adminCalls.js';
 import {
     getActiveCoupons,
     getActivePaymentMethods,
-    getActiveStatus,
+    getStatusOfModel,
     getActiveServices,
-    getActiveUsers, getActiveUserPaymentMethods
+    getActiveUsers, getActiveUserPaymentMethods, getActiveModels
 } from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
@@ -34,18 +34,30 @@ export default class PaymentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActiveCoupons(), getActivePaymentMethods(), getActiveStatus(), getActiveServices(), getActiveUsers(), getActiveUserPaymentMethods()])
-            .then((responses) => {
-                this.setState({
-                    coupons: responses[0].data,
-                    payment_methods: responses[1].data,
-                    status: responses[2].data,
-                    services: responses[3].data,
-                    users: responses[4].data,
-                    user_payment_methods: responses[5].data
-                });
 
-            })
+        getActiveModels().then(response => {
+            let model_id = '';
+
+            response.data.forEach(model => {
+                if (model.code === 'PAYMENTS') {
+                    model_id = model.id
+                }
+            });
+
+            axios.all([getActiveCoupons(), getActivePaymentMethods(), getStatusOfModel(model_id), getActiveServices(), getActiveUsers(), getActiveUserPaymentMethods()])
+                .then((responses) => {
+                    this.setState({
+                        coupons: responses[0].data,
+                        payment_methods: responses[1].data,
+                        status: responses[2].data,
+                        services: responses[3].data,
+                        users: responses[4].data,
+                        user_payment_methods: responses[5].data
+                    });
+
+                })
+        });
+
 
     }
 

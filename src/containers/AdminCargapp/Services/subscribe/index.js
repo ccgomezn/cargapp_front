@@ -6,10 +6,7 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {
-    getActiveUsers,
 
-} from '../../../../helpers/api/adminCalls.js';
 import {
     getActiveProfiles,
     getDriversFromCompany,

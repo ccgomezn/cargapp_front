@@ -12,9 +12,9 @@ import {Redirect} from 'react-router-dom'
 import {getServices} from '../../../helpers/api/adminCalls.js';
 import {
     getActiveServices,
-    getActiveStatus,
+    getStatusOfModel,
     getMineServices,
-    getServicesOfDriver
+    getServicesOfDriver, getActiveModels
 } from "../../../helpers/api/adminCalls";
 
 export default class Service extends Component {
@@ -71,27 +71,37 @@ export default class Service extends Component {
                 return getActiveServices();
             }
         }
-        axios.all([getServicesFunction(), getActiveStatus()])
-            .then((responses) => {
-                if (responses[0] !== undefined) {
-                    let status_data = this.transformDataToMap(responses[1].data, 'name');
-                    responses[0].data.map((item) => {
-                        if (item.active) {
-                            item.active = 'Activo';
-                            item.color = '#00BFBF';
-                        } else {
-                            item.active = 'Desactivado';
-                            item.color = '#ff2557';
-                        }
-                        item.status = status_data[item.statu_id];
-                        return item;
-                    });
-                }
-                this.setState({
-                    services: active_services ? this.getActiveServices(responses[0].data) : responses[0].data
-                });
+        getActiveModels().then(response => {
+            let model_id = '';
 
-            })
+            response.data.forEach(model => {
+                if (model.code === 'SERVICE') {
+                    model_id = model.id
+                }
+            });
+            axios.all([getServicesFunction(), getStatusOfModel(model_id)])
+                .then((responses) => {
+                    if (responses[0] !== undefined) {
+                        let status_data = this.transformDataToMap(responses[1].data, 'name');
+                        responses[0].data.map((item) => {
+                            if (item.active) {
+                                item.active = 'Activo';
+                                item.color = '#00BFBF';
+                            } else {
+                                item.active = 'Desactivado';
+                                item.color = '#ff2557';
+                            }
+                            item.status = status_data[item.statu_id];
+                            return item;
+                        });
+                    }
+                    this.setState({
+                        services: active_services ? this.getActiveServices(responses[0].data) : responses[0].data
+                    });
+
+                })
+        })
+
     }
 
 
