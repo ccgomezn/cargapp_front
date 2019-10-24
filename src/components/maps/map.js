@@ -43,11 +43,12 @@ const MyMapComponent = compose(
                         fullscreenControl: false
                     }}
                 >
-                    {props.markers && props.markers.map(marker => (
-                        <Marker
-                            {...marker}
-                        />
-                    ))}
+                    {props.markers && props.markers.map(marker => {
+                            return <Marker
+                                {...marker}
+                            />;
+                        }
+                    )}
                     {props.directions && <Polyline geodesic={true}
                                                    options={{
                                                        path: props.directions,

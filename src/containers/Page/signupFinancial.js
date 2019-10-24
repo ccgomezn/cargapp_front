@@ -4,10 +4,11 @@ import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
-import SelectInputCustom from "../../components/custom/input/select"
 import TextInputCustom from "../../components/custom/input/text"
 import { Row, Col } from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
+import {getMineUser, postPaymentMethod} from "../../helpers/api/adminCalls";
+import {Redirect} from "react-router";
 
 const { login } = authAction;
 const { clearMenu } = appActions;
@@ -30,7 +31,34 @@ class SignUpFinancial extends Component {
     clearMenu();
     this.props.history.push("/dashboard");
   };
+
+  handleChange(value, type) {
+
+    this.setState(
+        {
+          [type]: value
+        }
+    )
+  }
+
+  handlePost(){
+    getMineUser().then((response) => {
+      postPaymentMethod({payment_method: {
+          uuid: this.state.account_number,
+          description: this.state.account_type + this.state.bank,
+          name: 'Cuenta de ahorros',
+          user_id: response.data.user.id
+        }}).then((response) => {
+        this.setState({redirect: true})
+      })
+    })
+
+  }
+
   render() {
+    if(this.state.redirect){
+      return <Redirect to={'/'}/>
+    }
     return (
       <SignUpStyleWrapper className="isoSignUpPage">
         <div className="isoSignUpContentWrapper">
@@ -84,34 +112,44 @@ class SignUpFinancial extends Component {
               </div>
             </div>
             <div className="isoSignUpForm">
-              <div className="isoInputWrapper" style={{ marginTop: 16 }}>
-                <SelectInputCustom label_id='page.paymentMethod' placeholder='Medio de pago' options={
-                  <option value="Cuenta de ahorros">Cuenta de ahorros</option>
-                }/>
-                
+
+              <div className="isoInputWrapper">
+                <TextInputCustom value={this.state.account_type} placeholder="tipo de cuenta"
+                                 label_id="admin.title.bankAccountType"
+
+                                 onChange={(e) => this.handleChange(e.target.value, 'account_type')}
+                                 required />
+
+              </div>
+
+              <div className="isoInputWrapper">
+                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta'
+                                 value={this.state.account_number}
+                                 onChange={(e) => this.handleChange(e.target.value, 'account_number')}
+                                 required />
+
+
               </div>
 
 
               <div className="isoInputWrapper">
-                <TextInputCustom label_id='page.accountNumber' placeholder='Número de cuenta' />
+                <TextInputCustom value={this.state.bank} placeholder="banco"
+                                 label_id="admin.title.bank"
 
-               
+                                 onChange={(e) => this.handleChange(e.target.value, 'bank')}
+                                 required />
+
               </div>
 
 
-              <div className="isoInputWrapper">
-                <SelectInputCustom label_id='page.bank' placeholder='Banco' options={
-                  <option value="Davivienda">Davivienda</option>
-                } />
-              </div>
 
-              
+
 
               <div className="sign-buttons">
                 <Row>
                   <Col align={'right'}>
 
-                    <PrimaryButton message_id="page.end" />
+                    <PrimaryButton message_id="page.end" onClick={() => this.handlePost()}/>
 
 
                   </Col>
@@ -125,7 +163,7 @@ class SignUpFinancial extends Component {
                   </Col>
                 </Row>
 
-              </div>  
+              </div>
 
             </div>
           </div>

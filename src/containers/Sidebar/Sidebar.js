@@ -131,8 +131,6 @@ class Sidebar extends Component {
         const submenuColor = {
             color: "rgb(178, 186, 200)"
         };
-        console.log('generador full: ');
-        console.log(isGenerator);
         return (
             <SidebarWrapper className="RealSide">
                 <Sider

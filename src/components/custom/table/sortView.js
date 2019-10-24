@@ -4,14 +4,13 @@ import TableWrapper from './sortView.style';
 export default class extends Component {
 
 
-  
+
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.state = {
       dataList: this.props.dataList
     };
-    console.log(props);
   }
 
   getSortAsc(sortKey, dataList) {
@@ -26,7 +25,7 @@ export default class extends Component {
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
   }
-  
+
 
 
   onChange(pagination, filters, sorter) {

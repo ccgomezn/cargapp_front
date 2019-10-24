@@ -11,7 +11,7 @@ import moment from 'moment';
 import {
     postDocument,
     getActiveUsers,
-    getActiveStatus, getActiveDocumentTypes
+    getStatusOfModel, getActiveDocumentTypes, getActiveModels
 } from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
@@ -33,17 +33,28 @@ export default class DocumentCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveStatus(), getActiveDocumentTypes()])
-            .then((responses) => {
+        getActiveModels().then((response) => {
+            let model_id = '';
 
-                this.setState({
-                    users: responses[0].data,
-                    status: responses[1].data,
-                    document_types: responses[2].data,
-                    expire_date: moment(),
-                });
+            response.data.forEach(model => {
+                if(model.code === 'DOCUMENTS'){
+                    model_id = model.id
+                }
+            });
 
-            })
+            axios.all([getActiveUsers(), getStatusOfModel(model_id), getActiveDocumentTypes()])
+                .then((responses) => {
+
+                    this.setState({
+                        users: responses[0].data,
+                        status: responses[1].data,
+                        document_types: responses[2].data,
+                        expire_date: moment(),
+                    });
+
+                })
+
+        });
 
     }
 

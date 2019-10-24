@@ -18,17 +18,17 @@ const putFunction = (id, data) => {
     }
 };
 
-const acceptFunction = (id, user_id, service_id) => {
+const acceptFunction = (id, user_id, service_id, type) => {
     return function () {
         acceptUserOfService(id, user_id, service_id).then((response) => {
-            window.location.href = window.location.protocol + '//' + window.location.host + '/generator/services/';
+            window.location.href = window.location.protocol + '//' + window.location.host + '/'+type+'/services/';
         }).catch((error) => {
             console.error(error);
         });
     }
 };
 
-const renderCell = (object, type, key, color) => {
+const renderCell = (object, type, key, color, typeUser) => {
     const value = object[key];
     switch (type) {
         case 'ImageCell':
@@ -44,7 +44,7 @@ const renderCell = (object, type, key, color) => {
             if (object['approved'] !== 'En proceso') {
                 return TextColorCell('No se pueden realizar acciones', '');
             }
-            return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['service_id']), putFunction(id, {approved: false}), type1, type2);
+            return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['service_id'], typeUser), putFunction(id, {approved: false}), type1, type2);
         default:
             var color_val = '';
 
@@ -83,13 +83,18 @@ const columns = [
         title: <IntlMessages id="antTable.title.accepted"/>,
         key: 'approved',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'approved', true)
+        render: object => renderCell(object, 'TextCell', 'approved', true, 'generator')
     }, {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'options',
         width: '12%',
-        render: object => renderCell(object, 'MultipleButtonCell', 'approved')
-    },
+        render: object => renderCell(object, 'MultipleButtonCell', 'approved',null ,'generator')
+    },{
+        title: <IntlMessages id="antTable.title.options"/>,
+        key: 'options',
+        width: '12%',
+        render: object => renderCell(object, 'MultipleButtonCell', 'approved', null,'admin')
+    }
 ];
 const sortColumns = [
     {...columns[0], sorter: true},
@@ -100,17 +105,15 @@ const sortColumns = [
     {...columns[5], sorter: false},
 ];
 
-const sortColumnsGenerator = [
+const sortColumnsAdmin = [
     {...columns[0], sorter: true},
     {...columns[1], sorter: true},
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
-    {...columns[5], sorter: true},
-    {...columns[10], sorter: false},
-    {...columns[11], sorter: false},
-    {...columns[9], sorter: false},
-];
+    {...columns[6], sorter: false},
+]
+
 const editColumns = [
     {...columns[1], width: 300},
     {...columns[2], width: 300},
@@ -137,12 +140,7 @@ const tableinfos = [
     {
         title: 'Sortable Table',
         value: 'sortView',
-        columns: clone(sortColumns)
-    },
-    {
-        title: 'Sortable Table',
-        value: 'sortView',
-        columns: clone(sortColumnsGenerator)
+        columns: clone(sortColumnsAdmin)
     },
     {
         title: 'Editable View',

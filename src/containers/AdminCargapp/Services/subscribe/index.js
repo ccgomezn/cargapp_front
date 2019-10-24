@@ -6,11 +6,13 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {
-    getActiveUsers,
 
-} from '../../../../helpers/api/adminCalls.js';
-import {getActiveProfiles, getActiveUsersOfService, putService} from "../../../../helpers/api/adminCalls";
+import {
+    getActiveProfiles,
+    getDriversFromCompany,
+    getMineCompanies,
+    putService
+} from "../../../../helpers/api/adminCalls";
 
 import importantVariables from "../../../../helpers/hashVariables";
 import SortView from "../../../../components/custom/table/sortView";
@@ -54,26 +56,35 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveProfiles(), getActiveUsersOfService()])
-            .then((responses) => {
-                let profiles = this.transformDataToMap(responses[1].data);
-                console.log('profiles');
-                console.log(profiles);
-                responses[0].data.forEach((user) => {
-                    if (profiles[user.id]) {
-                        user.first_name = profiles[user.id].firt_name;
-                        user.last_name = profiles[user.id].last_name;
-                    } else {
-                        user.first_name = '';
-                        user.last_name = '';
-                    }
-                    user.service_id = this.props.match.params.id;
-                });
-                this.setState({
-                    users: responses[0].data
+        getMineCompanies().then((response) => {
+            let company_id = '';
+
+            if(response.data[0]){
+                company_id = response.data[0].id;
+            }
+
+            axios.all([getDriversFromCompany(company_id), getActiveProfiles()])
+                .then((responses) => {
+                    let profiles = this.transformDataToMap(responses[1].data);
+                    console.log('profiles');
+                    console.log(profiles);
+                    responses[0].data.forEach((user) => {
+                        if (profiles[user.id]) {
+                            user.first_name = profiles[user.id].firt_name;
+                            user.last_name = profiles[user.id].last_name;
+                        } else {
+                            user.first_name = '';
+                            user.last_name = '';
+                        }
+                        user.service_id = this.props.match.params.id;
+                    });
+                    this.setState({
+                        users: responses[0].data
+                    })
+                    console.log(this.state.users)
                 })
-                console.log(this.state.users)
-            })
+        })
+
     }
 
     handleChange(value, type) {

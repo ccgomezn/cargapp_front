@@ -157,11 +157,11 @@ const SidebarWrapper = styled.div`
         margin: 0;
                 background-color: transparent !important;
         a {
-                    opacity: 0.6 !important; 
+                    opacity: 0.8 !important; 
 
         }
         i {
-            opacity: 0.6 !important; 
+            opacity: 0.8 !important; 
 
         }
       }
@@ -191,7 +191,7 @@ const SidebarWrapper = styled.div`
       .nav-text {
         padding-left: 10px;
         font-size: 14px;
-        opacity: 0.6 !important; 
+        opacity: 0.8 !important; 
         color: white !important; 
         font-weight: 400;
         ${transition()};
@@ -229,17 +229,17 @@ const SidebarWrapper = styled.div`
             opacity: 1 !important;
         }
         .ant-menu-item {
-                            opacity: 0.6; 
+                            opacity: 0.8; 
         }
     }
     .ant-menu-submenu-inline,
     .ant-menu-submenu-vertical {
         
         .ant-menu-item {
-            opacity: 0.6;
+            opacity: 0.8;
             a {
                 color: white !important;
-                opacity: 0.6 !important; 
+                opacity: 0.8 !important; 
                 padding-left: 11px !important;
            }
         }
@@ -249,7 +249,7 @@ const SidebarWrapper = styled.div`
         display: flex;
         align-items: center;
         padding: 0 24px;
-        opacity: 0.6; 
+        opacity: 0.8; 
 
         > span {
           display: flex;

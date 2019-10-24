@@ -8,7 +8,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {postBankAccount} from '../../../../helpers/api/adminCalls.js';
-import {getActiveStatus, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getStatusOfModel, getActiveUsers, getActiveModels} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 
@@ -28,14 +28,25 @@ export default class BankAccountCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActiveStatus(), getActiveUsers()])
-            .then((responses) => {
-                this.setState({
-                    status: responses[0].data,
-                    users: responses[1].data
-                });
+        getActiveModels().then(response => {
+            let model_id = '';
 
-            })
+            response.data.forEach(model => {
+                if (model.code === 'BANK_ACCOUNTS') {
+                    model_id = model.id
+                }
+            });
+
+            axios.all([getStatusOfModel(model_id), getActiveUsers()])
+                .then((responses) => {
+                    this.setState({
+                        status: responses[0].data,
+                        users: responses[1].data
+                    });
+
+                })
+        })
+
 
     }
 

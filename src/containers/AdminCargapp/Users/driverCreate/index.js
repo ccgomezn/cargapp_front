@@ -76,7 +76,7 @@ export default class DriverCreate extends Component {
         );
 
         if (type === 'email') {
-            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(value)) {
                 verifyEmail(value).then((response) => {
                     if (response.data.email) {
 

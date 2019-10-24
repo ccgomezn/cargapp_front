@@ -43,6 +43,11 @@ export function getMineCompanies() {
     return get(httpAddr + '/company_users/me', true);
 }
 
+export function getDriversFromCompany(company_id){
+    return get(httpAddr+'/company_users/find_company/'+company_id, true)
+}
+
+
 export function postUserCompany(data) {
     return post(httpAddr + '/company_users', data, true);
 }
@@ -785,6 +790,10 @@ export function getActiveUsersOfService() {
     return get(httpAddr + '/service_users/active', true);
 }
 
+export function getUsersOfService(service_id){
+    return get(httpAddr + '/service_users/find_service/' + service_id, true);
+}
+
 export function deleteService(id) {
     return del(httpAddr + `/services/` + id, true)
 }
@@ -872,8 +881,17 @@ export function getActiveUserLocations() {
 }
 
 export function getUserLocation(id) {
+    return get(httpAddr + `/user_locations/find_user/` + id, true);
+}
+
+export function getUserLocationSpecific(id){
     return get(httpAddr + `/user_locations/` + id, true);
 }
+
+export function getStatusOfModel(model){
+    return get(httpAddr+'/status/find_model/'+model, true);
+}
+
 
 export function putUserLocation(id, data) {
     return put(httpAddr + '/user_locations/' + id, data, true);
@@ -944,6 +962,7 @@ export function deleteBankAccount(id) {
 export function getRateServices() {
     return get(httpAddr + `/rate_services/active`, true);
 }
+
 
 export function putUserOfService(id, data) {
     return put(httpAddr + '/service_users/' + id, data, true);

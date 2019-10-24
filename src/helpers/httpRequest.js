@@ -58,7 +58,10 @@ function catchError(error) {
 export function get(url, secured = false, loading = true) {
     let headers = {};
     if (secured) {
-        headers = makeAuthorizationHeader(decrypt(getToken().get('idToken')))
+        let token = getToken().get('idToken');
+        if(token){
+            headers = makeAuthorizationHeader(decrypt(token))
+        }
     }
     if(loading)  store.dispatch(updateAddLoad());
 

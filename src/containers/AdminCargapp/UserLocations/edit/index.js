@@ -11,7 +11,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
 import {putUserLocation, getUsers, getCities} from '../../../../helpers/api/adminCalls.js';
-import {getUserLocation} from "../../../../helpers/api/adminCalls";
+import {getUserLocationSpecific} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
@@ -33,7 +33,7 @@ export default class UserLocationEdit extends Component {
 
 
     componentWillMount() {
-        axios.all([getUserLocation(this.props.match.params.id), getUsers(), getCities()])
+        axios.all([getUserLocationSpecific(this.props.match.params.id), getUsers(), getCities()])
             .then((responses) => {
                 this.setState({
                     users: responses[1].data,
