@@ -43,7 +43,7 @@ export const optionsVehicle = [
         leftIcon: 'ion-android-person',
     },
     {
-        key: 'vehicles',
+            key: 'vehicles',
         label: 'sidebar.vehicles',
         leftIcon: 'ion-android-car',
     },

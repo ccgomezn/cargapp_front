@@ -7,13 +7,13 @@ import asyncComponent from "./helpers/AsyncFunc";
 import importantVariables from "./helpers/hashVariables"
 import {decrypt} from "./helpers/utility";
 
-const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isConveyor, isGenerator, ...rest}) => (
+const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isConveyor, isGenerator,isSubAdmin, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && (isUser || isVehicleManager || admin || isConveyor || isGenerator) ? (
+            isLoggedIn && (isUser || isVehicleManager || admin || isConveyor || isGenerator || isSubAdmin) ? (
                 <Component {...props} admin={admin} isUser={isUser} isConveyor={isConveyor} isGenerator={isGenerator}
-                           isVehicleManager={isVehicleManager}/>
+                           isVehicleManager={isVehicleManager} isSubAdmin={isSubAdmin}/>
             ) : (
                 <Redirect
                     to={{
@@ -27,11 +27,11 @@ const RestrictedRoute = ({component: Component, isLoggedIn, isUser, admin, isVeh
 );
 
 
-const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isGenerator, isConveyor, ...rest}) => (
+const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicleManager, isGenerator, isConveyor,isSubAdmin, ...rest}) => (
     <Route
         {...rest}
         render={props =>
-            isLoggedIn && admin ? (
+            isLoggedIn && (admin || isSubAdmin) ? (
                 <Redirect
                     to={{
                         pathname: "/admin/",
@@ -70,7 +70,7 @@ const PublicRoute = ({component: Component, isLoggedIn, isUser, admin, isVehicle
     />
 );
 
-const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, isGenerator, isConveyor}) => {
+const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, isGenerator, isConveyor, isSubAdmin}) => {
     return (
         <ConnectedRouter history={history}>
             <div>
@@ -80,6 +80,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     component={asyncComponent(() => import("./containers/Page/signin"))}
                     isLoggedIn={isLoggedIn}
                     isUser={isUser}
+                    isSubAdmin={isSubAdmin}
                     admin={isAdmin}
                     isGenerator={isGenerator}
                     isConveyor={isConveyor}
@@ -104,6 +105,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
+                    isSubAdmin={isSubAdmin}
                 />
                 <PublicRoute
                     exact
@@ -138,7 +140,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
+                    isSubAdmin={isSubAdmin}
                 />
                 <PublicRoute
                     exact
@@ -150,7 +152,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
+                    isSubAdmin={isSubAdmin}
                 />
 
                 <RestrictedRoute
@@ -160,7 +162,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isUser={isAdmin}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
+                    isSubAdmin={isSubAdmin}
                 />
                 <RestrictedRoute
                     path="/dashboard"
@@ -169,7 +171,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isUser={isUser}
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
-
+                    isSubAdmin={isSubAdmin}
                 />
                 <RestrictedRoute
                     path="/vehicle_manager"
@@ -180,6 +182,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     isVehicleManager={isVehicleManager}
                     isGenerator={isGenerator}
                     isConveyor={isConveyor}
+                    isSubAdmin={isSubAdmin}
                 />
                 <RestrictedRoute
                     path="/generator"
@@ -189,6 +192,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
                     isGenerator={isGenerator}
+                    isSubAdmin={isSubAdmin}
                 />
                 <RestrictedRoute
                     path="/conveyor"
@@ -198,6 +202,7 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     admin={isAdmin}
                     isVehicleManager={isVehicleManager}
                     isConveyor={isConveyor}
+                    isSubAdmin={isSubAdmin}
                 />
 
 
@@ -225,7 +230,8 @@ export default connect(state => {
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
             isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),
             isConveyor: roles !== null && roles !== undefined && roles.includes(String(importantVariables.conveyor_role_id)),
-            isGenerator: roles !== null && roles !== undefined && roles.includes(String(importantVariables.generator_role_id))
+            isGenerator: roles !== null && roles !== undefined && roles.includes(String(importantVariables.generator_role_id)),
+            isSubAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.sub_admin_role_id))
         }
     )
 })(PublicRoutes);
