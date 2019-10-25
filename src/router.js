@@ -125,6 +125,11 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                 />
                 <PublicRoute
                     exact
+                    path={"/signup_financial_credit"}
+                    component={asyncComponent(() => import("./containers/Page/signupFinancial"),{generator: true})}
+                    />
+                <PublicRoute
+                    exact
                     path={"/forgot_password"}
                     component={asyncComponent(() =>
                         import("./containers/Page/forgotPassword")

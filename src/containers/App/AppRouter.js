@@ -671,7 +671,7 @@ const routes_vehicle_manager = [
     },
     {
         path: 'vehicles/add/:id',
-        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'))
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/create'), {vehicle_manager: true})
     },
     {
         path: 'users/show/:id',

@@ -68,9 +68,6 @@ class SignUp extends Component {
         const {login} = this.props;
         let redirect = '/signup_company';
 
-        if(this.state.role_id === 15){
-            redirect = 'signup_financial';
-        }
         return login({
             user: {
                 email: this.state.email.trim(),
@@ -206,6 +203,7 @@ class SignUp extends Component {
         if (redirect) {
             return <Redirect to='/signin'/>
         }
+
 
 
         return (

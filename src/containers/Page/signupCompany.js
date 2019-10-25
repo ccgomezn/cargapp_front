@@ -12,13 +12,15 @@ import SelectInputCustom from "../../components/custom/input/select";
 import {getActiveLoadTypes, getMineUser, postCompany, postUserCompany} from "../../helpers/api/adminCalls";
 import {transformInputData} from "../../helpers/utility";
 import {Redirect} from "react-router-dom";
+import importantVariables from "../../helpers/hashVariables";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
 
 class SignUpCompany extends Component {
     state = {
-        redirectToReferrer: false
+        redirectToFinancial: false,
+        redirectToFinancialCredit: false
     };
 
     componentWillReceiveProps(nextProps) {
@@ -26,7 +28,10 @@ class SignUpCompany extends Component {
             this.props.isLoggedIn !== nextProps.isLoggedIn &&
             nextProps.isLoggedIn === true
         ) {
-            this.setState({redirectToReferrer: false});
+            this.setState({
+                redirectToReferrer: false,
+                redirectToFinancialCredit: false
+            });
         }
     }
 
@@ -42,12 +47,22 @@ class SignUpCompany extends Component {
                 }
             }).then((response_company) => {
                 postUserCompany({
-                    company_user:{
+                    company_user: {
                         company_id: response_company.data.id,
                         user_id: response_user.data.user.id
                     }
-                }).then(()=>{
-                    this.setState({redirectToReferrer: true});
+                }).then(() => {
+                    let vehicle_manager = true;
+                    response_user.data.roles.forEach(role => {
+                        if (role.role_id === importantVariables.generator_role_id) {
+                            vehicle_manager = false;
+                        }
+                    });
+                    if (vehicle_manager) {
+                        this.setState({redirectToFinancial: true});
+                    } else {
+                        this.setState({redirectToFinancialCredit: true});
+                    }
                 })
             })
         })
@@ -69,9 +84,15 @@ class SignUpCompany extends Component {
     }
 
     render() {
-        if(this.state.redirectToReferrer){
-            return <Redirect to='/signup_financial'/>
-        };
+        if (this.state.redirectToFinancial) {
+            return <Redirect to={'/signup_financial'}/>
+        }
+        ;
+
+        if (this.state.redirectToFinancialCredit) {
+            return <Redirect to={'/signup_financial_credit'}/>
+
+        }
 
         return (
             <SignUpStyleWrapper className="isoSignUpPage">
