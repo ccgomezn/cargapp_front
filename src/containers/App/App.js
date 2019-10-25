@@ -23,7 +23,7 @@ const {toggleAll, loadChange} = appActions;
 export class App extends Component {
     render() {
         const {url} = this.props.match;
-        const {locale, selectedTheme, height, admin, isUser, isVehicleManager, loading, isGenerator, isConveyor} = this.props;
+        const {locale, selectedTheme, height, admin, isUser, isVehicleManager, loading, isGenerator, isConveyor, isSubAdmin} = this.props;
         const currentAppLocale = AppLocale[locale];
         const appHeight = window.innerHeight;
 
@@ -50,7 +50,9 @@ export class App extends Component {
                                 <Layout style={{flexDirection: 'row', overflowX: 'hidden'}}>
                                     <Sidebar url={url} admin={admin} isUser={isUser} isGenerator={isGenerator}
                                              isConveyor={isConveyor}
-                                             isVehicleManager={isVehicleManager}/>
+                                             isVehicleManager={isVehicleManager}
+                                             isSubAdmin={isSubAdmin}
+                                    />
                                     <Layout
                                         className="isoContentMainLayout"
                                         style={{

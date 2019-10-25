@@ -40,6 +40,11 @@ export const optionsVehicle = [
     {
         key: 'drivers',
         label: 'sidebar.drivers',
+        leftIcon: 'ion-android-person',
+    },
+    {
+            key: 'vehicles',
+        label: 'sidebar.vehicles',
         leftIcon: 'ion-android-car',
     },
     {

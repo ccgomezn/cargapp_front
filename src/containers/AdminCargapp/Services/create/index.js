@@ -152,7 +152,7 @@ export default class ReportCreate extends Component {
                     description: this.state.description,
                     note: this.state.note,
                     user_id: response.data.user.id,
-                    company_id: transformInputData(this.state.company_id),
+                    company_id: this.state.company_id? transformInputData(this.state.company_id): 19,
                     user_receiver_id: transformInputData(this.state.user_receiver_id),
                     vehicle_type_id: transformInputData(this.state.vehicle_type_id),
                     statu_id: 10,
@@ -216,6 +216,8 @@ export default class ReportCreate extends Component {
                 return <Redirect to='/admin/services'/>
             }else if(generator){
                 return <Redirect to='/generator/services'/>
+            }else{
+                return <Redirect to='/admin/services'/>
             }
         }
         return (
@@ -454,41 +456,7 @@ export default class ReportCreate extends Component {
                                         </Col>
 
                                     </Row>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Col span={12}>
-                                                <Form.Item label="Nota">
-                                                    <TextInputCustom value={this.state.note} placeholder="nota"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'note')}
-                                                                     required
-                                                                     label_id={'admin.title.note'}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={12}>
-                                                <Form.Item label="Empresa">
-                                                    <SelectInputCustom value={this.state.company_id}
-                                                                       placeholder="empresa"
-                                                                       style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'company_id')
-                                                    }}
-                                                                       options={this.state && this.state.companies &&
 
-                                                                       this.state.companies.map((item) => {
-                                                                           return <Option
-                                                                               value={item.id}>{item.name}</Option>
-                                                                       })
-                                                                       }
-                                                                       label_id={'admin.title.company'}>
-
-                                                    </SelectInputCustom>
-                                                </Form.Item>
-                                            </Col>
-
-
-                                        </Col>
-
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
@@ -559,50 +527,91 @@ export default class ReportCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    {assign &&
                                     <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Col span={12}>
-                                                <Form.Item label="Conductor">
-                                                    <SelectInputCustom value={this.state.user_driver_id}
-                                                                       placeholder="conductor"
-                                                                       style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'user_driver_id')
-                                                    }}
-                                                                       options={this.state && this.state.users &&
-
-                                                                       this.state.users.map((item) => {
-                                                                           return <Option
-                                                                               value={item.id}>{item.email}</Option>
-                                                                       })
-                                                                       }
-                                                                       label_id={'admin.title.driver'}>
-
-                                                    </SelectInputCustom>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={12}>
-                                                <Form.Item label="Vehiculos">
-                                                    <SelectInputCustom value={this.state.vehicle_id}
-                                                                       placeholder="vehiculos"
-                                                                       style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'vehicle_id')
-                                                    }}
-                                                                       options={this.state && this.state.vehicles &&
-
-                                                                       this.state.vehicles.map((item) => {
-                                                                           return <Option
-                                                                               value={item.id}>{item.plate} {item.brand}</Option>
-                                                                       })
-                                                                       }
-                                                                       label_id={'admin.title.vehicle'}>
-
-                                                    </SelectInputCustom>
-                                                </Form.Item>
-                                            </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Nota">
+                                                <TextInputCustom value={this.state.note} placeholder="nota"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'note')}
+                                                                 required
+                                                                 label_id={'admin.title.note'}/>
+                                            </Form.Item>
                                         </Col>
-
                                     </Row>
+                                    {assign &&
+                                        <div>
+                                            <Row gutter={10}>
+                                                <Col span={24}>
+
+                                                    <Col span={12}>
+                                                        <Form.Item label="Empresa">
+                                                            <SelectInputCustom value={this.state.company_id}
+                                                                               placeholder="empresa"
+                                                                               style={{width: '100%'}} onChange={(e) => {
+                                                                this.handleChange(e, 'company_id')
+                                                            }}
+                                                                               options={this.state && this.state.companies &&
+
+                                                                               this.state.companies.map((item) => {
+                                                                                   return <Option
+                                                                                       value={item.id}>{item.name}</Option>
+                                                                               })
+                                                                               }
+                                                                               label_id={'admin.title.company'}>
+
+                                                            </SelectInputCustom>
+                                                        </Form.Item>
+                                                    </Col>
+
+
+                                                </Col>
+
+
+                                            </Row>
+                                            <Row gutter={10}>
+                                                <Col span={24}>
+                                                    <Col span={12}>
+                                                        <Form.Item label="Conductor">
+                                                            <SelectInputCustom value={this.state.user_driver_id}
+                                                                               placeholder="conductor"
+                                                                               style={{width: '100%'}} onChange={(e) => {
+                                                                this.handleChange(e, 'user_driver_id')
+                                                            }}
+                                                                               options={this.state && this.state.users &&
+
+                                                                               this.state.users.map((item) => {
+                                                                                   return <Option
+                                                                                       value={item.id}>{item.email}</Option>
+                                                                               })
+                                                                               }
+                                                                               label_id={'admin.title.driver'}>
+
+                                                            </SelectInputCustom>
+                                                        </Form.Item>
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <Form.Item label="Vehiculos">
+                                                            <SelectInputCustom value={this.state.vehicle_id}
+                                                                               placeholder="vehiculos"
+                                                                               style={{width: '100%'}} onChange={(e) => {
+                                                                this.handleChange(e, 'vehicle_id')
+                                                            }}
+                                                                               options={this.state && this.state.vehicles &&
+
+                                                                               this.state.vehicles.map((item) => {
+                                                                                   return <Option
+                                                                                       value={item.id}>{item.plate} {item.brand}</Option>
+                                                                               })
+                                                                               }
+                                                                               label_id={'admin.title.vehicle'}>
+
+                                                            </SelectInputCustom>
+                                                        </Form.Item>
+                                                    </Col>
+                                                </Col>
+
+                                            </Row>
+                                        </div>
+
                                     }
 
                                     <Row>

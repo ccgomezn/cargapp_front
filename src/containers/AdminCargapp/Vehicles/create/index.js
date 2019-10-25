@@ -94,15 +94,24 @@ export default class VehicleCreate extends Component {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect, redirectList} = this.state;
         const {id} = this.props.match.params;
+        const {vehicle_manager} = this.props;
         if (redirect) {
             if(id){
                 window.location.reload()
             }else{
-                return <Redirect to={'/admin/vehicles/add'}/>
+                if(vehicle_manager){
+                    return <Redirect to={'/vehicle_manager/vehicles/add'}/>
+                }else{
+                    return <Redirect to={'/admin/vehicles/add'}/>
+                }
             }
         }
         if (redirectList) {
-            return <Redirect to='/admin/vehicles'/>
+            if(vehicle_manager){
+                return <Redirect to={'/vehicle_manager/drivers'}/>
+            }else{
+                return <Redirect to='/admin/vehicles'/>
+            }
         }
         return (
 

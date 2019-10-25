@@ -29,6 +29,8 @@
   "sidebar.userChallenges": "Retos de usuarios",
   "sidebar.companies": "Compañias",
   "payment_methods.title": "Métodos de pago",
+  "admin.title.expirationDate": "Fecha de vencimiento",
+  "page.cardNumber": "Número de tarjeta",
   "antTable.title.uuid": "Uuid",
   "sidebar.payments": "Pagos",
   "sidebar.payment_methods": "Métodos de pago",

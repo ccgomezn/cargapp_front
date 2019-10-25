@@ -3,13 +3,14 @@ import {connect} from "react-redux";
 import clone from "clone";
 import {Link} from "react-router-dom";
 import {Layout} from "antd";
-import { optionsAdmin, optionsGenerator, optionsVehicle, optionsConveyor} from "./options";
+import {optionsAdmin, optionsGenerator, optionsVehicle, optionsConveyor} from "./options";
 import Scrollbars from "../../components/utility/customScrollBar.js";
 import Menu from "../../components/uielements/menu";
 import IntlMessages from "../../components/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
+import {findParameters} from "../../helpers/api/adminCalls";
 
 const SubMenu = Menu.SubMenu;
 const {Sider} = Layout;
@@ -32,6 +33,46 @@ class Sidebar extends Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.onOpenChange = this.onOpenChange.bind(this);
+        this.state = {
+            subAdminOptions:  null
+        };
+    }
+
+
+    componentDidMount() {
+        findParameters('SUB_ADMIN').then((response) => {
+            let parameters = [];
+            response.data.parameters.forEach(parameter => {
+                parameters.push(parameter.name);
+            });
+
+            let subAdminOptions = [];
+            optionsAdmin.forEach(option => {
+                if (option.key === '') {
+                    subAdminOptions.push(option);
+                } else if (option.children) {
+                    let subChildren = [];
+                    option.children.forEach(subOption => {
+                        if (parameters.includes(subOption.key)) {
+                            subChildren.push(subOption);
+                        }
+                    });
+                    if (subChildren.length > 0) {
+                        let copyOption = {};
+                        copyOption = Object.assign(copyOption, option);
+                        copyOption.children = subChildren;
+                        subAdminOptions.push(copyOption);
+                    }
+
+                } else {
+                    if (parameters.includes(option.key)) {
+                        subAdminOptions.push(option);
+                    }
+                }
+            });
+
+            this.setState({subAdminOptions: subAdminOptions})
+        });
     }
 
     handleClick(e) {
@@ -117,7 +158,7 @@ class Sidebar extends Component {
     render() {
         const {toggleCollapsed} = this.props;
 
-        const {app, customizedTheme, height, admin, isVehicleManager, isGenerator, isConveyor} = this.props;
+        const {app, customizedTheme, height, admin, isVehicleManager, isGenerator, isConveyor, isSubAdmin} = this.props;
         const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
         const mode = collapsed === true ? "vertical" : "inline";
 
@@ -156,7 +197,7 @@ class Sidebar extends Component {
                             optionsAdmin.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            { isGenerator &&
+                            {isGenerator &&
                             optionsGenerator.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
@@ -168,6 +209,11 @@ class Sidebar extends Component {
                             optionsConveyor.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
+                            {isSubAdmin && this.state.subAdminOptions &&
+                            this.state.subAdminOptions.map(singleOption =>
+                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
+                            )}
+
                         </Menu>
                     </Scrollbars>
                 </Sider>

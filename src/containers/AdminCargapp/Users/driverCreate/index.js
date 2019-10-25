@@ -117,6 +117,7 @@ export default class DriverCreate extends Component {
         if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
             return null;
         }
+
         post(httpAddr + '/users/email_verify', {
             user: {
                 email: this.state.email
@@ -145,7 +146,7 @@ export default class DriverCreate extends Component {
                             postUserCompany({
                                 company_user: {
                                     user_id: this.state.userId,
-                                    company_id: 2
+                                    company_id: response.data[0].id
                                 }
                             }).then(() => {
 
