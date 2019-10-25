@@ -53,8 +53,6 @@ export default class Vehicle extends Component {
                         vehicles: responses[0].data
                     });
                 }
-
-
             })
     }
 
