@@ -31,7 +31,6 @@ class SignIn extends Component {
     }
 
     handleLogin = (e) => {
-        e.preventDefault();
 
         const {login} = this.props;
         if (!validateEmail(this.state.email)) {
@@ -42,7 +41,9 @@ class SignIn extends Component {
         login({
             user: {
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                redirect_url: httpAddr + '/',
+                history: this.props.history
             }
         }, httpAddr + '/users/login', httpAddr + '/users/me')
 
@@ -134,7 +135,7 @@ class SignIn extends Component {
 
                                                 <div className="button-sign">
 
-                                                    <PrimaryButton htmlType={"submit"} message_id="sidebar.signIn"
+                                                    <PrimaryButton message_id="sidebar.signIn"
                                                                    onClick={(e) => this.handleLogin(e)}/>
                                                 </div>
 

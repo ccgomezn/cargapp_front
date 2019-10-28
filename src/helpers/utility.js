@@ -1,5 +1,6 @@
 import {Map} from 'immutable';
 import CryptoJS from "crypto-js";
+import {store} from "../redux/store";
 
 export function clearToken() {
 
@@ -25,8 +26,8 @@ export function decrypt(message) {
 
 export function getToken() {
     try {
-        const idToken = localStorage.getItem('id_token');
-        const roles = localStorage.getItem('roles');
+        const idToken = store.getState().Auth.idToken;
+        const roles = store.getState().Auth.roles;
         return new Map({idToken, roles});
     } catch (err) {
         clearToken();
