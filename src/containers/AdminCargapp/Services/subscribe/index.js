@@ -66,8 +66,7 @@ export default class ServiceDetail extends Component {
             axios.all([getDriversFromCompany(company_id), getActiveProfiles()])
                 .then((responses) => {
                     let profiles = this.transformDataToMap(responses[1].data);
-                    console.log('profiles');
-                    console.log(profiles);
+
                     responses[0].data.forEach((user) => {
                         if (profiles[user.id]) {
                             user.first_name = profiles[user.id].firt_name;
@@ -80,8 +79,7 @@ export default class ServiceDetail extends Component {
                     });
                     this.setState({
                         users: responses[0].data
-                    })
-                    console.log(this.state.users)
+                    });
                 })
         })
 

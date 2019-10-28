@@ -225,7 +225,7 @@ export default connect(state => {
 
     return (
         {
-            isLoggedIn: idToken !== null && idToken !== undefined,
+            isLoggedIn: idToken !== null && idToken !== undefined && idToken !== '',
             isUser: roles !== null && roles !== undefined && roles.includes(String(importantVariables.load_generator_role_id)),
             isAdmin: roles !== null && roles !== undefined && roles.includes(String(importantVariables.admin_role_id)),
             isVehicleManager: roles !== null && roles !== undefined && roles.includes(String(importantVariables.vehicle_admin_role_id)),

@@ -59,6 +59,8 @@ export function get(url, secured = false, loading = true) {
     let headers = {};
     if (secured) {
         let token = getToken().get('idToken');
+        console.log('token');
+        console.log(token);
         if(token){
             headers = makeAuthorizationHeader(decrypt(token))
         }

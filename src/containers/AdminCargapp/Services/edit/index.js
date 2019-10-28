@@ -189,7 +189,6 @@ export default class ServiceEdit extends Component {
                     Number(this.state.destination_latitude), Number(this.state.destination_longitude))
             })
         }).catch((error) => {
-            console.log(error);
         })
 
     }

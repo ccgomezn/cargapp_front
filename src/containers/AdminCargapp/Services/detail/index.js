@@ -79,8 +79,7 @@ export default class ServiceDetail extends Component {
                     let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
                     let data_status = this.transformDataToMap(responses[6].data, 'name');
                     let data_status_code = this.transformDataToMap(responses[6].data, 'code');
-                    console.log('data_status_code:');
-                    console.log(data_status_code);
+
                     let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
                     this.setState({
                         name: responses[0].data.name,
