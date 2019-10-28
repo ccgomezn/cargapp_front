@@ -26,8 +26,8 @@ export function decrypt(message) {
 
 export function getToken() {
     try {
-        const idToken = store.getState().Auth.idToken;
-        const roles = store.getState().Auth.roles;
+        const idToken = store.getState().Auth.idToken ? store.getState().Auth.idToken : localStorage.getItem('id_token');
+        const roles = store.getState().Auth.roles ? store.getState().Auth.roles : localStorage.getItem('roles');
         return new Map({idToken, roles});
     } catch (err) {
         clearToken();
