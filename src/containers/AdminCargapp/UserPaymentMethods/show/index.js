@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getUserPaymentMethod, getUsers, getPaymentMethods } from '../../../../helpers/api/adminCalls.js';
+import {getUserPaymentMethod, getUsers} from "../../../../helpers/api/users";
+import {getPaymentMethods} from "../../../../helpers/api/payments";
 
 export default class UserPaymentMethodShow extends Component {
 
@@ -29,7 +30,7 @@ export default class UserPaymentMethodShow extends Component {
 
     return dataTransformed
   }
- 
+
 
 
 

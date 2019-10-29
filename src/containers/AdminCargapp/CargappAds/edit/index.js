@@ -10,12 +10,12 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putCargappAd, getUsers} from '../../../../helpers/api/adminCalls.js';
-import {getCargappAd} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getUsers} from "../../../../helpers/api/users";
+import {getCargappAd, putCargappAd} from "../../../../helpers/api/internals";
 
 
 const {Option} = Select;

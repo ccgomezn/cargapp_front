@@ -8,14 +8,16 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {
-    postDocument,
-    getActiveUsers,
-    getStatusOfModel, getActiveDocumentTypes, getActiveModels
-} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getActiveUsers} from "../../../../helpers/api/users";
+import {
+    getActiveDocumentTypes,
+    getActiveModels,
+    getStatusOfModel,
+    postDocument
+} from "../../../../helpers/api/internals";
 
 const dateFormat = 'YYYY-MM-DD';
 

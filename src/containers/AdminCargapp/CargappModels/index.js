@@ -7,7 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import {getModels} from '../../../helpers/api/adminCalls'
+import {getModels} from "../../../helpers/api/internals";
 
 export default class CargappModel extends Component {
 

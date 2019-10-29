@@ -7,10 +7,11 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postBankAccount} from '../../../../helpers/api/adminCalls.js';
-import {getStatusOfModel, getActiveUsers, getActiveModels} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import {getActiveUsers} from "../../../../helpers/api/users";
+import {postBankAccount} from "../../../../helpers/api/payments";
+import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 

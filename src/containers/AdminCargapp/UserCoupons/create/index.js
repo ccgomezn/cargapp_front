@@ -9,10 +9,11 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getActiveCoupons, getActiveModels, getActiveUsers, postUserCoupon} from "../../../../helpers/api/adminCalls";
 import {transformInputData} from "../../../../helpers/utility";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
+import {getActiveUsers, postUserCoupon} from "../../../../helpers/api/users";
+import {getActiveCoupons, getActiveModels} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 

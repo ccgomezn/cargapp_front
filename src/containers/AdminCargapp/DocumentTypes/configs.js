@@ -8,7 +8,7 @@ import {
   TextColorCell,
   MultipleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteDocumentType } from '../../../helpers/api/adminCalls';
+import {deleteDocumentType} from "../../../helpers/api/internals";
 
 const deleteFunction = (id) => {
   return function(){

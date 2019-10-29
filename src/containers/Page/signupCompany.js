@@ -9,10 +9,12 @@ import PrimaryButton from '../../components/custom/button/primary'
 import SignUpStyleWrapper from "./signupCompany.style";
 import {Row, Col} from "antd";
 import SelectInputCustom from "../../components/custom/input/select";
-import {getActiveLoadTypes, getMineUser, postCompany, postUserCompany} from "../../helpers/api/adminCalls";
 import {transformInputData} from "../../helpers/utility";
 import {Redirect} from "react-router-dom";
 import importantVariables from "../../helpers/hashVariables";
+import {getMineUser, postUserCompany} from "../../helpers/api/users";
+import {postCompany} from "../../helpers/api/companies";
+import {getActiveLoadTypes} from "../../helpers/api/services";
 
 const {login} = authAction;
 const {clearMenu} = appActions;

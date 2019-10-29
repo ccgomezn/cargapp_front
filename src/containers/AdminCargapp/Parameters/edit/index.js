@@ -10,11 +10,12 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getParameter, getUsers, getModels, putParameter} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getUsers} from "../../../../helpers/api/users";
+import {getModels, getParameter, putParameter} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class ParameterEdit extends Component {

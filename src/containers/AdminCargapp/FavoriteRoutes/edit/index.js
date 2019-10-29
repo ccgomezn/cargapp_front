@@ -10,9 +10,10 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putFavoriteRoute, getFavoriteRoute, getUsers, getCities} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getFavoriteRoute, getUsers, putFavoriteRoute} from "../../../../helpers/api/users";
+import {getCities} from "../../../../helpers/api/locations";
 
 const {Option} = Select;
 export default class FavoriteRouteEdit extends Component {

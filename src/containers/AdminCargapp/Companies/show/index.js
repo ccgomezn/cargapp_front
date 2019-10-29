@@ -9,7 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getCompany, getUsers, getLoadTypes } from "../../../../helpers/api/adminCalls"
+import {getUsers} from "../../../../helpers/api/users";
+import {getCompany} from "../../../../helpers/api/companies";
+import {getLoadTypes} from "../../../../helpers/api/services";
 
 export default class CompanyShow extends Component {
 
@@ -29,7 +31,7 @@ export default class CompanyShow extends Component {
 
     return dataTransformed
   }
-  
+
   componentWillMount() {
     axios.all([getCompany(this.props.match.params.id), getUsers(), getLoadTypes()])
       .then((responses) => {

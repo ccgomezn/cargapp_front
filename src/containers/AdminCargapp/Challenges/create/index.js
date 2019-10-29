@@ -10,8 +10,9 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {getActiveUsers, getMineUser, postChallenge} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
+import {getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {postChallenge} from "../../../../helpers/api/internals";
 
 
 export default class ChallengeCreate extends Component {

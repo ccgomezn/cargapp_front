@@ -8,7 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getPermissions, getUsers, getModels, getRoles} from '../../../helpers/api/adminCalls.js';
+import {getPermissions, getRoles, getUsers} from "../../../helpers/api/users";
+import {getModels} from "../../../helpers/api/internals";
 
 export default class Permission extends Component {
 

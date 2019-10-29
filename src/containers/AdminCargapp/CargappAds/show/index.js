@@ -9,8 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getUsers } from '../../../../helpers/api/adminCalls.js';
-import {getCargappAd} from "../../../../helpers/api/adminCalls";
+import {getUsers} from "../../../../helpers/api/users";
+import {getCargappAd} from "../../../../helpers/api/internals";
 
 export default class ServiceDocumentShow extends Component {
 

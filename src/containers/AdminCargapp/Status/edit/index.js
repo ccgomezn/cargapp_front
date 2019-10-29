@@ -10,12 +10,13 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getStatu, getUsers, getModels, putStatu} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getUsers} from "../../../../helpers/api/users";
+import {getModels, getStatu, putStatu} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class StatusEdit extends Component {

@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import { getUsers, getRateServices, getServices} from "../../../helpers/api/adminCalls";
+import {getUsers} from "../../../helpers/api/users";
+import {getRateServices, getServices} from "../../../helpers/api/services";
 
 export default class RateService extends Component {
 

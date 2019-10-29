@@ -8,8 +8,8 @@ import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import {Redirect} from 'react-router-dom'
-import {postCountry} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
+import {postCountry} from "../../../../helpers/api/locations";
 
 
 export default class CountryCreate extends Component {

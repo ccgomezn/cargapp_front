@@ -7,7 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import {getVehicleTypes} from '../../../helpers/api/adminCalls.js';
+import {getVehicleTypes} from "../../../helpers/api/vehicles";
 
 export default class VehicleType extends Component {
 

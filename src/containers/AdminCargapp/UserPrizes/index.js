@@ -8,7 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getUserPrizes, getUsers, getPrizes} from '../../../helpers/api/adminCalls.js';
+import {getUserPrizes, getUsers} from "../../../helpers/api/users";
+import {getPrizes} from "../../../helpers/api/internals";
 
 export default class UserPrize extends Component {
 

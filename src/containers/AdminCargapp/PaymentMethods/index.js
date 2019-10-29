@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getPaymentMethods, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getUsers} from "../../../helpers/api/users";
+import {getPaymentMethods} from "../../../helpers/api/payments";
 
 export default class PaymentMethod extends Component {
 

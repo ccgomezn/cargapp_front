@@ -10,10 +10,11 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getIntegration, getUsers, putIntegration} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getUsers} from "../../../../helpers/api/users";
+import {getIntegration, putIntegration} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class CargappIntegrationEdit extends Component {
@@ -36,7 +37,7 @@ export default class CargappIntegrationEdit extends Component {
                 } else {
                     responses[0].data.active = false;
                 }
-                
+
                 this.setState({
                     users: responses[1].data,
                     name: responses[0].data.name,

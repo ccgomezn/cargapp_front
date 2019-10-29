@@ -9,9 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postFavoriteRoute} from '../../../../helpers/api/adminCalls.js';
-import {getActiveCities, getActiveUsers} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import {getActiveUsers, postFavoriteRoute} from "../../../../helpers/api/users";
+import {getActiveCities} from "../../../../helpers/api/locations";
 
 const {Option} = Select;
 

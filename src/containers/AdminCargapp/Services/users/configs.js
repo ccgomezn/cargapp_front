@@ -6,7 +6,7 @@ import {
     ImageCell,
     TextColorCell,
 } from '../../../../components/tables/helperCells';
-import {acceptUserOfService, putUserOfService} from '../../../../helpers/api/adminCalls';
+import {acceptUserOfService, putUserOfService} from "../../../../helpers/api/users";
 
 const putFunction = (id, data) => {
     return function () {

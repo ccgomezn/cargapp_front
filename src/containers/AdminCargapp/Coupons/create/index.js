@@ -10,9 +10,10 @@ import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {postCoupon, getActiveUsers, getActiveModels, getMineUser} from "../../../../helpers/api/adminCalls"
+import {getActiveUsers,getMineUser} from "../../../../helpers/api/users"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import {getActiveModels, postCoupon} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 

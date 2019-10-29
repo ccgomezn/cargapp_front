@@ -11,12 +11,13 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
 import moment from 'moment';
-import {putUserPrize, getUserPrize, getUsers, getPrizes} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getUserPrize, getUsers, putUserPrize} from "../../../../helpers/api/users";
+import {getPrizes} from "../../../../helpers/api/internals";
 
 const dateFormat = 'YYYY-MM-DD';
 

@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getPermission, getUsers, getModel, getRole } from '../../../../helpers/api/adminCalls.js';
+import {getPermission, getRole, getUsers} from "../../../../helpers/api/users";
+import {getModel} from "../../../../helpers/api/internals";
 
 export default class PermissionShow extends Component {
 
@@ -29,7 +30,7 @@ export default class PermissionShow extends Component {
 
     return dataTransformed
   }
-  
+
 
   componentWillMount() {
     axios.all([getPermission(this.props.match.params.id)])
@@ -47,13 +48,13 @@ export default class PermissionShow extends Component {
               responses[0].data.allow = 'Desactivado';
             }
             for (var i = 0; i < responses_full[0].data.length; i++) {
-              
+
               if (responses_full[0].data[i].id === responses[0].data.user_id) {
                 responses[0].data.user = responses_full[0].data[i].email;
                 break;
-              } 
+              }
             }
-            
+
             this.setState({
               action: responses[0].data.action,
               method: responses[0].data.method,
@@ -141,7 +142,7 @@ export default class PermissionShow extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                
+
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Allow">

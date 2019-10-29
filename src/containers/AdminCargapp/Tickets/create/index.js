@@ -7,11 +7,11 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postTicket} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveUsers, getStatusOfModel} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers} from "../../../../helpers/api/users";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import {getActiveModels, getStatusOfModel, postTicket} from "../../../../helpers/api/internals";
 
 const {Option} = Select
 

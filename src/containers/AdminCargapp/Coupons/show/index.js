@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getUsers, getCoupon, getModels } from "../../../../helpers/api/adminCalls"
+import {getUsers} from "../../../../helpers/api/users";
+import {getCoupon, getModels} from "../../../../helpers/api/internals";
 
 export default class CouponShow extends Component {
 
@@ -29,7 +30,7 @@ export default class CouponShow extends Component {
 
     return dataTransformed
   }
- 
+
 
   componentWillMount() {
     axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels()])
@@ -146,7 +147,7 @@ export default class CouponShow extends Component {
                       <p>{this.state.cargapp_model}</p>
                     </Form.Item>
                   </Col>
-                 
+
 
                 </Row>
 
@@ -164,7 +165,7 @@ export default class CouponShow extends Component {
 
 
                 </Row>
-                
+
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>

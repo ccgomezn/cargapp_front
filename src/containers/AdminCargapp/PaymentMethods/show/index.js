@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import httpAddr from "../../../../helpers/http_helper"
 import { get } from "../../../../helpers/httpRequest"
-import { getPaymentMethod } from '../../../../helpers/api/adminCalls.js';
+import {getPaymentMethod} from "../../../../helpers/api/payments";
 
 export default class PaymentMethodShow extends Component {
 
@@ -31,9 +31,9 @@ export default class PaymentMethodShow extends Component {
 
     return dataTransformed
   }
- 
 
- 
+
+
   getUsers() {
     return get(httpAddr + `/users`, true);
   }
@@ -48,7 +48,7 @@ export default class PaymentMethodShow extends Component {
           responses[0].data.active = 'Desactivado';
         }
 
-        
+
         let data_users = this.transformDataToMap(responses[1].data, 'email')
         this.setState({
           name: responses[0].data.name,

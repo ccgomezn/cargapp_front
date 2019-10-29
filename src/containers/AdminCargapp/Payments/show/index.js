@@ -9,14 +9,10 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUsers} from '../../../../helpers/api/adminCalls.js';
-import {
-
-    getPayment,
-    getPaymentMethods,
-    getServices,
-    getStatus, getCoupons, getUserPaymentMethods
-} from "../../../../helpers/api/adminCalls";
+import {getUserPaymentMethods, getUsers} from "../../../../helpers/api/users";
+import {getServices} from "../../../../helpers/api/services";
+import {getPayment, getPaymentMethods} from "../../../../helpers/api/payments";
+import {getCoupons, getStatus} from "../../../../helpers/api/internals";
 
 export default class PaymentShow extends Component {
 

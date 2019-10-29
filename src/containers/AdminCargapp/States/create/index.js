@@ -9,12 +9,11 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postState} from '../../../../helpers/api/adminCalls.js';
-import {getActiveCountries} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getActiveCountries, postState} from "../../../../helpers/api/locations";
 const {Option} = Select;
 
 export default class StateCreate extends Component {

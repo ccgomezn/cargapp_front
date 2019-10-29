@@ -9,8 +9,13 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getActiveServiceDocuments, getActiveUsers, getDocumentsOfService} from '../../../helpers/api/adminCalls.js';
-import {getActiveServices, getMineServices} from "../../../helpers/api/adminCalls";
+import {getActiveUsers} from "../../../helpers/api/users";
+import {
+    getActiveServiceDocuments,
+    getActiveServices,
+    getDocumentsOfService,
+    getMineServices
+} from "../../../helpers/api/services";
 
 export default class ServiceDocument extends Component {
 

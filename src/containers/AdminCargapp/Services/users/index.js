@@ -8,11 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {
-    getProfiles, getRateServices,
-    getUsers,
-    getUsersOfService
-} from "../../../../helpers/api/adminCalls";
+import {getProfiles, getUsers, getUsersOfService} from "../../../../helpers/api/users";
+import {getRateServices} from "../../../../helpers/api/services";
 
 export default class Service extends Component {
 

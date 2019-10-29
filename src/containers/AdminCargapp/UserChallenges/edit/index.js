@@ -10,12 +10,12 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getUserChallenge, getUsers, getChallenges} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
-import {putUserChallenge} from "../../../../helpers/api/adminCalls";
+import {getUserChallenge, getUsers, putUserChallenge} from "../../../../helpers/api/users";
+import {getChallenges} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class UserChallengeEdit extends Component {

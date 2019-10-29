@@ -10,10 +10,10 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getCountry, putCountry} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getCountry, putCountry} from "../../../../helpers/api/locations";
 
 const {Option} = Select;
 export default class CountryEdit extends Component {

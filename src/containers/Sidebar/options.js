@@ -43,7 +43,7 @@ export const optionsVehicle = [
         leftIcon: 'ion-android-person',
     },
     {
-            key: 'vehicles',
+        key: 'vehicles',
         label: 'sidebar.vehicles',
         leftIcon: 'ion-android-car',
     },
@@ -74,7 +74,7 @@ export const optionsGenerator = [
         key: 'active_services',
         label: 'sidebar.activeServices',
         leftIcon: 'ion-android-star',
-    },{
+    }, {
         key: 'marketplace',
         label: 'sidebar.marketplace',
         leftIcon: 'ion-bag',
@@ -97,7 +97,7 @@ export const optionsConveyor = [
         key: 'mine_services',
         label: 'sidebar.mineServices',
         leftIcon: 'ion-lightbulb',
-    },{
+    }, {
         key: 'marketplace',
         label: 'sidebar.marketplace',
         leftIcon: 'ion-bag',

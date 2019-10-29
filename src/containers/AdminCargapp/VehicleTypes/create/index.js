@@ -8,9 +8,9 @@ import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
-import {postVehicleType} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {postVehicleType} from "../../../../helpers/api/vehicles";
 
 
 export default class VehicleTypeCreate extends Component {

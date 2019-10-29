@@ -7,16 +7,12 @@ import basicStyle from '../../../../settings/basicStyle';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 
-import {
-    getActiveProfiles,
-    getDriversFromCompany,
-    getMineCompanies,
-    putService
-} from "../../../../helpers/api/adminCalls";
-
 import importantVariables from "../../../../helpers/hashVariables";
 import SortView from "../../../../components/custom/table/sortView";
 import {tableinfos} from "./configs";
+import {getActiveProfiles, getDriversFromCompany} from "../../../../helpers/api/users";
+import {getMineCompanies} from "../../../../helpers/api/companies";
+import {putService} from "../../../../helpers/api/services";
 
 
 export default class ServiceDetail extends Component {

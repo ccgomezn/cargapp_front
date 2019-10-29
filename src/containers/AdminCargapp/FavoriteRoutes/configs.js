@@ -8,7 +8,7 @@ import {
   TextColorCell,
   MultipleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteFavoriteRoute } from '../../../helpers/api/adminCalls';
+import {deleteFavoriteRoute} from "../../../helpers/api/users";
 
 const deleteFunction = (id) => {
   return function(){
@@ -22,7 +22,7 @@ const deleteFunction = (id) => {
     }).catch((error) => {
       console.error(error);
     }));
-  } 
+  }
 }
 
 const renderCell = (object, type, key, color = false) => {
@@ -42,7 +42,7 @@ const renderCell = (object, type, key, color = false) => {
       var function1 = function(){
         window.location.href = window.location.protocol + '//' + window.location.host + '/admin/favorite_routes/edit/' + object['id'];
       }
-      
+
       return MultipleButtonCell(text1, text2, function1, deleteFunction(object['id']), type1, type2)
     default:
       var color_val = '';

@@ -6,7 +6,7 @@ import {Row, Col, Form, Card, message} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from "axios";
-import {verifyUser} from "../../../../helpers/api/adminCalls";
+import {verifyUser} from "../../../../helpers/api/users";
 
 
 

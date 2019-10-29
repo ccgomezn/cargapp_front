@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getDocument, getUsers, getDocumentTypes, getStatus } from "../../../../helpers/api/adminCalls"
+import {getUsers} from "../../../../helpers/api/users";
+import {getDocument, getDocumentTypes, getStatus} from "../../../../helpers/api/internals";
 
 export default class DocumentShow extends Component {
 
@@ -29,7 +30,7 @@ export default class DocumentShow extends Component {
 
     return dataTransformed
   }
- 
+
 
   componentWillMount() {
     axios.all([getDocument(this.props.match.params.id), getStatus(), getDocumentTypes(), getUsers()])

@@ -18,8 +18,9 @@ import reqwest from 'reqwest';
 import SimpleView from '../../components/custom/table/simpleView'
 import fakeData from '../Tables/fakeData';
 import ResponsiveLineChart from '../../components/custom/chart/responsiveLineChart'
-import {getActiveStatus, getMineServices} from "../../helpers/api/adminCalls";
 import axios from "axios";
+import {getMineServices} from "../../helpers/api/services";
+import {getActiveStatus} from "../../helpers/api/internals";
 
 const tableDataList = new fakeData(10);
 tableDataList.size = 5;

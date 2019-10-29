@@ -8,9 +8,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {postPaymentMethod} from '../../../../helpers/api/adminCalls.js';
-import {getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
+import {getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {postPaymentMethod} from "../../../../helpers/api/payments";
 
 
 

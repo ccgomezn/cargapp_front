@@ -10,10 +10,10 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putUserRole, getUserRole, getUsers, getRoles} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import {getRoles, getUserRole, getUsers, putUserRole} from "../../../../helpers/api/users";
 
 const {Option} = Select;
 export default class RoleEdit extends Component {

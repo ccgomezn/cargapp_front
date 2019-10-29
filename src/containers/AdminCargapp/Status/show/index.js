@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getStatu, getUsers, getModel } from '../../../../helpers/api/adminCalls.js';
+import {getUsers} from "../../../../helpers/api/users";
+import {getModel, getStatu} from "../../../../helpers/api/internals";
 
 export default class StatusShow extends Component {
 
@@ -29,7 +30,7 @@ export default class StatusShow extends Component {
 
     return dataTransformed
   }
-  
+
 
   componentWillMount() {
     axios.all([getStatu(this.props.match.params.id)])
@@ -41,15 +42,15 @@ export default class StatusShow extends Component {
             }else{
               responses[0].data.active = 'Desactivado';
             }
-           
+
             for (var i = 0; i < responses_full[0].data.length; i++) {
-              
+
               if (responses_full[0].data[i].id === responses[0].data.user_id) {
                 responses[0].data.user = responses_full[0].data[i].email;
                 break;
-              } 
+              }
             }
-            
+
             this.setState({
               name: responses[0].data.name,
               code: responses[0].data.code,
@@ -136,7 +137,7 @@ export default class StatusShow extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                
+
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Estado">

@@ -8,9 +8,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getUser} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
-import {getActiveProfiles, getRateServices} from "../../../../helpers/api/adminCalls";
+import {getActiveProfiles, getUser} from "../../../../helpers/api/users";
+import {getRateServices} from "../../../../helpers/api/services";
 
 export default class TicketShow extends Component {
 

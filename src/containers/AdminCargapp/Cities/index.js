@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getCities, getCountries, getStates} from "../../../helpers/api/adminCalls"
+import {getCities, getCountries, getStates} from "../../../helpers/api/locations";
 
 export default class City extends Component {
 

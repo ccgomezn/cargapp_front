@@ -7,7 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import {getDocumentTypes} from "../../../helpers/api/adminCalls"
+import {getDocumentTypes} from "../../../helpers/api/internals";
 
 export default class DocumentType extends Component {
 

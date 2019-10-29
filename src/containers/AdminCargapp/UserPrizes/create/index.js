@@ -10,12 +10,12 @@ import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {postUserPrize} from '../../../../helpers/api/adminCalls.js';
-import {getActivePrizes, getActiveUsers} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers, postUserPrize} from "../../../../helpers/api/users";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getActivePrizes} from "../../../../helpers/api/internals";
 
 const dateFormat = 'YYYY-MM-DD';
 const {Option} = Select;

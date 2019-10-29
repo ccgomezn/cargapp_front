@@ -10,10 +10,11 @@ import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putCoupon, getCoupon, getUsers, getModels} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getUsers} from "../../../../helpers/api/users";
+import {getCoupon, getModels, putCoupon} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class CouponEdit extends Component {

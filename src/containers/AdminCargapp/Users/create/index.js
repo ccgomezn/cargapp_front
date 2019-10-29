@@ -6,11 +6,10 @@ import {Row, Col, Form, Card, Select} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
-import {postUser, getActiveRoles, postUserRole} from '../../../../helpers/api/adminCalls.js';
 import axios from "axios";
 import TextInputCustom from "../../../../components/custom/input/text";
-import {verifyEmail} from "../../../../helpers/api/adminCalls";
 import SelectMultipleInputCustom from "../../../../components/custom/input/selectMultiple";
+import {getActiveRoles, postUser, postUserRole, verifyEmail} from "../../../../helpers/api/users";
 
 
 const {Option} = Select;

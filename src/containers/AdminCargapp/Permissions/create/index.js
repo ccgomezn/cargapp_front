@@ -9,10 +9,10 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Checkbox} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postPermission, findParameters} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveRoles, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
+import {getActiveRoles, getActiveUsers, getMineUser, postPermission} from "../../../../helpers/api/users";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import {findParameters, getActiveModels} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 

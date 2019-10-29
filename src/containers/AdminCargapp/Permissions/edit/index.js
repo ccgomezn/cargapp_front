@@ -12,10 +12,11 @@ import {Redirect} from 'react-router-dom'
 import {Select } from 'antd';
 import httpAddr from "../../../../helpers/http_helper"
 import {put} from "../../../../helpers/httpRequest"
-import {getPermission, getUsers, getModels, getRoles, findParameters} from '../../../../helpers/api/adminCalls.js';
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getPermission, getRoles, getUsers} from "../../../../helpers/api/users";
+import {findParameters, getModels} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class PermissionEdit extends Component {

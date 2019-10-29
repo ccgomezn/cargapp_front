@@ -9,12 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putVehicleType, getVehicleType} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getVehicleType, putVehicleType} from "../../../../helpers/api/vehicles";
 
 const {Option} = Select;
 export default class VehicleTypeEdit extends Component {

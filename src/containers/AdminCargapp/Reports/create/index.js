@@ -8,12 +8,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {postReport, findParameters} from '../../../../helpers/api/adminCalls.js';
-import {getActiveUsers} from "../../../../helpers/api/adminCalls";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getActiveUsers} from "../../../../helpers/api/users";
+import {findParameters, postReport} from "../../../../helpers/api/internals";
 
 const dateFormat = 'YYYY-MM-DD';
 
