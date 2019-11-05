@@ -332,6 +332,15 @@ export function postFavoriteRoute(data) {
     return post(httpAddr + `/favorite_routes`, data, true);
 }
 
+export function recoverPassword(data){
+    return post(httpAddr + `/users/reset_password`, data, false);
+}
+
+export function changePassword(data){
+    return post(httpAddr + `/users/new_password`, data, false);
+
+}
+
 export function deleteFavoriteRoute(id) {
     return del(httpAddr + `/favorite_routes/` + id, true)
 }

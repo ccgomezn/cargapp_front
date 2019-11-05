@@ -111,8 +111,11 @@ const PublicRoutes = ({history, isLoggedIn, isUser, isAdmin, isVehicleManager, i
                     exact
                     path={"/signup"}
                     component={asyncComponent(() => import("./containers/Page/signup"))}
-
-
+                />
+                <PublicRoute
+                    exact
+                    path={"/forgot"}
+                    component={asyncComponent(() => import("./containers/Page/forgotPassword"))}
                 />
                 <PublicRoute
                     exact
