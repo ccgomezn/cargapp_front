@@ -10,7 +10,7 @@ import IntlMessages from "../../components/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
-import {findParameters} from "../../helpers/api/internals";
+import {getMinePermissions} from "../../helpers/api/users";
 
 const SubMenu = Menu.SubMenu;
 const {Sider} = Layout;
@@ -40,12 +40,12 @@ class Sidebar extends Component {
 
 
     componentDidMount() {
-        findParameters('SUB_ADMIN').then((response) => {
-            let parameters = [];
-            response.data.parameters.forEach(parameter => {
-                parameters.push(parameter.name);
+        getMinePermissions().then((response) => {
+            let models = [];
+            response.data.models.forEach(model => {
+                models.push(model.code);
             });
-
+            console.log(models);
             let subAdminOptions = [];
             optionsAdmin.forEach(option => {
                 if (option.key === '') {
@@ -53,7 +53,7 @@ class Sidebar extends Component {
                 } else if (option.children) {
                     let subChildren = [];
                     option.children.forEach(subOption => {
-                        if (parameters.includes(subOption.key)) {
+                        if (models.includes(subOption.keyName)) {
                             subChildren.push(subOption);
                         }
                     });
@@ -65,7 +65,7 @@ class Sidebar extends Component {
                     }
 
                 } else {
-                    if (parameters.includes(option.key)) {
+                    if (models.includes(option.key)) {
                         subAdminOptions.push(option);
                     }
                 }
