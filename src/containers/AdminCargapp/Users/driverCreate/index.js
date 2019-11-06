@@ -14,7 +14,7 @@ import {transformInputData} from "../../../../helpers/utility";
 import {post} from "../../../../helpers/httpRequest";
 import httpAddr from "../../../../helpers/http_helper";
 import SecondaryButton from "../../../../components/custom/button/secondary";
-import {confirmUser, postUserCompany, resendCode, verifyEmail, verifyPhoneNumber} from "../../../../helpers/api/users";
+import {confirmUser, postUserCompany, resendCode} from "../../../../helpers/api/users";
 import {getMineCompanies} from "../../../../helpers/api/companies";
 import {getActiveCountries} from "../../../../helpers/api/locations";
 import {postDocument} from "../../../../helpers/api/internals";
@@ -71,41 +71,6 @@ export default class DriverCreate extends Component {
             }
         );
 
-        if (type === 'email') {
-            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(value)) {
-                verifyEmail(value).then((response) => {
-                    if (response.data.email) {
-
-                        this.setState({duplicated: true});
-                    } else {
-                        this.setState({duplicated: false});
-                    }
-                })
-            }
-        }
-        if (type === 'phone_number') {
-            if (/^\d{10}\d+$/.test(transformInputData(this.state.country_code) + value)) {
-                verifyPhoneNumber(parseInt(transformInputData(this.state.country_code) + value)).then((response) => {
-                    if (response.data.phone_number) {
-
-                        this.setState({duplicated_phone: true});
-                    } else {
-                        this.setState({duplicated_phone: false});
-                    }
-                })
-            }
-        } else if (type === 'country_code') {
-            if (/^\d{10}\d+$/.test(transformInputData(value) + this.state.phone_number)) {
-                verifyPhoneNumber(parseInt(transformInputData(value) + this.state.phone_number)).then((response) => {
-                    if (response.data.phone_number) {
-
-                        this.setState({duplicated_phone: true});
-                    } else {
-                        this.setState({duplicated_phone: false});
-                    }
-                })
-            }
-        }
     }
 
 
