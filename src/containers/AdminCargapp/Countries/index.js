@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import SecondaryButton from "../../../components/custom/button/secondary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getCountries, migrateCountries} from "../../../helpers/api/adminCalls"
+import {getCountries, migrateCountries} from "../../../helpers/api/locations";
 
 export default class Country extends Component {
 

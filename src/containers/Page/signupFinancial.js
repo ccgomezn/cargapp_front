@@ -7,14 +7,11 @@ import SignUpStyleWrapper from "./signupCompany.style";
 import TextInputCustom from "../../components/custom/input/text"
 import {Row, Col} from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
-import {
-    getActivePaymentMethods,
-    getMineUser,
-    postPaymentMethod, postUserPaymentMethod
-} from "../../helpers/api/adminCalls";
 import {Redirect} from "react-router";
 import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
+import {getMineUser, postUserPaymentMethod} from "../../helpers/api/users";
+import {getActivePaymentMethods, postPaymentMethod} from "../../helpers/api/payments";
 
 const {login} = authAction;
 const {clearMenu} = appActions;

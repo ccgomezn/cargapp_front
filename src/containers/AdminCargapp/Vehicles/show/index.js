@@ -9,7 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getVehicle, getUsers, getDocumentTypes, getVehicleTypes } from '../../../../helpers/api/adminCalls.js';
+import {getUsers} from "../../../../helpers/api/users";
+import {getVehicle, getVehicleTypes} from "../../../../helpers/api/vehicles";
+import {getDocumentTypes} from "../../../../helpers/api/internals";
 
 export default class VehicleShow extends Component {
 
@@ -180,10 +182,10 @@ export default class VehicleShow extends Component {
                 </Row>
 
 
-                
+
 
                 <Row gutter={10}>
-                  
+
                   <Col span={12}>
                     <Form.Item label="Estado">
                       <p>{this.state.active}</p>

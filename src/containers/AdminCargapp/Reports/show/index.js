@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getReport, getUsers } from '../../../../helpers/api/adminCalls.js';
+import {getUsers} from "../../../../helpers/api/users";
+import {getReport} from "../../../../helpers/api/internals";
 
 export default class ReportShow extends Component {
 
@@ -40,7 +41,7 @@ export default class ReportShow extends Component {
           responses[0].data.active = 'Desactivado';
         }
 
-        
+
         let data_users = this.transformDataToMap(responses[1].data, 'email')
         this.setState({
           name: responses[0].data.name,

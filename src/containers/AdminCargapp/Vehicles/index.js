@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getVehicles, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getUsers} from "../../../helpers/api/users";
+import {getVehicles} from "../../../helpers/api/vehicles";
 
 export default class Vehicle extends Component {
 

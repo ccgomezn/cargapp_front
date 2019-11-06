@@ -9,10 +9,9 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postUserRole} from '../../../../helpers/api/adminCalls.js';
-import {getActiveRoles, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import {getActiveRoles, getActiveUsers, getMineUser, postUserRole} from "../../../../helpers/api/users";
 
 const {Option} = Select;
 

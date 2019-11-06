@@ -9,7 +9,7 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary";
 import axios from "axios";
 import { Redirect } from 'react-router-dom'
-import { getMyIntegration } from "../../../../helpers/api/adminCalls"
+import {getMyIntegration} from "../../../../helpers/api/internals";
 
 export default class CargappIntegrationPersonal extends Component {
 
@@ -33,7 +33,7 @@ export default class CargappIntegrationPersonal extends Component {
     return dataTransformed
   }
 
- 
+
 
 
 

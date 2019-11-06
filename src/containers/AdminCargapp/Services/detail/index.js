@@ -8,22 +8,18 @@ import {Form, Card} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {
-    getService,
-    getActiveUsers,
-    getActiveCities,
-    getActiveCompanies,
-    getActiveVehicles,
-    getActiveVehicleTypes,
-    getStatusOfModel
-} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getUserLocation, putService} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
 import importantVariables from "../../../../helpers/hashVariables";
 import {Steps} from 'antd';
 import SecondaryButton from "../../../../components/custom/button/secondary";
+import {getActiveUsers, getUserLocation} from "../../../../helpers/api/users";
+import {getActiveCompanies} from "../../../../helpers/api/companies";
+import {getService, putService} from "../../../../helpers/api/services";
+import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
+import {getActiveCities} from "../../../../helpers/api/locations";
+import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 
 const {Step} = Steps;
 

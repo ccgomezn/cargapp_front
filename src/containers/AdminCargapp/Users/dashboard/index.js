@@ -9,8 +9,9 @@ import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getUserLocations, getCities, getUsers} from "../../../../helpers/api/adminCalls";
 import MapContainer from "../../../../components/maps/map";
+import {getUserLocations, getUsers} from "../../../../helpers/api/users";
+import {getCities} from "../../../../helpers/api/locations";
 
 export default class DriverDashboard extends Component {
 

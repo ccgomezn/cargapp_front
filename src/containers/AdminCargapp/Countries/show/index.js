@@ -9,7 +9,7 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getCountry } from "../../../../helpers/api/adminCalls"
+import {getCountry} from "../../../../helpers/api/locations";
 
 export default class CountryShow extends Component {
 
@@ -29,7 +29,7 @@ export default class CountryShow extends Component {
 
     return dataTransformed
   }
-  
+
 
   componentWillMount() {
     axios.all([getCountry(this.props.match.params.id)])

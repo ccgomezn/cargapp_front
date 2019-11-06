@@ -11,16 +11,6 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
 import moment from 'moment';
-import {
-    getService,
-    getUsers,
-    getCities,
-    getCompanies,
-    getVehicles,
-    getVehicleTypes,
-    putService
-} from '../../../../helpers/api/adminCalls.js';
-import {getStatus} from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import MapContainer from "../../../../components/maps/map";
 import {midPointLatLong} from "../../../../helpers/geolocalization";
@@ -29,6 +19,12 @@ import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import importantVariables from "../../../../helpers/hashVariables";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getUsers} from "../../../../helpers/api/users";
+import {getCompanies} from "../../../../helpers/api/companies";
+import {getService, putService} from "../../../../helpers/api/services";
+import {getVehicles, getVehicleTypes} from "../../../../helpers/api/vehicles";
+import {getCities} from "../../../../helpers/api/locations";
+import {getStatus} from "../../../../helpers/api/internals";
 
 
 const dateFormat = 'YYYY-MM-DD';

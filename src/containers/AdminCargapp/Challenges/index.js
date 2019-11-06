@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getChallenges, getUsers} from "../../../helpers/api/adminCalls"
+import {getUsers} from "../../../helpers/api/users";
+import {getChallenges} from "../../../helpers/api/internals";
 
 export default class Challenge extends Component {
 

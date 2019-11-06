@@ -10,11 +10,12 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putServiceDocument, getServiceDocument, getUsers, getServices} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import {getUsers} from "../../../../helpers/api/users";
+import {getServiceDocument, getServices, putServiceDocument} from "../../../../helpers/api/services";
 
 
 const {Option} = Select;

@@ -8,7 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getUserChallenges, getUsers, getChallenges} from '../../../helpers/api/adminCalls.js';
+import {getUserChallenges, getUsers} from "../../../helpers/api/users";
+import {getChallenges} from "../../../helpers/api/internals";
 
 export default class UserChallenge extends Component {
 

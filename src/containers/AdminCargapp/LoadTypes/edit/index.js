@@ -9,11 +9,11 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getLoadType, putLoadType} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getLoadType, putLoadType} from "../../../../helpers/api/services";
 
 const {Option} = Select;
 export default class LoadTypeEdit extends Component {

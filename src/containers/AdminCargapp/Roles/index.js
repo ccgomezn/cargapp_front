@@ -7,7 +7,7 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
-import {getRoles} from '../../../helpers/api/adminCalls.js';
+import {getRoles} from "../../../helpers/api/users";
 
 export default class Role extends Component {
 

@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getProfile, getUsers, getDocumentTypes } from '../../../../helpers/api/adminCalls.js';
+import {getProfile, getUsers} from "../../../../helpers/api/users";
+import {getDocumentTypes} from "../../../../helpers/api/internals";
 
 export default class ProfileShow extends Component {
 
@@ -29,7 +30,7 @@ export default class ProfileShow extends Component {
 
     return dataTransformed
   }
- 
+
   componentWillMount() {
     axios.all([getProfile(this.props.match.params.id), getUsers(), getDocumentTypes()])
       .then((responses) => {
@@ -142,11 +143,11 @@ export default class ProfileShow extends Component {
                       <p>{this.state.user}</p>
                     </Form.Item>
                   </Col>
-                 
+
 
                 </Row>
 
-                
+
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>

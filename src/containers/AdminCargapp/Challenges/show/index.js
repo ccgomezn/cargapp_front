@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getChallenge, getUsers } from "../../../../helpers/api/adminCalls"
+import {getUsers} from "../../../../helpers/api/users";
+import {getChallenge} from "../../../../helpers/api/internals";
 
 export default class ChallengeShow extends Component {
 
@@ -29,7 +30,7 @@ export default class ChallengeShow extends Component {
 
     return dataTransformed
   }
-  
+
 
   componentWillMount() {
     axios.all([getChallenge(this.props.match.params.id),getUsers()])
@@ -132,11 +133,11 @@ export default class ChallengeShow extends Component {
                       <p>{this.state.active}</p>
                     </Form.Item>
                   </Col>
-                 
+
 
                 </Row>
 
-                
+
                 <Row>
                   <Col span={24}>
                     <Form.Item wrapperCol={{ span: 24 }}>

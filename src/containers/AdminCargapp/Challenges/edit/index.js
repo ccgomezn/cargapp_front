@@ -10,10 +10,11 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {getChallenge, getUsers, putChallenge} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
+import {getUsers} from "../../../../helpers/api/users";
+import {getChallenge, putChallenge} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class ChallengeEdit extends Component {
@@ -148,7 +149,7 @@ export default class ChallengeEdit extends Component {
                                         </Col>
                                     </Row>
 
-                                    
+
                                     <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Estado">

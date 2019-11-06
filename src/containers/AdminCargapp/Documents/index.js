@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getDocuments, getDocumentsOfUser,} from "../../../helpers/api/adminCalls"
+import {getDocumentsOfUser} from "../../../helpers/api/users";
+import {getDocuments} from "../../../helpers/api/internals";
 
 export default class Document extends Component {
 

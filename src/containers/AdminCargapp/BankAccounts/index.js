@@ -9,7 +9,9 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getBankAccounts, getUsers, getStatus} from "../../../helpers/api/adminCalls";
+import {getUsers} from "../../../helpers/api/users";
+import {getBankAccounts} from "../../../helpers/api/payments";
+import {getStatus} from "../../../helpers/api/internals";
 
 export default class BankAccount extends Component {
 

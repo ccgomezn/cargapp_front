@@ -9,11 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Select} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postVehicle} from '../../../../helpers/api/adminCalls.js';
-import {getActiveDocumentTypes, getActiveUsers, getActiveVehicleTypes} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers} from "../../../../helpers/api/users"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
+import {getActiveVehicleTypes, postVehicle} from "../../../../helpers/api/vehicles";
+import {getActiveDocumentTypes} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class VehicleCreate extends Component {

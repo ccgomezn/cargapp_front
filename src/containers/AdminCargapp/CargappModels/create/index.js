@@ -8,9 +8,9 @@ import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import {Redirect} from 'react-router-dom'
-import {postModel} from "../../../../helpers/api/adminCalls"
 import TextInputCustom from "../../../../components/custom/input/text";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {postModel} from "../../../../helpers/api/internals";
 
 export default class CargappModelCreate extends Component {
 

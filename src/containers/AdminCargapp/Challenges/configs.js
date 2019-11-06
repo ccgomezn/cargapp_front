@@ -8,7 +8,7 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteChallenge } from '../../../helpers/api/adminCalls';
+import {deleteChallenge} from "../../../helpers/api/internals";
 
 const deleteFunction = (id) => {
   return function () {

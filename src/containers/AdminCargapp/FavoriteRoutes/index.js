@@ -8,8 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getUsers, getCities} from '../../../helpers/api/adminCalls.js';
-import {getFavoriteRoutes, getFavoriteRoutesOfUser} from "../../../helpers/api/adminCalls";
+import {getFavoriteRoutes, getFavoriteRoutesOfUser, getUsers} from "../../../helpers/api/users";
+import {getCities} from "../../../helpers/api/locations";
 
 export default class FavoriteRoute extends Component {
 

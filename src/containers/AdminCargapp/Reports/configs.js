@@ -8,7 +8,7 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteReport } from '../../../helpers/api/adminCalls';
+import {deleteReport} from "../../../helpers/api/internals";
 
 const deleteFunction = (id) => {
   return function () {

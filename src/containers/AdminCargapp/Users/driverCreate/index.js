@@ -9,19 +9,15 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Redirect} from 'react-router-dom'
 import TextInputCustom from "../../../../components/custom/input/text";
 import axios from 'axios';
-import {
-    confirmUser,
-    getActiveCountries,
-    getMineCompanies, postDocument,
-    postUserCompany, resendCode,
-    verifyEmail,
-    verifyPhoneNumber
-} from "../../../../helpers/api/adminCalls";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import {post} from "../../../../helpers/httpRequest";
 import httpAddr from "../../../../helpers/http_helper";
 import SecondaryButton from "../../../../components/custom/button/secondary";
+import {confirmUser, postUserCompany, resendCode, verifyEmail, verifyPhoneNumber} from "../../../../helpers/api/users";
+import {getMineCompanies} from "../../../../helpers/api/companies";
+import {getActiveCountries} from "../../../../helpers/api/locations";
+import {postDocument} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 export default class DriverCreate extends Component {

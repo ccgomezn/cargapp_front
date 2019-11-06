@@ -9,18 +9,13 @@ import SecondaryButton from "../../components/custom/button/secondary";
 import TextInputCustom from '../../components/custom/input/text'
 import httpAddr from "../../helpers/http_helper"
 import {Redirect} from 'react-router-dom'
-import {
-    confirmUser,
-    getActiveCountries,
-    resendCode,
-    verifyEmail,
-    verifyPhoneNumber
-} from "../../helpers/api/adminCalls";
 import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
 import Modal from "../../components/feedback/modal";
 import {post} from "../../helpers/httpRequest";
 import authAction from "../../redux/auth/actions";
+import {confirmUser, resendCode, verifyEmail, verifyPhoneNumber} from "../../helpers/api/users";
+import {getActiveCountries} from "../../helpers/api/locations";
 
 const {Option} = Select;
 const {login} = authAction;
@@ -167,6 +162,10 @@ class SignUp extends Component {
             } else if (response.status === 302) {
                 if (this.state.password !== this.state.password_confirmation) {
                     message.warning('La contraseña no coincide');
+                } else if (this.state.password.length < 6) {
+                    message.warning('La contraseña es muy corta');
+                } else if (! /^\d{11}\d+$/.test(transformInputData(this.state.country_code) + this.state.phone_number)) {
+                    message.warning('El teléfono no es correcto');
                 } else {
                     post(httpAddr + '/users',
                         {
@@ -203,7 +202,6 @@ class SignUp extends Component {
         if (redirect) {
             return <Redirect to='/signin'/>
         }
-
 
 
         return (

@@ -8,8 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getIntegrations} from "../../../helpers/api/adminCalls"
 import {Redirect} from 'react-router-dom'
+import {getIntegrations} from "../../../helpers/api/internals";
 
 export default class CargappIntegration extends Component {
 

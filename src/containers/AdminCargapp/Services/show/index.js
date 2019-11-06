@@ -9,15 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {
-    getService,
-    getUsers,
-    getCities,
-    getCompanies,
-    getVehicles,
-    getVehicleTypes,
-} from '../../../../helpers/api/adminCalls.js';
-import {getStatus} from "../../../../helpers/api/adminCalls";
+import {getUsers} from "../../../../helpers/api/users";
+import {getCompanies} from "../../../../helpers/api/companies";
+import {getService} from "../../../../helpers/api/services";
+import {getVehicles, getVehicleTypes} from "../../../../helpers/api/vehicles";
+import {getCities} from "../../../../helpers/api/locations";
+import {getStatus} from "../../../../helpers/api/internals";
 
 export default class ServiceShow extends Component {
 

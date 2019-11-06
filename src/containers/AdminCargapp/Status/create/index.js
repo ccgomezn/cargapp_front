@@ -9,12 +9,12 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {postStatu} from '../../../../helpers/api/adminCalls.js';
-import {getActiveModels, getActiveUsers, getMineUser} from "../../../../helpers/api/adminCalls";
+import {getActiveUsers, getMineUser} from  "../../../../helpers/api/users";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import TextInputCustom from "../../../../components/custom/input/text";
 import {transformInputData} from "../../../../helpers/utility";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {getActiveModels, postStatu} from "../../../../helpers/api/internals";
 
 const {Option} = Select;
 

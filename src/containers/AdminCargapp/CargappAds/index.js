@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getCargappAds} from "../../../helpers/api/adminCalls";
+import {getCargappAds} from "../../../helpers/api/internals";
 
 export default class CargappAd extends Component {
 

@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getCompanies} from "../../../helpers/api/adminCalls"
+import {getCompanies} from "../../../helpers/api/companies";
 
 export default class Company extends Component {
 

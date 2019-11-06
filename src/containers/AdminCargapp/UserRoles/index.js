@@ -8,7 +8,7 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getUserRoles, getUsers, getRoles} from '../../../helpers/api/adminCalls.js';
+import {getRoles, getUserRoles, getUsers} from "../../../helpers/api/users";
 
 export default class UserRole extends Component {
 

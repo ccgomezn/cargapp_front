@@ -10,11 +10,12 @@ import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Select} from 'antd';
-import {putPaymentMethod, getPaymentMethod, getUsers} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {transformInputData} from "../../../../helpers/utility";
+import {getUsers} from "../../../../helpers/api/users";
+import {getPaymentMethod, putPaymentMethod} from "../../../../helpers/api/payments";
 
 
 const {Option} = Select;

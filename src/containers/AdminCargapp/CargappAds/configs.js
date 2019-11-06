@@ -8,7 +8,7 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteCargappAd } from '../../../helpers/api/adminCalls';
+import {deleteCargappAd} from "../../../helpers/api/internals";
 
 const deleteFunction = (id) => {
   return function () {

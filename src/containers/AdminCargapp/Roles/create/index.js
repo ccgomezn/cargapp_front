@@ -8,9 +8,9 @@ import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
-import {postRole} from '../../../../helpers/api/adminCalls.js';
 import TextInputCustom from "../../../../components/custom/input/text";
 import AreaInputCustom from "../../../../components/custom/input/area";
+import {postRole} from "../../../../helpers/api/users";
 
 
 export default class RoleCreate extends Component {

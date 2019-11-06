@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Link, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import Checkbox from "../../components/uielements/checkbox";
 import authAction from "../../redux/auth/actions";
 import appAction from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
@@ -115,12 +114,9 @@ class SignIn extends Component {
                                     </div>
                                     <div className="helper">
                                         <Row>
-                                            <Col span={12}>
-                                                <Checkbox className="check"><IntlMessages
-                                                    id="page.remember"/></Checkbox>
-                                            </Col>
-                                            <Col span={12} align={'right'}>
-                                                <Link to="/dashboard"><IntlMessages id="page.signInForgotPass"/></Link>
+
+                                            <Col span={24} align={'right'}>
+                                                <Link to="/forgot"><IntlMessages id="page.signInForgotPass"/></Link>
                                             </Col>
                                         </Row>
                                     </div>

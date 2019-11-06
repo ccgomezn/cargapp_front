@@ -9,7 +9,8 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getReports, getUsers, getReportsOfUser} from '../../../helpers/api/adminCalls.js';
+import {getReportsOfUser, getUsers} from "../../../helpers/api/users";
+import {getReports} from "../../../helpers/api/internals";
 
 export default class Report extends Component {
 

@@ -10,7 +10,7 @@ import IntlMessages from "../../components/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
-import {findParameters} from "../../helpers/api/adminCalls";
+import {findParameters} from "../../helpers/api/internals";
 
 const SubMenu = Menu.SubMenu;
 const {Sider} = Layout;

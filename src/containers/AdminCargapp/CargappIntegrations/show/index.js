@@ -9,7 +9,8 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { getIntegration, getUsers } from "../../../../helpers/api/adminCalls"
+import {getUsers} from "../../../../helpers/api/users";
+import {getIntegration} from "../../../../helpers/api/internals";
 
 export default class CargappIntegrationShow extends Component {
 
@@ -29,9 +30,9 @@ export default class CargappIntegrationShow extends Component {
 
     return dataTransformed
   }
-  
 
-  
+
+
 
   componentWillMount() {
     axios.all([getIntegration(this.props.match.params.id), getUsers()])
@@ -234,7 +235,7 @@ export default class CargappIntegrationShow extends Component {
                       <p>{this.state.active}</p>
                     </Form.Item>
                   </Col>
-                  
+
                 </Row>
 
                 <Row>

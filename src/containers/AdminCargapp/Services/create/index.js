@@ -8,17 +8,6 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import moment from 'moment';
-import {
-
-    postService
-} from '../../../../helpers/api/adminCalls.js';
-import {
-    getActiveCities,
-    getActiveCompanies, getStatusOfModel,
-    getActiveUsers,
-    getActiveVehicles, getActiveVehicleTypes, getMineUser, getActiveModels,
-
-} from "../../../../helpers/api/adminCalls";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import MapContainer from "../../../../components/maps/map";
 import {midPointLatLong} from "../../../../helpers/geolocalization";
@@ -26,6 +15,12 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import {getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {getActiveCompanies} from "../../../../helpers/api/companies";
+import {postService} from "../../../../helpers/api/services";
+import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
+import {getActiveCities} from "../../../../helpers/api/locations";
+import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 
 require('dotenv').config();
 

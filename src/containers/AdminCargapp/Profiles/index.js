@@ -9,7 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getProfiles, getUsers} from '../../../helpers/api/adminCalls.js';
+import {getProfiles, getUsers} from "../../../helpers/api/users";
 
 export default class Profile extends Component {
 

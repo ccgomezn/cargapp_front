@@ -8,7 +8,8 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
-import {getParameters, getUsers, getModels} from "../../../helpers/api/adminCalls"
+import {getUsers} from "../../../helpers/api/users";
+import {getModels, getParameters} from "../../../helpers/api/internals";
 
 export default class Parameter extends Component {
 

@@ -8,7 +8,7 @@ import {
     TextColorCell,
     MultipleButtonCell
 } from '../../../components/tables/helperCells';
-import {deleteUserPrize} from '../../../helpers/api/adminCalls';
+import {deleteUserPrize} from "../../../helpers/api/users";
 
 const deleteFunction = (id) => {
     return function () {

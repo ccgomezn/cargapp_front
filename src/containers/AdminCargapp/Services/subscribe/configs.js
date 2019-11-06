@@ -8,8 +8,8 @@ import {
     LinkCell,
     TextColorCell,
 } from '../../../../components/tables/helperCells';
-import {postUserOfService} from "../../../../helpers/api/adminCalls";
 import { message } from 'antd';
+import {postUserOfService} from "../../../../helpers/api/users";
 
 
 const renderCell = (object, type, key, color = false, link, link_name, type_role, sub_link, boolean_change) => {

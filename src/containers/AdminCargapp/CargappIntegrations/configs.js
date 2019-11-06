@@ -10,7 +10,7 @@ import {
   TextColorCell,
   TripleButtonCell
 } from '../../../components/tables/helperCells';
-import { deleteIntegration } from '../../../helpers/api/adminCalls';
+import {deleteIntegration} from "../../../helpers/api/internals";
 
 const deleteFunction = (id) => {
   return function () {
