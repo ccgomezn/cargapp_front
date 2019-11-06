@@ -344,3 +344,7 @@ export function changePassword(data){
 export function deleteFavoriteRoute(id) {
     return del(httpAddr + `/favorite_routes/` + id, true)
 }
+
+export function getMinePermissions(){
+    return get(httpAddr + '/permissions/me', true)
+}
