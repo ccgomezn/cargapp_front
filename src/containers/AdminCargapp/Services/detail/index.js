@@ -236,7 +236,7 @@ export default class ServiceDetail extends Component {
                                                 <MapContainer center={{
                                                     lat: 4.710989,
                                                     lng: -74.072090
-                                                }} block style={{height: 700}}
+                                                }} block style={{height: 600}}
                                                               markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
                                                               directions={this.state.directions}/>
                                             </Col>
@@ -248,7 +248,7 @@ export default class ServiceDetail extends Component {
                                 </Col>
                                 <Col lg={6} md={6} sm={6} xs={6} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack" style={{height: 700}}>
+                                        <div className="vehiclesOnTrack" style={{height: 600}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}
                                                 style={{height: 700}}
