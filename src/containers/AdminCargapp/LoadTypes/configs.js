@@ -55,13 +55,13 @@ const columns = [
     {
         title: "Id",
         key: 'id',
-        width: '25%',
+        width: '20%',
         render: object => renderCell(object, 'TextCell', 'id')
     },
     {
         title: "",
         key: 'icon',
-        width: '25%',
+        width: '20%',
         render: object => renderCell(object, 'ImageCell', 'icon')
     },
     {

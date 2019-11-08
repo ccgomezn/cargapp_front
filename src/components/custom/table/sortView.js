@@ -80,11 +80,11 @@ export default class extends Component {
         filterIcon: filtered => (
             <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>
         ),
-        onFilter: (value, record) =>
+        onFilter: (value, record) => record[dataIndex]?
             record[dataIndex]
                 .toString()
                 .toLowerCase()
-                .includes(value.toLowerCase()),
+                .includes(value.toLowerCase()) : record[dataIndex],
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
                 setTimeout(() => this.searchInput.select());

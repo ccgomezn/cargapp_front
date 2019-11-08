@@ -6,7 +6,7 @@ import {
     ImageCell,
     TextColorCell,
     DropdownCell,
-    ButtonCell
+    ButtonCell, DoubleButtonCell
 } from '../../../components/tables/helperCells';
 import {Link} from "react-router-dom";
 import Menu from "antd/es/menu";
@@ -25,7 +25,10 @@ const renderCell = (object, type, key, color = false, linkText, menu) => {
             let function1 = function () {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/verify/' + object['id'];
             };
-            return ButtonCell('Verificar usuario por Truora', function1, 'primary');
+            let function2 = function () {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/edit/' + object['id'];
+            };
+            return DoubleButtonCell('Verificar usuario','Editar', function1, function2,'primary', 'secondary');
         default:
             let color_val = '';
 
