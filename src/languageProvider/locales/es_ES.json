@@ -37,6 +37,8 @@
   "sidebar.recover": "Recuperar",
   "Signup.password": "Contraseña",
   "Signup.passwordConfirmation": "Confirmación de contraseña",
+  "service.distance": "Distancia estimada",
+  "service.duration": "Tiempo de viaje estimado",
   "sidebar.payments": "Pagos",
   "sidebar.payment_methods": "Métodos de pago",
   "sidebar.user_payment_methods": "Métodos de pago de usuarios",
