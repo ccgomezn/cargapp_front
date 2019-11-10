@@ -53,8 +53,8 @@ const MyMapComponent = compose(
                                                    options={{
                                                        path: props.directions,
                                                        strokeColor: 'red',
-                                                       strokeOpacity: 0.5,
-                                                       strokeWeight: 2,
+                                                       strokeOpacity: 0.8,
+                                                       strokeWeight: 3,
                                                        icons: [{
                                                            offset: '0',
                                                            repeat: '10px'
@@ -184,22 +184,7 @@ export class MapContainer extends Component {
     }
 
     render() {
-        const {direction} = this.props;
-        if (direction) {
-            const DirectionsService = new google.maps.DirectionsService();
 
-            DirectionsService.route({
-                origin: direction.origin,
-                destination: direction.destination,
-                travelMode: google.maps.TravelMode.DRIVING,
-            }, (result, status) => {
-                if (status === google.maps.DirectionsStatus.OK) {
-                    this.setState({
-                        directions: result.routes[0].overview_path,
-                    });
-                }
-            });
-        }
 
         return (
             <MyMapComponent
@@ -208,7 +193,7 @@ export class MapContainer extends Component {
                 markers={this.props.markers}
                 center={this.props.center}
                 load={this.state.load}
-                directions={this.state.directions}
+                directions={this.props.directions}
             />
         )
     }

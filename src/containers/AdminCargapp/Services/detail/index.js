@@ -22,6 +22,7 @@ import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 
 const {Step} = Steps;
+const google = window.google = window.google ? window.google : {};
 
 export default class ServiceDetail extends Component {
 
@@ -113,8 +114,8 @@ export default class ServiceDetail extends Component {
                             this.setState({
                                 user_location: {
                                     position: {
-                                        lat: parseInt(response.data[0].latitude),
-                                        lng: parseInt(response.data[0].longitude)
+                                        lat: parseFloat(response.data[0].latitude),
+                                        lng: parseFloat(response.data[0].longitude)
                                     },
                                     icon: {
                                         url: require('../../../../image/truck_down_right.svg'),
@@ -122,27 +123,53 @@ export default class ServiceDetail extends Component {
                                 },
                             })
                         }
+                        let origin;
+                        let destination;
+                        if (this.state.statu_id === 12) {
+                            origin = this.state.origin_latitude + ', ' + this.state.origin_longitude;
+                            destination = this.state.destination_latitude + ', ' + this.state.destination_longitude;
+                        } else if (this.state.statu_id === 6 || this.state.statu_id === 7) {
+                            origin = response.data[0].latitude + ', ' + response.data[0].longitude;
+                            destination = this.state.origin_latitude + ', ' + this.state.origin_longitude;
+                        } else {
+                            origin = response.data[0].latitude + ', ' + response.data[0].longitude;
+                            destination = this.state.destination_latitude + ', ' + this.state.destination_longitude;
+                        }
+
                         this.setState({
 
                             origin_marker: {
                                 position: {
-                                    lat: parseInt(this.state.origin_latitude),
-                                    lng: parseInt(this.state.origin_longitude)
+                                    lat: parseFloat(this.state.origin_latitude),
+                                    lng: parseFloat(this.state.origin_longitude)
                                 }
                             },
                             destination_marker: {
                                 position: {
-                                    lat: parseInt(this.state.destination_latitude),
-                                    lng: parseInt(this.state.destination_longitude)
+                                    lat: parseFloat(this.state.destination_latitude),
+                                    lng: parseFloat(this.state.destination_longitude)
                                 }
-                            },
-                            direction: {
-                                origin: this.state.origin_latitude + ', ' + this.state.origin_longitude,
-                                destination: this.state.destination_latitude + ', ' + this.state.destination_longitude
                             }
                         })
                         ;
-                    })
+
+
+                        const DirectionsService = new google.maps.DirectionsService();
+
+                        DirectionsService.route({
+                            origin: origin,
+                            destination: destination,
+                            travelMode: google.maps.TravelMode.DRIVING,
+                        }, (result, status) => {
+                            if (status === google.maps.DirectionsStatus.OK) {
+                                this.setState({
+                                    directions: result.routes[0].overview_path,
+                                    distance: result.routes[0].legs[0].distance.text,
+                                    duration: result.routes[0].legs[0].duration.text,
+                                });
+                            }
+                        });
+                    });
                 }).catch((error) => {
                 console.error(error);
             });
@@ -209,9 +236,9 @@ export default class ServiceDetail extends Component {
                                                 <MapContainer center={{
                                                     lat: 4.710989,
                                                     lng: -74.072090
-                                                }} block style={{height: 500}}
+                                                }} block style={{height: 600}}
                                                               markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
-                                                              direction={this.state.direction}/>
+                                                              directions={this.state.directions}/>
                                             </Col>
 
                                         </Row>
@@ -221,10 +248,10 @@ export default class ServiceDetail extends Component {
                                 </Col>
                                 <Col lg={6} md={6} sm={6} xs={6} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack" style={{height: 500}}>
+                                        <div className="vehiclesOnTrack" style={{height: 600}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}
-                                                style={{height: 500}}
+                                                style={{height: 700}}
                                                 hr={<hr style={{marginTop: 0}}/>}
                                             >
                                                 <LayoutWrapper>
@@ -290,8 +317,30 @@ export default class ServiceDetail extends Component {
                                                         </Row>
                                                         <Row>
 
-                                                            <p style={{height: '0px'}}>
+                                                            <p>
                                                                 {this.state.price}
+                                                            </p>
+                                                        </Row>
+                                                        <Row>
+                                                            <label>
+                                                                <IntlMessages id={'service.distance'}/>:
+                                                            </label>
+                                                        </Row>
+                                                        <Row>
+
+                                                            <p>
+                                                                {this.state.distance}
+                                                            </p>
+                                                        </Row>
+                                                        <Row>
+                                                            <label>
+                                                                <IntlMessages id={'service.duration'}/>:
+                                                            </label>
+                                                        </Row>
+                                                        <Row>
+
+                                                            <p style={{height: '0px'}}>
+                                                                {this.state.duration}
                                                             </p>
                                                         </Row>
                                                     </div>
