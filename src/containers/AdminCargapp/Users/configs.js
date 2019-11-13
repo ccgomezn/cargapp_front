@@ -6,7 +6,7 @@ import {
     ImageCell,
     TextColorCell,
     DropdownCell,
-    ButtonCell, DoubleButtonCell
+    DoubleButtonCell
 } from '../../../components/tables/helperCells';
 import {Link} from "react-router-dom";
 import Menu from "antd/es/menu";
@@ -28,7 +28,7 @@ const renderCell = (object, type, key, color = false, linkText, menu) => {
             let function2 = function () {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/edit/' + object['id'];
             };
-            return DoubleButtonCell('Verificar usuario','Editar', function1, function2,'primary', 'secondary');
+            return DoubleButtonCell('Verificar usuario', 'Editar', function1, function2, 'primary', 'secondary');
         default:
             let color_val = '';
 
@@ -67,22 +67,22 @@ const columns = [
             width: '12%',
             render: object => renderCell(object, 'TextCell', 'email')
         },
-    {
-        title: <IntlMessages id="antTable.title.role"/>,
-        key: 'role',
-        width: '12%',
-        render: object => renderCell(object, 'TextCell', 'role')
-    },{
-        title: <IntlMessages id="antTable.title.identification"/>,
-        key: 'identification',
-        width: '12%',
-        render: object => renderCell(object, 'TextCell', 'identification')
-    },{
-        title: <IntlMessages id="antTable.title.phone"/>,
-        key: 'phone_number',
-        width: '12%',
-        render: object => renderCell(object, 'TextCell', 'phone_number')
-    },
+        {
+            title: <IntlMessages id="antTable.title.role"/>,
+            key: 'role',
+            width: '12%',
+            render: object => renderCell(object, 'TextCell', 'role')
+        }, {
+            title: <IntlMessages id="antTable.title.identification"/>,
+            key: 'identification',
+            width: '12%',
+            render: object => renderCell(object, 'TextCell', 'identification')
+        }, {
+            title: <IntlMessages id="antTable.title.phone"/>,
+            key: 'phone_number',
+            width: '12%',
+            render: object => renderCell(object, 'TextCell', 'phone_number')
+        },
         {
             title: <IntlMessages id="antTable.title.information"/>,
             key: 'information',
@@ -90,7 +90,7 @@ const columns = [
             render: object => renderCell(object, 'dropdown', 'información general', 'color', 'información adicional', menuOptions(object['id']))
         },
         {
-            title: <IntlMessages style={{alignItems:'right'}} id="antTable.title.configuration"/>,
+            title: <IntlMessages style={{alignItems: 'right'}} id="antTable.title.configuration"/>,
             key: 'verify',
             width: '12%',
             render: object => renderCell(object, 'button')

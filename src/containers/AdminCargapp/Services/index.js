@@ -90,9 +90,22 @@ export default class Service extends Component {
                             return item;
                         });
                     }
-                    this.setState({
-                        services: active_services ? this.getActiveServices(responses[0].data) : responses[0].data
-                    });
+                    if (vehicle_manager) {
+                        let realServices = [];
+                        responses[0].data.forEach(service => {
+                            if (service.statu_id === 10 && service.active) {
+                                realServices.push(service);
+                            }
+                        });
+                        this.setState({
+                            services: realServices
+                        });
+                    } else {
+                        this.setState({
+                            services: active_services ? this.getActiveServices(responses[0].data) : responses[0].data
+                        });
+                    }
+
 
                 })
         })
@@ -112,16 +125,18 @@ export default class Service extends Component {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
         const {generator, vehicle_manager} = this.props;
-        let tableinforeal = generator ? tableinfos[2] : vehicle_manager? tableinfos[3]: tableinfos[1];
-
+        let tableinforeal = generator ? tableinfos[2] : vehicle_manager ? tableinfos[3] : tableinfos[1];
+        console.log(generator);
+        console.log(vehicle_manager);
+        console.log(tableinforeal)
         if (reload) {
             if (generator) {
                 return <Redirect to='/generator/services'/>
 
-            } else if(vehicle_manager){
+            } else if (vehicle_manager) {
                 return <Redirect to='/vehicle_manager/services'/>
 
-            }else{
+            } else {
                 return <Redirect to='/admin/services'/>
             }
         }
