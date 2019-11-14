@@ -653,6 +653,10 @@ const routes_generator = [
     {
         path: 'users/show/:id/:service_id',
         component: asyncComponent(() => import('../AdminCargapp/Users/show'), {generator: true})
+    },
+    {
+        path: 'users/show_detail/:id/:service_id',
+        component: asyncComponent(() => import('../AdminCargapp/Users/show'), {generator: true, detail:true})
     }
 ];
 

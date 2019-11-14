@@ -55,7 +55,8 @@ export default class Service extends Component {
     }
 
     componentWillMount() {
-        axios.all([getUsersOfService(this.props.match.params.id), getUsers(), getProfiles(), getRateServices()])
+        let {id} = this.props.match.params;
+        axios.all([getUsersOfService(id), getUsers(), getProfiles(), getRateServices()])
             .then((responses) => {
                 let profiles = this.transformDataToMap(responses[2].data, 'user_id');
                 let users = this.transformDataToMap(responses[1].data);
@@ -70,6 +71,7 @@ export default class Service extends Component {
                         }else{
                             item.color = '#010935';
                         }
+                        item.service_id = id;
                         let user_id = item.user_id;
                         item.user = profiles[user_id].firt_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
                         item.document = profiles[user_id].document_id;

@@ -1,5 +1,3 @@
-
-
 export const options = [
     {
         key: '',
@@ -14,12 +12,6 @@ export const options = [
         keyName: 'mineServicesBase'
     },
     {
-        key: 'active_services',
-        label: 'sidebar.activeServices',
-        leftIcon: 'ion-android-star',
-        keyName: 'activeServicesBase'
-    },
-    {
         key: 'drivers',
         label: 'sidebar.drivers',
         leftIcon: 'ion-android-person',
@@ -31,11 +23,17 @@ export const options = [
         leftIcon: 'ion-android-car',
         keyName: 'vehiclesBase'
     },
+
     {
         key: 'services',
         label: 'sidebar.allServices',
         leftIcon: 'ion-lightbulb',
         keyName: 'servicesBase'
+    }, {
+        key: 'active_services',
+        label: 'sidebar.activeServices',
+        leftIcon: 'ion-android-star',
+        keyName: 'activeServicesBase'
     },
     {
         key: 'marketplace',
@@ -53,7 +51,7 @@ export const options = [
             label: 'sidebar.roles',
             leftIcon: 'ion-android-person',
             keyName: 'rolesRolesUser'
-            },
+        },
             {
                 key: 'users',
                 label: 'sidebar.users',
