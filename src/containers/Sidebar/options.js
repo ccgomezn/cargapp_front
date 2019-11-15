@@ -3,112 +3,44 @@ export const options = [
         key: '',
         label: 'sidebar.home',
         leftIcon: 'ion-android-apps',
-    },
-    {
-        key: 'analytics',
-        label: 'sidebar.analytics',
-        leftIcon: 'ion-stats-bars',
-    },
-    {
-        key: 'tracking',
-        label: 'sidebar.travels',
-        leftIcon: 'ion-android-car',
-    },
-    {
-        key: 'trackingmap',
-        label: 'sidebar.map',
-        leftIcon: 'ion-map'
-    },
-    {
-        key: 'chat',
-        label: 'sidebar.chat',
-        leftIcon: 'ion-email',
-    },
-    {
-        key: 'settings',
-        label: 'sidebar.settings',
-        leftIcon: 'ion-gear-b',
-    }
-];
-
-export const optionsVehicle = [
-    {
-        key: '',
-        label: 'sidebar.home',
-        leftIcon: 'ion-android-apps',
-    },
-    {
-        key: 'drivers',
-        label: 'sidebar.drivers',
-        leftIcon: 'ion-android-person',
-    },
-    {
-        key: 'vehicles',
-        label: 'sidebar.vehicles',
-        leftIcon: 'ion-android-car',
-    },
-    {
-        key: 'services',
-        label: 'sidebar.allServices',
-        leftIcon: 'ion-lightbulb',
-    },
-    {
-        key: 'marketplace',
-        label: 'sidebar.marketplace',
-        leftIcon: 'ion-bag',
-    },
-];
-
-export const optionsGenerator = [
-    {
-        key: '',
-        label: 'sidebar.home',
-        leftIcon: 'ion-android-apps',
-    },
-    {
-        key: 'services',
-        label: 'sidebar.allServices',
-        leftIcon: 'ion-lightbulb',
-    },
-    {
-        key: 'active_services',
-        label: 'sidebar.activeServices',
-        leftIcon: 'ion-android-star',
-    }, {
-        key: 'marketplace',
-        label: 'sidebar.marketplace',
-        leftIcon: 'ion-bag',
-    },
-];
-
-
-export const optionsConveyor = [
-    {
-        key: '',
-        label: 'sidebar.home',
-        leftIcon: 'ion-android-apps',
-    },
-    {
-        key: 'services',
-        label: 'sidebar.services',
-        leftIcon: 'ion-lightbulb',
+        keyName: ''
     },
     {
         key: 'mine_services',
         label: 'sidebar.mineServices',
         leftIcon: 'ion-lightbulb',
+        keyName: 'mineServicesBase'
+    },
+    {
+        key: 'drivers',
+        label: 'sidebar.drivers',
+        leftIcon: 'ion-android-person',
+        keyName: 'driversBase'
+    },
+    {
+        key: 'vehicles',
+        label: 'sidebar.vehicles',
+        leftIcon: 'ion-android-car',
+        keyName: 'vehiclesBase'
+    },
+
+    {
+        key: 'services',
+        label: 'sidebar.allServices',
+        leftIcon: 'ion-lightbulb',
+        keyName: 'servicesBase'
     }, {
+        key: 'active_services',
+        label: 'sidebar.activeServices',
+        leftIcon: 'ion-android-star',
+        keyName: 'activeServicesBase'
+    },
+    {
         key: 'marketplace',
         label: 'sidebar.marketplace',
         leftIcon: 'ion-bag',
-    },
-];
+        keyName: 'marketplaceBase'
 
-export const optionsAdmin = [
-    {
-        key: '',
-        label: 'sidebar.home',
-        leftIcon: 'ion-android-apps',
     },
     {
         key: 'roles_user',
@@ -118,33 +50,33 @@ export const optionsAdmin = [
             key: 'roles',
             label: 'sidebar.roles',
             leftIcon: 'ion-android-person',
-            keyName: 'ROLES'
-            },
+            keyName: 'rolesRolesUser'
+        },
             {
                 key: 'users',
                 label: 'sidebar.users',
                 leftIcon: 'ion-android-person',
-                keyName: 'USERS'
+                keyName: 'usersRolesUser'
             },
             {
                 key: 'user_roles',
                 label: 'sidebar.userRoles',
                 leftIcon: 'ion-android-person',
-                keyName: 'USER_ROLES'
+                keyName: 'userRolesRolesUser'
 
             },
             {
                 key: 'profiles',
                 label: 'sidebar.profiles',
                 leftIcon: 'ion-android-person',
-                keyName: 'PROFILES'
+                keyName: 'profilesRolesUser'
 
             },
             {
                 key: 'companies',
                 label: 'sidebar.companies',
                 leftIcon: 'ion-android-person',
-                keyName: 'COMPANIES'
+                keyName: 'companiesRolesUser'
 
             }]
     },
@@ -156,21 +88,21 @@ export const optionsAdmin = [
             key: 'countries',
             label: 'sidebar.countries',
             leftIcon: 'ion-android-person',
-            keyName: 'COUNTRIES'
+            keyName: 'countriesLocations'
 
         },
             {
                 key: 'states',
                 label: 'sidebar.states',
                 leftIcon: 'ion-android-person',
-                keyName: 'STATES'
+                keyName: 'statesLocations'
 
             },
             {
                 key: 'cities',
                 label: 'sidebar.cities',
                 leftIcon: 'ion-android-person',
-                keyName: 'CITIES'
+                keyName: 'citiesLocations'
 
             }]
     },
@@ -182,21 +114,21 @@ export const optionsAdmin = [
             key: 'vehicles',
             label: 'sidebar.vehicles',
             leftIcon: 'ion-android-person',
-            keyName: 'VEHICLES'
+            keyName: 'vehiclesVehiclesLoads'
 
         },
             {
                 key: 'vehicle_types',
                 label: 'sidebar.vehicleTypes',
                 leftIcon: 'ion-android-person',
-                keyName: 'VEHICLE_TYPES'
+                keyName: 'vehicleTypesVehiclesLoads'
 
             },
             {
                 key: 'load_types',
                 label: 'sidebar.loadTypes',
                 leftIcon: 'ion-android-person',
-                keyName: 'LOAD_TYPES'
+                keyName: 'loadTypesVehiclesLoads'
 
             }]
     }, {
@@ -206,26 +138,26 @@ export const optionsAdmin = [
         children: [{
             key: 'coupons',
             label: 'sidebar.coupons',
-            keyName: 'COUPONS'
+            keyName: 'couponsCoupons'
 
         },
             {
                 key: 'user_coupons',
                 label: 'sidebar.usersCoupons',
-                keyName: 'USER_COUPONS'
+                keyName: 'userCouponsCoupons'
 
             },
             {
                 key: 'prizes',
                 label: 'sidebar.prizes',
                 leftIcon: 'ion-android-person',
-                keyName: 'PRIZES'
+                keyName: 'prizesCoupons'
 
             },
             {
                 key: 'user_prizes',
                 label: 'sidebar.userPrizes',
-                keyName: 'USER_PRIZES'
+                keyName: 'userPrizesCoupons'
 
             }]
     }, {
@@ -235,13 +167,13 @@ export const optionsAdmin = [
         children: [{
             key: 'documents',
             label: 'sidebar.documents',
-            keyName: 'DOCUMENTS'
+            keyName: 'documentsDocuments'
 
         },
             {
                 key: 'document_types',
                 label: 'sidebar.documentTypes',
-                keyName: 'DOCUMENT_TYPES'
+                keyName: 'documentTypesDocuments'
 
             }]
     }, {
@@ -251,13 +183,13 @@ export const optionsAdmin = [
         children: [{
             key: 'challenges',
             label: 'sidebar.challenges',
-            keyName: 'CHALLENGES'
+            keyName: 'challengesChallenges'
 
         },
             {
                 key: 'user_challenges',
                 label: 'sidebar.userChallenges',
-                keyName: 'USER_CHALLENGES'
+                keyName: 'userChallengesChallenges'
 
             }]
     }, {
@@ -267,58 +199,58 @@ export const optionsAdmin = [
         children: [{
             key: 'cargapp_models',
             label: 'sidebar.cargappModels',
-            keyName: 'CARGAPP_MODELS'
+            keyName: 'cargappModelsIndoors'
 
         }, {
             key: 'cargapp_ads',
             label: 'sidebar.cargappAds',
-            keyName: 'CARGAPP_ADS'
+            keyName: 'cargappAdsIndoors'
 
         },
             {
                 key: 'parameters',
                 label: 'sidebar.parameters',
-                keyName: 'PARAMETERS'
+                keyName: 'parametersIndoors'
 
             },
             {
                 key: 'permissions',
                 label: 'sidebar.permissions',
-                keyName: 'PERMISSIONS'
+                keyName: 'permissionsIndoors'
 
             }, {
                 key: 'status',
                 label: 'sidebar.status',
-                keyName: 'STATUS'
+                keyName: 'statusIndoors'
 
             }, {
                 key: 'cargapp_integrations',
                 label: 'sidebar.integrations',
-                keyName: 'CARGAPP_INTEGRATIONS'
+                keyName: 'cargappIntegrationsIndoors'
 
             }, {
                 key: 'tickets',
                 label: 'sidebar.tickets',
-                keyName: 'TICKETS'
+                keyName: 'ticketsIndoors'
 
             }, {
                 key: 'reports',
                 label: 'sidebar.reports',
-                keyName: 'REPORTS'
+                keyName: 'reportsIndoors'
 
             },
             {
                 key: 'service_locations',
                 label: 'sidebar.serviceLocations',
                 leftIcon: 'ion-android-person',
-                keyName: 'SERVICE_LOCATIONS'
+                keyName: 'serviceLocationsIndoors'
 
             },
             {
                 key: 'user_locations',
                 label: 'sidebar.userLocations',
                 leftIcon: 'ion-android-person',
-                keyName: 'USER_LOCATIONS'
+                keyName: 'userLocationsIndoors'
 
             }]
     }
@@ -329,30 +261,30 @@ export const optionsAdmin = [
         children: [{
             key: 'payment_methods',
             label: 'sidebar.payment_methods',
-            keyName: 'PAYMENT_METHODS'
+            keyName: 'paymentMethodsPayments'
 
         }, {
             key: 'bank_accounts',
             label: 'sidebar.bankAccounts',
-            keyName: 'BANK_ACCOUNTS'
+            keyName: 'bankAccountsPayments'
 
         },
             {
                 key: 'user_payment_methods',
                 label: 'sidebar.user_payment_methods',
-                keyName: 'USER_PAYMENT_METHODS'
+                keyName: 'userPaymentMethodsPayments'
 
             },
             {
                 key: 'payments',
                 label: 'sidebar.payments',
-                keyName: 'PAYMENTS'
+                keyName: 'PaymentsPayments'
 
             },
             {
                 key: 'cargapp_payments',
                 label: 'sidebar.cargappPayments',
-                keyName: 'CARGAPP_PAYMENTS'
+                keyName: 'cargappPaymentsPayments'
 
             },]
     }, {
@@ -362,17 +294,17 @@ export const optionsAdmin = [
         children: [{
             key: 'services',
             label: 'sidebar.services',
-            keyName: 'SERVICES'
+            keyName: 'servicesServices'
 
         }, {
             key: 'service_documents',
             label: 'sidebar.serviceDocuments',
-            keyName: 'SERVICE_DOCUMENTS'
+            keyName: 'serviceDocumentsServices'
 
         }, {
             key: 'rate_services',
             label: 'sidebar.rateServices',
-            keyName: 'RATE_SERVICES'
+            keyName: 'rateServicesServices'
 
         }]
     },
@@ -383,7 +315,7 @@ export const optionsAdmin = [
         children: [{
             key: 'favorite_routes',
             label: 'sidebar.favoriteRoutes',
-            keyName: 'FAVORITE_ROUTES'
+            keyName: 'favoriteRoutesRoutes'
 
         }]
     },

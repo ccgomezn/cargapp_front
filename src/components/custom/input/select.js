@@ -16,7 +16,7 @@ export default class SelectInputCustom extends Component {
                     showSearch
                     placeholder={this.props.placeholder}
                     optionFilterProp="children"
-                    value={this.props.value !== undefined && this.props.value.key !== undefined ? this.props.value : {key: this.props.value}}
+                    value={this.props.value !== undefined && this.props.value !== null && this.props.value.key !== undefined ? this.props.value : {key: this.props.value}}
                     onChange={this.props.onChange}
                     style={{width: '100%'}}
                     block

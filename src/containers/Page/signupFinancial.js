@@ -12,6 +12,7 @@ import SelectInputCustom from "../../components/custom/input/select";
 import {transformInputData} from "../../helpers/utility";
 import {getMineUser, postUserPaymentMethod} from "../../helpers/api/users";
 import {getActivePaymentMethods, postPaymentMethod} from "../../helpers/api/payments";
+import SecondaryButton from "../../components/custom/button/secondary";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
@@ -65,7 +66,7 @@ class SignUpFinancial extends Component {
                         user_id: response.data.user.id
                     }
                 }).then((response) => {
-                    this.setState({redirect: true})
+                    this.props.history.push('/')
                 })
             } else {
                 postUserPaymentMethod({
@@ -78,7 +79,7 @@ class SignUpFinancial extends Component {
 
                     }
                 }).then((response) => {
-                    this.setState({redirect: true})
+                    this.props.history.push('/')
                 })
             }
 
@@ -247,9 +248,18 @@ class SignUpFinancial extends Component {
 
                             <div className="sign-buttons">
                                 <Row>
-                                    <Col align={'right'}>
+                                    <Col span={24} align={'right'}>
+                                        <div style={{ display: 'inline-block'}}>
+                                            <SecondaryButton message_id="page.skip"
+                                                             style={{width: '130px', marginRight: '10px'}}
+                                                             onClick={() => this.props.history.push("/")}/>
+                                        </div>
+                                        <div style={{ display: 'inline-block'}}>
+                                            <PrimaryButton message_id="page.end"
+                                                           style={{width: '130px'}}
+                                                           onClick={() => this.handlePost(true)}/>
 
-                                        <PrimaryButton message_id="page.end" onClick={() => this.handlePost(true)}/>
+                                        </div>
 
 
                                     </Col>

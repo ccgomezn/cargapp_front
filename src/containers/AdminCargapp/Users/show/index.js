@@ -80,7 +80,12 @@ export default class TicketShow extends Component {
 
     goBack() {
         if(this.props.generator){
-            this.props.history.push('/generator/services/detail/'+this.props.match.params.service_id)
+            if(this.props.detail){
+                this.props.history.push('/generator/service_users/'+this.props.match.params.service_id)
+
+            }else{
+                this.props.history.push('/generator/services/detail/'+this.props.match.params.service_id)
+            }
         }else{
             this.props.history.push('/admin/users')
         }

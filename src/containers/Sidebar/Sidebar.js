@@ -3,14 +3,14 @@ import {connect} from "react-redux";
 import clone from "clone";
 import {Link} from "react-router-dom";
 import {Layout} from "antd";
-import {optionsAdmin, optionsGenerator, optionsVehicle, optionsConveyor} from "./options";
+import {options} from "./options";
 import Scrollbars from "../../components/utility/customScrollBar.js";
 import Menu from "../../components/uielements/menu";
 import IntlMessages from "../../components/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "../../components/utility/logo";
-import {getMinePermissions} from "../../helpers/api/users";
+import {findParameters} from "../../helpers/api/internals";
 
 const SubMenu = Menu.SubMenu;
 const {Sider} = Layout;
@@ -40,20 +40,34 @@ class Sidebar extends Component {
 
 
     componentDidMount() {
-        getMinePermissions().then((response) => {
-            let models = [];
-            response.data.models.forEach(model => {
-                models.push(model.code);
+        const {admin, isVehicleManager, isGenerator, isConveyor, isSubAdmin} = this.props;
+
+        let parameter = '';
+        if(admin){
+            parameter = 'SUPERADMIN_SIDEBAR'
+        }else if(isVehicleManager){
+            parameter = 'VEHICLE_MANAGER_SIDEBAR'
+        }else if(isGenerator){
+            parameter = 'LOAD_GENERATOR_SIDEBAR'
+        }else if(isConveyor){
+            parameter = 'CONVEYOR_SIDEBAR'
+        }else if(isSubAdmin){
+            parameter = 'ADMIN_SIDEBAR'
+        }
+        findParameters(parameter).then((response) => {
+            let parameters = [];
+
+            response.data.parameters.forEach(parameter => {
+                parameters.push(parameter.code);
             });
-            console.log(models);
-            let subAdminOptions = [];
-            optionsAdmin.forEach(option => {
-                if (option.key === '') {
-                    subAdminOptions.push(option);
+            let realOptions = [];
+            options.forEach(option => {
+                if (option.keyName === '') {
+                    realOptions.push(option);
                 } else if (option.children) {
                     let subChildren = [];
                     option.children.forEach(subOption => {
-                        if (models.includes(subOption.keyName)) {
+                        if (parameters.includes(subOption.keyName)) {
                             subChildren.push(subOption);
                         }
                     });
@@ -61,17 +75,17 @@ class Sidebar extends Component {
                         let copyOption = {};
                         copyOption = Object.assign(copyOption, option);
                         copyOption.children = subChildren;
-                        subAdminOptions.push(copyOption);
+                        realOptions.push(copyOption);
                     }
 
                 } else {
-                    if (models.includes(option.key)) {
-                        subAdminOptions.push(option);
+                    if (parameters.includes(option.keyName)) {
+                        realOptions.push(option);
                     }
                 }
             });
 
-            this.setState({subAdminOptions: subAdminOptions})
+            this.setState({realOptions: realOptions})
         });
     }
 
@@ -157,8 +171,8 @@ class Sidebar extends Component {
 
     render() {
         const {toggleCollapsed} = this.props;
-
-        const {app, customizedTheme, height, admin, isVehicleManager, isGenerator, isConveyor, isSubAdmin} = this.props;
+        let {realOptions} = this.state;
+        const {app, customizedTheme, height} = this.props;
         const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
         const mode = collapsed === true ? "vertical" : "inline";
 
@@ -193,26 +207,11 @@ class Sidebar extends Component {
                             selectedKeys={app.current}
                             onOpenChange={this.onOpenChange}
                         >
-                            {admin &&
-                            optionsAdmin.map(singleOption =>
+                            {realOptions &&
+                            realOptions.map(singleOption =>
                                 this.getMenuItem({submenuStyle, submenuColor, singleOption})
                             )}
-                            {isGenerator &&
-                            optionsGenerator.map(singleOption =>
-                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
-                            )}
-                            {isVehicleManager &&
-                            optionsVehicle.map(singleOption =>
-                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
-                            )}
-                            {isConveyor &&
-                            optionsConveyor.map(singleOption =>
-                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
-                            )}
-                            {isSubAdmin && this.state.subAdminOptions &&
-                            this.state.subAdminOptions.map(singleOption =>
-                                this.getMenuItem({submenuStyle, submenuColor, singleOption})
-                            )}
+
 
                         </Menu>
                     </Scrollbars>

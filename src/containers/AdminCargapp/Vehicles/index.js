@@ -10,7 +10,7 @@ import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getUsers} from "../../../helpers/api/users";
-import {getVehicles} from "../../../helpers/api/vehicles";
+import {getMineVehicles, getVehicles} from "../../../helpers/api/vehicles";
 
 export default class Vehicle extends Component {
 
@@ -35,7 +35,17 @@ export default class Vehicle extends Component {
 
 
     componentWillMount() {
-        axios.all([getVehicles(), getUsers()])
+
+        let getAllVehicles = function(){
+            return getVehicles();
+        };
+        if(this.props.vehicle_manager){
+            getAllVehicles = function(){
+                return getMineVehicles()
+            }
+        }
+
+        axios.all([getAllVehicles(), getUsers()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let data_users = this.transformDataToMap(responses[1].data, 'email');
@@ -59,7 +69,11 @@ export default class Vehicle extends Component {
 
 
     redirectAdd() {
-        this.props.history.push('/admin/vehicles/add')
+        if(this.props.vehicle_manager){
+            this.props.history.push('/vehicle_manager/vehicles/add')
+        }else{
+            this.props.history.push('/admin/vehicles/add')
+        }
     }
 
     render() {

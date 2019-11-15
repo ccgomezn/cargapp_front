@@ -30,7 +30,7 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
         case 'DateCell':
             return DateCell(value);
         case 'LinkCell':
-            if(boolean_change && object['statu_id'] === 10){
+            if (boolean_change && object['statu_id'] === 10) {
                 return LinkCell('Ver postulados', window.location.protocol + '//' + window.location.host + sub_link + object['id']);
             }
             return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
@@ -50,10 +50,11 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
 
             return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3);
         case 'ActionSubscribe':
-            let signUpFunction = function(){
+            let signUpFunction = function () {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/subscribe/' + object['id'];
             };
             return ButtonCell('Postular camioneros', signUpFunction, 'Default');
+
         default:
             var color_val = '';
 
@@ -91,7 +92,7 @@ const columns = [
     },
     {
         title: <IntlMessages id="antTable.title.description"/>,
-        key: 'start_date',
+        key: 'description',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'description')
     },
@@ -140,14 +141,28 @@ const columns = [
         key: 'status',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'status')
-    },{
+    }, {
         title: <IntlMessages id="antTable.title.signUp"/>,
         key: 'status',
         width: '12%',
-        render: object => renderCell(object, 'ActionSubscribe', null, null, null, null,'vehicle_manager')
+        render: object => renderCell(object, 'ActionSubscribe', null, null, null, null, 'vehicle_manager')
     },
+    {
+        title: <IntlMessages id="antTable.title.details"/>,
+        key: 'details',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/vehicle_manager/services/detail/', 'Detalles', null, '/vehicle_manager/service_users/', false)
+    }
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [
+    {...columns[0], sorter: true},
+    {...columns[1], sorter: true},
+    {...columns[2], sorter: true},
+    {...columns[3], sorter: true},
+    {...columns[4], sorter: true},
+    {...columns[5], sorter: true},
+    {...columns[14], sorter: false}];
+
 const sortColumns = [
     {...columns[0], sorter: true},
     {...columns[1], sorter: true},
@@ -179,9 +194,7 @@ const sortColumnsVehicleManager = [
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
-    {...columns[12], sorter: true},
-    {...columns[5], sorter: true},
-    {...columns[13], sorter: true},
+    {...columns[13], sorter: false},
 
 ];
 

@@ -4,6 +4,9 @@ import {httpAddr} from "../http_helper";
 export function getVehicles() {
     return get(httpAddr + `/vehicles/`, true);
 }
+export function getMineVehicles() {
+    return get(httpAddr + `/vehicles/me`, true);
+}
 
 export function getActiveVehicles() {
     return get(httpAddr + `/vehicles/active`, true);

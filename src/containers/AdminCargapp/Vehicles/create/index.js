@@ -9,12 +9,13 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, Select} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import {getActiveUsers} from "../../../../helpers/api/users"
+import {getActiveUsers, getDriversFromCompany} from "../../../../helpers/api/users"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import {getActiveVehicleTypes, postVehicle} from "../../../../helpers/api/vehicles";
 import {getActiveDocumentTypes} from "../../../../helpers/api/internals";
+import {getMineCompanies} from "../../../../helpers/api/companies";
 
 const {Option} = Select;
 export default class VehicleCreate extends Component {
@@ -39,7 +40,22 @@ export default class VehicleCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveDocumentTypes(), getActiveVehicleTypes()])
+        let getUsers = function(){
+            return getActiveUsers();
+        };
+        if(this.props.vehicle_manager){
+            getUsers = function(){
+                return getMineCompanies().then((response) => {
+                    let company_id = '';
+
+                    if (response.data[0]) {
+                        company_id = response.data[0].id;
+                    }
+                    return getDriversFromCompany(company_id)
+                });
+            }
+        }
+        axios.all([getUsers(), getActiveDocumentTypes(), getActiveVehicleTypes()])
             .then((responses) => {
 
                 this.setState({
@@ -97,15 +113,7 @@ export default class VehicleCreate extends Component {
         const {id} = this.props.match.params;
         const {vehicle_manager} = this.props;
         if (redirect) {
-            if(id){
-                window.location.reload()
-            }else{
-                if(vehicle_manager){
-                    return <Redirect to={'/vehicle_manager/vehicles/add'}/>
-                }else{
-                    return <Redirect to={'/admin/vehicles/add'}/>
-                }
-            }
+            window.location.reload()
         }
         if (redirectList) {
             if(vehicle_manager){

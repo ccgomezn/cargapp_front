@@ -5,6 +5,7 @@ import {
     DateCell, DoubleButtonCell,
     ImageCell,
     TextColorCell,
+    LinkCell, ButtonCell
 } from '../../../../components/tables/helperCells';
 import {acceptUserOfService, putUserOfService} from "../../../../helpers/api/users";
 
@@ -29,12 +30,15 @@ const acceptFunction = (id, user_id, service_id, type) => {
 };
 
 const renderCell = (object, type, key, color, typeUser) => {
+
     const value = object[key];
     switch (type) {
         case 'ImageCell':
             return ImageCell(value);
         case 'DateCell':
             return DateCell(value);
+        case 'linkCell':
+            return LinkCell('asd', '/1234');
         case 'MultipleButtonCell':
             let text1 = 'Aceptar';
             let text2 = 'Rechazar';
@@ -45,8 +49,13 @@ const renderCell = (object, type, key, color, typeUser) => {
                 return TextColorCell('No se pueden realizar acciones', '');
             }
             return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['service_id'], typeUser), putFunction(id, {approved: false}), type1, type2);
+        case 'ButtonCell':
+            let seeProfile = function(){
+                window.location.href = window.location.protocol + '//' + window.location.host + '/'+typeUser+'/users/show_detail/'+object.user_id+'/'+object.service_id;
+            };
+            return ButtonCell('Ver perfil',seeProfile,'secondary');
         default:
-            var color_val = '';
+            let color_val = '';
 
             if (color) {
                 color_val = object['color'];
@@ -66,7 +75,7 @@ const columns = [
         title: <IntlMessages id="antTable.title.user"/>,
         key: 'user',
         width: '12%',
-        render: object => renderCell(object, 'TextCell', 'user')
+        render: object => renderCell(object, 'linkCell', 'user')
     },
     {
         title: <IntlMessages id="antTable.title.document"/>,
@@ -94,15 +103,21 @@ const columns = [
         key: 'options',
         width: '12%',
         render: object => renderCell(object, 'MultipleButtonCell', 'approved', null,'admin')
+    },{
+        title: <IntlMessages id="antTable.title.seeProfile"/>,
+        key: 'options',
+        width: '12%',
+        render: object => renderCell(object, 'ButtonCell', 'approved', null,'generator')
     }
 ];
 const sortColumns = [
     {...columns[0], sorter: true},
     {...columns[1], sorter: true},
-    {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
     {...columns[5], sorter: false},
+    {...columns[7], sorter: false},
+
 ];
 
 const sortColumnsAdmin = [
