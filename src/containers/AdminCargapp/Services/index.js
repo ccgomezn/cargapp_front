@@ -56,12 +56,13 @@ export default class Service extends Component {
                 return getServicesOfDriver(
                     id
                 );
-            }
+            };
         } else if (generator) {
             getServicesFunction = function () {
                 return getMineServices(id);
             }
         } else if (vehicle_manager) {
+
             getServicesFunction = function () {
                 return getActiveServices();
             }
@@ -124,11 +125,9 @@ export default class Service extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
+        const {id} = this.props.match.params;
         const {generator, vehicle_manager} = this.props;
-        let tableinforeal = generator ? tableinfos[2] : vehicle_manager ? tableinfos[3] : tableinfos[1];
-        console.log(generator);
-        console.log(vehicle_manager);
-        console.log(tableinforeal)
+        let tableinforeal = generator ? tableinfos[2] : vehicle_manager ?  id ? tableinfos[0]: tableinfos[3] : tableinfos[1];
         if (reload) {
             if (generator) {
                 return <Redirect to='/generator/services'/>

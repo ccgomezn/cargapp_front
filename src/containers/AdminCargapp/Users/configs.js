@@ -6,7 +6,7 @@ import {
     ImageCell,
     TextColorCell,
     DropdownCell,
-    DoubleButtonCell
+    DoubleButtonCell, ButtonCell
 } from '../../../components/tables/helperCells';
 import {Link} from "react-router-dom";
 import Menu from "antd/es/menu";
@@ -29,6 +29,12 @@ const renderCell = (object, type, key, color = false, linkText, menu) => {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/edit/' + object['id'];
             };
             return DoubleButtonCell('Verificar usuario', 'Editar', function1, function2, 'primary', 'secondary');
+        case 'seeServices':
+            function1 = function () {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/vehicle_manager/drivers/services/' + object['id'];
+            };
+
+            return ButtonCell('Ver servicios', function1, 'primary');
         default:
             let color_val = '';
 
@@ -94,6 +100,12 @@ const columns = [
             key: 'verify',
             width: '12%',
             render: object => renderCell(object, 'button')
+        },
+        {
+            title: <IntlMessages style={{alignItems: 'right'}} id="antTable.title.services"/>,
+            key: 'verify',
+            width: '12%',
+            render: object => renderCell(object, 'seeServices')
         }
     ]
 ;
@@ -113,6 +125,7 @@ const sortColumnsDriver = [
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
+    {...columns[7], sorter: false},
 ];
 
 const tableinfos = [

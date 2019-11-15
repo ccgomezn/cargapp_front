@@ -125,7 +125,7 @@ export default class ServiceDetail extends Component {
                         }
                         let origin;
                         let destination;
-                        if (this.state.statu_id === 12) {
+                        if (this.state.statu_id === 12 || !response.data[0]) {
                             origin = this.state.origin_latitude + ', ' + this.state.origin_longitude;
                             destination = this.state.destination_latitude + ', ' + this.state.destination_longitude;
                         } else if (this.state.statu_id === 6 || this.state.statu_id === 7) {
@@ -189,6 +189,8 @@ export default class ServiceDetail extends Component {
     goBack() {
         if (this.props.generator) {
             this.props.history.push('/generator/services')
+        } else if(this.props.vehicle_manager){
+            this.props.history.push('/vehicle_manager/drivers')
         } else {
             this.props.history.push('/admin/services')
         }
@@ -204,7 +206,7 @@ export default class ServiceDetail extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
-        const {generator} = this.props;
+        const {generator, vehicle_manager} = this.props;
         const {id} = this.props.match.params;
         if (redirect) {
             return <Redirect to='/admin/services'/>
@@ -371,6 +373,7 @@ export default class ServiceDetail extends Component {
 
                                             </Row>
                                         </Col>
+                                        {!vehicle_manager &&
                                         <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>
                                             <Row>
                                                 <SecondaryButton message_id={"general.changeStatus"}
@@ -379,6 +382,8 @@ export default class ServiceDetail extends Component {
 
                                             </Row>
                                         </Col>
+                                        }
+
                                     </Row>
                                 </Card>
                             </Col>

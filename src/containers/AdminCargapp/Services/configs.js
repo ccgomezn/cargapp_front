@@ -92,7 +92,7 @@ const columns = [
     },
     {
         title: <IntlMessages id="antTable.title.description"/>,
-        key: 'start_date',
+        key: 'description',
         width: '12%',
         render: object => renderCell(object, 'TextCell', 'description')
     },
@@ -147,8 +147,22 @@ const columns = [
         width: '12%',
         render: object => renderCell(object, 'ActionSubscribe', null, null, null, null, 'vehicle_manager')
     },
+    {
+        title: <IntlMessages id="antTable.title.details"/>,
+        key: 'details',
+        width: '12%',
+        render: object => renderCell(object, 'LinkCell', 'id', false, '/vehicle_manager/services/detail/', 'Detalles', null, '/vehicle_manager/service_users/', false)
+    }
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [
+    {...columns[0], sorter: true},
+    {...columns[1], sorter: true},
+    {...columns[2], sorter: true},
+    {...columns[3], sorter: true},
+    {...columns[4], sorter: true},
+    {...columns[5], sorter: true},
+    {...columns[14], sorter: false}];
+
 const sortColumns = [
     {...columns[0], sorter: true},
     {...columns[1], sorter: true},
