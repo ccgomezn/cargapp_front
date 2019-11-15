@@ -65,7 +65,7 @@ class SignUpFinancial extends Component {
                         user_id: response.data.user.id
                     }
                 }).then((response) => {
-                    this.setState({redirect: true})
+                    this.props.history.push('/')
                 })
             } else {
                 postUserPaymentMethod({
@@ -78,7 +78,7 @@ class SignUpFinancial extends Component {
 
                     }
                 }).then((response) => {
-                    this.setState({redirect: true})
+                    this.props.history.push('/')
                 })
             }
 
