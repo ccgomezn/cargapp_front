@@ -301,6 +301,9 @@ class SignUp extends Component {
                                                              placeholder='Contraseña' type='password'
                                                              onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}/>
                                         </div>
+
+
+
                                         <div className="isoInputWrapper">
                                             <Row>
                                                 {this.state.countries && <Col span={6}>

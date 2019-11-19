@@ -15,7 +15,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
-import {getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {checkUser, getActiveUsers, getMineUser} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {postService} from "../../../../helpers/api/services";
 import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
@@ -105,10 +105,8 @@ export default class ReportCreate extends Component {
                         destination_longitude: -74.072090,
                         center: {lat: 4.710989, lng: -74.072090}
                     });
-
                 });
         });
-
     }
 
     handleChange(value, type) {
@@ -128,46 +126,58 @@ export default class ReportCreate extends Component {
     }
 
     handlePost() {
+        checkUser().then((response) => {
+            let payment = false;
 
-        getMineUser().then((response) => {
-            let data = {
-                service: {
-                    name: this.state.name,
-                    origin: this.state.origin,
-                    origin_city_id: transformInputData(this.state.origin_city_id),
-                    origin_address: this.state.origin_address,
-                    origin_longitude: this.state.origin_longitude,
-                    origin_latitude: this.state.origin_latitude,
-                    destination: this.state.destination,
-                    destination_city_id: transformInputData(this.state.destination_city_id),
-                    destination_address: this.state.destination_address,
-                    destination_latitude: this.state.destination_latitude,
-                    destination_longitude: this.state.destination_longitude,
-                    price: this.state.price,
-                    description: this.state.description,
-                    note: this.state.note,
-                    user_id: response.data.user.id,
-                    company_id: this.state.company_id? transformInputData(this.state.company_id): 19,
-                    user_receiver_id: transformInputData(this.state.user_receiver_id),
-                    vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    statu_id: 10,
-                    expiration_date: this.state.expiration_date,
-                    contact: this.state.contact,
-                    vehicle_id: 2,
-                    active: true,
+            response.data.forEach(model => {
+                if(model.name === 'user_payment_methods'){
+                    payment = model.permission
                 }
-            };
-            if (this.props.assign) {
-                data.service.user_driver_id = transformInputData(this.state.user_driver_id);
-                data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+            });
+            if(!payment){
+            }else{
+                getMineUser().then((response) => {
+                    let data = {
+                        service: {
+                            name: this.state.name,
+                            origin: this.state.origin,
+                            origin_city_id: transformInputData(this.state.origin_city_id),
+                            origin_address: this.state.origin_address,
+                            origin_longitude: this.state.origin_longitude,
+                            origin_latitude: this.state.origin_latitude,
+                            destination: this.state.destination,
+                            destination_city_id: transformInputData(this.state.destination_city_id),
+                            destination_address: this.state.destination_address,
+                            destination_latitude: this.state.destination_latitude,
+                            destination_longitude: this.state.destination_longitude,
+                            price: this.state.price,
+                            description: this.state.description,
+                            note: this.state.note,
+                            user_id: response.data.user.id,
+                            company_id: this.state.company_id? transformInputData(this.state.company_id): 19,
+                            user_receiver_id: transformInputData(this.state.user_receiver_id),
+                            vehicle_type_id: transformInputData(this.state.vehicle_type_id),
+                            statu_id: 10,
+                            expiration_date: this.state.expiration_date,
+                            contact: this.state.contact,
+                            vehicle_id: 2,
+                            active: true,
+                        }
+                    };
+                    if (this.props.assign) {
+                        data.service.user_driver_id = transformInputData(this.state.user_driver_id);
+                        data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+                    }
+
+
+                    postService(data).then(() => {
+
+                        this.setState({redirect: true})
+                    })
+                })
             }
+        });
 
-
-            postService(data).then(() => {
-
-                this.setState({redirect: true})
-            })
-        })
 
 
     }

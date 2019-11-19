@@ -26,6 +26,10 @@ export function getActiveUsers() {
     return get(httpAddr + `/users`, true);
 }
 
+export function checkUser(){
+    return get(httpAddr + `/users/check`, true);
+}
+
 export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
@@ -347,4 +351,9 @@ export function deleteFavoriteRoute(id) {
 
 export function getMinePermissions(){
     return get(httpAddr + '/permissions/me', true)
+}
+
+
+export function getMineProfile(){
+    return get(httpAddr + '/profiles/me', true)
 }

@@ -5,16 +5,16 @@ import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import TextInputCustom from '../../components/custom/input/text'
 import PrimaryButton from '../../components/custom/button/primary'
-
+import axios from 'axios'
 import SignUpStyleWrapper from "./signupCompany.style";
 import {Row, Col} from "antd";
 import SelectInputCustom from "../../components/custom/input/select";
-import {transformInputData} from "../../helpers/utility";
 import {Redirect} from "react-router-dom";
-import importantVariables from "../../helpers/hashVariables";
-import {getMineUser, postUserCompany} from "../../helpers/api/users";
-import {postCompany} from "../../helpers/api/companies";
+import {getMineProfile, getMineUser, postUserCompany, putProfile} from "../../helpers/api/users";
 import {getActiveLoadTypes} from "../../helpers/api/services";
+import {postCompany} from "../../helpers/api/companies";
+import importantVariables from "../../helpers/hashVariables";
+import {transformInputData} from "../../helpers/utility";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
@@ -38,35 +38,43 @@ class SignUpCompany extends Component {
     }
 
     handlePost() {
-        getMineUser().then((response_user) => {
-            postCompany({
-                company: {
-                    user_id: response_user.data.user.id,
-                    legal_representative: this.state.nit,
-                    name: this.state.legal_representative,
-                    phone: this.state.phone,
-                    load_type_id: transformInputData(this.state.load_type_id)
+        axios.all([getMineProfile(), getMineUser()]).then((responses) => {
+            putProfile(responses[0].data[0].profile.id, {
+                profile: {
+                    firt_name: this.state.name,
+                    last_name: this.state.surname
                 }
-            }).then((response_company) => {
-                postUserCompany({
-                    company_user: {
-                        company_id: response_company.data.id,
-                        user_id: response_user.data.user.id
+            }).then((response) => {
+                postCompany({
+                    company: {
+                        user_id: responses[1].data.user.id,
+                        legal_representative: this.state.nit,
+                        name: this.state.legal_representative,
+                        phone: this.state.phone,
+                        load_type_id: transformInputData(this.state.load_type_id)
                     }
-                }).then(() => {
-                    let vehicle_manager = true;
-                    response_user.data.roles.forEach(role => {
-                        if (role.role_id === importantVariables.generator_role_id) {
-                            vehicle_manager = false;
+                }).then((response_company) => {
+                    postUserCompany({
+                        company_user: {
+                            company_id: response_company.data.id,
+                            user_id: responses[1].data.user.id
                         }
-                    });
-                    if (vehicle_manager) {
-                        this.setState({redirectToFinancial: true});
-                    } else {
-                        this.setState({redirectToFinancialCredit: true});
-                    }
+                    }).then(() => {
+                        let vehicle_manager = true;
+                        responses[1].data.roles.forEach(role => {
+                            if (role.role_id === importantVariables.generator_role_id) {
+                                vehicle_manager = false;
+                            }
+                        });
+                        if (vehicle_manager) {
+                            this.setState({redirectToFinancial: true});
+                        } else {
+                            this.setState({redirectToFinancialCredit: true});
+                        }
+                    })
                 })
             })
+
         })
     }
 
@@ -123,9 +131,49 @@ class SignUpCompany extends Component {
                                 </Row>
                             </div>
                         </div>
-                        <div className="isoLogoWrapper2">
-                            <hr/>
+                        <div className={'isoLogoWrapper2'}>
                             <div>
+                                <Row>
+                                    <Col span={24}>
+                                        <p className="title">
+                                            <IntlMessages id="page.profile.title"/>
+                                        </p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={24}>
+                                        <p className="subtitle">
+                                        </p>
+                                    </Col>
+                                </Row>
+
+                            </div>
+
+                            <div className="isoInputWrapper">
+                                <Row>
+                                    <Col span={12}>
+                                        <TextInputCustom required label_id='page.name'
+                                                         value={this.state.name}
+                                                         placeholder='Nombre'
+                                                         onChange={(e) => this.handleChange(e.target.value, 'name')}/>
+                                    </Col>
+                                    <Col span={12}>
+                                        <TextInputCustom required label_id='page.surname'
+                                                         value={this.state.surname}
+                                                         placeholder='Apellido'
+                                                         onChange={(e) => this.handleChange(e.target.value, 'surname')}/>
+                                    </Col>
+
+                                </Row>
+
+                            </div>
+                        </div>
+
+                        <div className="isoLogoWrapper2">
+
+
+                            <div>
+
                                 <Row>
                                     <Col span={24}>
                                         <p className="title">
@@ -142,6 +190,8 @@ class SignUpCompany extends Component {
                                 </Row>
                             </div>
                         </div>
+                        <hr/>
+
                         <div className="isoSignUpForm">
                             <div className="isoInputWrapper" style={{marginTop: 15}}>
                                 <TextInputCustom label_id='page.companyName' placeholder='Nombre de la empresa'

@@ -13,6 +13,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import AreaInputCustom from "../../../../components/custom/input/area";
 import {getActiveStates, postCity} from "../../../../helpers/api/locations";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 
@@ -57,7 +58,7 @@ export default class StateCreate extends Component {
                     name: this.state.name,
                     code: this.state.code,
                     description: this.state.description,
-                    state_id: this.state.state_id,
+                    state_id: transformInputData(this.state.state_id),
                     active: true,
                 }
 
