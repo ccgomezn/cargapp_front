@@ -15,12 +15,14 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
-import {checkUser, getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {checkUser, getActiveUsers, getMineUser, postUserPaymentMethod} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {postService} from "../../../../helpers/api/services";
 import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
 import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
+import Modal from '../../../../components/feedback/modal';
+import {getActivePaymentMethods} from "../../../../helpers/api/payments";
 
 require('dotenv').config();
 
@@ -39,7 +41,8 @@ export default class ReportCreate extends Component {
             lat_des: 0,
             long_or: 0,
             long_des: 0,
-            error_lat_long: ''
+            error_lat_long: '',
+            visible: false
         }
     }
 
@@ -56,6 +59,20 @@ export default class ReportCreate extends Component {
         return data_by_id;
     }
 
+    handleAddPaymentMethod(){
+        getMineUser().then(response => {
+            postUserPaymentMethod({user_payment_method:{
+                    payment_method_id: transformInputData(this.state.payment_method_id),
+                    card_number: this.state.card_number,
+                    cvv: this.state.cvv,
+                    expiration: this.state.expiration,
+                    user_id: response.data.user.id
+            }}).then(() => {
+                this.setState({visible: false});
+                this.handlePost();
+            })
+        })
+    }
     transformDataToMap(data, key) {
         var dataTransformed = {};
         data.map((item) => {
@@ -67,12 +84,9 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
-        const { assign} = this.props;
-
+        const {assign} = this.props;
         let getVehiclesFunction = function () {
         };
-
-
         if (assign) {
             getVehiclesFunction = function () {
                 return getActiveVehicles();
@@ -87,7 +101,7 @@ export default class ReportCreate extends Component {
                 }
             });
 
-            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id)])
+            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id), getActivePaymentMethods()])
                 .then((responses) => {
                     this.setState({
                         users: responses[0].data,
@@ -103,7 +117,8 @@ export default class ReportCreate extends Component {
                         origin_longitude: -74.072090,
                         destination_latitude: 4.710989,
                         destination_longitude: -74.072090,
-                        center: {lat: 4.710989, lng: -74.072090}
+                        center: {lat: 4.710989, lng: -74.072090},
+                        payment_methods: responses[6].data
                     });
                 });
         });
@@ -130,12 +145,15 @@ export default class ReportCreate extends Component {
             let payment = false;
 
             response.data.forEach(model => {
-                if(model.name === 'user_payment_methods'){
+                if (model.name === 'user_payment_methods') {
                     payment = model.permission
                 }
             });
-            if(!payment){
-            }else{
+            if (!payment) {
+                this.setState({
+                    visible: true
+                })
+            } else {
                 getMineUser().then((response) => {
                     let data = {
                         service: {
@@ -154,7 +172,7 @@ export default class ReportCreate extends Component {
                             description: this.state.description,
                             note: this.state.note,
                             user_id: response.data.user.id,
-                            company_id: this.state.company_id? transformInputData(this.state.company_id): 19,
+                            company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
                             user_receiver_id: transformInputData(this.state.user_receiver_id),
                             vehicle_type_id: transformInputData(this.state.vehicle_type_id),
                             statu_id: 10,
@@ -177,7 +195,6 @@ export default class ReportCreate extends Component {
                 })
             }
         });
-
 
 
     }
@@ -217,11 +234,11 @@ export default class ReportCreate extends Component {
         const {assign, admin, generator} = this.props;
 
         if (redirect) {
-            if(admin){
+            if (admin) {
                 return <Redirect to='/admin/services'/>
-            }else if(generator){
+            } else if (generator) {
                 return <Redirect to='/generator/services'/>
-            }else{
+            } else {
                 return <Redirect to='/admin/services'/>
             }
         }
@@ -543,79 +560,79 @@ export default class ReportCreate extends Component {
                                         </Col>
                                     </Row>
                                     {assign &&
-                                        <div>
-                                            <Row gutter={10}>
-                                                <Col span={24}>
+                                    <div>
+                                        <Row gutter={10}>
+                                            <Col span={24}>
 
-                                                    <Col span={12}>
-                                                        <Form.Item label="Empresa">
-                                                            <SelectInputCustom value={this.state.company_id}
-                                                                               placeholder="empresa"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'company_id')
-                                                            }}
-                                                                               options={this.state && this.state.companies &&
+                                                <Col span={12}>
+                                                    <Form.Item label="Empresa">
+                                                        <SelectInputCustom value={this.state.company_id}
+                                                                           placeholder="empresa"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'company_id')
+                                                        }}
+                                                                           options={this.state && this.state.companies &&
 
-                                                                               this.state.companies.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.name}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.company'}>
+                                                                           this.state.companies.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.name}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.company'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
-
-
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
                                                 </Col>
 
 
-                                            </Row>
-                                            <Row gutter={10}>
-                                                <Col span={24}>
-                                                    <Col span={12}>
-                                                        <Form.Item label="Conductor">
-                                                            <SelectInputCustom value={this.state.user_driver_id}
-                                                                               placeholder="conductor"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'user_driver_id')
-                                                            }}
-                                                                               options={this.state && this.state.users &&
+                                            </Col>
 
-                                                                               this.state.users.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.email}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.driver'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
-                                                    <Col span={12}>
-                                                        <Form.Item label="Vehiculos">
-                                                            <SelectInputCustom value={this.state.vehicle_id}
-                                                                               placeholder="vehiculos"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'vehicle_id')
-                                                            }}
-                                                                               options={this.state && this.state.vehicles &&
+                                        </Row>
+                                        <Row gutter={10}>
+                                            <Col span={24}>
+                                                <Col span={12}>
+                                                    <Form.Item label="Conductor">
+                                                        <SelectInputCustom value={this.state.user_driver_id}
+                                                                           placeholder="conductor"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'user_driver_id')
+                                                        }}
+                                                                           options={this.state && this.state.users &&
 
-                                                                               this.state.vehicles.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.plate} {item.brand}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.vehicle'}>
+                                                                           this.state.users.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.email}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.driver'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
                                                 </Col>
+                                                <Col span={12}>
+                                                    <Form.Item label="Vehiculos">
+                                                        <SelectInputCustom value={this.state.vehicle_id}
+                                                                           placeholder="vehiculos"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'vehicle_id')
+                                                        }}
+                                                                           options={this.state && this.state.vehicles &&
 
-                                            </Row>
-                                        </div>
+                                                                           this.state.vehicles.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.plate} {item.brand}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.vehicle'}>
+
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
+                                                </Col>
+                                            </Col>
+
+                                        </Row>
+                                    </div>
 
                                     }
 
@@ -636,7 +653,73 @@ export default class ReportCreate extends Component {
 
                     </Col>
                 </Row>
+                <Modal
+                    title="Añade metodo de pago"
+                    visible={this.state.visible}
+                    cancelText={'Cancelar'}
+                    style={{width: '100%'}}
+                    image={'smartphone.svg'}
+                    body={
+                        <div>
+                            <Row type="flex" style={{textAlign: 'center', justifyContent: 'center'}}>
+                                <h1>Añade método de pago</h1>
 
+                            </Row>
+
+
+                            <Row style={{marginTop: '20px'}}>
+                                <div className="isoInputWrapper">
+                                    <SelectInputCustom value={this.state.payment_method_id} placeholder="método de pago"
+                                                       style={{width: '100%'}} onChange={(e) => {
+                                        this.handleChange(e, 'payment_method_id')
+                                    }}
+                                                       options={this.state && this.state.payment_methods &&
+
+                                                       this.state.payment_methods.map((item) => {
+                                                           return <option
+                                                               value={item.id}>{item.name}</option>
+                                                       })
+                                                       }
+                                                       label_id={'admin.title.paymentMethod'}>
+
+                                    </SelectInputCustom>
+                                </div>
+
+                                <div className="isoInputWrapper">
+                                    <TextInputCustom label_id='page.cardNumber' placeholder='Número de tarjeta'
+                                                     value={this.state.card_number}
+                                                     onChange={(e) => this.handleChange(e.target.value, 'card_number')}
+                                                     required/>
+
+
+                                </div>
+
+
+                                <div className="isoInputWrapper">
+                                    <TextInputCustom value={this.state.expiration} placeholder="fecha de vencimiento"
+                                                     label_id="admin.title.expirationDate"
+                                                     onChange={(e) => this.handleChange(e.target.value, 'expiration')}
+                                                     required/>
+
+                                </div>
+
+                                <div className="isoInputWrapper">
+                                    <TextInputCustom value={this.state.cvv} placeholder="cvv"
+                                                     label_id="admin.title.cvv"
+                                                     type={'password'}
+                                                     onChange={(e) => this.handleChange(e.target.value, 'cvv')}
+                                                     required/>
+
+                                </div>
+                            </Row>
+
+                            <PrimaryButton message_id={'page.add'}
+                                           onClick={() => this.handleAddPaymentMethod()}
+                                           style={{marginTop: '20px', width: '100% '}}/>
+
+                        </div>
+                    }
+                />
 
             </LayoutWrapper>
         );
