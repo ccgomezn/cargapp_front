@@ -15,12 +15,15 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
-import {getActiveUsers, getMineUser} from "../../../../helpers/api/users";
+import {checkUser, getActiveUsers, getMineUser, postUserPaymentMethod} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {postService} from "../../../../helpers/api/services";
 import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
 import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
+import Modal from '../../../../components/feedback/modal';
+import {getActivePaymentMethods} from "../../../../helpers/api/payments";
+import CreditCardInput from "react-credit-card-input";
 
 require('dotenv').config();
 
@@ -39,7 +42,8 @@ export default class ReportCreate extends Component {
             lat_des: 0,
             long_or: 0,
             long_des: 0,
-            error_lat_long: ''
+            error_lat_long: '',
+            visible: false
         }
     }
 
@@ -56,6 +60,20 @@ export default class ReportCreate extends Component {
         return data_by_id;
     }
 
+    handleAddPaymentMethod(){
+        getMineUser().then(response => {
+            postUserPaymentMethod({user_payment_method:{
+                    payment_method_id: 2,
+                    card_number: this.state.card_number,
+                    cvv: this.state.cvv,
+                    expiration: this.state.expiration,
+                    user_id: response.data.user.id
+            }}).then(() => {
+                this.setState({visible: false});
+                this.handlePost();
+            })
+        })
+    }
     transformDataToMap(data, key) {
         var dataTransformed = {};
         data.map((item) => {
@@ -67,12 +85,9 @@ export default class ReportCreate extends Component {
     }
 
     componentWillMount() {
-        const { assign} = this.props;
-
+        const {assign} = this.props;
         let getVehiclesFunction = function () {
         };
-
-
         if (assign) {
             getVehiclesFunction = function () {
                 return getActiveVehicles();
@@ -87,7 +102,7 @@ export default class ReportCreate extends Component {
                 }
             });
 
-            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id)])
+            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id), getActivePaymentMethods()])
                 .then((responses) => {
                     this.setState({
                         users: responses[0].data,
@@ -103,12 +118,11 @@ export default class ReportCreate extends Component {
                         origin_longitude: -74.072090,
                         destination_latitude: 4.710989,
                         destination_longitude: -74.072090,
-                        center: {lat: 4.710989, lng: -74.072090}
+                        center: {lat: 4.710989, lng: -74.072090},
+                        payment_methods: responses[6].data
                     });
-
                 });
         });
-
     }
 
     handleChange(value, type) {
@@ -128,54 +142,68 @@ export default class ReportCreate extends Component {
     }
 
     handlePost() {
+        checkUser().then((response) => {
+            let payment = false;
 
-        getMineUser().then((response) => {
-            let data = {
-                service: {
-                    name: this.state.name,
-                    origin: this.state.origin,
-                    origin_city_id: transformInputData(this.state.origin_city_id),
-                    origin_address: this.state.origin_address,
-                    origin_longitude: this.state.origin_longitude,
-                    origin_latitude: this.state.origin_latitude,
-                    destination: this.state.destination,
-                    destination_city_id: transformInputData(this.state.destination_city_id),
-                    destination_address: this.state.destination_address,
-                    destination_latitude: this.state.destination_latitude,
-                    destination_longitude: this.state.destination_longitude,
-                    price: this.state.price,
-                    description: this.state.description,
-                    note: this.state.note,
-                    user_id: response.data.user.id,
-                    company_id: this.state.company_id? transformInputData(this.state.company_id): 19,
-                    user_receiver_id: transformInputData(this.state.user_receiver_id),
-                    vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    statu_id: 10,
-                    expiration_date: this.state.expiration_date,
-                    contact: this.state.contact,
-                    vehicle_id: 2,
-                    active: true,
+            response.data.forEach(model => {
+                if (model.name === 'user_payment_methods') {
+                    payment = model.permission
                 }
-            };
-            if (this.props.assign) {
-                data.service.user_driver_id = transformInputData(this.state.user_driver_id);
-                data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+            });
+            if (!payment) {
+                this.setState({
+                    visible: true
+                })
+            } else {
+                getMineUser().then((response) => {
+                    let data = {
+                        service: {
+                            name: this.state.name,
+                            origin: this.state.origin,
+                            origin_city_id: transformInputData(this.state.origin_city_id),
+                            origin_address: this.state.origin_address,
+                            origin_longitude: this.state.origin_longitude,
+                            origin_latitude: this.state.origin_latitude,
+                            destination: this.state.destination,
+                            destination_city_id: transformInputData(this.state.destination_city_id),
+                            destination_address: this.state.destination_address,
+                            destination_latitude: this.state.destination_latitude,
+                            destination_longitude: this.state.destination_longitude,
+                            price: this.state.price,
+                            description: this.state.description,
+                            note: this.state.note,
+                            user_id: response.data.user.id,
+                            company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
+                            user_receiver_id: transformInputData(this.state.user_receiver_id),
+                            vehicle_type_id: transformInputData(this.state.vehicle_type_id),
+                            statu_id: 10,
+                            expiration_date: this.state.expiration_date,
+                            contact: this.state.contact,
+                            vehicle_id: 2,
+                            active: true,
+                        }
+                    };
+                    if (this.props.assign) {
+                        data.service.user_driver_id = transformInputData(this.state.user_driver_id);
+                        data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+                    }
+
+
+                    postService(data).then(() => {
+
+                        this.setState({redirect: true})
+                    })
+                })
             }
-
-
-            postService(data).then(() => {
-
-                this.setState({redirect: true})
-            })
-        })
+        });
 
 
     }
 
     handleSearchLocation(city_id, address, type) {
         let city = this.state.cities_proc[city_id];
-        let address_full = address + ',' + city;
-        axios.post('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY).then((response) => {
+        let address_full = encodeURIComponent(address + ',' + city);
+        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),).then((response) => {
             if (response.data.results.length === 0) {
                 message.error('Dirección no encontrada');
             } else {
@@ -207,11 +235,11 @@ export default class ReportCreate extends Component {
         const {assign, admin, generator} = this.props;
 
         if (redirect) {
-            if(admin){
+            if (admin) {
                 return <Redirect to='/admin/services'/>
-            }else if(generator){
+            } else if (generator) {
                 return <Redirect to='/generator/services'/>
-            }else{
+            } else {
                 return <Redirect to='/admin/services'/>
             }
         }
@@ -298,7 +326,7 @@ export default class ReportCreate extends Component {
                                                 <Form.Item wrapperCol={{span: 24}}>
                                                     <SecondaryButton message_id={"general.findOrigin"}
                                                                      style={{width: '200px', marginTop: '46px'}}
-                                                                     onClick={() => this.handleSearchLocation(this.state.origin_city_id,
+                                                                     onClick={() => this.handleSearchLocation(transformInputData(this.state.origin_city_id),
                                                                          this.state.origin_address, 'origin')}/>
                                                 </Form.Item>
 
@@ -353,7 +381,7 @@ export default class ReportCreate extends Component {
                                                 <Form.Item wrapperCol={{span: 24}}>
                                                     <SecondaryButton message_id={"general.findDestination"}
                                                                      style={{width: '200px', marginTop: '46px'}}
-                                                                     onClick={() => this.handleSearchLocation(this.state.destination_city_id,
+                                                                     onClick={() => this.handleSearchLocation(transformInputData(this.state.destination_city_id),
                                                                          this.state.destination_address, 'destination')}/>
                                                 </Form.Item>
 
@@ -533,79 +561,79 @@ export default class ReportCreate extends Component {
                                         </Col>
                                     </Row>
                                     {assign &&
-                                        <div>
-                                            <Row gutter={10}>
-                                                <Col span={24}>
+                                    <div>
+                                        <Row gutter={10}>
+                                            <Col span={24}>
 
-                                                    <Col span={12}>
-                                                        <Form.Item label="Empresa">
-                                                            <SelectInputCustom value={this.state.company_id}
-                                                                               placeholder="empresa"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'company_id')
-                                                            }}
-                                                                               options={this.state && this.state.companies &&
+                                                <Col span={12}>
+                                                    <Form.Item label="Empresa">
+                                                        <SelectInputCustom value={this.state.company_id}
+                                                                           placeholder="empresa"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'company_id')
+                                                        }}
+                                                                           options={this.state && this.state.companies &&
 
-                                                                               this.state.companies.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.name}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.company'}>
+                                                                           this.state.companies.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.name}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.company'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
-
-
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
                                                 </Col>
 
 
-                                            </Row>
-                                            <Row gutter={10}>
-                                                <Col span={24}>
-                                                    <Col span={12}>
-                                                        <Form.Item label="Conductor">
-                                                            <SelectInputCustom value={this.state.user_driver_id}
-                                                                               placeholder="conductor"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'user_driver_id')
-                                                            }}
-                                                                               options={this.state && this.state.users &&
+                                            </Col>
 
-                                                                               this.state.users.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.email}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.driver'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
-                                                    <Col span={12}>
-                                                        <Form.Item label="Vehiculos">
-                                                            <SelectInputCustom value={this.state.vehicle_id}
-                                                                               placeholder="vehiculos"
-                                                                               style={{width: '100%'}} onChange={(e) => {
-                                                                this.handleChange(e, 'vehicle_id')
-                                                            }}
-                                                                               options={this.state && this.state.vehicles &&
+                                        </Row>
+                                        <Row gutter={10}>
+                                            <Col span={24}>
+                                                <Col span={12}>
+                                                    <Form.Item label="Conductor">
+                                                        <SelectInputCustom value={this.state.user_driver_id}
+                                                                           placeholder="conductor"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'user_driver_id')
+                                                        }}
+                                                                           options={this.state && this.state.users &&
 
-                                                                               this.state.vehicles.map((item) => {
-                                                                                   return <Option
-                                                                                       value={item.id}>{item.plate} {item.brand}</Option>
-                                                                               })
-                                                                               }
-                                                                               label_id={'admin.title.vehicle'}>
+                                                                           this.state.users.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.email}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.driver'}>
 
-                                                            </SelectInputCustom>
-                                                        </Form.Item>
-                                                    </Col>
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
                                                 </Col>
+                                                <Col span={12}>
+                                                    <Form.Item label="Vehiculos">
+                                                        <SelectInputCustom value={this.state.vehicle_id}
+                                                                           placeholder="vehiculos"
+                                                                           style={{width: '100%'}} onChange={(e) => {
+                                                            this.handleChange(e, 'vehicle_id')
+                                                        }}
+                                                                           options={this.state && this.state.vehicles &&
 
-                                            </Row>
-                                        </div>
+                                                                           this.state.vehicles.map((item) => {
+                                                                               return <Option
+                                                                                   value={item.id}>{item.plate} {item.brand}</Option>
+                                                                           })
+                                                                           }
+                                                                           label_id={'admin.title.vehicle'}>
+
+                                                        </SelectInputCustom>
+                                                    </Form.Item>
+                                                </Col>
+                                            </Col>
+
+                                        </Row>
+                                    </div>
 
                                     }
 
@@ -626,7 +654,55 @@ export default class ReportCreate extends Component {
 
                     </Col>
                 </Row>
+                <Modal
+                    title="Añade metodo de pago"
+                    visible={this.state.visible}
+                    cancelText={'Cancelar'}
+                    style={{width: '100%'}}
+                    image={'smartphone.svg'}
+                    body={
+                        <div>
+                            <Row type="flex" style={{textAlign: 'center', justifyContent: 'center'}}>
+                                <h1>Añade método de pago</h1>
 
+                            </Row>
+
+                            <Row style={{marginTop: '10px'}}>
+                                <Col span={24}>
+                                    <CreditCardInput
+                                        containerStyle={{width: '100%', height: '40px'}}
+                                        fieldStyle={{height: '40px'}}
+                                        inputStyle={{height: '40px', border: '13px'}}
+                                        cardNumberInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'card_number')}}
+                                        cardExpiryInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'expiration') }}
+                                        cardCVCInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'cvv') }}
+                                        fieldClassName="input"
+                                        customTextLabels={{
+                                            invalidCardNumber: 'El número de la tarjeta es inválido',
+                                            expiryError: {
+                                                invalidExpiryDate: 'La fecha de expiración es inválida',
+                                                monthOutOfRange: 'El mes de expiración debe estar entre 01 y 12',
+                                                yearOutOfRange: 'El año de expiración no puede estar en el pasado',
+                                                dateOutOfRange: 'La fecha de expiración no puede estar en el pasado'
+                                            },
+                                            invalidCvc: 'El código de seguridad es inválido',
+                                            invalidZipCode: 'El código postal es inválido',
+                                            cardNumberPlaceholder: 'Número de tarjeta',
+                                            expiryPlaceholder: 'MM/AA',
+                                            cvcPlaceholder: 'CVV',
+                                            zipPlaceholder: 'C.P.'
+                                        }}
+                                    />
+                                </Col>
+                            </Row>
+
+                            <PrimaryButton message_id={'page.add'}
+                                           onClick={() => this.handleAddPaymentMethod()}
+                                           style={{marginTop: '20px', width: '100% '}}/>
+
+                        </div>
+                    }
+                />
 
             </LayoutWrapper>
         );

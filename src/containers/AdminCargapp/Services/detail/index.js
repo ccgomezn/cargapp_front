@@ -16,7 +16,7 @@ import {Steps} from 'antd';
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import {getActiveUsers, getUserLocation} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
-import {getService, putService} from "../../../../helpers/api/services";
+import {getDocumentsOfService, getService, putService} from "../../../../helpers/api/services";
 import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
 import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
@@ -59,7 +59,7 @@ export default class ServiceDetail extends Component {
                     model_id = model.id
                 }
             });
-            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getStatusOfModel(model_id)])
+            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
                 .then((responses) => {
 
                     if (responses[0].data.active) {
@@ -68,7 +68,7 @@ export default class ServiceDetail extends Component {
                         responses[0].data.active = 'Desactivado';
                     }
 
-
+                    this.setState({documents: responses[7].data});
                     let data_users = this.transformDataToMap(responses[1].data, 'email');
                     let data_cities = this.transformDataToMap(responses[2].data, 'name');
                     let data_companies = this.transformDataToMap(responses[3].data, 'name');
@@ -189,7 +189,7 @@ export default class ServiceDetail extends Component {
     goBack() {
         if (this.props.generator) {
             this.props.history.push('/generator/services')
-        } else if(this.props.vehicle_manager){
+        } else if (this.props.vehicle_manager) {
             this.props.history.push('/vehicle_manager/drivers')
         } else {
             this.props.history.push('/admin/services')
@@ -372,6 +372,45 @@ export default class ServiceDetail extends Component {
 
 
                                             </Row>
+                                        </Col>
+                                        <Col lg={24} md={24} sm={24} xs={24}>
+                                            {this.state.documents &&
+                                            <div style={{marginTop: '30px'}}>
+                                                <Row>
+                                                    <PageHeader>
+
+                                                        <h1>
+                                                            <IntlMessages id={'service.documents'}/>
+                                                        </h1>
+                                                    </PageHeader>
+                                                </Row>
+
+                                                <Row style={{marginTop: '30px'}}>
+                                                    {this.state.documents.map(document => {
+                                                        return <Row>
+                                                            <Col span={4}>
+                                                                <label>
+                                                                    Nombre: {document.name}
+                                                                </label>
+                                                            </Col>
+
+                                                            <Col span={4}>
+                                                                <label>
+                                                                Tipo: {document.document_type}
+                                                                </label>
+                                                            </Col>
+
+                                                            <Col span={4}>
+                                                                <a href={document.document} target='_blank' download><IntlMessages id="general.download" /></a>
+                                                            </Col>
+                                                        </Row>
+
+                                                    })}
+                                                </Row>
+
+
+                                            </div>
+                                            }
                                         </Col>
                                         {!vehicle_manager &&
                                         <Col lg={24} md={24} sm={24} xs={24} style={{paddingTop: '20px'}}>

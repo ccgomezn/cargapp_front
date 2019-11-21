@@ -26,6 +26,10 @@ export function getActiveUsers() {
     return get(httpAddr + `/users`, true);
 }
 
+export function checkUser(){
+    return get(httpAddr + `/users/check`, true);
+}
+
 export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
@@ -178,6 +182,10 @@ export function getActiveUsersOfService() {
 
 export function getUsersOfService(service_id) {
     return get(httpAddr + '/service_users/find_service/' + service_id, true);
+}
+
+export function getProfileOfUser(user_id){
+    return get(httpAddr + '/profiles/find_user/' + user_id, true);
 }
 
 export function getUserLocations() {
@@ -347,4 +355,9 @@ export function deleteFavoriteRoute(id) {
 
 export function getMinePermissions(){
     return get(httpAddr + '/permissions/me', true)
+}
+
+
+export function getMineProfile(){
+    return get(httpAddr + '/profiles/me', true)
 }

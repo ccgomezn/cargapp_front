@@ -51,7 +51,7 @@ const SignUpStyleWrapper = styled.div`
     }
 
     .isoLogoWrapper {
-      padding-top: 142px;
+      padding-top: 70px;
       width: 100%;
       display: flex;
       margin-bottom: 23px;

@@ -12,7 +12,7 @@ import SelectInputCustom from "../../../../components/custom/input/select";
 import {transformInputData} from "../../../../helpers/utility";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import {getMineUser} from "../../../../helpers/api/users";
-import {getMineServices, postServiceDocument} from "../../../../helpers/api/services";
+import {getActiveServices, getMineServices, postServiceDocument} from "../../../../helpers/api/services";
 
 
 const {Option} = Select;
@@ -30,7 +30,12 @@ export default class ServiceDocumentCreate extends Component {
 
     componentWillMount() {
         const service_id = this.props.match.params.id;
-        axios.all([getMineUser(), getMineServices(),])
+
+        let getServices = function(){return getMineServices()};
+        if(this.props.admin){
+            getServices = function(){return getActiveServices()};
+        }
+        axios.all([getMineUser(), getServices(),])
             .then((responses) => {
                 this.setState({
                     user_id: responses[0].data.user.id,

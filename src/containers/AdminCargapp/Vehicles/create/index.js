@@ -81,7 +81,7 @@ export default class VehicleCreate extends Component {
                     chassis: this.state.chassis,
                     owner_vehicle: this.state.owner_vehicle,
                     vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                    owner_document_type_id: transformInputData(this.state.owner_document_type_id),
+                    owner_document_type_id: 5,
                     owner_document_id: transformInputData(this.state.owner_document_id),
                     user_id: userId,
                     active: true,
@@ -134,7 +134,7 @@ export default class VehicleCreate extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        <IntlMessages id="vehicles.title"/>
+                                        <IntlMessages id="vehicle.title"/>
 
                                     </h1>
                                 </PageHeader>
@@ -226,25 +226,7 @@ export default class VehicleCreate extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-                                        <Col span={12}>
-                                            <Form.Item label="Tipo de documento del dueño del vehiculo">
-                                                <SelectInputCustom value={this.state.owner_document_type_id}
-                                                                   placeholder="tipo de documento del dueño del vehiculo"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'owner_document_type_id')
-                                                }}
-                                                                   options={this.state && this.state.document_types &&
 
-                                                                   this.state.document_types.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.name}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.type'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
                                         <Col span={12}>
                                             <Form.Item label="Número de documento del dueño del vehiculo">
                                                 <TextInputCustom value={this.state.owner_document_id}
