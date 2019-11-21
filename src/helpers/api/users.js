@@ -184,6 +184,10 @@ export function getUsersOfService(service_id) {
     return get(httpAddr + '/service_users/find_service/' + service_id, true);
 }
 
+export function getProfileOfUser(user_id){
+    return get(httpAddr + '/profiles/find_user/' + user_id, true);
+}
+
 export function getUserLocations() {
     return get(httpAddr + `/user_locations/`, true);
 }

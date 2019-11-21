@@ -35,7 +35,7 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
                     window.location.reload();
                 })
             };
-            return ButtonCell('Postularse', signUpFunction, 'Default');
+            return ButtonCell('Postular', signUpFunction, 'primary');
         default:
             var color_val = '';
 

@@ -57,7 +57,7 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
             let signUpFunction = function () {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/subscribe/' + object['id'];
             };
-            return ButtonCell('Postular camioneros', signUpFunction, 'Default');
+            return ButtonCell('Postular camioneros', signUpFunction, 'primary');
 
         default:
             var color_val = '';

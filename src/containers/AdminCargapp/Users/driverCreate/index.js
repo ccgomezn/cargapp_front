@@ -14,7 +14,13 @@ import {transformInputData} from "../../../../helpers/utility";
 import {post} from "../../../../helpers/httpRequest";
 import httpAddr from "../../../../helpers/http_helper";
 import SecondaryButton from "../../../../components/custom/button/secondary";
-import {confirmUser, postUserCompany, resendCode} from "../../../../helpers/api/users";
+import {
+    confirmUser, getProfileOfUser,
+    postUserCompany,
+    putProfile,
+    resendCode,
+    verifyEmail, verifyPhoneNumber
+} from "../../../../helpers/api/users";
 import {getMineCompanies} from "../../../../helpers/api/companies";
 import {getActiveCountries} from "../../../../helpers/api/locations";
 import {postDocument} from "../../../../helpers/api/internals";
@@ -71,6 +77,42 @@ export default class DriverCreate extends Component {
             }
         );
 
+        if (type === 'email') {
+            if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(value)) {
+                verifyEmail(value).then((response) => {
+                    if (response.data.email) {
+
+                        this.setState({duplicated: true});
+                    } else {
+                        this.setState({duplicated: false});
+                    }
+                })
+            }
+        }
+        if (type === 'phone_number') {
+            if (/^\d{10}\d+$/.test(transformInputData(this.state.country_code) + value)) {
+                verifyPhoneNumber(parseInt(transformInputData(this.state.country_code) + value)).then((response) => {
+                    if (response.data.phone_number) {
+
+                        this.setState({duplicated_phone: true});
+                    } else {
+                        this.setState({duplicated_phone: false});
+                    }
+                })
+            }
+        } else if (type === 'country_code') {
+            if (/^\d{10}\d+$/.test(transformInputData(value) + this.state.phone_number)) {
+                verifyPhoneNumber(parseInt(transformInputData(value) + this.state.phone_number)).then((response) => {
+                    if (response.data.phone_number) {
+
+                        this.setState({duplicated_phone: true});
+                    } else {
+                        this.setState({duplicated_phone: false});
+                    }
+                })
+            }
+        }
+
     }
 
 
@@ -102,72 +144,85 @@ export default class DriverCreate extends Component {
                             }
                         }, false).then((response) => {
                         this.setState({userId: response.data.id});
+                        getProfileOfUser(this.state.userId).then((profile) => {
 
-                        getMineCompanies().then((response) => {
-                            postUserCompany({
-                                company_user: {
-                                    user_id: this.state.userId,
-                                    company_id: response.data[0].id
+                            putProfile(profile.data.id, {
+                                profile: {
+                                    firt_name: this.state.name,
+                                    last_name: this.state.surname
                                 }
-                            }).then(() => {
+                            }).then((response) => {
+                                getMineCompanies().then((response) => {
+                                    postUserCompany({
+                                        company_user: {
+                                            user_id: this.state.userId,
+                                            company_id: response.data[0].id
+                                        }
+                                    }).then(() => {
 
-                                let setCC = function(){
-                                };
-                                let setLC = function(){
-                                };
+                                        let setCC = function(){
+                                        };
+                                        let setLC = function(){
+                                        };
 
-                                if(this.state.cc_front && this.state.cc_back){
-                                    let that = this;
-                                    setCC = function(){
-                                        const formData = new FormData();
-                                        formData.append('document[document_type_id]', 5);
-                                        formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
-                                        formData.append('document[statu_id]', 13);
-                                        formData.append('document[active]', true);
-                                        formData.append('document[user_id]', that.state.userId);
-                                        postDocument(formData).then(() => {
-                                            const formDataBack = new FormData();
-                                            formDataBack.append('document[document_type_id]', 7);
-                                            formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
-                                            formDataBack.append('document[statu_id]', 13);
-                                            formDataBack.append('document[active]', true);
-                                            formDataBack.append('document[user_id]', this.state.userId);
-                                            postDocument(formDataBack)
-                                        })
-                                    }
-                                }
+                                        if(this.state.cc_front && this.state.cc_back){
+                                            let that = this;
+                                            setCC = function(){
+                                                const formData = new FormData();
+                                                formData.append('document[document_type_id]', 5);
+                                                formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
+                                                formData.append('document[statu_id]', 13);
+                                                formData.append('document[active]', true);
+                                                formData.append('document[user_id]', that.state.userId);
+                                                postDocument(formData).then(() => {
+                                                    const formDataBack = new FormData();
+                                                    formDataBack.append('document[document_type_id]', 7);
+                                                    formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
+                                                    formDataBack.append('document[statu_id]', 13);
+                                                    formDataBack.append('document[active]', true);
+                                                    formDataBack.append('document[user_id]', this.state.userId);
+                                                    postDocument(formDataBack)
+                                                })
+                                            }
+                                        }
 
-                                if(this.state.lc_front && this.state.lc_back){
-                                    let that = this;
-                                    setLC = function(){
-                                        const formData = new FormData();
-                                        formData.append('document[document_type_id]', 4);
-                                        formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
-                                        formData.append('document[statu_id]', 13);
-                                        formData.append('document[active]', true);
-                                        formData.append('document[user_id]', that.state.userId);
-                                        postDocument(formData).then(() => {
-                                            const formDataBack = new FormData();
-                                            formDataBack.append('document[document_type_id]', 8);
-                                            formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
-                                            formDataBack.append('document[statu_id]', 13);
-                                            formDataBack.append('document[active]', true);
-                                            formDataBack.append('document[user_id]', that.state.userId);
-                                            postDocument(formDataBack)
-                                        })
-                                    }
-                                }
+                                        if(this.state.lc_front && this.state.lc_back){
+                                            let that = this;
+                                            setLC = function(){
+                                                const formData = new FormData();
+                                                formData.append('document[document_type_id]', 4);
+                                                formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
+                                                formData.append('document[statu_id]', 13);
+                                                formData.append('document[active]', true);
+                                                formData.append('document[user_id]', that.state.userId);
+                                                postDocument(formData).then(() => {
+                                                    const formDataBack = new FormData();
+                                                    formDataBack.append('document[document_type_id]', 8);
+                                                    formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
+                                                    formDataBack.append('document[statu_id]', 13);
+                                                    formDataBack.append('document[active]', true);
+                                                    formDataBack.append('document[user_id]', that.state.userId);
+                                                    postDocument(formDataBack)
+                                                })
+                                            }
+                                        }
 
-                                axios.all([setCC(), setLC()]).then(()=>{
-                                    message.success('Usuario creado correctamente');
-                                    this.setState({visible: true});
+                                        axios.all([setCC(), setLC()]).then(()=>{
+                                            message.success('Usuario creado correctamente');
+                                            this.setState({visible: true});
 
-                                }).catch((error) => {
-                                    message.warning("Error al crear el usuario");
+                                        }).catch((error) => {
+                                            message.warning("Error al crear el usuario");
+                                        });
+
+                                    });
                                 });
 
-                            });
+
+
+                            })
                         });
+
 
 
                     })
@@ -313,8 +368,8 @@ export default class DriverCreate extends Component {
                                             <Col span={6}>
                                                 <Form.Item
                                                     label={"Apellido"}>
-                                                    <TextInputCustom value={this.state.last_name} placeholder="apellido"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'last_name')}
+                                                    <TextInputCustom value={this.state.surname} placeholder="apellido"
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'surname')}
                                                                      label_id={'admin.title.lasName'}
                                                                      required/>
                                                 </Form.Item>
