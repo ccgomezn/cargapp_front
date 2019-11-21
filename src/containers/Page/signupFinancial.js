@@ -5,16 +5,21 @@ import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
 import TextInputCustom from "../../components/custom/input/text"
-import {Row, Col} from "antd";
+import {Row, Col, Form, Select} from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
 import {Redirect} from "react-router";
 import {getMineUser, postUserPaymentMethod} from "../../helpers/api/users";
-import {getActivePaymentMethods, postPaymentMethod} from "../../helpers/api/payments";
+import {getActivePaymentMethods, postBankAccount, postPaymentMethod} from "../../helpers/api/payments";
 import SecondaryButton from "../../components/custom/button/secondary";
 import CreditCardInput from "react-credit-card-input";
+import axios from "axios";
+import {findParameters} from "../../helpers/api/internals";
+import SelectInputCustom from "../../components/custom/input/select";
+import {transformInputData} from "../../helpers/utility";
 
 const {login} = authAction;
 const {clearMenu} = appActions;
+const {Option} = Select;
 
 class SignUpFinancial extends Component {
     state = {
@@ -48,21 +53,37 @@ class SignUpFinancial extends Component {
 
 
     componentDidMount() {
-        getActivePaymentMethods().then((response) => {
-            this.setState({payment_methods: response.data})
-        })
+        axios.all([getActivePaymentMethods(), findParameters('ACCOUNT_TYPE'), findParameters('BANK')])
+            .then((responses) => {
+
+                this.setState({payment_methods: responses[0].data})
+
+                let account_types = [];
+
+                responses[1].data.parameters.forEach(parameter => {
+                    account_types.push(parameter.name)
+                });
+                let banks = [];
+
+                responses[2].data.parameters.forEach(bank => {
+                    banks.push(bank.name)
+                })
+                this.setState({banks: banks, account_types: account_types})
+            })
     }
 
     handlePost(generator) {
 
         getMineUser().then((response) => {
             if (!generator) {
-                postPaymentMethod({
-                    payment_method: {
-                        uuid: this.state.account_number,
-                        description: this.state.account_type + this.state.bank,
-                        name: 'Cuenta de ahorros',
-                        user_id: response.data.user.id
+                postBankAccount({
+                    bank_account: {
+                        account_number: this.state.account_number,
+                        account_type: transformInputData(this.state.account_type),
+                        bank: transformInputData(this.state.bank),
+                        user_id: response.data.user.id,
+                        statu_id: 15,
+                        active: true
                     }
                 }).then((response) => {
                     this.props.history.push('/')
@@ -147,11 +168,24 @@ class SignUpFinancial extends Component {
                         <div className="isoSignUpForm">
 
                             <div className="isoInputWrapper">
-                                <TextInputCustom value={this.state.account_type} placeholder="tipo de cuenta"
-                                                 label_id="admin.title.bankAccountType"
 
-                                                 onChange={(e) => this.handleChange(e.target.value, 'account_type')}
-                                                 required/>
+                                    <SelectInputCustom value={this.state.account_type} placeholder="Tipo de cuenta"
+                                                       style={{width: '100%'}} onChange={(e) => {
+                                        this.handleChange(e, 'account_type')
+                                    }}
+                                                       options={this.state && this.state.account_types &&
+
+                                                       this.state.account_types.map((item) => {
+                                                           return <Option
+                                                               value={item}>{item}</Option>
+                                                       })
+                                                       }
+                                                       label_id={'admin.title.bankAccountType'}>
+
+                                    </SelectInputCustom>
+
+
+
 
                             </div>
 
@@ -166,11 +200,27 @@ class SignUpFinancial extends Component {
 
 
                             <div className="isoInputWrapper">
-                                <TextInputCustom value={this.state.bank} placeholder="banco"
-                                                 label_id="admin.title.bank"
 
-                                                 onChange={(e) => this.handleChange(e.target.value, 'bank')}
-                                                 required/>
+
+                                    <SelectInputCustom value={this.state.bank} placeholder="Banco"
+                                                       style={{width: '100%'}} onChange={(e) => {
+                                        this.handleChange(e, 'bank')
+                                    }}
+                                                       options={this.state && this.state.banks &&
+
+                                                       this.state.banks.map((item) => {
+                                                           return <Option
+                                                               value={item}>{item}</Option>
+                                                       })
+                                                       }
+                                                       label_id={'admin.title.bank'}>
+
+                                    </SelectInputCustom>
+
+
+
+
+
 
                             </div>
 
@@ -201,16 +251,24 @@ class SignUpFinancial extends Component {
                         <div className="isoSignUpForm">
 
 
-
                             <Row style={{marginTop: '10px'}}>
                                 <Col span={24}>
                                     <CreditCardInput
                                         containerStyle={{width: '100%', height: '40px'}}
                                         fieldStyle={{height: '40px'}}
                                         inputStyle={{height: '40px', border: '13px'}}
-                                        cardNumberInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'card_number')}}
-                                        cardExpiryInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'expiration') }}
-                                        cardCVCInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'cvv') }}
+                                        cardNumberInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'card_number')
+                                        }}
+                                        cardExpiryInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'expiration')
+                                        }}
+                                        cardCVCInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'cvv')
+                                        }}
                                         fieldClassName="input"
                                         customTextLabels={{
                                             invalidCardNumber: 'El número de la tarjeta es inválido',
@@ -232,16 +290,15 @@ class SignUpFinancial extends Component {
                             </Row>
 
 
-
                             <div className="sign-buttons">
                                 <Row>
                                     <Col span={24} align={'right'}>
-                                        <div style={{ display: 'inline-block'}}>
+                                        <div style={{display: 'inline-block'}}>
                                             <SecondaryButton message_id="page.skip"
                                                              style={{width: '130px', marginRight: '10px'}}
                                                              onClick={() => this.props.history.push("/")}/>
                                         </div>
-                                        <div style={{ display: 'inline-block'}}>
+                                        <div style={{display: 'inline-block'}}>
                                             <PrimaryButton message_id="page.end"
                                                            style={{width: '130px'}}
                                                            onClick={() => this.handlePost(true)}/>
