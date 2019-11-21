@@ -91,7 +91,7 @@ export default class Service extends Component {
                             return item;
                         });
                     }
-                    if (vehicle_manager) {
+                    if (vehicle_manager && (id === null || id === undefined)) {
                         let realServices = [];
                         responses[0].data.forEach(service => {
                             if (service.statu_id === 10 && service.active) {

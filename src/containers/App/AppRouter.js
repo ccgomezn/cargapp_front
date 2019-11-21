@@ -285,7 +285,7 @@ const routes_admin = [
     },
     {
         path: 'service_documents/add',
-        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/create'))
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments/create'), {admin: true})
     }, {
         path: 'users',
         component: asyncComponent(() => import('../AdminCargapp/Users'))
