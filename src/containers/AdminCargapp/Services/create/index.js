@@ -23,6 +23,7 @@ import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 import Modal from '../../../../components/feedback/modal';
 import {getActivePaymentMethods} from "../../../../helpers/api/payments";
+import CreditCardInput from "react-credit-card-input";
 
 require('dotenv').config();
 
@@ -62,7 +63,7 @@ export default class ReportCreate extends Component {
     handleAddPaymentMethod(){
         getMineUser().then(response => {
             postUserPaymentMethod({user_payment_method:{
-                    payment_method_id: transformInputData(this.state.payment_method_id),
+                    payment_method_id: 2,
                     card_number: this.state.card_number,
                     cvv: this.state.cvv,
                     expiration: this.state.expiration,
@@ -201,8 +202,8 @@ export default class ReportCreate extends Component {
 
     handleSearchLocation(city_id, address, type) {
         let city = this.state.cities_proc[city_id];
-        let address_full = address + ',' + city;
-        axios.post('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY).then((response) => {
+        let address_full = encodeURIComponent(address + ',' + city);
+        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),).then((response) => {
             if (response.data.results.length === 0) {
                 message.error('Dirección no encontrada');
             } else {
@@ -325,7 +326,7 @@ export default class ReportCreate extends Component {
                                                 <Form.Item wrapperCol={{span: 24}}>
                                                     <SecondaryButton message_id={"general.findOrigin"}
                                                                      style={{width: '200px', marginTop: '46px'}}
-                                                                     onClick={() => this.handleSearchLocation(this.state.origin_city_id,
+                                                                     onClick={() => this.handleSearchLocation(transformInputData(this.state.origin_city_id),
                                                                          this.state.origin_address, 'origin')}/>
                                                 </Form.Item>
 
@@ -380,7 +381,7 @@ export default class ReportCreate extends Component {
                                                 <Form.Item wrapperCol={{span: 24}}>
                                                     <SecondaryButton message_id={"general.findDestination"}
                                                                      style={{width: '200px', marginTop: '46px'}}
-                                                                     onClick={() => this.handleSearchLocation(this.state.destination_city_id,
+                                                                     onClick={() => this.handleSearchLocation(transformInputData(this.state.destination_city_id),
                                                                          this.state.destination_address, 'destination')}/>
                                                 </Form.Item>
 
@@ -666,51 +667,33 @@ export default class ReportCreate extends Component {
 
                             </Row>
 
-
-                            <Row style={{marginTop: '20px'}}>
-                                <div className="isoInputWrapper">
-                                    <SelectInputCustom value={this.state.payment_method_id} placeholder="método de pago"
-                                                       style={{width: '100%'}} onChange={(e) => {
-                                        this.handleChange(e, 'payment_method_id')
-                                    }}
-                                                       options={this.state && this.state.payment_methods &&
-
-                                                       this.state.payment_methods.map((item) => {
-                                                           return <option
-                                                               value={item.id}>{item.name}</option>
-                                                       })
-                                                       }
-                                                       label_id={'admin.title.paymentMethod'}>
-
-                                    </SelectInputCustom>
-                                </div>
-
-                                <div className="isoInputWrapper">
-                                    <TextInputCustom label_id='page.cardNumber' placeholder='Número de tarjeta'
-                                                     value={this.state.card_number}
-                                                     onChange={(e) => this.handleChange(e.target.value, 'card_number')}
-                                                     required/>
-
-
-                                </div>
-
-
-                                <div className="isoInputWrapper">
-                                    <TextInputCustom value={this.state.expiration} placeholder="fecha de vencimiento"
-                                                     label_id="admin.title.expirationDate"
-                                                     onChange={(e) => this.handleChange(e.target.value, 'expiration')}
-                                                     required/>
-
-                                </div>
-
-                                <div className="isoInputWrapper">
-                                    <TextInputCustom value={this.state.cvv} placeholder="cvv"
-                                                     label_id="admin.title.cvv"
-                                                     type={'password'}
-                                                     onChange={(e) => this.handleChange(e.target.value, 'cvv')}
-                                                     required/>
-
-                                </div>
+                            <Row style={{marginTop: '10px'}}>
+                                <Col span={24}>
+                                    <CreditCardInput
+                                        containerStyle={{width: '100%', height: '40px'}}
+                                        fieldStyle={{height: '40px'}}
+                                        inputStyle={{height: '40px', border: '13px'}}
+                                        cardNumberInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'card_number')}}
+                                        cardExpiryInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'expiration') }}
+                                        cardCVCInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'cvv') }}
+                                        fieldClassName="input"
+                                        customTextLabels={{
+                                            invalidCardNumber: 'El número de la tarjeta es inválido',
+                                            expiryError: {
+                                                invalidExpiryDate: 'La fecha de expiración es inválida',
+                                                monthOutOfRange: 'El mes de expiración debe estar entre 01 y 12',
+                                                yearOutOfRange: 'El año de expiración no puede estar en el pasado',
+                                                dateOutOfRange: 'La fecha de expiración no puede estar en el pasado'
+                                            },
+                                            invalidCvc: 'El código de seguridad es inválido',
+                                            invalidZipCode: 'El código postal es inválido',
+                                            cardNumberPlaceholder: 'Número de tarjeta',
+                                            expiryPlaceholder: 'MM/AA',
+                                            cvcPlaceholder: 'CVV',
+                                            zipPlaceholder: 'C.P.'
+                                        }}
+                                    />
+                                </Col>
                             </Row>
 
                             <PrimaryButton message_id={'page.add'}
