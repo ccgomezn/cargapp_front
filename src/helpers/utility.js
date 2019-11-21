@@ -10,7 +10,7 @@ export function clearToken() {
 }
 
 export function transformInputData(input) {
-    return input !== undefined && input.key !== undefined ? input.key : input;
+    return input !== undefined && input && input.key !== undefined ? input.key : input;
 }
 
 export function encrypt(message) {

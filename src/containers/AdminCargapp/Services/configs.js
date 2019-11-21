@@ -3,17 +3,17 @@ import clone from 'clone';
 import IntlMessages from '../../../components/utility/intlMessages';
 import {
     ButtonCell,
-    DateCell,
+    DateCell, DoubleButtonCell,
     ImageCell,
     LinkCell,
     TextColorCell,
     TripleButtonCell
 } from '../../../components/tables/helperCells';
-import {deleteService} from "../../../helpers/api/services";
+import { putService} from "../../../helpers/api/services";
 
 const deleteFunction = (id, type) => {
     return function () {
-        (deleteService(id)
+        (putService(id, {active:false})
             .then((response) => {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
             }).catch((error) => {
@@ -48,7 +48,11 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/show/' + object['id'];
             };
 
-            return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3);
+            if(object['statu_id'] === 10 && object['active'] === 'Activo'){
+                return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3);
+            }else{
+                return DoubleButtonCell(text1,text2,function1,function2,type1,type2)
+            }
         case 'ActionSubscribe':
             let signUpFunction = function () {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/subscribe/' + object['id'];

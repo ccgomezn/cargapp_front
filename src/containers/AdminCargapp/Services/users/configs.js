@@ -7,12 +7,14 @@ import {
     TextColorCell,
     LinkCell, ButtonCell
 } from '../../../../components/tables/helperCells';
-import {acceptUserOfService, putUserOfService} from "../../../../helpers/api/users";
+import {acceptUserOfService, getUsersOfService, putUserOfService} from "../../../../helpers/api/users";
+import axios from 'axios';
 
-const putFunction = (id, data) => {
+const putFunction = (id, service_id) => {
     return function () {
-        putUserOfService(id, data).then((response) => {
+        putUserOfService(id, {service_user: {approved: false}}).then((response) => {
             window.location.reload();
+
         }).catch((error) => {
             console.error(error);
         });
@@ -22,7 +24,22 @@ const putFunction = (id, data) => {
 const acceptFunction = (id, user_id, service_id, type) => {
     return function () {
         acceptUserOfService(id, user_id, service_id).then((response) => {
-            window.location.href = window.location.protocol + '//' + window.location.host + '/'+type+'/services/';
+
+            let calls = [];
+            getUsersOfService(service_id).then(response => {
+                response.data.forEach(row => {
+                    if (row.service_user.id !== id) {
+                        calls.push(putUserOfService(row.service_user.id, {service_user: {approved: false}})
+                        )
+                    }
+                });
+
+                axios.all(calls).then(() => {
+                    window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
+
+                })
+            });
+
         }).catch((error) => {
             console.error(error);
         });
@@ -48,12 +65,12 @@ const renderCell = (object, type, key, color, typeUser) => {
             if (object['approved'] !== 'En proceso') {
                 return TextColorCell('No se pueden realizar acciones', '');
             }
-            return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['service_id'], typeUser), putFunction(id, {approved: false}), type1, type2);
+            return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['service_id'], typeUser), putFunction(id, object['service_id']), type1, type2);
         case 'ButtonCell':
-            let seeProfile = function(){
-                window.location.href = window.location.protocol + '//' + window.location.host + '/'+typeUser+'/users/show_detail/'+object.user_id+'/'+object.service_id;
+            let seeProfile = function () {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + typeUser + '/users/show_detail/' + object.user_id + '/' + object.service_id;
             };
-            return ButtonCell('Ver perfil',seeProfile,'secondary');
+            return ButtonCell('Ver perfil', seeProfile, 'secondary');
         default:
             let color_val = '';
 
@@ -97,17 +114,17 @@ const columns = [
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'options',
         width: '12%',
-        render: object => renderCell(object, 'MultipleButtonCell', 'approved',null ,'generator')
-    },{
+        render: object => renderCell(object, 'MultipleButtonCell', 'approved', null, 'generator')
+    }, {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'options',
         width: '12%',
-        render: object => renderCell(object, 'MultipleButtonCell', 'approved', null,'admin')
-    },{
+        render: object => renderCell(object, 'MultipleButtonCell', 'approved', null, 'admin')
+    }, {
         title: <IntlMessages id="antTable.title.seeProfile"/>,
         key: 'options',
         width: '12%',
-        render: object => renderCell(object, 'ButtonCell', 'approved', null,'generator')
+        render: object => renderCell(object, 'ButtonCell', 'approved', null, 'generator')
     }
 ];
 const sortColumns = [
