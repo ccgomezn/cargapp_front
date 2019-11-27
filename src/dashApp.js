@@ -27,6 +27,7 @@ const DashApp = () => (
         <DashAppHolder>
           <Provider store={store}>
             <PublicRoutes history={history} />
+
           </Provider>
         </DashAppHolder>
       </ThemeProvider>
