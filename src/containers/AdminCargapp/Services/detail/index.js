@@ -401,7 +401,7 @@ export default class ServiceDetail extends Component {
                                                             </Col>
 
                                                             <Col span={4}>
-                                                                <a href={document.document} target='_blank' download><IntlMessages id="general.download" /></a>
+                                                                <a href={document.document} download><IntlMessages id="general.download" /></a>
                                                             </Col>
                                                         </Row>
 

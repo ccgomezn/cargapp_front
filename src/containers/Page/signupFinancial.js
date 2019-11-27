@@ -5,11 +5,11 @@ import appActions from "../../redux/app/actions";
 import IntlMessages from "../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signupCompany.style";
 import TextInputCustom from "../../components/custom/input/text"
-import {Row, Col, Form, Select} from "antd";
+import {Row, Col, Select} from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
 import {Redirect} from "react-router";
 import {getMineUser, postUserPaymentMethod} from "../../helpers/api/users";
-import {getActivePaymentMethods, postBankAccount, postPaymentMethod} from "../../helpers/api/payments";
+import {getActivePaymentMethods, postBankAccount} from "../../helpers/api/payments";
 import SecondaryButton from "../../components/custom/button/secondary";
 import CreditCardInput from "react-credit-card-input";
 import axios from "axios";
