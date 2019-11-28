@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
-import {Row, Col} from 'antd';
+import {Row, Col, Card} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import TextInputCustom from "../../../../components/custom/input/text";
@@ -10,9 +10,11 @@ import firebase from '../../../../components/firestore/Firestore'
 import {getRoom} from "../../../../helpers/api/chat";
 import {getMineProfile, getMineUser} from "../../../../helpers/api/users";
 import axios from "axios"
+import {animateScroll} from "react-scroll";
 
 
 export default class ChatDetail extends Component {
+    messagesEndRef = React.createRef()
 
 
     constructor(props) {
@@ -22,6 +24,12 @@ export default class ChatDetail extends Component {
             messages: []
         };
     }
+
+    scrollToBottom = () => {
+        animateScroll.scrollToBottom({
+            containerId: "chat-container"
+        });
+    };
 
     componentDidMount() {
         const {id} = this.props.match.params;
@@ -42,21 +50,30 @@ export default class ChatDetail extends Component {
             next: (querySnapshot) => {
                 console.log(querySnapshot);
                 let messages = [];
-                querySnapshot.docs.forEach(message => {
+                let docs = querySnapshot.docs;
+                docs = docs.sort(function (a, b) {
+                    a = a.get('created_at').toDate();
+                    b = b.get('created_at').toDate();
+                    return b > a ? -1 : b < a ? 1 : 0;
+                });
+                docs.forEach(message => {
 
-                    let id = message.get('user_id').toString() === this.state.user_id.toString()? 0 : message.get('user_id');
+                    let id = message.get('user_id').toString() === this.state.user_id.toString() ? 0 : message.get('user_id');
 
                     messages.push(new Message({
                         id: id,
-                        senderName: message.get('user_name'),
-                        message: message.get('text'),
-                        date: message.get('date'),
+                        senderName: message.get('user_name') + ' (' + message.get('created_at').toDate().toLocaleDateString("es-ES") + ')',
+                        message: message.get('message'),
+                        date: message.get('created_at'),
                     }))
                 });
 
                 this.setState({messages})
+                this.scrollToBottom();
+
             },
         });
+
     }
 
     handleChange(value, type) {
@@ -72,11 +89,16 @@ export default class ChatDetail extends Component {
         const {id} = this.props.match.params;
 
         firebase.firestore().collection(id).add({
-            date: new Date(),
-            text: this.state.message,
+            created_at: new Date(),
+            message: this.state.message,
             user_id: this.state.user_id,
             user_name: this.state.user_name,
-        })
+            message_type: 'text'
+        });
+        this.setState({
+            message: ''
+        });
+
     }
 
 
@@ -104,48 +126,62 @@ export default class ChatDetail extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col span={24}>
-                                <div style={{height: '500px', overflow: 'scroll',}}>
-                                    <ChatFeed
-                                        messages={this.state.messages} // Boolean: list of message objects
-                                        isTyping={this.state.is_typing} // Boolean: is the recipient typing
-                                        showSenderName // show the name of the user who sent the message
-                                        bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
-                                        // JSON: Custom bubble styles
-                                        bubbleStyles={
-                                            {
-                                                text: {
-                                                    fontSize: 20
-                                                },
-                                                chatbubble: {
-                                                    borderRadius: 70,
-                                                    padding: 10
+                            <Card  style={{marginTop: '50px'}}>
+
+                                <Col span={24}>
+                                    <div id="chat-container" style={{
+                                        height: '500px',
+                                        overflow: 'auto',
+                                        paddingLeft: '20px',
+                                        paddingRight: '20px'
+                                    }}>
+                                        <ChatFeed
+                                            messages={this.state.messages} // Boolean: list of message objects
+                                            isTyping={this.state.is_typing} // Boolean: is the recipient typing
+                                            showSenderName // show the name of the user who sent the message
+                                            bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+                                            // JSON: Custom bubble styles
+                                            bubbleStyles={
+                                                {
+                                                    text: {
+                                                        fontSize: 20
+                                                    },
+                                                    chatbubble: {
+                                                        borderRadius: 70,
+                                                        padding: 10
+                                                    }
                                                 }
                                             }
-                                        }
-                                    />
-                                </div>
-                                <div className="Input">
-                                    <Row>
-                                        <Col span={20}>
-                                            <TextInputCustom value={this.state.message}
-                                                             placeholder="Escriba su mensaje..."
-                                                             style={{style: '80%'}}
-                                                             onChange={(e) => this.handleChange(e.target.value, 'message')}
-                                                             label_id={'admin.title.message'}/>
-                                        </Col>
+                                        />
+                                        <div ref={this.messagesEndRef}/>
 
-                                        <Col span={4}>
-                                            <PrimaryButton message_id={"general.send"}
-                                                           style={{width: '80%', marginLeft: '10%', marginTop: '7px'}}
-                                                           onClick={() => this.handleSend()}/>
-                                        </Col>
-                                    </Row>
+                                    </div>
 
-                                </div>
+                                    <div className="Input">
+                                        <Row>
+                                            <Col span={20}>
+                                                <TextInputCustom value={this.state.message}
+                                                                 placeholder="Escriba su mensaje..."
+                                                                 style={{style: '80%'}}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'message')}
+                                                                 label_id={'admin.title.message'}/>
+                                            </Col>
 
-                            </Col>
+                                            <Col span={4}>
+                                                <PrimaryButton message_id={"general.send"}
+                                                               style={{
+                                                                   width: '80%',
+                                                                   marginLeft: '10%',
+                                                                   marginTop: '7px'
+                                                               }}
+                                                               onClick={() => this.handleSend()}/>
+                                            </Col>
+                                        </Row>
 
+                                    </div>
+
+                                </Col>
+                            </Card>
 
                         </Row>
 
