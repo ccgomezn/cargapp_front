@@ -11,7 +11,6 @@ import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getActiveUserRoles, getDriversFromCompany, getRoles, getUsers} from "../../../helpers/api/users";
 import {getMineCompanies} from "../../../helpers/api/companies";
-
 export default class User extends Component {
 
 
@@ -47,7 +46,6 @@ export default class User extends Component {
     }
 
     componentWillMount() {
-
 
         let getUsersFunction = function () {
             return getUsers();

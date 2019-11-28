@@ -7,9 +7,6 @@ import notesSagas from './notes/saga';
 import todosSagas from './todos/saga';
 import ecommerceSaga from './ecommerce/saga';
 import cardsSagas from './card/saga';
-import chatSagas from './chat/sagas';
-import articles from './articles/sagas';
-import investors from './investors/sagas';
 import appSagas from './app/saga';
 
 export default function* rootSaga(getState) {
@@ -22,9 +19,6 @@ export default function* rootSaga(getState) {
     ecommerceSaga(),
     cardsSagas(),
     invoicesSagas(),
-    chatSagas(),
-    articles(),
-    investors(),
     appSagas()
   ]);
 }

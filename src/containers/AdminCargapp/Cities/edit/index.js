@@ -184,13 +184,12 @@ export default class StateEdit extends Component {
                         </Row>
 
                     </Col>
-                    <
-                        /Row>
+                    </Row>
 
 
-                        <
-                            /LayoutWrapper>
+                        </LayoutWrapper>
                             )
                             ;
                             }
                             }
+
