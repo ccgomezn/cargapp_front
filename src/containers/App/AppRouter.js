@@ -18,10 +18,6 @@ const routes_admin = [
     },
     {
         path: 'chats',
-        component: asyncComponent(() => import('../AdminCargapp/Chats'))
-    },
-    {
-        path: 'chats/:id',
         component: asyncComponent(() => import('../AdminCargapp/Chats/detail'))
     },
 

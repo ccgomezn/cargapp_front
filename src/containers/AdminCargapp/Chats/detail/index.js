@@ -7,10 +7,15 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import TextInputCustom from "../../../../components/custom/input/text";
 import {ChatFeed, Message} from 'react-chat-ui'
 import firebase from '../../../../components/firestore/Firestore'
-import {getRoom} from "../../../../helpers/api/chat";
+import {getActiveChats, getMineRooms, getRoom} from "../../../../helpers/api/chat";
 import {getMineProfile, getMineUser} from "../../../../helpers/api/users";
 import axios from "axios"
 import {animateScroll} from "react-scroll";
+import List from "antd/es/list";
+import {getActiveServices} from "../../../../helpers/api/services";
+import Skeleton from "antd/es/skeleton";
+import Avatar from "antd/es/avatar";
+import Divider from "antd/es/divider";
 
 
 export default class ChatDetail extends Component {
@@ -32,20 +37,40 @@ export default class ChatDetail extends Component {
     };
 
     componentDidMount() {
-        const {id} = this.props.match.params;
+        axios.all([getMineRooms(), getActiveChats(), getActiveServices()]).then(responses => {
+            let services = this.transformDataToMap(responses[2].data, 'id');
+            let chat_ids = [];
+            responses[0].data.forEach(chat => {
+                chat_ids.push(chat.room_id);
+            });
 
-        axios.all([getRoom(id), getMineProfile()]).then(responses => {
+            let real_chats = [];
+            responses[1].data.forEach(chat => {
+                if (chat_ids.includes(chat.id)) {
+                    chat.service = services[chat.service_id];
+                    real_chats.push(chat);
+                }
+            });
+            this.setState({
+                real_chats: real_chats
+            })
+        })
+
+    }
+
+    enableChat(uid) {
+        uid = uid.toString();
+        if (this.state.unsubscribe !== null && this.state.unsubscribe !== undefined) {
+            this.state.unsubscribe();
+        }
+        axios.all([getRoom(uid), getMineProfile()]).then(responses => {
             this.setState({
                 name: responses[0].data.name,
                 user_id: responses[1].data[0].user.id,
                 user_name: responses[1].data[0].profile.firt_name + ' ' + responses[1].data[0].profile.last_name,
-            })
-
-
+            });
         });
-
-
-        firebase.firestore().collection(id).onSnapshot({
+        const unsubscribe = firebase.firestore().collection(uid).onSnapshot({
             error: (e) => console.error(e),
             next: (querySnapshot) => {
                 console.log(querySnapshot);
@@ -62,7 +87,11 @@ export default class ChatDetail extends Component {
 
                     messages.push(new Message({
                         id: id,
-                        senderName: message.get('user_name') + ' (' + message.get('created_at').toDate().toLocaleDateString("es-ES") + ')',
+                        senderName: message.get('user_name') + ' (' + message.get('created_at').toDate().toLocaleDateString("es-ES", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        }) + ')',
                         message: message.get('message'),
                         date: message.get('created_at'),
                     }))
@@ -74,6 +103,18 @@ export default class ChatDetail extends Component {
             },
         });
 
+        this.setState({unsubscribe})
+        this.setState({uid})
+    }
+
+    transformDataToMap(data, key) {
+        let dataTransformed = {};
+
+        data.forEach(data => {
+            dataTransformed[data[key]] = data;
+        });
+
+        return dataTransformed
     }
 
     handleChange(value, type) {
@@ -86,9 +127,9 @@ export default class ChatDetail extends Component {
     }
 
     handleSend() {
-        const {id} = this.props.match.params;
+        const {uid} = this.state;
 
-        firebase.firestore().collection(id).add({
+        firebase.firestore().collection(uid).add({
             created_at: new Date(),
             message: this.state.message,
             user_id: this.state.user_id,
@@ -119,16 +160,39 @@ export default class ChatDetail extends Component {
                                 <PageHeader>
 
                                     <h1>
-                                        {this.state.name}
+                                        {this.state.name ? this.state.name : 'Tus chats'}
 
                                     </h1>
                                 </PageHeader>
                             </Col>
                         </Row>
                         <Row>
-                            <Card  style={{marginTop: '50px'}}>
+                            <Card style={{marginTop: '50px'}}>
+                                <Col span={5}>
+                                    {this.state.real_chats && <List
+                                        className="demo-loadmore-list"
+                                        itemLayout="horizontal"
+                                        dataSource={this.state.real_chats}
+                                        renderItem={item => (
 
-                                <Col span={24}>
+                                            <Skeleton avatar loading={false} active>
+                                                <List.Item.Meta
+                                                    avatar={
+                                                        <Avatar
+                                                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                                                    }
+                                                    title={<a style={item.id.toString() === this.state.uid.toString()? {color: 'rgb(0, 132, 255)'}:{}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
+                                                    description={item.service.origin + ' - ' + item.service.destination}
+                                                />
+                                                <Divider/>
+
+                                            </Skeleton>
+                                        )}
+                                    />}
+
+                                </Col>
+
+                                <Col span={19}>
                                     <div id="chat-container" style={{
                                         height: '500px',
                                         overflow: 'auto',
@@ -158,6 +222,7 @@ export default class ChatDetail extends Component {
                                     </div>
 
                                     <div className="Input">
+                                        {this.state.name &&
                                         <Row>
                                             <Col span={20}>
                                                 <TextInputCustom value={this.state.message}
@@ -177,7 +242,7 @@ export default class ChatDetail extends Component {
                                                                onClick={() => this.handleSend()}/>
                                             </Col>
                                         </Row>
-
+                                        }
                                     </div>
 
                                 </Col>
