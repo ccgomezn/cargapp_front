@@ -12,3 +12,11 @@ export function getActiveChats(){
 export function getRoom(id){
     return get(httpAddr + `/rooms/`+id , true)
 }
+
+export function createRoom(data){
+    return post(httpAddr+'/rooms',data,true,true);
+}
+
+export function addPersonToRoom(data){
+    return post(httpAddr+'/room_users',data,true,true);
+}

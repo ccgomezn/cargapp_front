@@ -46,8 +46,11 @@ export default class Service extends Component {
                     count: 1
                 }
             }else{
-                dataTransformed[item.user_id].sum += item.driver_point;
-                dataTransformed[item.user_id].count += 1;
+                if(item.driver_point){
+                    dataTransformed[item.user_id].sum += item.driver_point;
+                    dataTransformed[item.user_id].count += 1;
+                }
+
             }
             return item;
         });

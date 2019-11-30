@@ -90,7 +90,6 @@ export default class ChatDetail extends Component {
                         senderName: message.get('user_name') + ' (' + message.get('created_at').toDate().toLocaleDateString("es-ES", {
                             hour: "2-digit",
                             minute: "2-digit",
-                            second: "2-digit"
                         }) + ')',
                         message: message.get('message'),
                         date: message.get('created_at'),
@@ -168,7 +167,7 @@ export default class ChatDetail extends Component {
                         </Row>
                         <Row>
                             <Card style={{marginTop: '50px'}}>
-                                <Col span={5}>
+                                <Col span={7}>
                                     {this.state.real_chats && <List
                                         className="demo-loadmore-list"
                                         itemLayout="horizontal"
@@ -181,7 +180,7 @@ export default class ChatDetail extends Component {
                                                         <Avatar
                                                             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
                                                     }
-                                                    title={<a style={item.id.toString() === this.state.uid.toString()? {color: 'rgb(0, 132, 255)'}:{}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
+                                                    title={<a style={item.id == this.state.uid? {color: 'rgb(0, 132, 255)'}:{}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
                                                     description={item.service.origin + ' - ' + item.service.destination}
                                                 />
                                                 <Divider/>
@@ -192,7 +191,7 @@ export default class ChatDetail extends Component {
 
                                 </Col>
 
-                                <Col span={19}>
+                                <Col span={17}>
                                     <div id="chat-container" style={{
                                         height: '500px',
                                         overflow: 'auto',

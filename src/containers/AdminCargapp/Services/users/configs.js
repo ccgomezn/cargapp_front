@@ -7,8 +7,10 @@ import {
     TextColorCell,
     LinkCell, ButtonCell
 } from '../../../../components/tables/helperCells';
-import {acceptUserOfService, getUsersOfService, putUserOfService} from "../../../../helpers/api/users";
+import {acceptUserOfService, getMineUser, getUsersOfService, putUserOfService} from "../../../../helpers/api/users";
 import axios from 'axios';
+import {addPersonToRoom, createRoom} from "../../../../helpers/api/chat";
+import {getService} from "../../../../helpers/api/services";
 
 const putFunction = (id, service_id) => {
     return function () {
@@ -23,22 +25,46 @@ const putFunction = (id, service_id) => {
 
 const acceptFunction = (id, user_id, service_id, type) => {
     return function () {
-        acceptUserOfService(id, user_id, service_id).then((response) => {
+        acceptUserOfService(id, user_id, service_id).then((response_service) => {
+            axios.all([getMineUser(), getService(service_id)]).then(responses => {
+                createRoom({
+                    service_id: service_id,
+                    user_id: responses[0].data.user.id,
+                    name: responses[1].data.name,
+                    note: '',
+                    active: true
+                }).then(response_room => {
+                    axios.all([addPersonToRoom({
+                        user_id: user_id,
+                        room_id: response_room.data.id,
+                        service_id: service_id,
+                        active: true
+                    }), addPersonToRoom({
+                        user_id: responses[0].data.user.id,
+                        room_id: response_room.data.id,
+                        service_id: service_id,
+                        active: true
+                    }),]).then(() => {
+                        let calls = [];
+                        getUsersOfService(service_id).then(response => {
+                            response.data.forEach(row => {
+                                if (row.service_user.id !== id) {
+                                    calls.push(putUserOfService(row.service_user.id, {service_user: {approved: false}})
+                                    )
+                                }
+                            });
 
-            let calls = [];
-            getUsersOfService(service_id).then(response => {
-                response.data.forEach(row => {
-                    if (row.service_user.id !== id) {
-                        calls.push(putUserOfService(row.service_user.id, {service_user: {approved: false}})
-                        )
-                    }
+
+                            axios.all(calls).then(() => {
+
+                                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
+
+                            })
+                        });
+                    })
                 });
-
-                axios.all(calls).then(() => {
-                    window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
-
-                })
             });
+
 
         }).catch((error) => {
             console.error(error);
