@@ -8,7 +8,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import {ChatFeed, Message} from 'react-chat-ui'
 import firebase from '../../../../components/firestore/Firestore'
 import {getActiveChats, getMineRooms, getRoom} from "../../../../helpers/api/chat";
-import {getMineProfile, getMineUser} from "../../../../helpers/api/users";
+import {getMineProfile} from "../../../../helpers/api/users";
 import axios from "axios"
 import {animateScroll} from "react-scroll";
 import List from "antd/es/list";
@@ -144,7 +144,6 @@ export default class ChatDetail extends Component {
 
     render() {
         const {rowStyle, colStyle} = basicStyle;
-        const {redirect} = this.state;
 
 
         return (
@@ -167,7 +166,7 @@ export default class ChatDetail extends Component {
                         </Row>
                         <Row>
                             <Card style={{marginTop: '50px'}}>
-                                <Col span={7}>
+                                <Col span={6} style={{height: '500px',overflow: 'auto', }}>
                                     {this.state.real_chats && <List
                                         className="demo-loadmore-list"
                                         itemLayout="horizontal"
@@ -190,7 +189,7 @@ export default class ChatDetail extends Component {
                                     />}
 
                                 </Col>
-
+                                <Col span={1}></Col>
                                 <Col span={17}>
                                     <div id="chat-container" style={{
                                         height: '500px',
