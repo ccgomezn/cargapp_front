@@ -40,9 +40,7 @@ class MobileView extends Component {
       toggleMobileProfile,
       className
     } = this.props;
-    if (loading) {
-      return <Loader />;
-    }
+
     let CurrentView = <Loader />;
     if (mobileActiveList) {
       CurrentView = (

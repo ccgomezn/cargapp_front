@@ -11,7 +11,7 @@ const importantVariables = {
             {key: false, label: 'Desactivado'}
         ],
         status_road_service_map: {
-            PendingForApproval: {next: 'Waiting'},
+            PendingForApproval: {next: 'RoadToLoad'},
             Waiting: {next: 'RoadToLoad', id: 0},
             RoadToLoad: {next: 'LoadingUp', id: 1},
             LoadingUp: {next: 'OnRoad', id: 2},

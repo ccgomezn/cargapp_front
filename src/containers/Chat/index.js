@@ -4,7 +4,6 @@ import DesktopView from "./desktopView";
 import MobileView from "./mobileView";
 import { ChatViewWrapper } from "./message.style";
 import NoAPIKey from "../../components/utility/noApiKey";
-import FirebaseHelper from "../../helpers/firebase";
 
 class Chat extends Component {
   render() {
@@ -14,11 +13,9 @@ class Chat extends Component {
       <ChatViewWrapper
         style={{ height: view === "MobileView" ? height - 108 : height - 138 }}
       >
-        {FirebaseHelper.isValid ? (
+
           <ChatView height={height} view={view} />
-        ) : (
-          <NoAPIKey />
-        )}
+
       </ChatViewWrapper>
     );
   }

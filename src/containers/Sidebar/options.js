@@ -319,6 +319,12 @@ export const options = [
 
         }]
     },
+    {
+        key: 'chats',
+        label: 'sidebar.chat',
+        leftIcon: 'ion-android-chat',
+        keyName: 'chatBase'
+    },
 ];
 
 export default options;

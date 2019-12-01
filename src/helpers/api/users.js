@@ -230,7 +230,7 @@ export function postUserOfService(data) {
 
 export function acceptUserOfService(user_service_id, user_id, service_id) {
     return axios.all([put(httpAddr + '/service_users/' + user_service_id, {approved: true}, true),
-        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: 12}, true)])
+        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: 6}, true)])
 }
 
 export function verifyEmail(email) {
