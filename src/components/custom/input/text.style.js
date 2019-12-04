@@ -29,7 +29,7 @@ input
 
           :focus {
             border-left: 2px solid transparent !important;
-            background-image: radial-gradient(circle at 236% 0, #ff2557, #320d8e) !important;
+            background-image: linear-gradient(to right, #320d8e, #ff2557) !important;
             background-size: 2px calc(100% + 4px) !important; /* 4px extra to cater for 2px border on right + 2px on left */
             background-repeat: no-repeat !important;
             background-origin: border-box !important; /* make background start from border area itself instead of content/padding area */

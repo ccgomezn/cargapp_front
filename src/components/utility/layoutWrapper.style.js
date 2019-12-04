@@ -14,29 +14,31 @@ const LayoutContentWrapper = styled.div`
     padding: 15px;
   }
   .cardContent {
-    label {
-      font-family: Roboto;
-      font-size: 14px;
-      font-weight: bold;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.64;
-      letter-spacing: -0.2px;
-      color: rgb(1, 9, 53);
-    }
-    
-     p {
-      width: 93px;
-      height: 44px;
-      opacity: 0.7;
+  width: 100%;
+    p {
       font-family: Roboto;
       font-size: 14px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
+      line-height: 1.64;
+      letter-spacing: -0.2px;
+      color: #4a4a4a;
+      margin-top: 30px;
+    }
+    
+     label {
+      width: 93px;
+      height: 44px;
+      opacity: 0.7;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
       line-height: 1.29;
       letter-spacing: normal;
-      color: #3f3356;
+      color: #010935;
   }
   a {
       height: 44px;
