@@ -67,7 +67,7 @@ const SidebarWrapper = styled.div`
 
 
     z-index: 1000;
-    background-image: radial-gradient(circle at 0px 0px, #007aff, #00ff77);
+    background-image: radial-gradient(circle at 0px 0px, #010935, #010935);
     width: 280px;
     flex: 0 0 280px;
 

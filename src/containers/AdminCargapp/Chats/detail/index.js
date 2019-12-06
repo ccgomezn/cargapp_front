@@ -70,7 +70,7 @@ export default class ChatDetail extends Component {
                 user_name: responses[1].data[0].profile.firt_name + ' ' + responses[1].data[0].profile.last_name,
             });
         });
-        const unsubscribe = firebase.firestore().collection(uid).onSnapshot({
+        const unsubscribe = firebase.firestore().collection('chat_'+uid).onSnapshot({
             error: (e) => console.error(e),
             next: (querySnapshot) => {
                 console.log(querySnapshot);
@@ -128,7 +128,7 @@ export default class ChatDetail extends Component {
     handleSend() {
         const {uid} = this.state;
 
-        firebase.firestore().collection(uid).add({
+        firebase.firestore().collection('chat_'+uid).add({
             created_at: new Date(),
             message: this.state.message,
             user_id: this.state.user_id,

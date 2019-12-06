@@ -23,6 +23,8 @@ const ReportWidgetWrapper = styled.div`
     color: ${palette('text', 0)};
     font-weight: 400;
     line-height: 1.2;
+    margin-left: 16px;
+    margin-top: 15px;
   }
   .ant-list-item {
       .ant-list-item-meta {
@@ -76,7 +78,7 @@ const ReportWidgetWrapper = styled.div`
           line-height: normal;
           letter-spacing: -0.2px;
           text-align: right;
-          color: #010935;
+          color: #0088f1;
         }
       }
       

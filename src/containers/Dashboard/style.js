@@ -27,8 +27,26 @@ const WidgetWrapper = styled.div`
     font-stretch: normal;
     line-height: 1.64;
     letter-spacing: -0.2px;
-    color: rgb(1, 9, 53);
+    color: #0088f1;
+    text-transform: uppercase;
     }
+    
+    span:after {
+    content: ""; 
+    display: block; 
+    margin: 0 auto; 
+    width: 60px; 
+    position: absolute;
+    padding-top: 12px; /* This creates some space between the element and the border. */
+    border-bottom: 2px solid transparent !important;
+            background-image: radial-gradient(circle at 236% 0, #007aff, #00ccab) !important;
+            background-size: 60px 2px !important; /* 4px extra to cater for 2px border on right + 2px on left */
+            background-repeat: no-repeat !important;
+            background-origin: border-box !important; /* make background start from border area itself instead of content/padding area */
+            background-position: bottom left !important;
+            box-sizing: border-box !important !important;
+  
+}
     
   }
 
