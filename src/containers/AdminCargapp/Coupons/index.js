@@ -4,13 +4,14 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getUsers} from "../../../helpers/api/users";
 import {getCoupons} from "../../../helpers/api/internals";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class Coupons extends Component {
 
@@ -40,20 +41,25 @@ export default class Coupons extends Component {
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let data_users = this.transformDataToMap(responses[1].data, 'email');
-
+                    let active = [];
+                    let inactive = [];
                     responses[0].data.map((item) => {
                         item.user = data_users[item.user_id]
                         if (item.active) {
+
                             item.active = 'Activo';
                             item.color = '#00BFBF';
+                            active.push(item);
                         } else {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
+                            inactive.push(item);
                         }
                         return item;
                     });
+
                     this.setState({
-                        coupons: responses[0].data
+                        coupons: active, inactive
                     });
                 }
 
@@ -91,7 +97,7 @@ export default class Coupons extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -99,9 +105,20 @@ export default class Coupons extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.coupons &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.coupons}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.coupons &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.coupons}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
                             </Col>
                         </Row>
 
