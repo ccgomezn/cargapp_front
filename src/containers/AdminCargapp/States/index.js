@@ -4,12 +4,13 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getCountries, getStates} from "../../../helpers/api/locations";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class State extends Component {
 
@@ -52,8 +53,15 @@ export default class State extends Component {
                         return item;
 
                     });
+                    let active = [];
+                    let inactive = [];
+                    responses[0].data.forEach(item => {
+                        if(item.active === 'Activo') active.push(item);
+                        else inactive.push(item);
+                    });
                     this.setState({
-                        states: responses[0].data
+                        states: active,
+                        inactive
                     });
                 }
 
@@ -91,7 +99,7 @@ export default class State extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -99,9 +107,20 @@ export default class State extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.states &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.states}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.states &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.states}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
                             </Col>
                         </Row>
 

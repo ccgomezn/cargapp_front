@@ -78,12 +78,6 @@ const columns = [
         render: object => renderCell(object, 'TextCell', 'description')
     },
     {
-        title: <IntlMessages id="antTable.title.state"/>,
-        key: 'active',
-        width: '20%',
-        render: object => renderCell(object, 'TextCell', 'active', true)
-    },
-    {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '20%',
@@ -96,8 +90,7 @@ const sortColumns = [
     {...columns[1], sorter: true},
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
-    {...columns[4], sorter: true},
-    {...columns[5], sorter: false}
+    {...columns[4], sorter: false},
 
 ];
 const editColumns = [

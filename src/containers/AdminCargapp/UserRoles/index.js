@@ -4,11 +4,12 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {getRoles, getUserRoles, getUsers} from "../../../helpers/api/users";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const { TabPane } = Tabs;
 
 export default class UserRole extends Component {
 
@@ -50,8 +51,15 @@ export default class UserRole extends Component {
 
                         return item;
                     });
+                    let active = [];
+                    let unactive = [];
+                    responses[0].data.forEach(item => {
+                        if(item.active === 'Activo') active.push(item);
+                        else unactive.push(item);
+                    })
                     this.setState({
-                        roles: responses[0].data
+                        roles: active,
+                        nonActiveRoles: unactive
                     });
                 }
 
@@ -85,7 +93,7 @@ export default class UserRole extends Component {
                                 </PageHeader>
                             </Col>
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -94,7 +102,19 @@ export default class UserRole extends Component {
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.roles &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.roles}/>
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.roles &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.roles}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.nonActiveRoles &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.nonActiveRoles}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
                                 }
                             </Col>
                         </Row>

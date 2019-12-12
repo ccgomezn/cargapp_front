@@ -76,12 +76,6 @@ const columns = [
         render: object => renderCell(object, 'TextCell', 'role')
     },
     {
-        title: <IntlMessages id="antTable.title.state"/>,
-        key: 'active',
-        width: '20%',
-        render: object => renderCell(object, 'TextCell', 'active', true)
-    },
-    {
         title: <IntlMessages id="antTable.title.options"/>,
         key: 'option',
         width: '20%',
@@ -91,10 +85,10 @@ const columns = [
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
     {...columns[0], sorter: true},
-    {...columns[1], sorter: true},
-    {...columns[2], sorter: true},
+    {...columns[1], sorter: false},
+    {...columns[2], sorter: false},
     {...columns[3], sorter: true},
-    {...columns[4], sorter: true},
+    {...columns[4], sorter: false},
     {...columns[5], sorter: false}
 
 ];

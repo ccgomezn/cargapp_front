@@ -4,12 +4,14 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getProfiles, getUsers} from "../../../helpers/api/users";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const { TabPane } = Tabs;
 
 export default class Profile extends Component {
 
@@ -44,9 +46,15 @@ export default class Profile extends Component {
                         item.user = data_users[item.user_id];
                         return item;
                     });
+
+
+
+
                     this.setState({
-                        profiles: responses[0].data
+                        profiles: responses[0].data,
                     });
+
+
                 }
 
 
@@ -83,7 +91,7 @@ export default class Profile extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -93,6 +101,9 @@ export default class Profile extends Component {
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 {this.state && this.state.profiles &&
                                 <SortView tableInfo={tableinfos[1]} dataList={this.state.profiles}/>
+
+
+
                                 }
                             </Col>
                         </Row>

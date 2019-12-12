@@ -4,12 +4,13 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getCities, getCountries, getStates} from "../../../helpers/api/locations";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class City extends Component {
 
@@ -65,8 +66,15 @@ export default class City extends Component {
                         return item;
 
                     });
+                    let active = [];
+                    let inactive = [];
+                    responses[0].data.forEach(item => {
+                        if(item.active === 'Activo') active.push(item);
+                        else inactive.push(item);
+                    });
                     this.setState({
-                        cities: responses[0].data
+                        cities: active,
+                        inactive
                     });
                 }
 
@@ -104,7 +112,7 @@ export default class City extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -112,9 +120,21 @@ export default class City extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.cities &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.cities}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.cities &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.cities}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
+
                             </Col>
                         </Row>
 
