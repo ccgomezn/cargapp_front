@@ -110,7 +110,6 @@ const sortColumns = [
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
     {...columns[4], sorter: true},
-    {...columns[5], sorter: true},
     {...columns[6], sorter: false},
 ];
 const editColumns = [

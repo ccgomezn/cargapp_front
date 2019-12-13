@@ -4,10 +4,11 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import {getModels} from "../../../helpers/api/internals";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class CargappModel extends Component {
 
@@ -21,20 +22,24 @@ export default class CargappModel extends Component {
     componentWillMount() {
         getModels()
             .then((response) => {
-                if (response !== undefined) {
 
+                if (response !== undefined) {
+                    let active = [], inactive = [];
                     response.data.map(function (item) {
                         if (item.active) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
+                            active.push(item);
                         } else {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
+                            inactive.push(item);
                         }
                         return item;
-                    })
+                    });
                     this.setState({
-                        roles: response.data
+                        roles: active,
+                        inactive
                     });
                 }
             }).catch((error) => {
@@ -67,7 +72,7 @@ export default class CargappModel extends Component {
                                 </PageHeader>
                             </Col>
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -75,9 +80,20 @@ export default class CargappModel extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.roles &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.roles}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.roles &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.roles}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
                             </Col>
                         </Row>
 
