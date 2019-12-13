@@ -6,7 +6,6 @@ import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {getUserPrizes, getUsers} from "../../../helpers/api/users";
 import {getPrizes} from "../../../helpers/api/internals";

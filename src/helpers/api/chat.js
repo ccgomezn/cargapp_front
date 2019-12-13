@@ -1,4 +1,4 @@
-import {del, get, post, put} from "../httpRequest";
+import {get, post} from "../httpRequest";
 import {httpAddr} from "../http_helper";
 
 export function getMineRooms() {

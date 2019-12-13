@@ -179,7 +179,7 @@ export default class ChatDetail extends Component {
                                                         <Avatar
                                                             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
                                                     }
-                                                    title={<a style={item.id == this.state.uid? {color: 'rgb(0, 132, 255)'}:{}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
+                                                    title={<a href={'#chat'} style={item.id.toString() === this.state.uid? {color: 'rgb(0, 132, 255)'}:{}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
                                                     description={item.service.origin + ' - ' + item.service.destination}
                                                 />
                                                 <Divider/>

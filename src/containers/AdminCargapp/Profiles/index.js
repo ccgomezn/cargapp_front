@@ -4,14 +4,12 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col, Tabs} from 'antd';
+import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getProfiles, getUsers} from "../../../helpers/api/users";
 import SecondaryButton from "../../../components/custom/button/secondary";
-const { TabPane } = Tabs;
 
 export default class Profile extends Component {
 
