@@ -159,7 +159,7 @@ class Sidebar extends Component {
             <Menu.Item key={key}>
                 <Link to={`${url}/${key}`}>
           <span className="isoMenuHolder" style={submenuColor}>
-            <i className={leftIcon} style={{zoom: 1.3}}/>
+            <i className={leftIcon}/>
             <span className="nav-text">
               <IntlMessages id={label}/>
             </span>

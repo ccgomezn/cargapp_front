@@ -60,20 +60,23 @@ export default class ReportCreate extends Component {
         return data_by_id;
     }
 
-    handleAddPaymentMethod(){
+    handleAddPaymentMethod() {
         getMineUser().then(response => {
-            postUserPaymentMethod({user_payment_method:{
+            postUserPaymentMethod({
+                user_payment_method: {
                     payment_method_id: 2,
                     card_number: this.state.card_number,
                     cvv: this.state.cvv,
                     expiration: this.state.expiration,
                     user_id: response.data.user.id
-            }}).then(() => {
+                }
+            }).then(() => {
                 this.setState({visible: false});
                 this.handlePost();
             })
         })
     }
+
     transformDataToMap(data, key) {
         var dataTransformed = {};
         data.map((item) => {
@@ -244,10 +247,7 @@ export default class ReportCreate extends Component {
             }
         }
         return (
-
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
@@ -261,10 +261,11 @@ export default class ReportCreate extends Component {
                                 </PageHeader>
                             </Col>
                         </Row>
-                        <Row>
-                            <Card className="cardContent" style={{marginTop: '50px'}}>
-                                <Form>
 
+                        <Row style={rowStyle} gutter={10}>
+                            <Card className="cardContent" >
+
+                                <Col lg={12} md={24} sm={24} xs={24}>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={24}>
@@ -388,8 +389,8 @@ export default class ReportCreate extends Component {
                                             </Col>
                                         </Col>
 
-
                                     </Row>
+
                                     {admin &&
                                     <div>
                                         <Row gutter={10}>
@@ -436,26 +437,41 @@ export default class ReportCreate extends Component {
                                         </Row>
                                     </div>}
 
-
+                                </Col>
+                                <Col lg={12} md={24} sm={24} xs={24}>
                                     <Row>
                                         <Col span={24}>
                                             <MapContainer markers={[{
                                                 position: {
                                                     lat: Number(this.state.origin_latitude),
                                                     lng: Number(this.state.origin_longitude),
+                                                },
+                                                icon: {
+                                                    url: require('../../../../image/origin.png'),
                                                 }
                                             },
                                                 {
                                                     position: {
                                                         lat: Number(this.state.destination_latitude),
                                                         lng: Number(this.state.destination_longitude),
+                                                    },
+                                                    icon: {
+                                                        url: require('../../../../image/destination.svg'),
                                                     }
                                                 }]} center={this.state.center ? this.state.center : {
                                                 lat: 4.710989,
                                                 lng: -74.072090
-                                            }} block style={{height: 500}} isFreight={false}/>
+                                            }} block style={{height: 600}} isFreight={false}/>
                                         </Col>
                                     </Row>
+                                </Col>
+                            </Card>
+
+                        </Row>
+
+                        <Row style={rowStyle} gutter={10}>
+                            <Card className="cardContent" style={{marginTop: '50px'}}>
+                                <Form>
 
                                     <Row gutter={10}>
                                         <Col span={24}>
@@ -482,26 +498,7 @@ export default class ReportCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={24}>
-                                            <Col span={12}>
-                                                <Form.Item label="Receptor de carga">
-                                                    <SelectInputCustom value={this.state.user_receiver_id}
-                                                                       placeholder="receptor de carga"
-                                                                       style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'user_receiver_id')
-                                                    }}
-                                                                       options={this.state && this.state.users &&
 
-                                                                       this.state.users.map((item) => {
-                                                                           return <Option
-                                                                               value={item.id}>{item.email}</Option>
-                                                                       })
-                                                                       }
-
-                                                                       label_id={'admin.title.receiver'}>
-
-                                                    </SelectInputCustom>
-                                                </Form.Item>
-                                            </Col>
                                             <Col span={12}>
                                                 <Form.Item label="Tipo de vehiculo">
                                                     <SelectInputCustom value={this.state.vehicle_type_id}
@@ -521,6 +518,18 @@ export default class ReportCreate extends Component {
                                                     </SelectInputCustom>
                                                 </Form.Item>
                                             </Col>
+                                            <Col span={12}>
+                                                <Form.Item label="Fecha de expiración">
+                                                    {
+                                                        this.state && this.state.expiration_date &&
+                                                        <DatePickerCustom
+                                                            defaultValue={moment(this.state.expiration_date, dateFormat)}
+                                                            format={dateFormat}
+                                                            label_id={'label.date'}
+                                                            onChange={(e) => this.handleChange(e, 'expiration_date')}/>
+                                                    }
+                                                </Form.Item>
+                                            </Col>
                                         </Col>
 
 
@@ -529,18 +538,7 @@ export default class ReportCreate extends Component {
 
                                     <Row gutter={10}>
 
-                                        <Col span={12}>
-                                            <Form.Item label="Fecha de expiración">
-                                                {
-                                                    this.state && this.state.expiration_date &&
-                                                    <DatePickerCustom
-                                                        defaultValue={moment(this.state.expiration_date, dateFormat)}
-                                                        format={dateFormat}
-                                                        label_id={'label.date'}
-                                                        onChange={(e) => this.handleChange(e, 'expiration_date')}/>
-                                                }
-                                            </Form.Item>
-                                        </Col>
+
                                         <Col span={12}>
                                             <Form.Item label="Contacto">
                                                 <TextInputCustom value={this.state.contact} placeholder="contacto"
@@ -549,8 +547,6 @@ export default class ReportCreate extends Component {
                                                                  label_id={'admin.title.contact'}/>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
-                                    <Row gutter={10}>
                                         <Col span={12}>
                                             <Form.Item label="Nota">
                                                 <TextInputCustom value={this.state.note} placeholder="nota"
@@ -560,6 +556,7 @@ export default class ReportCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
+
                                     {assign &&
                                     <div>
                                         <Row gutter={10}>
@@ -640,9 +637,9 @@ export default class ReportCreate extends Component {
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>
-                                                <PrimaryButton htmlType={"submit"} message_id={"general.add"}
-                                                               style={{width: '200px'}}
-                                                               onClick={() => this.handlePost()}/>
+                                                <SecondaryButton htmlType={"submit"} message_id={"general.add"}
+                                                                 style={{width: '200px'}}
+                                                                 onClick={() => this.handlePost()}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -651,6 +648,8 @@ export default class ReportCreate extends Component {
 
 
                         </Row>
+
+
 
                     </Col>
                 </Row>
@@ -673,9 +672,18 @@ export default class ReportCreate extends Component {
                                         containerStyle={{width: '100%', height: '40px'}}
                                         fieldStyle={{height: '40px'}}
                                         inputStyle={{height: '40px', border: '13px'}}
-                                        cardNumberInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'card_number')}}
-                                        cardExpiryInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'expiration') }}
-                                        cardCVCInputProps={{ value: this.state.number, onChange: (e) => this.handleChange(e.target.value, 'cvv') }}
+                                        cardNumberInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'card_number')
+                                        }}
+                                        cardExpiryInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'expiration')
+                                        }}
+                                        cardCVCInputProps={{
+                                            value: this.state.number,
+                                            onChange: (e) => this.handleChange(e.target.value, 'cvv')
+                                        }}
                                         fieldClassName="input"
                                         customTextLabels={{
                                             invalidCardNumber: 'El número de la tarjeta es inválido',

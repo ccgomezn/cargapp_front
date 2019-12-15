@@ -101,7 +101,6 @@ const sortColumns = [
     {...columns[1], sorter: true},
     {...columns[2], sorter: true},
     {...columns[3], sorter: true},
-    {...columns[4], sorter: true},
     {...columns[5], sorter: false}
 
 ];

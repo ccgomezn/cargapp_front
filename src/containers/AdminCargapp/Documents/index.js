@@ -4,13 +4,14 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getDocumentsOfUser} from "../../../helpers/api/users";
 import {getDocuments} from "../../../helpers/api/internals";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class Document extends Component {
 
@@ -51,18 +52,21 @@ export default class Document extends Component {
         axios.all([getDocumentsFunction()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
+                    let active = [], inactive = [];
                     responses[0].data.map((item) => {
                         if (item.active) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
+                            active.push(item);
                         } else {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
+                            inactive.push(item);
                         }
                         return item;
                     });
                     this.setState({
-                        documents: responses[0].data
+                        documents: active, inactive
                     });
                 }
 
@@ -100,7 +104,7 @@ export default class Document extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -108,9 +112,20 @@ export default class Document extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.documents &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.documents}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.documents &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.documents}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
                             </Col>
                         </Row>
 

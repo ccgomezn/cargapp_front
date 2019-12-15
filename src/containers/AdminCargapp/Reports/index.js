@@ -4,13 +4,14 @@ import {tableinfos} from './configs';
 import SortView from '../../../components/custom/table/sortView';
 import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
+import {Row, Col, Tabs} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getReportsOfUser, getUsers} from "../../../helpers/api/users";
 import {getReports} from "../../../helpers/api/internals";
+import SecondaryButton from "../../../components/custom/button/secondary";
+const {TabPane} = Tabs;
 
 export default class Report extends Component {
 
@@ -52,20 +53,24 @@ export default class Report extends Component {
         axios.all([getReportsFunction(), getUsers()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
+                    let active = [], inactive = [];
                     let user_data = this.transformDataToMap(responses[1].data, 'email');
                     responses[0].data.map((item) => {
+
+                        item.user = user_data[item.user_id];
                         if (item.active) {
                             item.active = 'Activo';
                             item.color = '#00BFBF';
+                            active.push(item);
                         } else {
                             item.active = 'Desactivado';
                             item.color = '#ff2557';
+                            inactive.push(item);
                         }
-                        item.user = user_data[item.user_id];
                         return item;
                     });
                     this.setState({
-                        reports: responses[0].data
+                        reports: active, inactive
                     });
                 }
             })
@@ -101,7 +106,7 @@ export default class Report extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd()}/>
@@ -109,9 +114,20 @@ export default class Report extends Component {
                         </Row>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                {this.state && this.state.reports &&
-                                <SortView tableInfo={tableinfos[1]} dataList={this.state.reports}/>
-                                }
+                                <Tabs defaultActiveKey="1">
+                                    <TabPane tab="Activo" key="1">
+                                        {this.state && this.state.reports &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.reports}/>
+                                        }
+                                    </TabPane>
+                                    <TabPane tab="Inactivo" key="2">
+                                        {this.state && this.state.inactive &&
+                                        <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive}/>
+                                        }
+                                    </TabPane>
+
+                                </Tabs>
+
                             </Col>
                         </Row>
 

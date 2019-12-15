@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form, Card} from "antd";
+import {Form} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
@@ -12,8 +12,7 @@ import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
 import importantVariables from "../../../../helpers/hashVariables";
-import {Steps, Icon, Popover} from 'antd';
-import SecondaryButton from "../../../../components/custom/button/secondary";
+import {Steps} from 'antd';
 import {getActiveUsers, getUserLocation} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {getDocumentsOfService, getService, putService} from "../../../../helpers/api/services";
@@ -211,22 +210,12 @@ export default class ServiceDetail extends Component {
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect, check_0, check_1, check_2, check_3, check_4} = this.state;
-        const {generator, vehicle_manager} = this.props;
+        const {generator} = this.props;
         const {id} = this.props.match.params;
         if (redirect) {
             return <Redirect to='/admin/services'/>
         }
-        const customDot = (dot, {status, index}) => (
-            <Popover
-                content={
-                    <span>
-        {status}
-      </span>
-                }
-            >
-                {dot}
-            </Popover>
-        );
+
         return (
 
             <LayoutWrapper>
@@ -417,10 +406,10 @@ export default class ServiceDetail extends Component {
                                                     <StepsWrapper>
                                                         {this.state.status_code && <Steps
                                                             current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id - 1}>
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_0', 7)} checked={this.state.statu_id !== 10 && this.state.statu_id >6 || check_0 ? true: false} disabled={this.state.statu_id !== 6}>En viaje</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_1', 8)} checked={this.state.statu_id !== 10 && this.state.statu_id >7 || check_1? true: false} disabled={this.state.statu_id !== 7}>Cargando</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_2', 9)} checked={this.state.statu_id !== 10 && this.state.statu_id >8 || check_2? true: false} disabled={this.state.statu_id !== 8}>Viajando</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_3', 11)} checked={this.state.statu_id !== 10 && this.state.statu_id >9 || check_3? true: false} disabled={this.state.statu_id !== 9}>Descargando</Checkbox>} />
+                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_0', 7)} checked={(this.state.statu_id !== 10 && this.state.statu_id >6) || check_0 ? true: false} disabled={this.state.statu_id !== 6}>En viaje</Checkbox>} />
+                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_1', 8)} checked={(this.state.statu_id !== 10 && this.state.statu_id >7) || check_1? true: false} disabled={this.state.statu_id !== 7}>Cargando</Checkbox>} />
+                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_2', 9)} checked={(this.state.statu_id !== 10 && this.state.statu_id >8) || check_2? true: false} disabled={this.state.statu_id !== 8}>Viajando</Checkbox>} />
+                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_3', 11)} checked={(this.state.statu_id !== 10 && this.state.statu_id >9) || check_3? true: false} disabled={this.state.statu_id !== 9}>Descargando</Checkbox>} />
                                                             <Step title={<Checkbox  checked={this.state.statu_id >= 11 || check_4 } disabled={true}>Terminado</Checkbox>} />
                                                         </Steps>}
                                                     </StepsWrapper>

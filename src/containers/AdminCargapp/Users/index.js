@@ -6,11 +6,11 @@ import PageHeader from '../../../components/utility/pageHeader';
 import IntlMessages from '../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../settings/basicStyle';
-import PrimaryButton from "../../../components/custom/button/primary";
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getActiveUserRoles, getDriversFromCompany, getRoles, getUsers} from "../../../helpers/api/users";
 import {getMineCompanies} from "../../../helpers/api/companies";
+import SecondaryButton from "../../../components/custom/button/secondary";
 export default class User extends Component {
 
 
@@ -133,7 +133,7 @@ export default class User extends Component {
                             </Col>
 
                             <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
-                                <PrimaryButton
+                                <SecondaryButton
                                     message_id={"general.add"}
                                     style={{width: '100%'}}
                                     onClick={() => this.redirectAdd(driver)}/>
