@@ -57,6 +57,7 @@ export default class CouponShow extends Component {
           user: data_users[responses[0].data.user_id],
           cargapp_model: data_models[responses[0].data.cargapp_model_id],
           active: responses[0].data.active,
+          company_id: responses[0].data.company_id,
         });
 
       }).catch((error) => {
@@ -147,8 +148,6 @@ export default class CouponShow extends Component {
                       <p>{this.state.cargapp_model}</p>
                     </Form.Item>
                   </Col>
-
-
                 </Row>
 
                 <Row gutter={10}>
@@ -162,8 +161,14 @@ export default class CouponShow extends Component {
                       <p>{this.state.is_porcentage}</p>
                     </Form.Item>
                   </Col>
+                </Row>
 
-
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Id empresa">
+                      <p>{this.state.company_id}</p>
+                    </Form.Item>
+                  </Col>
                 </Row>
 
                 <Row>

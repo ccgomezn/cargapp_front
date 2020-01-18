@@ -42,6 +42,7 @@ export default class CouponEdit extends Component {
                     quantity: responses[0].data.quantity,
                     cargapp_model_id: responses[0].data.cargapp_model_id,
                     active: responses[0].data.active,
+                    company_id: responses[0].data.company_id,
                 });
             }).catch((error) => {
             console.error(error);
@@ -71,6 +72,7 @@ export default class CouponEdit extends Component {
                     quantity: this.state.quantity,
                     cargapp_model_id: cargapp_model_id,
                     active: active,
+                    company_id: this.state.company_id,
                 }
             }, true).then(() => {
             this.setState({redirect: true})
@@ -160,25 +162,32 @@ export default class CouponEdit extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
+                                      <Col span={6}>
+                                          <Form.Item label="Id empresa">
+                                              <TextInputCustom type="number" value={this.state.company_id}
+                                                                placeholder="empresa"
+                                                                label_id={'admin.title.company_id'}
+                                                                onChange={(e) => this.handleChange(e.target.value, 'company_id')}/>
+                                          </Form.Item>
+                                      </Col>
+                                      <Col span={6}>
+                                          <Form.Item label="Modelo cargapp">
+                                              <SelectInputCustom value={this.state.cargapp_model_id}
+                                                                  placeholder="reto"
+                                                                  style={{width: '100%'}} onChange={(e) => {
+                                                  this.handleChange(e, 'cargapp_model_id')
+                                              }}
+                                                                  options={this.state && this.state.cargapp_models &&
+                                                                  this.state.cargapp_models.map((item) => {
+                                                                      return <Option
+                                                                          value={item.id}>{item.name}</Option>
+                                                                  })
+                                                                  }
+                                                                  label_id={'admin.title.model'}>
 
-                                        <Col span={12}>
-                                            <Form.Item label="Modelo cargapp">
-                                                <SelectInputCustom value={this.state.cargapp_model_id}
-                                                                   placeholder="reto"
-                                                                   style={{width: '100%'}} onChange={(e) => {
-                                                    this.handleChange(e, 'cargapp_model_id')
-                                                }}
-                                                                   options={this.state && this.state.cargapp_models &&
-                                                                   this.state.cargapp_models.map((item) => {
-                                                                       return <Option
-                                                                           value={item.id}>{item.name}</Option>
-                                                                   })
-                                                                   }
-                                                                   label_id={'admin.title.model'}>
-
-                                                </SelectInputCustom>
-                                            </Form.Item>
-                                        </Col>
+                                              </SelectInputCustom>
+                                          </Form.Item>
+                                      </Col>
                                     </Row>
 
                                     <Row gutter={10}>

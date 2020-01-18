@@ -32,7 +32,6 @@ export default class CouponCreate extends Component {
     componentWillMount() {
         axios.all([getActiveUsers(), getActiveModels()])
             .then((responses) => {
-
                 this.setState({
                     users: responses[0].data,
                     cargapp_models: responses[1].data,
@@ -68,6 +67,7 @@ export default class CouponCreate extends Component {
                         user_id: response.data.user.id,
                         cargapp_model_id: cargapp_model_id,
                         active: true,
+                        company_id: this.state.company_id,
                     }
                 }).then(() => {
                 this.setState({redirect: true})
@@ -160,8 +160,15 @@ export default class CouponCreate extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-
-                                        <Col span={12}>
+                                        <Col span={6}>
+                                            <Form.Item label="Id empresa">
+                                                <TextInputCustom type="number" value={this.state.company_id}
+                                                                 placeholder="empresa"
+                                                                 label_id={'admin.title.company_id'}
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'company_id')}/>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={6}>
                                             <Form.Item label="Modelo cargapp">
                                                 <SelectInputCustom value={this.state.cargapp_model_id}
                                                                    placeholder="reto"
