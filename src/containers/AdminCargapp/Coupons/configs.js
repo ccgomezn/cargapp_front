@@ -89,20 +89,34 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'value')
   },
   {
+    title: <IntlMessages id="antTable.title.company_id" />,
+    key: 'company_id',
+    width: '12%',
+    render: object => renderCell(object, 'TextCell', 'company_id')
+  },
+  {
+    title: <IntlMessages id="antTable.title.coupon_category" />,
+    key: 'category',
+    width: '12%',
+    render: object => renderCell(object, 'TextCell', 'category')
+  },
+  {
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [columns[1], columns[2], columns[3], columns[4], columns[5]];
 const sortColumns = [
   { ...columns[0], sorter: true },
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[5], sorter: false },
+  { ...columns[5], sorter: true },
+  { ...columns[6], sorter: true },
+  { ...columns[7], sorter: false },
 
 
 ];
@@ -110,7 +124,9 @@ const editColumns = [
   { ...columns[1], width: 300 },
   { ...columns[2], width: 300 },
   columns[3],
-  columns[4]
+  columns[4],
+  columns[5],
+  columns[6],
 ];
 const groupColumns = [
   columns[0],

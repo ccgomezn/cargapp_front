@@ -21,7 +21,6 @@ export default class Coupons extends Component {
         this.state = {
             reload: false
         }
-
     }
 
 
