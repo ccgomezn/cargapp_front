@@ -13,7 +13,8 @@ import moment from 'moment';
 import {getActiveUsers,getMineUser} from "../../../../helpers/api/users"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
-import {getActiveModels, postCoupon} from "../../../../helpers/api/internals";
+import {findParameters, getActiveModels, postCoupon} from "../../../../helpers/api/internals";
+import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
 
@@ -30,13 +31,14 @@ export default class CouponCreate extends Component {
 
 
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveModels()])
+        axios.all([getActiveUsers(), getActiveModels(), findParameters('coupon_category')])
             .then((responses) => {
-                this.setState({
-                    users: responses[0].data,
-                    cargapp_models: responses[1].data,
-                });
 
+              this.setState({
+                  users: responses[0].data,
+                  cargapp_models: responses[1].data,
+                  categories: responses[2].data.parameters,
+              });
             })
 
     }
@@ -54,24 +56,26 @@ export default class CouponCreate extends Component {
 
     handlePost() {
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
+        const category = transformInputData(this.state.category);
         getMineUser().then((response) => {
-            postCoupon(
-                {
-                    coupon: {
-                        name: this.state.name,
-                        code: this.state.code,
-                        description: this.state.description,
-                        is_porcentage: this.state.is_porcentage,
-                        value: this.state.value,
-                        quantity: this.state.quantity,
-                        user_id: response.data.user.id,
-                        cargapp_model_id: cargapp_model_id,
-                        active: true,
-                        company_id: this.state.company_id,
-                    }
-                }).then(() => {
-                this.setState({redirect: true})
-            })
+          postCoupon(
+            {
+              coupon: {
+                name: this.state.name,
+                code: this.state.code,
+                description: this.state.description,
+                is_porcentage: this.state.is_porcentage,
+                value: this.state.value,
+                quantity: this.state.quantity,
+                user_id: response.data.user.id,
+                cargapp_model_id: cargapp_model_id,
+                active: true,
+                company_id: this.state.company_id,
+                category: category,
+              }
+            }).then(() => {
+              this.setState({redirect: true})
+          })
         })
 
     }
@@ -160,7 +164,24 @@ export default class CouponCreate extends Component {
                                     </Row>
 
                                     <Row gutter={10}>
-                                      <Col span={6}>
+                                      <Col span={12}>
+                                        <Form.Item label="Categoria">
+                                            <SelectInputCustom value={this.state.category}
+                                                                placeholder="Categoria"
+                                                                style={{width: '100%'}} onChange={(e) => {
+                                                                    this.handleChange(e, 'category')
+                                                                }}
+                                                                options={this.state && this.state.categories &&
+                                                                this.state.categories.map((item) => {
+                                                                    return <Option
+                                                                        value={item.code}>{item.name}</Option>
+                                                                })
+                                                                }
+                                                                label_id={'admin.title.coupon_category'}>
+                                            </SelectInputCustom>
+                                        </Form.Item>
+                                      </Col>
+                                      <Col span={12}>
                                           <Form.Item label="Id empresa">
                                               <TextInputCustom type="number" value={this.state.company_id}
                                                                 placeholder="empresa"
@@ -168,7 +189,10 @@ export default class CouponCreate extends Component {
                                                                 onChange={(e) => this.handleChange(e.target.value, 'company_id')}/>
                                           </Form.Item>
                                       </Col>
-                                      <Col span={6}>
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                      <Col span={12}>
                                           <Form.Item label="Modelo cargapp">
                                               <SelectInputCustom value={this.state.cargapp_model_id}
                                                                   placeholder="reto"

@@ -95,6 +95,12 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'company_id')
   },
   {
+    title: <IntlMessages id="antTable.title.coupon_category" />,
+    key: 'category',
+    width: '12%',
+    render: object => renderCell(object, 'TextCell', 'category')
+  },
+  {
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
@@ -109,7 +115,8 @@ const sortColumns = [
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
-  { ...columns[6], sorter: false },
+  { ...columns[6], sorter: true },
+  { ...columns[7], sorter: false },
 
 
 ];
@@ -119,6 +126,7 @@ const editColumns = [
   columns[3],
   columns[4],
   columns[5],
+  columns[6],
 ];
 const groupColumns = [
   columns[0],
