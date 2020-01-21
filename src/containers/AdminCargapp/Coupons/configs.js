@@ -9,6 +9,7 @@ import {
   TripleButtonCell
 } from '../../../components/tables/helperCells';
 import {deleteCoupon} from "../../../helpers/api/internals";
+import {getCompanies} from "../../../helpers/api/companies";
 
 const deleteFunction = (id) => {
   return function () {
@@ -22,8 +23,30 @@ const deleteFunction = (id) => {
   }
 }
 
+const companies_list = () => {
+  let companies_list;
+  getCompanies().then(function(companies) {
+    companies_list = companies;
+  });
+  console.log(companies_list);
+  return companies_list;
+};
+
+const transformDataToMap = (data, key) => {
+  var dataTransformed = {};
+  data.map((item) => {
+      dataTransformed[item.id] = item[key];
+      return item;
+  });
+
+  return dataTransformed
+}
+
 const renderCell = (object, type, key, color = false) => {
+  console.log(object);
+  //companies = transformDataToMap(companies, 'name');
   const value = object[key];
+
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
@@ -89,10 +112,10 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'value')
   },
   {
-    title: <IntlMessages id="antTable.title.company_id" />,
-    key: 'company_id',
+    title: <IntlMessages id="antTable.title.company" />,
+    key: 'company',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'company_id')
+    render: object => renderCell(object, 'TextCell', 'company')
   },
   {
     title: <IntlMessages id="antTable.title.coupon_category" />,

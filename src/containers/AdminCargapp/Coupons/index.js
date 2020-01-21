@@ -9,6 +9,7 @@ import basicStyle from '../../../settings/basicStyle';
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getUsers} from "../../../helpers/api/users";
+import {getCompanies} from "../../../helpers/api/companies";
 import {getCoupons} from "../../../helpers/api/internals";
 import SecondaryButton from "../../../components/custom/button/secondary";
 const {TabPane} = Tabs;
@@ -36,16 +37,17 @@ export default class Coupons extends Component {
 
 
     componentWillMount() {
-        axios.all([getCoupons(), getUsers()])
+        axios.all([getCoupons(), getUsers(), getCompanies()])
             .then((responses) => {
                 if (responses[0] !== undefined) {
                     let data_users = this.transformDataToMap(responses[1].data, 'email');
+                    let data_companies = this.transformDataToMap(responses[2].data, 'name');
                     let active = [];
                     let inactive = [];
                     responses[0].data.map((item) => {
-                        item.user = data_users[item.user_id]
+                        item.user = data_users[item.user_id];
+                        item.company = data_companies[item.company_id];
                         if (item.active) {
-
                             item.active = 'Activo';
                             item.color = '#00BFBF';
                             active.push(item);
@@ -56,7 +58,7 @@ export default class Coupons extends Component {
                         }
                         return item;
                     });
-
+                    console.log(active)
                     this.setState({
                         coupons: active, inactive
                     });

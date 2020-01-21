@@ -14,6 +14,7 @@ import {getActiveUsers,getMineUser} from "../../../../helpers/api/users"
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import {findParameters, getActiveModels, postCoupon} from "../../../../helpers/api/internals";
+import {getCompanies} from "../../../../helpers/api/companies";
 import {transformInputData} from "../../../../helpers/utility";
 
 const {Option} = Select;
@@ -29,18 +30,16 @@ export default class CouponCreate extends Component {
         }
     }
 
-
     componentWillMount() {
-        axios.all([getActiveUsers(), getActiveModels(), findParameters('coupon_category')])
-            .then((responses) => {
-
+        axios.all([getActiveUsers(), getActiveModels(), findParameters('coupon_category'), getCompanies()])
+            .then((responses) => {     
               this.setState({
                   users: responses[0].data,
                   cargapp_models: responses[1].data,
                   categories: responses[2].data.parameters,
+                  companies: responses[3].data,
               });
             })
-
     }
 
 
@@ -57,6 +56,7 @@ export default class CouponCreate extends Component {
     handlePost() {
         const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
         const category = transformInputData(this.state.category);
+        const company_id = transformInputData(this.state.company_id);
         getMineUser().then((response) => {
           postCoupon(
             {
@@ -70,7 +70,7 @@ export default class CouponCreate extends Component {
                 user_id: response.data.user.id,
                 cargapp_model_id: cargapp_model_id,
                 active: true,
-                company_id: this.state.company_id,
+                company_id: company_id,
                 category: category,
               }
             }).then(() => {
@@ -182,12 +182,22 @@ export default class CouponCreate extends Component {
                                         </Form.Item>
                                       </Col>
                                       <Col span={12}>
-                                          <Form.Item label="Id empresa">
-                                              <TextInputCustom type="number" value={this.state.company_id}
-                                                                placeholder="empresa"
-                                                                label_id={'admin.title.company_id'}
-                                                                onChange={(e) => this.handleChange(e.target.value, 'company_id')}/>
-                                          </Form.Item>
+                                        <Form.Item label="Compañia">
+                                            <SelectInputCustom value={this.state.company_id} placeholder="compañia"
+                                                                style={{width: '100%'}} onChange={(e) => {
+                                                this.handleChange(e, 'company_id')
+                                            }}
+                                                                options={this.state && this.state.companies &&
+                                                                this.state.companies.map((item) => {
+                                                                  if (item.name != null) {
+                                                                    return <Option value={item.id}>{item.name}</Option>
+                                                                  }
+                                                                })
+                                                                }
+                                                                label_id={'admin.title.company'}>
+
+                                            </SelectInputCustom>
+                                        </Form.Item>
                                       </Col>
                                     </Row>
 

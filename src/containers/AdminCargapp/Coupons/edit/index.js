@@ -14,6 +14,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import {getUsers} from "../../../../helpers/api/users";
+import {getCompanies} from "../../../../helpers/api/companies";
 import {findParameters, getCoupon, getModels, putCoupon} from "../../../../helpers/api/internals";
 import {transformInputData} from "../../../../helpers/utility";
 
@@ -30,7 +31,7 @@ export default class CouponEdit extends Component {
 
 
     componentWillMount() {
-        axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels(), findParameters('coupon_category')])
+        axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels(), findParameters('coupon_category'), getCompanies()])
             .then((responses) => {
                 this.setState({
                     users: responses[1].data,
@@ -43,6 +44,7 @@ export default class CouponEdit extends Component {
                     quantity: responses[0].data.quantity,
                     cargapp_model_id: responses[0].data.cargapp_model_id,
                     active: responses[0].data.active,
+                    companies: responses[4].data,
                     company_id: responses[0].data.company_id,
                     categories: responses[3].data.parameters,
                     category: responses[0].data.category
@@ -185,12 +187,22 @@ export default class CouponEdit extends Component {
                                         </Form.Item>
                                       </Col>
                                       <Col span={12}>
-                                          <Form.Item label="Id empresa">
-                                              <TextInputCustom type="number" value={this.state.company_id}
-                                                                placeholder="empresa"
-                                                                label_id={'admin.title.company_id'}
-                                                                onChange={(e) => this.handleChange(e.target.value, 'company_id')}/>
-                                          </Form.Item>
+                                        <Form.Item label="Compañia">
+                                            <SelectInputCustom value={this.state.company_id} placeholder="compañia"
+                                                                style={{width: '100%'}} onChange={(e) => {
+                                                this.handleChange(e, 'company_id')
+                                            }}
+                                                                options={this.state && this.state.companies &&
+                                                                this.state.companies.map((item) => {
+                                                                  if (item.name != null) {
+                                                                    return <Option value={item.id}>{item.name}</Option>
+                                                                  }
+                                                                })
+                                                                }
+                                                                label_id={'admin.title.company'}>
+
+                                            </SelectInputCustom>
+                                        </Form.Item>
                                       </Col>
                                     </Row>
 
