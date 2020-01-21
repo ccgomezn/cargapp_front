@@ -64,24 +64,25 @@ export default class CouponEdit extends Component {
     }
 
     handlePut() {
-        const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
-        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
-        const category = transformInputData(this.state.category);
-        putCoupon(this.props.match.params.id,
-            {
-                coupon: {
-                    name: this.state.name,
-                    code: this.state.code,
-                    description: this.state.description,
-                    is_porcentage: this.state.is_porcentage,
-                    value: this.state.value,
-                    quantity: this.state.quantity,
-                    cargapp_model_id: cargapp_model_id,
-                    active: active,
-                    company_id: this.state.company_id,
-                    category: category,
-                }
-            }, true).then(() => {
+      const cargapp_model_id = transformInputData(this.state.cargapp_model_id);
+      const active = transformInputData(this.state.active);
+      const category = transformInputData(this.state.category);
+      const company_id = transformInputData(this.state.company_id);
+
+      const formData = new FormData();
+      formData.append('coupon[name]', this.state.name);
+      formData.append('coupon[code]', this.state.code);
+      formData.append('coupon[description]', this.state.description);
+      formData.append('coupon[is_porcentage]', this.state.is_porcentage);
+      formData.append('coupon[value]', this.state.value);
+      formData.append('coupon[quantity]', this.state.quantity);
+      formData.append('coupon[cargapp_model_id]', cargapp_model_id);
+      formData.append('coupon[active]', active);
+      formData.append('coupon[company_id]', company_id);
+      formData.append('coupon[category]', category);
+      formData.append('coupon[image]', this.state.image, this.state.image.name);
+
+        putCoupon(this.props.match.params.id, formData, true).then(() => {
             this.setState({redirect: true})
         })
     }
@@ -243,8 +244,35 @@ export default class CouponEdit extends Component {
                                                 </SelectInputCustom>
                                             </Form.Item>
                                         </Col>
-
                                     </Row>
+
+                                    <Row gutter={10}>
+                                      <Col span={12}>
+                                        <Form.Item label="Imagen">
+                                          <div style={{position: 'relative'}}>
+                                              <input type="file"
+                                                      id="contained-button-file"
+                                                      onChange={(e) => this.handleChange(e.target.files[0], 'image')}
+                                                      style={{
+                                                          position: 'relative',
+                                                          textAlign: 'right',
+                                                          opacity: 0,
+                                                          zIndex: 2
+                                                      }}/>
+                                              <label htmlFor="contained-button-file" style={{
+                                                  position: 'absolute',
+                                                  top: '0px',
+                                                  left: '0px',
+                                                  zIndex: 1
+                                              }}>
+                                                  <PrimaryButton message_id={'widget.load'}/>
+                                                  {this.state.image && this.state.image.name}
+                                              </label>
+                                          </div>
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+                                    
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>

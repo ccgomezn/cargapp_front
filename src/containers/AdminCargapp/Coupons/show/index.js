@@ -61,6 +61,7 @@ export default class CouponShow extends Component {
           company_id: responses[0].data.company_id,
           company: data_companies[responses[0].data.company_id],
           category: responses[0].data.category,
+          image: responses[0].data.image,
         });
 
       }).catch((error) => {
@@ -88,6 +89,7 @@ export default class CouponShow extends Component {
     if (redirect) {
       return <Redirect to='/admin/coupons' />
     }
+    console.log(this.state);
     return (
 
       <LayoutWrapper>
@@ -178,6 +180,14 @@ export default class CouponShow extends Component {
                   <Col span={12}>
                     <Form.Item label="Compañia">
                       <p>{this.state.company}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Imagen">
+                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>
