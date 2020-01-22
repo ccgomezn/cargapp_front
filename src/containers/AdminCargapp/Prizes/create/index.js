@@ -31,7 +31,6 @@ export default class PrizeCreate extends Component {
     componentWillMount() {
         axios.all([getActiveUsers()])
             .then((responses) => {
-
                 this.setState({
                     users: responses[0].data,
                     expire_date: moment(),
