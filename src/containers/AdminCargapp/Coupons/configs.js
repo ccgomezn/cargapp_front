@@ -28,7 +28,6 @@ const companies_list = () => {
   getCompanies().then(function(companies) {
     companies_list = companies;
   });
-  console.log(companies_list);
   return companies_list;
 };
 
@@ -43,8 +42,6 @@ const transformDataToMap = (data, key) => {
 }
 
 const renderCell = (object, type, key, color = false) => {
-  console.log(object);
-  //companies = transformDataToMap(companies, 'name');
   const value = object[key];
 
   switch (type) {
