@@ -50,8 +50,10 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
 
             if(object['statu_id'] === 10 && object['active'] === 'Activo'){
                 return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], type_role), type1, type2, type3);
-            }else{
-                return DoubleButtonCell(text1,text2,function1,function2,type1,type2)
+            } else if(type_role == 'admin') {
+              return DoubleButtonCell(text1,text2,function1,function2,type1,type2)
+            } else {
+              return ButtonCell(text2,function2,type2)
             }
         case 'ActionSubscribe':
             let signUpFunction = function () {
