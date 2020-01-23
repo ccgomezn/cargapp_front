@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import {getUsers} from "../../../../helpers/api/users";
 import {getCoupon, getModels} from "../../../../helpers/api/internals";
+import { getCompanies } from '../../../../helpers/api/companies.js';
 
 export default class CouponShow extends Component {
 
@@ -31,12 +32,12 @@ export default class CouponShow extends Component {
     return dataTransformed
   }
 
-
   componentWillMount() {
-    axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels()])
+    axios.all([getCoupon(this.props.match.params.id), getUsers(), getModels(), getCompanies()])
       .then((responses) => {
         let data_users = this.transformDataToMap(responses[1].data, 'email')
         let data_models = this.transformDataToMap(responses[2].data, 'name')
+        let data_companies = this.transformDataToMap(responses[3].data, 'name');
         if (responses[0].data.active) {
           responses[0].data.active = 'Activo';
         } else {
@@ -57,6 +58,10 @@ export default class CouponShow extends Component {
           user: data_users[responses[0].data.user_id],
           cargapp_model: data_models[responses[0].data.cargapp_model_id],
           active: responses[0].data.active,
+          company_id: responses[0].data.company_id,
+          company: data_companies[responses[0].data.company_id],
+          category: responses[0].data.category,
+          image: responses[0].data.image,
         });
 
       }).catch((error) => {
@@ -84,6 +89,7 @@ export default class CouponShow extends Component {
     if (redirect) {
       return <Redirect to='/admin/coupons' />
     }
+    console.log(this.state);
     return (
 
       <LayoutWrapper>
@@ -147,8 +153,6 @@ export default class CouponShow extends Component {
                       <p>{this.state.cargapp_model}</p>
                     </Form.Item>
                   </Col>
-
-
                 </Row>
 
                 <Row gutter={10}>
@@ -162,8 +166,30 @@ export default class CouponShow extends Component {
                       <p>{this.state.is_porcentage}</p>
                     </Form.Item>
                   </Col>
+                </Row>
 
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Categoria">
+                      <p>{this.state.category}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
 
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Compañia">
+                      <p>{this.state.company}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Imagen">
+                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
+                    </Form.Item>
+                  </Col>
                 </Row>
 
                 <Row>
@@ -180,10 +206,6 @@ export default class CouponShow extends Component {
 
           </Col>
         </Row>
-
-
-
-
       </LayoutWrapper>
     );
   }
