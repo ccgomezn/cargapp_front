@@ -33,10 +33,12 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
     let type3 = 'danger';
     
     let function1 = function () {
-      window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/edit/' + object['id'];
+      let role = type_role === 'super_admin' ? 'admin' : type_role;
+      window.location.href = window.location.protocol + '//' + window.location.host + '/' + role + '/services/edit/' + object['id'];
     };
     let function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/show/' + object['id'];
+      let role = type_role === 'super_admin' ? 'admin' : type_role;
+      window.location.href = window.location.protocol + '//' + window.location.host + '/' + role + '/services/show/' + object['id'];
     };
 
     switch (type) {

@@ -191,10 +191,10 @@ export default class Service extends Component {
         }
 
         if (reload) {
-            if (generator) {
+            if (this.state.role_id === 15) {
                 return <Redirect to='/generator/services'/>
 
-            } else if (vehicle_manager) {
+            } else if (this.state.role_id === 27) {
                 return <Redirect to='/vehicle_manager/services'/>
 
             } else {

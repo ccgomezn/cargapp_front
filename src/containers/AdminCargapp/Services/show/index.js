@@ -133,11 +133,6 @@ export default class ServiceShow extends Component {
                                             <p>{this.state.name}</p>
                                         </Form.Item>
                                     </Col>
-                                    <Col span={12}>
-                                        <Form.Item label="Origen">
-                                            <p>{this.state.origin}</p>
-                                        </Form.Item>
-                                    </Col>
                                 </Row>
 
                                 <Row gutter={10}>
@@ -169,11 +164,6 @@ export default class ServiceShow extends Component {
 
 
                                 <Row>
-                                    <Col span={12}>
-                                        <Form.Item label="Destino">
-                                            <p>{this.state.destination}</p>
-                                        </Form.Item>
-                                    </Col>
                                     <Col span={12}>
                                         <Form.Item label="Ciudad de destino">
                                           <p>{this.state.destination_address}</p>
