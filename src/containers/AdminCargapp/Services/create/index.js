@@ -129,7 +129,6 @@ export default class ReportCreate extends Component {
     }
 
     handleChange(value, type) {
-        console.log(transformInputData(value))
         if (type === 'user_driver_id') {
             this.setState({vehicles: this.state.vehicles_full[transformInputData(value)]});
         }
@@ -283,19 +282,12 @@ export default class ReportCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
-                                                <Form.Item label="Origen">
-                                                    <TextInputCustom value={this.state.origin} placeholder="origen"
-                                                                     label_id={'admin.title.origin'}
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'origin')}
-                                                                     required/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={12}>
                                                 <Form.Item label="Ciudad de origen ">
                                                     <SelectInputCustom value={this.state.origin_city_id}
                                                                        placeholder="ciudad de origen"
                                                                        style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'origin_city_id')
+                                                        this.handleChange(e, 'origin_city_id');
+                                                        this.handleChange(e.label, 'origin');
                                                     }}
                                                                        options={this.state && this.state.cities &&
 
@@ -338,20 +330,12 @@ export default class ReportCreate extends Component {
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
-                                                <Form.Item label="Destino">
-                                                    <TextInputCustom value={this.state.destination}
-                                                                     placeholder="destino"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'destination')}
-                                                                     required
-                                                                     label_id={'admin.title.destination'}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col span={12}>
                                                 <Form.Item label="Ciudad de destino ">
                                                     <SelectInputCustom value={this.state.destination_city_id}
                                                                        placeholder="ciudad de destino"
                                                                        style={{width: '100%'}} onChange={(e) => {
-                                                        this.handleChange(e, 'destination_city_id')
+                                                        this.handleChange(e, 'destination_city_id');
+                                                        this.handleChange(e.label, 'destination');
                                                     }}
                                                                        options={this.state && this.state.cities &&
 

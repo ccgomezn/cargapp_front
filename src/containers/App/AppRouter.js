@@ -631,6 +631,14 @@ const routes_generator = [
         component: asyncComponent(() => import('../AdminCargapp/Services/create'), {generator: true})
     },
     {
+      path: 'services/show/:id',
+      component: asyncComponent(() => import('../AdminCargapp/Services/show'), {generator: true})
+    },
+    {
+      path: 'services/edit/:id',
+      component: asyncComponent(() => import('../AdminCargapp/Services/edit'), {generator: true})
+    },
+    {
         path: 'active_services',
         component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true, active_services: true})
     },
@@ -736,3 +744,8 @@ class AppRouter extends Component {
 }
 
 export default AppRouter;
+
+
+
+
+
