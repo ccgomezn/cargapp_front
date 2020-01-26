@@ -40,7 +40,6 @@ export default class extends Component {
             } else {
                 newDataList = this.getSortDesc(sorter.columnKey, dataList);
             }
-            console.log(newDataList);
             this.setState({dataList: newDataList});
         }
     }
@@ -128,7 +127,6 @@ export default class extends Component {
         this.setState({
             columns: real_columns
         });
-        console.log(real_columns);
     }
 
 

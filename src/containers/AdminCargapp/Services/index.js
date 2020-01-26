@@ -10,6 +10,7 @@ import axios from "axios";
 import {Redirect} from 'react-router-dom'
 import {getActiveServices, getMineServices, getServices, getServicesOfDriver} from "../../../helpers/api/services";
 import {getActiveModels, getStatusOfModel} from "../../../helpers/api/internals";
+import { getMineUser } from "../../../helpers/api/users";
 import SecondaryButton from "../../../components/custom/button/secondary";
 import { Tabs } from 'antd';
 
@@ -46,12 +47,31 @@ export default class Service extends Component {
         return data_transformed;
     }
 
+    getServicesPermissions(globalPermissions) {
+      let servicePermissions = [];
+
+      if (globalPermissions !== undefined) {
+        globalPermissions.forEach(
+          function(permissions) { 
+            let cargapp_model = permissions.cargapp_model;
+            
+            if (cargapp_model.name === 'services') {
+              servicePermissions.push(permissions.action);
+            }
+          }
+        );
+      }
+      return servicePermissions;
+    }
+
     componentWillMount() {
         const {id} = this.props.match.params;
         const {generator, active_services, vehicle_manager} = this.props;
+        
         let getServicesFunction = function () {
             return getServices();
         };
+       
         if (id !== null && id !== undefined) {
             getServicesFunction = function () {
                 return getServicesOfDriver(
@@ -76,8 +96,17 @@ export default class Service extends Component {
                     model_id = model.id
                 }
             });
-            axios.all([getServicesFunction(), getStatusOfModel(model_id)])
+            axios.all([getServicesFunction(), getStatusOfModel(model_id), getMineUser()])
                 .then((responses) => {
+                    let role = responses[2].data.roles[0];
+                    let role_id = role.role_id;
+                    let servicesPermissions = this.getServicesPermissions(role.permissions);
+
+                    this.setState({
+                      role_id: role_id,
+                      permissions: servicesPermissions
+                    });
+
                     if (responses[0] !== undefined) {
                         let activeServices = [];
                         let nonActiveServices = [];
@@ -115,14 +144,10 @@ export default class Service extends Component {
                             this.setState({services: activeServices, nonActiveServices: nonActiveServices});
                         }
                     }
-
-
-
                 })
         })
 
     }
-
 
     redirectAdd(generator) {
         if (generator) {
@@ -132,12 +157,39 @@ export default class Service extends Component {
         }
     }
 
+    hasPermission(action) {
+      let permissions = this.state.permissions;
+      
+      if (permissions !== undefined) {
+        return (permissions.includes(action) || permissions.includes('all'));
+      }
+      return false;
+    }
+
     render() {
         const {rowStyle, colStyle} = basicStyle;
         const {reload} = this.state;
         const {id} = this.props.match.params;
         const {generator, vehicle_manager, active_services} = this.props;
-        let tableinforeal = generator ? tableinfos[2] : vehicle_manager ? id ? tableinfos[0] : tableinfos[3] : tableinfos[1];
+
+        let hasUpdatePermission = this.hasPermission('update');
+        let hasDeletePermission = this.hasPermission('destroy');
+        let tableinforeal;
+
+        if (this.state.role_id === 24) {
+          tableinforeal = tableinfos[6];
+        } else if (this.state.role_id === 28 && hasUpdatePermission && hasDeletePermission) {
+          tableinforeal = tableinfos[1];
+        } else if (this.state.role_id === 28 && hasUpdatePermission) {
+          tableinforeal = tableinfos[7];
+        } else if (this.state.role_id === 15 && hasUpdatePermission && hasDeletePermission) {
+          tableinforeal = tableinfos[2];
+        } else if (this.state.role_id === 15 && hasUpdatePermission) {
+          tableinforeal = tableinfos[8];
+        } else {
+          tableinforeal = tableinfos[0];
+        }
+
         if (reload) {
             if (generator) {
                 return <Redirect to='/generator/services'/>
