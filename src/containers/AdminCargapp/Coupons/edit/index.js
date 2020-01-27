@@ -21,7 +21,6 @@ import {transformInputData} from "../../../../helpers/utility";
 const {Option} = Select;
 export default class CouponEdit extends Component {
 
-
     constructor(props) {
         super();
         this.state = {
@@ -80,20 +79,25 @@ export default class CouponEdit extends Component {
       formData.append('coupon[active]', active);
       formData.append('coupon[company_id]', company_id);
       formData.append('coupon[category]', category);
-      formData.append('coupon[image]', this.state.image, this.state.image.name);
 
-        putCoupon(this.props.match.params.id, formData, true).then(() => {
-            this.setState({redirect: true})
-        })
+      if (this.state.image != null) {
+        formData.append('coupon[image]', this.state.image, this.state.image.name);
+      }
+      
+      putCoupon(this.props.match.params.id, formData, true).then(() => {
+          this.setState({redirect: true})
+      })
     }
 
     render() {
+      console.log(this.state);
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
 
         if (redirect) {
             return <Redirect to='/admin/coupons'/>
         }
+
         return (
 
             <LayoutWrapper>
@@ -251,6 +255,7 @@ export default class CouponEdit extends Component {
                                         <Form.Item label="Imagen">
                                           <div style={{position: 'relative'}}>
                                               <input type="file"
+                                                      value={''}
                                                       id="contained-button-file"
                                                       onChange={(e) => this.handleChange(e.target.files[0], 'image')}
                                                       style={{

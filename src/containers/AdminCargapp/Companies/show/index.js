@@ -55,6 +55,7 @@ export default class CompanyShow extends Component {
           user: data_users[responses[0].data.user_id],
           constitution_date: responses[0].data.constitution_date,
           active: responses[0].data.active,
+          image: responses[0].data.image
         });
 
       }).catch((error) => {
@@ -168,14 +169,20 @@ export default class CompanyShow extends Component {
                       <p>{this.state.address}</p>
                     </Form.Item>
                   </Col>
-
-
                 </Row>
 
                 <Row>
                   <Col span={24}>
                     <Form.Item label="Estado">
                       <p>{this.state.active}</p>
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row gutter={10}>
+                  <Col span={12}>
+                    <Form.Item label="Imagen">
+                      <a href={this.state.image}><IntlMessages id="general.download" /></a>
                     </Form.Item>
                   </Col>
                 </Row>

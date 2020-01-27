@@ -54,7 +54,7 @@ export default class CouponCreate extends Component {
 
 
     handlePost() {
-        const cargapp_model_id = this.state.cargapp_model_id !== undefined && this.state.cargapp_model_id.key !== undefined ? this.state.cargapp_model_id.key : this.state.cargapp_model_id;
+        const cargapp_model_id = transformInputData(this.state.cargapp_model_id);
         const category = transformInputData(this.state.category);
         const company_id = transformInputData(this.state.company_id);
         
