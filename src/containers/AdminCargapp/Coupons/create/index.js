@@ -71,7 +71,10 @@ export default class CouponCreate extends Component {
           formData.append('coupon[active]', true);
           formData.append('coupon[company_id]', company_id);
           formData.append('coupon[category]', category);
-          formData.append('coupon[image]', this.state.image, this.state.image.name);
+          
+          if (this.state.image != null) {
+            formData.append('coupon[image]', this.state.image, this.state.image.name);
+          }
           
           postCoupon(formData).then(() => {
               this.setState({redirect: true})

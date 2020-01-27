@@ -76,7 +76,6 @@ export default class CompanyEdit extends Component {
       const user_id = transformInputData(this.state.user_id);
       const load_type_id = transformInputData(this.state.load_type_id);
       const active = transformInputData(this.state.active);
-      const image = transformInputData(this.state.active);
 
       const formData = new FormData();
       formData.append('company[name]', this.state.name);
@@ -101,7 +100,6 @@ export default class CompanyEdit extends Component {
     }
 
     render() {
-      console.log(this.state.image);
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
 

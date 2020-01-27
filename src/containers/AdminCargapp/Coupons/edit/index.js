@@ -90,7 +90,6 @@ export default class CouponEdit extends Component {
     }
 
     render() {
-      console.log(this.state);
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
 

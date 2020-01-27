@@ -70,7 +70,10 @@ export default class CompanyCreate extends Component {
       formData.append('company[user_id]', user_id);
       formData.append('company[constitution_date]', this.state.constitution_date);
       formData.append('company[active]', true);
-      formData.append('company[image]', this.state.image, this.state.image.name);
+      
+      if (this.state.image != null) {
+        formData.append('company[image]', this.state.image, this.state.image.name);
+      }
       
       postCompany(formData).then(() => {
         this.setState({redirect: true})
@@ -85,10 +88,7 @@ export default class CompanyCreate extends Component {
             return <Redirect to='/admin/companies'/>
         }
         return (
-
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
