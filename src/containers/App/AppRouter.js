@@ -20,7 +20,6 @@ const routes_admin = [
         path: 'chats',
         component: asyncComponent(() => import('../AdminCargapp/Chats/detail'))
     },
-
     {
         path: 'roles/add',
         component: asyncComponent(() => import('../AdminCargapp/Roles/create'))

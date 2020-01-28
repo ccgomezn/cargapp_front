@@ -33,7 +33,7 @@ export default class Chat extends Component {
 
     componentWillMount() {
         axios.all([getMineRooms(), getActiveChats(), getActiveServices()]).then(responses => {
-            let services = this.transformDataToMap(responses[2].data, 'id');
+          let services = this.transformDataToMap(responses[2].data, 'id');
             let chat_ids = [];
             responses[0].data.forEach(chat => {
                 chat_ids.push(chat.room_id);
@@ -41,14 +41,18 @@ export default class Chat extends Component {
 
             let real_chats = [];
             responses[1].data.forEach(chat => {
-                if(chat_ids.includes(chat.id)){
-                    chat.service = services[chat.service_id];
-                    real_chats.push(chat);
+              if(chat_ids.includes(chat.id)){
+                chat.service = services[chat.service_id];
+                
+                if (chat.service != undefined) {
+                  real_chats.push(chat);
                 }
+              }
             });
+    
             this.setState({
-                real_chats:real_chats
-            })
+                real_chats: real_chats
+            });
         })
 
 
@@ -62,8 +66,6 @@ export default class Chat extends Component {
 
         return (
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row gutter={12}>
