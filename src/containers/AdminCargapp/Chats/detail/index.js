@@ -41,14 +41,17 @@ export default class ChatDetail extends Component {
             let services = this.transformDataToMap(responses[2].data, 'id');
             let chat_ids = [];
             responses[0].data.forEach(chat => {
-                chat_ids.push(chat.room_id);
+              chat_ids.push(chat.room_id);
             });
 
             let real_chats = [];
             responses[1].data.forEach(chat => {
                 if (chat_ids.includes(chat.id)) {
                     chat.service = services[chat.service_id];
-                    real_chats.push(chat);
+                    
+                    if (chat.service != undefined) {
+                      real_chats.push(chat);
+                    }
                 }
             });
             this.setState({
@@ -73,7 +76,6 @@ export default class ChatDetail extends Component {
         const unsubscribe = firebase.firestore().collection('chat_'+uid).onSnapshot({
             error: (e) => console.error(e),
             next: (querySnapshot) => {
-                console.log(querySnapshot);
                 let messages = [];
                 let docs = querySnapshot.docs;
                 docs = docs.sort(function (a, b) {
@@ -216,38 +218,10 @@ export default class ChatDetail extends Component {
                                             }
                                         />
                                         <div ref={this.messagesEndRef}/>
-
                                     </div>
-
-                                    <div className="Input">
-                                        {this.state.name &&
-                                        <Row>
-                                            <Col span={20}>
-                                                <TextInputCustom value={this.state.message}
-                                                                 placeholder="Escriba su mensaje..."
-                                                                 style={{style: '80%'}}
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'message')}
-                                                                 label_id={'admin.title.message'}/>
-                                            </Col>
-
-                                            <Col span={4}>
-                                                <PrimaryButton message_id={"general.send"}
-                                                               style={{
-                                                                   width: '80%',
-                                                                   marginLeft: '10%',
-                                                                   marginTop: '7px'
-                                                               }}
-                                                               onClick={() => this.handleSend()}/>
-                                            </Col>
-                                        </Row>
-                                        }
-                                    </div>
-
                                 </Col>
                             </Card>
-
                         </Row>
-
                     </Col>
                 </Row>
 

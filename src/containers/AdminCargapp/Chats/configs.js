@@ -10,24 +10,24 @@ import {
 
 const renderCell = (object, type, key, color = false) => {
     let value = object[key];
+    
     switch (type) {
-        case 'ImageCell':
-            return ImageCell(value);
-        case 'DateCell':
-            return DateCell(value);
-        case 'LinkCell':
-            return LinkCell('Ir al chat', 'chats/'+object.id);
-        default:
-            var color_val = '';
+      case 'ImageCell':
+        return ImageCell(value);
+      case 'DateCell':
+        return DateCell(value);
+      case 'LinkCell':
+        return LinkCell('Ir al chat', 'chats/' + object.id);
+      default:
+        var color_val = '';
 
-            if (color) {
-                color_val = object['color'];
-            }
-            if(key === 'service'){
-                value = value.origin + ' - ' + value.destination;
-            }
-            console.log(value)
-            return TextColorCell(value, color_val);
+        if (color) {
+            color_val = object['color'];
+        }
+        if(key === 'service'){
+            value = value.origin + ' - ' + value.destination;
+        }
+        return TextColorCell(value, color_val);
     }
 };
 
@@ -54,7 +54,7 @@ const columns = [
         title: <IntlMessages id="antTable.title.options" />,
         key: 'option',
         width: '10%',
-        render: object => renderCell(object, 'LinkCell', '')
+        render: object => renderCell(object, 'LinkCell', 'service')
     },
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
