@@ -89,12 +89,8 @@ export default class CouponShow extends Component {
     if (redirect) {
       return <Redirect to='/admin/coupons' />
     }
-    console.log(this.state);
     return (
-
       <LayoutWrapper>
-
-
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row>

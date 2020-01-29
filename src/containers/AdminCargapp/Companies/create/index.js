@@ -14,6 +14,7 @@ import DatePickerCustom from "../../../../components/custom/input/date";
 import {getActiveUsers} from "../../../../helpers/api/users";
 import {postCompany} from "../../../../helpers/api/companies";
 import {getActiveLoadTypes} from "../../../../helpers/api/services";
+import {transformInputData} from "../../../../helpers/utility";
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -54,28 +55,29 @@ export default class CompanyCreate extends Component {
     }
 
     handlePost() {
-        const user_id = this.state.user_id !== undefined && this.state.user_id.key !== undefined ? this.state.user_id.key : this.state.user_id;
-        const load_type_id = this.state.load_type_id !== undefined && this.state.load_type_id.key !== undefined ? this.state.load_type_id.key : this.state.load_type_id;
+      const user_id = transformInputData(this.state.user_id);
+      const load_type_id = transformInputData(this.state.load_type_id);
 
-        postCompany(
-            {
-                company: {
-                    name: this.state.name,
-                    description: this.state.description,
-                    company_type: this.state.company_type,
-                    load_type_id: load_type_id,
-                    sector: this.state.sector,
-                    legal_representative: this.state.legal_representative,
-                    address: this.state.address,
-                    phone: this.state.phone,
-                    user_id: user_id,
-                    constitution_date: this.state.constitution_date,
-                    active: true,
-                }
-
-            }).then(() => {
-            this.setState({redirect: true})
-        })
+      const formData = new FormData();
+      formData.append('company[name]', this.state.name);
+      formData.append('company[description]', this.state.description);
+      formData.append('company[company_type]', this.state.company_type);
+      formData.append('company[load_type_id]', load_type_id);
+      formData.append('company[sector]', this.state.sector);
+      formData.append('company[legal_representative]', this.state.legal_representative);
+      formData.append('company[address]', this.state.address);
+      formData.append('company[phone]', this.state.phone);
+      formData.append('company[user_id]', user_id);
+      formData.append('company[constitution_date]', this.state.constitution_date);
+      formData.append('company[active]', true);
+      
+      if (this.state.image != null) {
+        formData.append('company[image]', this.state.image, this.state.image.name);
+      }
+      
+      postCompany(formData).then(() => {
+        this.setState({redirect: true})
+      })
     }
 
     render() {
@@ -86,10 +88,7 @@ export default class CompanyCreate extends Component {
             return <Redirect to='/admin/companies'/>
         }
         return (
-
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
@@ -221,6 +220,34 @@ export default class CompanyCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
+
+                                    <Row gutter={10}>
+                                      <Col span={12}>
+                                        <Form.Item label="Imagen">
+                                          <div style={{position: 'relative'}}>
+                                              <input type="file"
+                                                      id="contained-button-file"
+                                                      onChange={(e) => this.handleChange(e.target.files[0], 'image')}
+                                                      style={{
+                                                          position: 'relative',
+                                                          textAlign: 'right',
+                                                          opacity: 0,
+                                                          zIndex: 2
+                                                      }}/>
+                                              <label htmlFor="contained-button-file" style={{
+                                                  position: 'absolute',
+                                                  top: '0px',
+                                                  left: '0px',
+                                                  zIndex: 1
+                                              }}>
+                                                  <PrimaryButton message_id={'widget.load'}/>
+                                                  {this.state.image && this.state.image.name}
+                                              </label>
+                                          </div>
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+
                                     <Row>
                                         <Col span={24}>
                                             <Form.Item wrapperCol={{span: 24}}>
