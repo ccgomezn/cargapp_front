@@ -110,14 +110,11 @@ export default class ServiceShow extends Component {
         return (
 
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 <PageHeader>
-
                                     <h1>
                                         <IntlMessages id="services.title"/>
 
@@ -270,8 +267,6 @@ export default class ServiceShow extends Component {
                                     </Col>
                                 </Row>
                             </Card>
-
-
                         </Row>
 
                     </Col>

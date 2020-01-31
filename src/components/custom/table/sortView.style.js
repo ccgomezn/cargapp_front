@@ -13,6 +13,65 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: transparent;
 
+  .waitingColor {
+    color: #FF923C;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    float: left;
+    text-align: center;
+	  width: 150px;
+    font-size: 15px;
+  }
+
+  .loadingColor {
+    color: #31B33C;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    float: left;
+    text-align: center;
+    width: 150px;
+    font-size: 15px;
+  }
+
+  .goingColor {
+    color: #4677EB;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    float: left;
+    text-align: center;
+    width: 150px;
+    font-size: 15px;
+  }
+
+  .endingColor {
+    color: #EBC546;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    float: left;
+    width: 150px;
+    font-size: 15px;
+  }
+
+  .finishColor {
+    color: #EB4132;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    float: left;
+    width: 150px;
+    font-size: 15px;
+  }
+
   .ant-table-body {
     overflow-x: auto;
   }
@@ -56,6 +115,7 @@ const TableWrapper = styled(Table)`
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.2px;
+  /*holi*/
   color: rgb(1, 9, 53);
     border-bottom: 12px solid rgb(244, 246, 251);
 

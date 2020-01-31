@@ -34,23 +34,25 @@ export default class ServiceDocumentShow extends Component {
   componentWillMount() {
     axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getActiveServices()])
       .then((responses) => {
-
-        if (responses[0].data.active) {
-          responses[0].data.active = 'Activo';
+        let actualService = responses[0].data;
+        if (actualService.active) {
+          actualService.active = 'Activo';
         } else {
-          responses[0].data.active = 'Desactivado';
+          actualService.active = 'Desactivado';
         }
-
 
         let data_users = this.transformDataToMap(responses[1].data, 'email');
         let data_services = this.transformDataToMap(responses[2].data, 'name');
+        let formatedDatetime = actualService.updated_at.split('T').join(', ').split('.')[0];
+        
         this.setState({
-          name: responses[0].data.name,
-          document_type: responses[0].data.document_type,
-          document: responses[0].data.document,
-          service: data_services[responses[0].data.service_id],
-          user: data_users[responses[0].data.user_id],
-          active: responses[0].data.active,
+          name: actualService.name,
+          document_type: actualService.document_type,
+          document: actualService.document,
+          service: data_services[actualService.service_id],
+          user: data_users[actualService.user_id],
+          active: actualService.active,
+          datetime: formatedDatetime,
         });
 
       }).catch((error) => {
@@ -111,12 +113,12 @@ export default class ServiceDocumentShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Nombre">
-                      <p>{this.state.name}</p>
+                      <span>{this.state.name}</span>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Tipo de documento">
-                      <p>{this.state.document_type}</p>
+                      <span>{this.state.document_type}</span>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -124,12 +126,28 @@ export default class ServiceDocumentShow extends Component {
                 <Row gutter={10}>
                   <Col span={12}>
                     <Form.Item label="Servicio">
-                      <p>{this.state.service}</p>
+                      <span>{this.state.service}</span>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Usuario">
-                      <p>{this.state.user}</p>
+                      <span>{this.state.user}</span>
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row span={12}>
+                  <Col span={12}>
+                  <Form.Item label="Fecha y hora">
+                      <span>{this.state.datetime}</span>
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col span={12}>
+                    <Form.Item label="Estado de activación">
+                      <span>{this.state.active}</span>
                     </Form.Item>
                   </Col>
                 </Row>
@@ -138,15 +156,6 @@ export default class ServiceDocumentShow extends Component {
                   <Col span={12}>
                     <Form.Item label="Documento">
                       <a href={this.state.document}><IntlMessages id="general.download" /></a>
-                    </Form.Item>
-                  </Col>
-                </Row>
-
-                    <Row>
-
-                  <Col span={12}>
-                    <Form.Item label="Estado de activación">
-                      <p>{this.state.active}</p>
                     </Form.Item>
                   </Col>
                 </Row>

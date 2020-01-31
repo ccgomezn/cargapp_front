@@ -40,7 +40,7 @@ export default class ServiceDocument extends Component {
         return dataTransformed
     }
 
-
+// change data here!!!!!
     componentWillMount() {
         let id = this.props.match.params.id;
         let getDocumentsFunction = function () {
@@ -76,6 +76,10 @@ export default class ServiceDocument extends Component {
                             item.color = '#ff2557';
                             inactive.push(item);
                         }
+
+                        let formatedDatetime = item.updated_at.split('T').join(', ').split('.')[0];
+                        item.last_update = formatedDatetime;
+                        
                         return item;
                     });
                     this.setState({
@@ -112,8 +116,6 @@ export default class ServiceDocument extends Component {
         }
         return (
             <LayoutWrapper>
-
-
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row gutter={12}>

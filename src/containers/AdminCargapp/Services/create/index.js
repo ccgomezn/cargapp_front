@@ -205,7 +205,9 @@ export default class ReportCreate extends Component {
     handleSearchLocation(city_id, address, type) {
         let city = this.state.cities_proc[city_id];
         let address_full = encodeURIComponent(address + ',' + city);
-        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),).then((response) => {
+        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?region=CO' + 
+          '&address=' + address_full + '' + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),)
+          .then((response) => {
             if (response.data.results.length === 0) {
                 message.error('Dirección no encontrada');
             } else {
@@ -265,20 +267,6 @@ export default class ReportCreate extends Component {
                             <Card className="cardContent" >
 
                                 <Col lg={12} md={24} sm={24} xs={24}>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Col span={24}>
-                                                <Form.Item label="Nombre">
-                                                    <TextInputCustom value={this.state.name} placeholder="nombre"
-                                                                     label_id={'admin.title.name'}
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                                     required/>
-                                                </Form.Item>
-                                            </Col>
-
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
@@ -445,7 +433,7 @@ export default class ReportCreate extends Component {
                                                 }]} center={this.state.center ? this.state.center : {
                                                 lat: 4.710989,
                                                 lng: -74.072090
-                                            }} block style={{height: 600}} isFreight={false}/>
+                                            }} block style={{height: 500}} isFreight={false}/>
                                         </Col>
                                     </Row>
                                 </Col>
@@ -467,15 +455,7 @@ export default class ReportCreate extends Component {
                                                                      label_id={'admin.title.price'}/>
                                                 </Form.Item>
                                             </Col>
-                                            <Col span={12}>
-                                                <Form.Item label="Descripción">
-                                                    <TextInputCustom value={this.state.description}
-                                                                     placeholder="descripción"
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'description')}
-                                                                     required
-                                                                     label_id={'admin.title.description'}/>
-                                                </Form.Item>
-                                            </Col>
+                                            
                                         </Col>
 
                                     </Row>
@@ -521,22 +501,32 @@ export default class ReportCreate extends Component {
 
 
                                     <Row gutter={10}>
-
-
                                         <Col span={12}>
+                                                <Form.Item label="Dice contener:">
+                                                    <TextInputCustom value={this.state.description}
+                                                                     placeholder="dice contener"
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'description')}
+                                                                     required
+                                                                     label_id={'admin.title.description'}/>
+                                                </Form.Item>
+                                            </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Observaciones:">
+                                                <TextInputCustom value={this.state.note} placeholder="observaciones"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'note')}
+                                                                 required
+                                                                 label_id={'admin.title.note'}/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                    <Col span={12}>
                                             <Form.Item label="Contacto">
                                                 <TextInputCustom value={this.state.contact} placeholder="contacto"
                                                                  onChange={(e) => this.handleChange(e.target.value, 'contact')}
                                                                  required
                                                                  label_id={'admin.title.contact'}/>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Nota">
-                                                <TextInputCustom value={this.state.note} placeholder="nota"
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'note')}
-                                                                 required
-                                                                 label_id={'admin.title.note'}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
