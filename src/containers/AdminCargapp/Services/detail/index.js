@@ -47,8 +47,7 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-
-
+      
         getActiveModels().then(response => {
             let model_id = '';
 
@@ -57,9 +56,11 @@ export default class ServiceDetail extends Component {
                     model_id = model.id
                 }
             });
-            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
+            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), 
+                        getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), 
+                        getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
                 .then((responses) => {
-
+                  console.log(responses[0].data);
                     if (responses[0].data.active) {
                         responses[0].data.active = 'Activo';
                     } else {
@@ -76,6 +77,7 @@ export default class ServiceDetail extends Component {
                     let data_status_code = this.transformDataToMap(responses[6].data, 'code');
 
                     let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
+                    
                     this.setState({
                         name: responses[0].data.name,
                         origin: responses[0].data.origin,
@@ -89,6 +91,9 @@ export default class ServiceDetail extends Component {
                         destination_latitude: responses[0].data.destination_latitude,
                         destination_longitude: responses[0].data.destination_longitude,
                         price: responses[0].data.price,
+                        load_weight: responses[0].data.load_weight,
+                        load_volume: responses[0].data.load_volume,
+                        packing: responses[0].data.packing,
                         description: responses[0].data.description,
                         note: responses[0].data.note,
                         user: data_users[responses[0].data.user_id],
@@ -101,7 +106,8 @@ export default class ServiceDetail extends Component {
                         status: data_status[responses[0].data.statu_id],
                         statu_id: responses[0].data.statu_id,
                         expiration_date: responses[0].data.expiration_date,
-                        contact: responses[0].data.contact,
+                        contact_name: responses[0].data.contact_name,
+                        contact_phone: responses[0].data.contact_phone,
                         report_type: responses[0].data.report_type,
                         active: responses[0].data.active,
                         status_code: data_status_code,
@@ -260,14 +266,14 @@ export default class ServiceDetail extends Component {
                                                         <Col span={12}>
                                                             <Form.Item label="Peso" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {'10 ton'}
+                                                                {this.state.load_weight || 'No aplica'}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
                                                         <Col span={12}>
                                                             <Form.Item label="Volumen" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {'10000 cm3'}
+                                                                {this.state.load_volume || 'No aplica'} 
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
@@ -336,7 +342,7 @@ export default class ServiceDetail extends Component {
                                                         <Col span={10}>
                                                             <Form.Item label="Observaciones" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.note}
+                                                                {this.state.note || 'No hay observaciones'}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
@@ -344,7 +350,25 @@ export default class ServiceDetail extends Component {
                                                         <Col span={10}>
                                                             <Form.Item label="Presentación" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {'Cajas'}
+                                                                {this.state.packing || 'No aplica'}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
+
+                                                      <Row>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Nombre responsable" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.contact_name}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={2}></Col>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Teléfono responsable" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.contact_phone}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>

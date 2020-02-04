@@ -40,7 +40,6 @@ export default class Service extends Component {
     meanRateServices(data){
         let dataTransformed = {};
         data.map((item) => {
-          console.log(dataTransformed[item.user_id] );
             if(dataTransformed[item.user_id] === undefined){
                 dataTransformed[item.user_id] = {
                     sum: item.driver_point,
