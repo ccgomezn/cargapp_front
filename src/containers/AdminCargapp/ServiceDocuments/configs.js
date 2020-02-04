@@ -22,7 +22,6 @@ const deleteFunction = (id, type) => {
 };
 
 const renderCell = (object, type, key, color = false, role_type, link) => {
-  console.log(object);
   let value = object[key];
   
   switch (type) {

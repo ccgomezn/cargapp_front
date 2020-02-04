@@ -115,7 +115,6 @@ const TableWrapper = styled(Table)`
   font-stretch: normal;
   line-height: normal;
   letter-spacing: -0.2px;
-  /*holi*/
   color: rgb(1, 9, 53);
     border-bottom: 12px solid rgb(244, 246, 251);
 
