@@ -22,7 +22,8 @@ const deleteFunction = (id, type) => {
 };
 
 const renderCell = (object, type, key, color = false, role_type, link) => {
-  const value = object[key];
+  let value = object[key];
+  
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
@@ -30,7 +31,6 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
       return DateCell(value);
     case 'LinkCell':
       let href =  window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/show/' + object['id'];
-
       return LinkCell(link,href);
     case 'MultipleButtonCell':
       var text1 = 'Editar';
@@ -58,70 +58,76 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
 };
 
 const columns = [
-  {
+  { // 0
     title: "Id",
     key: 'id',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'id')
   },
-  {
+  { // 1
     title: <IntlMessages id="antTable.title.name" />,
     key: 'name',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'name')
   },
-  {
+  { // 2
     title: <IntlMessages id="antTable.title.documentType" />,
     key: 'document_type',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'document_type')
   },
-  {
+  { // 3
     title: <IntlMessages id="antTable.title.service" />,
     key: 'service',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'service')
   },
-  {
+  { // 4
     title: <IntlMessages id="antTable.title.user" />,
     key: 'user',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'user')
   },
-  {
+  { // 5
     title: <IntlMessages id="antTable.title.state" />,
     key: 'active',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'active', true)
   },
-  {
+  { // 6
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
     render: object => renderCell(object, 'MultipleButtonCell', '',null, 'admin')
-  },{
+  },
+  { // 7
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
     render: object => renderCell(object, 'LinkCell', null, null, 'generator', 'Ver detalle')
   },
+  { // 8
+    title: <IntlMessages id="antTable.title.datetime" />,
+    key: 'last_update',
+    width: '8%',
+    render: object => renderCell(object, 'TextCell', 'last_update')
+  },
 ];
 
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
 const sortColumns = [
-  { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
+  { ...columns[8], sorter: true },
+  { ...columns[4], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[6], sorter: false },
 ];
 const sortColumnsGenerator = [
-  { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
+  { ...columns[8], sorter: true },
+  { ...columns[4], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
-  { ...columns[4], sorter: true },
   { ...columns[7], sorter: false },
 ];
 const editColumns = [

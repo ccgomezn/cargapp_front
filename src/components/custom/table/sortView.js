@@ -89,16 +89,54 @@ export default class extends Component {
                 setTimeout(() => this.searchInput.select());
             }
         },
-        render: text => (
+        render: text => {
+          let stateClass = 'normalColor';
+          switch (text) {
+            case 'En espera':
+              stateClass = 'waitingColor';
+              break;
+            case 'Camionero asignado':
+                stateClass = 'loadingColor';
+                break;
+            case 'Camino a cargue':
+              stateClass = 'loadingColor';
+              break;
+            case 'Inicio de cargue':
+              stateClass = 'loadingColor';
+              break;
+            case 'Cargue finalizado':
+              stateClass = 'loadingColor';
+              break;
+            case 'Viaje en curso':
+              stateClass = 'goingColor';
+              break;
+            case 'Llegando a punto de descargue':
+              stateClass = 'goingColor';
+              break;
+            case 'Inicio de descargue':
+              stateClass = 'endingColor';
+              break;
+            case 'Descargue finalizado':
+              stateClass = 'endingColor';
+              break;
+            case 'Viaje finalizado':
+              stateClass = 'finishColor';
+              break;
+            default:
+              break;
+          }
+          return (
             typeof text === 'object' ?
-                text :
-                <Highlighter
-                    highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-                    searchWords={[this.state.searchText]}
-                    autoEscape
-                    textToHighlight={text ? text.toString() : ''}
-                />
-        ),
+            text :
+            <Highlighter
+                class={stateClass}
+                highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
+                searchWords={[this.state.searchText]}
+                autoEscape
+                textToHighlight={text ? text.toString() : ''}
+            />
+          );
+        }
     });
 
     handleSearch = (selectedKeys, confirm) => {
@@ -122,8 +160,7 @@ export default class extends Component {
             real_columns.push({...column});
           }
         });
-
-
+        
         this.setState({
             columns: real_columns
         });

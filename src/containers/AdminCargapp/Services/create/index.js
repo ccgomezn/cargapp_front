@@ -20,7 +20,7 @@ import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {postService} from "../../../../helpers/api/services";
 import {getActiveVehicles, getActiveVehicleTypes} from "../../../../helpers/api/vehicles";
 import {getActiveCities} from "../../../../helpers/api/locations";
-import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
+import {getActiveModels, getStatusOfModel, findParameters} from "../../../../helpers/api/internals";
 import Modal from '../../../../components/feedback/modal';
 import {getActivePaymentMethods} from "../../../../helpers/api/payments";
 import CreditCardInput from "react-credit-card-input";
@@ -105,7 +105,9 @@ export default class ReportCreate extends Component {
                 }
             });
 
-            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), getActiveVehicleTypes(), getStatusOfModel(model_id), getActivePaymentMethods()])
+            axios.all([getActiveUsers(), getActiveCities(), getActiveCompanies(), getVehiclesFunction(), 
+                        getActiveVehicleTypes(), getStatusOfModel(model_id), getActivePaymentMethods(),
+                        findParameters('PACKING_TYPES')])
                 .then((responses) => {
                     this.setState({
                         users: responses[0].data,
@@ -122,13 +124,15 @@ export default class ReportCreate extends Component {
                         destination_latitude: 4.710989,
                         destination_longitude: -74.072090,
                         center: {lat: 4.710989, lng: -74.072090},
-                        payment_methods: responses[6].data
+                        payment_methods: responses[6].data,
+                        packing_types: responses[7].data.parameters,
                     });
                 });
         });
     }
 
     handleChange(value, type) {
+      console.log(value, type);
         if (type === 'user_driver_id') {
             this.setState({vehicles: this.state.vehicles_full[transformInputData(value)]});
         }
@@ -172,7 +176,10 @@ export default class ReportCreate extends Component {
                             destination_latitude: this.state.destination_latitude,
                             destination_longitude: this.state.destination_longitude,
                             price: this.state.price,
+                            load_weight: this.state.load_weight,
+                            load_volume: this.state.load_volume,
                             description: this.state.description,
+                            packing: transformInputData(this.state.packing),
                             note: this.state.note,
                             user_id: response.data.user.id,
                             company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
@@ -180,7 +187,8 @@ export default class ReportCreate extends Component {
                             vehicle_type_id: transformInputData(this.state.vehicle_type_id),
                             statu_id: 10,
                             expiration_date: this.state.expiration_date,
-                            contact: this.state.contact,
+                            contact_name: this.state.contact_name,
+                            contact_phone: this.state.contact_phone,
                             vehicle_id: 2,
                             active: true,
                         }
@@ -190,9 +198,8 @@ export default class ReportCreate extends Component {
                         data.service.vehicle_id = transformInputData(this.state.vehicle_id);
                     }
 
-
+                    
                     postService(data).then(() => {
-
                         this.setState({redirect: true})
                     })
                 })
@@ -205,7 +212,9 @@ export default class ReportCreate extends Component {
     handleSearchLocation(city_id, address, type) {
         let city = this.state.cities_proc[city_id];
         let address_full = encodeURIComponent(address + ',' + city);
-        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?address=' + address_full + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),).then((response) => {
+        axios.post(encodeURI('https://maps.googleapis.com/maps/api/geocode/json?region=CO' + 
+          '&address=' + address_full + '' + '&key=' + process.env.REACT_APP_GOOLE_MAPS_API_KEY),)
+          .then((response) => {
             if (response.data.results.length === 0) {
                 message.error('Dirección no encontrada');
             } else {
@@ -265,20 +274,6 @@ export default class ReportCreate extends Component {
                             <Card className="cardContent" >
 
                                 <Col lg={12} md={24} sm={24} xs={24}>
-                                    <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Col span={24}>
-                                                <Form.Item label="Nombre">
-                                                    <TextInputCustom value={this.state.name} placeholder="nombre"
-                                                                     label_id={'admin.title.name'}
-                                                                     onChange={(e) => this.handleChange(e.target.value, 'name')}
-                                                                     required/>
-                                                </Form.Item>
-                                            </Col>
-
-                                        </Col>
-
-                                    </Row>
                                     <Row gutter={10}>
                                         <Col span={24}>
                                             <Col span={12}>
@@ -369,7 +364,6 @@ export default class ReportCreate extends Component {
                                                                      onClick={() => this.handleSearchLocation(transformInputData(this.state.destination_city_id),
                                                                          this.state.destination_address, 'destination')}/>
                                                 </Form.Item>
-
                                             </Col>
                                         </Col>
 
@@ -445,7 +439,7 @@ export default class ReportCreate extends Component {
                                                 }]} center={this.state.center ? this.state.center : {
                                                 lat: 4.710989,
                                                 lng: -74.072090
-                                            }} block style={{height: 600}} isFreight={false}/>
+                                            }} block style={{height: 500}} isFreight={false}/>
                                         </Col>
                                     </Row>
                                 </Col>
@@ -454,7 +448,7 @@ export default class ReportCreate extends Component {
                         </Row>
 
                         <Row style={rowStyle} gutter={10}>
-                            <Card className="cardContent" style={{marginTop: '50px'}}>
+                            <Card className="cardContent" style={{marginTop: '1%'}}>
                                 <Form>
 
                                     <Row gutter={10}>
@@ -468,21 +462,61 @@ export default class ReportCreate extends Component {
                                                 </Form.Item>
                                             </Col>
                                             <Col span={12}>
-                                                <Form.Item label="Descripción">
+                                                <Form.Item label="Fecha de expiración">
+                                                    {
+                                                        this.state && this.state.expiration_date &&
+                                                        <DatePickerCustom
+                                                            defaultValue={moment(this.state.expiration_date, dateFormat)}
+                                                            format={dateFormat}
+                                                            label_id={'label.date'}
+                                                            onChange={(e) => this.handleChange(e, 'expiration_date')}/>
+                                                    }
+                                                </Form.Item>
+                                            </Col>
+                                        </Col>
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                                <Form.Item label="Peso de la carga:">
+                                                    <TextInputCustom value={this.state.load_weight}
+                                                                     placeholder="peso"
+                                                                     onChange={(e) => this.handleChange(e.target.value, 'load_weight')}
+                                                                     required
+                                                                     label_id={'admin.title.weight'}/>
+                                                </Form.Item>
+                                            </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Volúmen de la carga:">
+                                                <TextInputCustom value={this.state.load_volume} 
+                                                                 placeholder="volúmen"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'load_volume')}
+                                                                 label_id={'admin.title.volume'}/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row gutter={10}>
+                                        <Col span={12}>
+                                                <Form.Item label="Dice contener:">
                                                     <TextInputCustom value={this.state.description}
-                                                                     placeholder="descripción"
+                                                                     placeholder="dice contener"
                                                                      onChange={(e) => this.handleChange(e.target.value, 'description')}
                                                                      required
                                                                      label_id={'admin.title.description'}/>
                                                 </Form.Item>
                                             </Col>
+                                        <Col span={12}>
+                                            <Form.Item label="Observaciones:">
+                                                <TextInputCustom value={this.state.note} placeholder="observaciones"
+                                                                 onChange={(e) => this.handleChange(e.target.value, 'note')}
+                                                                 label_id={'admin.title.note'}/>
+                                            </Form.Item>
                                         </Col>
-
                                     </Row>
 
                                     <Row gutter={10}>
                                         <Col span={24}>
-
                                             <Col span={12}>
                                                 <Form.Item label="Tipo de vehiculo">
                                                     <SelectInputCustom value={this.state.vehicle_type_id}
@@ -503,40 +537,44 @@ export default class ReportCreate extends Component {
                                                 </Form.Item>
                                             </Col>
                                             <Col span={12}>
-                                                <Form.Item label="Fecha de expiración">
-                                                    {
-                                                        this.state && this.state.expiration_date &&
-                                                        <DatePickerCustom
-                                                            defaultValue={moment(this.state.expiration_date, dateFormat)}
-                                                            format={dateFormat}
-                                                            label_id={'label.date'}
-                                                            onChange={(e) => this.handleChange(e, 'expiration_date')}/>
-                                                    }
+                                                <Form.Item label="Tipo de empaque">
+                                                    <SelectInputCustom value={this.state.packing}
+                                                                       placeholder="tipo de empaque"
+                                                                       style={{width: '100%'}} onChange={(e) => {
+                                                        this.handleChange(e, 'packing')
+                                                    }}
+                                                                       options={this.state && this.state.packing_types &&
+
+                                                                       this.state.packing_types.map((item) => {
+                                                                           return <Option
+                                                                               value={item.name}>{item.name}</Option>
+                                                                       })
+                                                                       }
+                                                                       label_id={'admin.title.type'}>
+
+                                                    </SelectInputCustom>
                                                 </Form.Item>
                                             </Col>
                                         </Col>
-
-
                                     </Row>
 
-
                                     <Row gutter={10}>
-
-
+                                      <Col span={12}>
+                                                <Form.Item label="Peso de la carga:">
+                                                  <TextInputCustom value={this.state.contact_name}
+                                                                   placeholder="nombre del responsable"
+                                                                   onChange={(e) => this.handleChange(e.target.value, 'contact_name')}
+                                                                   required
+                                                                   label_id={'admin.title.contact_name'}/>
+                                                </Form.Item>
+                                            </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Contacto">
-                                                <TextInputCustom value={this.state.contact} placeholder="contacto"
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'contact')}
-                                                                 required
-                                                                 label_id={'admin.title.contact'}/>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Form.Item label="Nota">
-                                                <TextInputCustom value={this.state.note} placeholder="nota"
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'note')}
-                                                                 required
-                                                                 label_id={'admin.title.note'}/>
+                                            <Form.Item label="Volúmen de la carga:">
+                                              <TextInputCustom value={this.state.contact_phone} 
+                                                               placeholder="tel del responsable"
+                                                               onChange={(e) => this.handleChange(e.target.value, 'contact_phone')}
+                                                               required
+                                                               label_id={'admin.title.contact_phone'}/>
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -565,8 +603,6 @@ export default class ReportCreate extends Component {
                                                         </SelectInputCustom>
                                                     </Form.Item>
                                                 </Col>
-
-
                                             </Col>
 
 

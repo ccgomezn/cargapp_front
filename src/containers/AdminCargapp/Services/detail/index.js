@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
-import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form} from "antd";
+import {Form, Steps, Row, Col} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
@@ -12,7 +11,6 @@ import MapContainer from "../../../../components/maps/map";
 import ReportsSmallWidget from "../../../Dashboard/reportsmall/report-widget";
 import IsoWidgetsWrapper from "../../../Dashboard/widgets-wrapper";
 import importantVariables from "../../../../helpers/hashVariables";
-import {Steps} from 'antd';
 import {getActiveUsers, getUserLocation} from "../../../../helpers/api/users";
 import {getActiveCompanies} from "../../../../helpers/api/companies";
 import {getDocumentsOfService, getService, putService} from "../../../../helpers/api/services";
@@ -49,8 +47,7 @@ export default class ServiceDetail extends Component {
     }
 
     componentWillMount() {
-
-
+      
         getActiveModels().then(response => {
             let model_id = '';
 
@@ -59,9 +56,11 @@ export default class ServiceDetail extends Component {
                     model_id = model.id
                 }
             });
-            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
+            axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), 
+                        getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), 
+                        getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
                 .then((responses) => {
-
+                  console.log(responses[0].data);
                     if (responses[0].data.active) {
                         responses[0].data.active = 'Activo';
                     } else {
@@ -78,6 +77,7 @@ export default class ServiceDetail extends Component {
                     let data_status_code = this.transformDataToMap(responses[6].data, 'code');
 
                     let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
+                    
                     this.setState({
                         name: responses[0].data.name,
                         origin: responses[0].data.origin,
@@ -91,6 +91,9 @@ export default class ServiceDetail extends Component {
                         destination_latitude: responses[0].data.destination_latitude,
                         destination_longitude: responses[0].data.destination_longitude,
                         price: responses[0].data.price,
+                        load_weight: responses[0].data.load_weight,
+                        load_volume: responses[0].data.load_volume,
+                        packing: responses[0].data.packing,
                         description: responses[0].data.description,
                         note: responses[0].data.note,
                         user: data_users[responses[0].data.user_id],
@@ -103,7 +106,8 @@ export default class ServiceDetail extends Component {
                         status: data_status[responses[0].data.statu_id],
                         statu_id: responses[0].data.statu_id,
                         expiration_date: responses[0].data.expiration_date,
-                        contact: responses[0].data.contact,
+                        contact_name: responses[0].data.contact_name,
+                        contact_phone: responses[0].data.contact_phone,
                         report_type: responses[0].data.report_type,
                         active: responses[0].data.active,
                         status_code: data_status_code,
@@ -224,145 +228,151 @@ export default class ServiceDetail extends Component {
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
-                            <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                <PageHeader>
-
-                                    <h1>
-                                        <IntlMessages id={"service.title"}/>
-                                    </h1>
-                                </PageHeader>
-                            </Col>
+                          <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+                            <PageHeader>
+                                <h1>
+                                    <IntlMessages id={"service.title"}/>
+                                </h1>
+                            </PageHeader>
+                          </Col>
                         </Row>
                         <Row>
                             <Row style={rowStyle} gutter={10} justify="start">
                                 <Col lg={12} md={12} sm={12} xs={12} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack" style={{height: 400}}>
+                                        <div className="vehiclesOnTrack" style={{height: 550}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}>
                                                 <LayoutWrapper>
                                                     <div className={'cardContent'}>
-                                                        <Row>
-                                                            <Col span={12}>
+                                                      <Row>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Origen" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.origin_city}, {this.state.origin_address}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Destino" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.destination_city}, {this.state.destination_address}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                                <Row>
-                                                                    <p style={{marginTop: '0px'}}>
-                                                                        {this.state.origin}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
+                                                      <Row>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Peso" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.load_weight || 'No aplica'}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Volumen" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.load_volume || 'No aplica'} 
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                                    <label>
-                                                                        <IntlMessages id={'service.origin'}/>:
-                                                                    </label>
-                                                                </Row>
-                                                            </Col>
-                                                            <Col span={12}>
+                                                      <Row>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Precio" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.price}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Dice contener" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.description}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                                <Row>
-                                                                    <p style={{marginTop: '0px'}}>
-                                                                        {this.state.destination}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.destination'}/>:
-                                                                    </label>
-                                                                </Row>
-                                                            </Col>
-                                                        </Row>
+                                                      <Row>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Distancia" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.distance}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <Form.Item label="Duración" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.duration}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                        <Row>
-                                                            <Col span={12}>
-                                                                <Row>
+                                                      <Row>
+                                                       <Col span={12}>
+                                                          <Form.Item label="Conductor" style={{marginBottom: '15px'}}>
+                                                            <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                              <a href={generator ? '/generator/users/show/' + 
+                                                                  this.state.user_driver_id + '/' + id : '/admin/users/show/' 
+                                                                  + this.state.user_driver_id}>
+                                                                {'Ver conductor'}
+                                                              </a>
+                                                            </div>
+                                                          </Form.Item>
+                                                        </Col>
+                                                        <Col span={12}>
+                                                          <Form.Item label="Vehículo" style={{marginBottom: '15px'}}>
+                                                            <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                              <a href={generator ? '/generator/users/show/' + 
+                                                                  this.state.user_driver_id + '/' + id : '/admin/users/show/' 
+                                                                  + this.state.user_driver_id}>
+                                                                {'Ver vehículo'}
+                                                              </a>
+                                                            </div>
+                                                          </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                                    <p>
-                                                                        <a href={generator ? '/generator/users/show/' + this.state.user_driver_id + '/' + id : '/admin/users/show/' + this.state.user_driver_id}>{this.state.user_driver}</a>
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.driver'}/>:
-                                                                    </label>
-                                                                </Row>
+                                                      <Row>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Observaciones" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.note || 'No hay observaciones'}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={2}></Col>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Presentación" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.packing || 'No aplica'}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
-                                                            </Col>
-                                                            <Col span={12}>
-                                                                <Row>
-
-                                                                    <p>
-                                                                        {this.state.description}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.description'}/>:
-                                                                    </label>
-                                                                </Row>
-
-                                                            </Col>
-                                                        </Row>
-
-
-                                                        <Row>
-                                                            <Col span={12}>
-                                                                <Row>
-
-                                                                    <p>
-                                                                        {this.state.note}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.note'}/>:
-                                                                    </label>
-                                                                </Row>
-                                                            </Col>
-                                                            <Col span={12}>
-                                                                <Row>
-
-                                                                    <p>
-                                                                        {this.state.price}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.price'}/>:
-                                                                    </label>
-                                                                </Row>
-                                                            </Col>
-                                                        </Row>
-
-
-                                                        <Row>
-                                                            <Col span={12}>
-                                                                <Row>
-
-                                                                    <p>
-                                                                        {this.state.distance}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.distance'}/>:
-                                                                    </label>
-                                                                </Row>
-                                                            </Col>
-                                                            <Col span={12}>
-                                                                <Row>
-                                                                    <p>
-                                                                        {this.state.duration}
-                                                                    </p>
-                                                                </Row>
-                                                                <Row>
-                                                                    <label>
-                                                                        <IntlMessages id={'service.duration'}/>:
-                                                                    </label>
-                                                                </Row>
-
-                                                            </Col>
-                                                        </Row>
-
+                                                      <Row>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Nombre responsable" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.contact_name}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={2}></Col>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Teléfono responsable" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.contact_phone}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
 
                                                     </div>
                                                 </LayoutWrapper>
@@ -370,96 +380,50 @@ export default class ServiceDetail extends Component {
                                         </div>
                                     </IsoWidgetsWrapper>
                                 </Col>
+
                                 <Col lg={12} md={12} sm={12} xs={12} style={colStyle}>
 
-                                    <div style={{height: 400, width: '100%'}}>
-                                        <Row>
-                                            <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                                                <MapContainer center={{
-                                                    lat: 4.710989,
-                                                    lng: -74.072090
-                                                }} block style={{height: 400}}
-                                                              markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
-                                                              directions={this.state.directions}/>
-                                            </Col>
-
-                                        </Row>
-
+                                    <div style={{width: '100%'}}>
+                                      <Row>
+                                        <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
+                                            <MapContainer center={{
+                                                              lat: 4.710989,
+                                                              lng: -74.072090 }} 
+                                                          block style={{height: 550}}
+                                                          markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
+                                                          directions={this.state.directions}/>
+                                        </Col>
+                                      </Row>
                                     </div>
-
                                 </Col>
-
                             </Row>
-                            <Row>
 
-                            </Row>
                             <Col span={24}>
                                 <IsoWidgetsWrapper>
-
                                 <ReportsSmallWidget
-                                    label={<IntlMessages id="widget.serviceStatus"/>}>
-                                    <LayoutWrapper>
-                                        <Col span={24}>
-                                            <Row>
-                                                <Col lg={24} md={24} sm={24} xs={24}>
-
-                                                    <StepsWrapper>
-                                                        {this.state.status_code && <Steps
-                                                            current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id - 1}>
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_0', 7)} checked={(this.state.statu_id !== 10 && this.state.statu_id >6) || check_0 ? true: false} disabled={this.state.statu_id !== 6}>En viaje</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_1', 8)} checked={(this.state.statu_id !== 10 && this.state.statu_id >7) || check_1? true: false} disabled={this.state.statu_id !== 7}>Cargando</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_2', 9)} checked={(this.state.statu_id !== 10 && this.state.statu_id >8) || check_2? true: false} disabled={this.state.statu_id !== 8}>Viajando</Checkbox>} />
-                                                            <Step title={<Checkbox onChange={(e) => this.changeStatus('check_3', 11)} checked={(this.state.statu_id !== 10 && this.state.statu_id >9) || check_3? true: false} disabled={this.state.statu_id !== 9}>Descargando</Checkbox>} />
-                                                            <Step title={<Checkbox  checked={this.state.statu_id >= 11 || check_4 } disabled={true}>Terminado</Checkbox>} />
-                                                        </Steps>}
-                                                    </StepsWrapper>
-
-
-
-                                                </Col>
-                                                <Col lg={24} md={24} sm={24} xs={24}>
-                                                    {this.state.documents &&
-                                                    <div style={{marginTop: '30px'}}>
-
-
-                                                        <Row style={{marginTop: '30px'}}>
-                                                            {this.state.documents.map(document => {
-                                                                return <Row>
-                                                                    <Col span={4}>
-                                                                        <label>
-                                                                            Nombre: {document.name}
-                                                                        </label>
-                                                                    </Col>
-
-                                                                    <Col span={4}>
-                                                                        <label>
-                                                                            Tipo: {document.document_type}
-                                                                        </label>
-                                                                    </Col>
-
-                                                                    <Col span={4}>
-                                                                        <a href={document.document} download><IntlMessages
-                                                                            id="general.download"/></a>
-                                                                    </Col>
-                                                                </Row>
-
-                                                            })}
-                                                        </Row>
-
-
-                                                    </div>
-                                                    }
-                                                </Col>
-
-
-                                            </Row>
+                                  label={<IntlMessages id="widget.serviceStatus"/>}>
+                                  <LayoutWrapper>
+                                    <Col span={24}>
+                                      <Row>
+                                        <Col lg={24} md={24} sm={24} xs={24}>
+                                          <StepsWrapper>
+                                              {this.state.status_code && <Steps
+                                                  current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id - 1}>
+                                                  <Step title={<Checkbox onChange={(e) => this.changeStatus('check_0', 7)} checked={(this.state.statu_id !== 10 && this.state.statu_id >6) || check_0 ? true: false} disabled={this.state.statu_id !== 6}>En viaje</Checkbox>} />
+                                                  <Step title={<Checkbox onChange={(e) => this.changeStatus('check_1', 8)} checked={(this.state.statu_id !== 10 && this.state.statu_id >7) || check_1? true: false} disabled={this.state.statu_id !== 7}>Cargando</Checkbox>} />
+                                                  <Step title={<Checkbox onChange={(e) => this.changeStatus('check_2', 9)} checked={(this.state.statu_id !== 10 && this.state.statu_id >8) || check_2? true: false} disabled={this.state.statu_id !== 8}>Viajando</Checkbox>} />
+                                                  <Step title={<Checkbox onChange={(e) => this.changeStatus('check_3', 11)} checked={(this.state.statu_id !== 10 && this.state.statu_id >9) || check_3? true: false} disabled={this.state.statu_id !== 9}>Descargando</Checkbox>} />
+                                                  <Step title={<Checkbox  checked={this.state.statu_id >= 11 || check_4 } disabled={true}>Terminado</Checkbox>} />
+                                              </Steps>}
+                                          </StepsWrapper>
                                         </Col>
-
-                                        </LayoutWrapper>
-
+                                      </Row>
+                                    </Col>
+                                  </LayoutWrapper>
                                 </ReportsSmallWidget>
-                                </IsoWidgetsWrapper>
+                              </IsoWidgetsWrapper>
                             </Col>
+
                             <Row>
                                 <Col span={24}>
                                     <Form.Item wrapperCol={{span: 24}}>
@@ -468,7 +432,6 @@ export default class ServiceDetail extends Component {
                                     </Form.Item>
                                 </Col>
                             </Row>
-
 
                         </Row>
 

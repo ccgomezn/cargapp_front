@@ -8,7 +8,7 @@ import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import axios from "axios";
 import {Redirect} from 'react-router-dom'
-import {getProfiles, getUsers, getUsersOfService} from "../../../../helpers/api/users";
+import {getActiveProfiles, getActiveUsers, getUsersOfService} from "../../../../helpers/api/users";
 import {getRateServices} from "../../../../helpers/api/services";
 
 export default class Service extends Component {
@@ -40,7 +40,7 @@ export default class Service extends Component {
     meanRateServices(data){
         let dataTransformed = {};
         data.map((item) => {
-            if(dataTransformed[item.user_id]){
+            if(dataTransformed[item.user_id] === undefined){
                 dataTransformed[item.user_id] = {
                     sum: item.driver_point,
                     count: 1
@@ -59,7 +59,7 @@ export default class Service extends Component {
 
     componentWillMount() {
         let {id} = this.props.match.params;
-        axios.all([getUsersOfService(id), getUsers(), getProfiles(), getRateServices()])
+        axios.all([getUsersOfService(id), getActiveUsers(), getActiveProfiles(), getRateServices()])
             .then((responses) => {
                 let profiles = this.transformDataToMap(responses[2].data, 'user_id');
                 let users = this.transformDataToMap(responses[1].data);

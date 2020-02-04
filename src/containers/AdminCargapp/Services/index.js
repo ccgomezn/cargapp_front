@@ -126,6 +126,8 @@ export default class Service extends Component {
                                 item.color = '#ff2557';
                             }
                             item.status = status_data[item.statu_id];
+                            item.origin_destination = `${item.origin} - ${item.destination}`;
+                            
                             return item;
                         });
                         if (vehicle_manager && (id === null || id === undefined)) {
