@@ -9,7 +9,15 @@ export default class TextInputCustom extends Component {
     return (
       <TextWrapper>
         <label for="input"><IntlMessages id={this.props.label_id} /></label>
-        <Input disabled={disabled} type={type} value={value} size="large" placeholder={placeholder} id="input" onChange={onChange} autoComplete="new-password" required={required} />
+        <Input disabled={disabled} 
+               type={type} 
+               value={value} 
+               size="large" 
+               placeholder={placeholder} 
+               id="input" 
+               onChange={onChange} 
+               autoComplete="new-password" 
+               required={required} />
       </TextWrapper>
     )
   }

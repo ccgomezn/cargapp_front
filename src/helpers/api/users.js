@@ -34,6 +34,10 @@ export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
 }
 
+export function getMineStatistics() {
+  return get(httpAddr + `/users/statistics`, true);
+}
+
 export function getDriversFromCompany(company_id) {
     return get(httpAddr + '/company_users/find_company/' + company_id, true)
 }

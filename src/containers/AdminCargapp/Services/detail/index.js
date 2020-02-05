@@ -19,6 +19,7 @@ import {getActiveCities} from "../../../../helpers/api/locations";
 import {getActiveModels, getStatusOfModel} from "../../../../helpers/api/internals";
 import Checkbox from "antd/es/checkbox";
 import StepsWrapper from './style.js'
+import style from './style.js';
 const {Step} = Steps;
 const google = window.google = window.google ? window.google : {};
 
@@ -107,7 +108,7 @@ export default class ServiceDetail extends Component {
                         statu_id: responses[0].data.statu_id,
                         expiration_date: responses[0].data.expiration_date,
                         contact_name: responses[0].data.contact_name,
-                        contact_phone: responses[0].data.contact_phone,
+                        contact: responses[0].data.contact,
                         report_type: responses[0].data.report_type,
                         active: responses[0].data.active,
                         status_code: data_status_code,
@@ -222,8 +223,7 @@ export default class ServiceDetail extends Component {
 
         return (
 
-            <LayoutWrapper>
-
+            <LayoutWrapper style={{paddingTop: 10}}>
 
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
@@ -240,12 +240,12 @@ export default class ServiceDetail extends Component {
                             <Row style={rowStyle} gutter={10} justify="start">
                                 <Col lg={12} md={12} sm={12} xs={12} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack" style={{height: 550}}>
+                                        <div className="vehiclesOnTrack" style={{height: 575}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}>
-                                                <LayoutWrapper>
+                                                <LayoutWrapper style={{paddingTop: 10}}>
                                                     <div className={'cardContent'}>
-                                                      <Row>
+                                                      <Row> 
                                                         <Col span={12}>
                                                             <Form.Item label="Origen" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
@@ -368,7 +368,7 @@ export default class ServiceDetail extends Component {
                                                         <Col span={10}>
                                                             <Form.Item label="Teléfono responsable" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.contact_phone}
+                                                                {this.state.contact}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
@@ -389,7 +389,7 @@ export default class ServiceDetail extends Component {
                                             <MapContainer center={{
                                                               lat: 4.710989,
                                                               lng: -74.072090 }} 
-                                                          block style={{height: 550}}
+                                                          block style={{height: 575}}
                                                           markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
                                                           directions={this.state.directions}/>
                                         </Col>

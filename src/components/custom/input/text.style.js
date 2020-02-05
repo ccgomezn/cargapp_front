@@ -8,6 +8,11 @@ textarea {
             padding: 26px 12px 13px 10px !important;
 
 }
+
+.ant-input-disabled {
+  background-color: rgba(220,220,220, 0.2) !important;
+}
+
 input
         {
         margin-top: 3px;

@@ -13,6 +13,7 @@ import MapContainer from "../../../../components/maps/map";
 import {midPointLatLong} from "../../../../helpers/geolocalization";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
+import CheckBoxCustom from "../../../../components/custom/input/checkBox";
 import {transformInputData} from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
 import {checkUser, getActiveUsers, getMineUser, postUserPaymentMethod} from "../../../../helpers/api/users";
@@ -126,6 +127,8 @@ export default class ReportCreate extends Component {
                         center: {lat: 4.710989, lng: -74.072090},
                         payment_methods: responses[6].data,
                         packing_types: responses[7].data.parameters,
+                        priceChecked: false,
+                        priceDisabled: false,
                     });
                 });
         });
@@ -188,7 +191,7 @@ export default class ReportCreate extends Component {
                             statu_id: 10,
                             expiration_date: this.state.expiration_date,
                             contact_name: this.state.contact_name,
-                            contact_phone: this.state.contact_phone,
+                            contact: this.state.contact,
                             vehicle_id: 2,
                             active: true,
                         }
@@ -255,7 +258,7 @@ export default class ReportCreate extends Component {
             }
         }
         return (
-            <LayoutWrapper>
+            <LayoutWrapper style={{paddingTop: 10}}>
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
@@ -453,12 +456,35 @@ export default class ReportCreate extends Component {
 
                                     <Row gutter={10}>
                                         <Col span={24}>
-                                            <Col span={12}>
-                                                <Form.Item label="Precio">
-                                                    <TextInputCustom value={this.state.price} placeholder="precio"
+                                            <Col span={6}>
+                                                <Form.Item label="Cual es su oferta para este flete">
+                                                    <TextInputCustom value={this.state.price}
+                                                                     disabled={this.state.priceDisabled}
+                                                                     placeholder="valor del flete"
                                                                      onChange={(e) => this.handleChange(e.target.value, 'price')}
+                                                                     label_id={'admin.title.price'}
                                                                      required
-                                                                     label_id={'admin.title.price'}/>
+                                                                     />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={6}>
+                                                <Form.Item>
+                                                    <CheckBoxCustom checked={this.state.priceChecked}
+                                                                    onChange={(e) => {
+                                                                      this.setState({priceChecked: !this.state.priceChecked,
+                                                                                     priceDisabled: !this.state.priceDisabled},
+                                                                        () => {
+                                                                          if (this.state.priceChecked === true) {
+                                                                            this.handleChange('5000000', 'price');
+                                                                          } else {
+                                                                            this.handleChange('', 'price');
+                                                                          }
+                                                                      });
+                                                                      console.log(this.state.priceDisabled);
+                                                                    }}
+                                                                    label={'5000000'}
+                                                                    label_id={'admin.title.suggested_price'}
+                                                    />
                                                 </Form.Item>
                                             </Col>
                                             <Col span={12}>
@@ -560,7 +586,7 @@ export default class ReportCreate extends Component {
 
                                     <Row gutter={10}>
                                       <Col span={12}>
-                                                <Form.Item label="Peso de la carga:">
+                                                <Form.Item label="nombre del responsable de la carga:">
                                                   <TextInputCustom value={this.state.contact_name}
                                                                    placeholder="nombre del responsable"
                                                                    onChange={(e) => this.handleChange(e.target.value, 'contact_name')}
@@ -569,10 +595,10 @@ export default class ReportCreate extends Component {
                                                 </Form.Item>
                                             </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Volúmen de la carga:">
-                                              <TextInputCustom value={this.state.contact_phone} 
+                                            <Form.Item label="Teléfono del responsable de la carga:">
+                                              <TextInputCustom value={this.state.contact} 
                                                                placeholder="tel del responsable"
-                                                               onChange={(e) => this.handleChange(e.target.value, 'contact_phone')}
+                                                               onChange={(e) => this.handleChange(e.target.value, 'contact')}
                                                                required
                                                                label_id={'admin.title.contact_phone'}/>
                                             </Form.Item>
