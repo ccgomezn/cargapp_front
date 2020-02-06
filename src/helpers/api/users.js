@@ -7,7 +7,7 @@ export function getUsers() {
 }
 
 export function getDocumentsOfUser(data) {
-    return post(httpAddr + `/documents/find_user`, data, true);
+    return post(httpAddr + `/documents/find_user/`, data, true);
 }
 
 export function getFavoriteRoutesOfUser(data) {
