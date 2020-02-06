@@ -179,7 +179,7 @@ export default class CouponCreate extends Component {
                                                                         value={item.code}>{item.name}</Option>
                                                                 })
                                                                 }
-                                                                label_id={'admin.title.coupon_category'}>
+                                                                label_id={'admin.title.category'}>
                                             </SelectInputCustom>
                                         </Form.Item>
                                       </Col>

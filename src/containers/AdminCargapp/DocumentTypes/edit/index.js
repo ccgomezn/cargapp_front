@@ -4,16 +4,17 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import {Row, Col} from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
-import {Form} from "antd";
+import {Form, Select} from "antd";
 import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card, message} from 'antd';
 import {Redirect} from 'react-router-dom'
-import {Select} from 'antd';
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import importantVariables from "../../../../helpers/hashVariables";
 import AreaInputCustom from "../../../../components/custom/input/area";
-import {getDocumentType, putDocumentType} from "../../../../helpers/api/internals";
+import {getDocumentType, putDocumentType, findParameters} from "../../../../helpers/api/internals";
+import {transformInputData} from "../../../../helpers/utility";
+import axios from 'axios';
 
 const {Option} = Select;
 export default class DocumentTypeEdit extends Component {
@@ -31,23 +32,22 @@ export default class DocumentTypeEdit extends Component {
     }
 
     componentWillMount() {
-        getDocumentType(this.props.match.params.id)
-            .then((response) => {
-
-
-                this.setState({
-                    code: response.data.code,
-                    name: response.data.name,
-                    description: response.data.description,
-                    active: response.data.active,
-                });
-            }).catch((error) => {
-            console.error(error);
+      axios.all([getDocumentType(this.props.match.params.id), findParameters('DOCUMENT_CATEGORY')])
+        .then((responses) => {     
+          this.setState({
+              document_categories: responses[1].data.parameters,
+              code: responses[0].data.code,
+              name: responses[0].data.name,
+              description: responses[0].data.description,
+              active: responses[0].data.active,
+              category: responses[0].data.category,
+          });
+        }).catch((error) => {
+          console.error(error); 
         });
     }
 
     handleChange(value, type) {
-
         this.setState(
             {
                 [type]: value
@@ -56,7 +56,6 @@ export default class DocumentTypeEdit extends Component {
     }
 
     handlePut() {
-        const active = this.state.active !== undefined && this.state.active.key !== undefined ? this.state.active.key : this.state.active;
 
         putDocumentType(this.props.match.params.id,
             {
@@ -64,7 +63,8 @@ export default class DocumentTypeEdit extends Component {
                     name: this.state.name,
                     code: this.state.code,
                     description: this.state.description,
-                    active: active,
+                    active: transformInputData(this.state.active),
+                    category: transformInputData(this.state.category),
                 }
 
             }).then(() => {
@@ -121,14 +121,31 @@ export default class DocumentTypeEdit extends Component {
                                         </Col>
                                     </Row>
                                     <Row gutter={10}>
-                                        <Col span={24}>
-                                            <Form.Item label="Descripción">
-                                                <AreaInputCustom required value={this.state.description}
-                                                                 placeholder="descripción"
-                                                                 label_id={'admin.title.description'}
-                                                                 onChange={(e) => this.handleChange(e.target.value, 'description')}/>
-                                            </Form.Item>
-                                        </Col>
+                                      <Col span={12}>
+                                        <Form.Item label="Categoria">
+                                            <SelectInputCustom value={this.state.category}
+                                                                placeholder="Categoria"
+                                                                style={{width: '100%'}} onChange={(e) => {
+                                                                    this.handleChange(e, 'category')
+                                                                }}
+                                                                options={this.state && this.state.document_categories &&
+                                                                this.state.document_categories.map((item) => {
+                                                                    return <Option
+                                                                        value={item.code}>{item.name}</Option>
+                                                                })
+                                                                }
+                                                                label_id={'admin.title.category'}>
+                                            </SelectInputCustom>
+                                        </Form.Item>
+                                      </Col>
+                                      <Col span={12}>
+                                          <Form.Item label="Descripción">
+                                              <AreaInputCustom required value={this.state.description}
+                                                                placeholder="descripción"
+                                                                label_id={'admin.title.description'}
+                                                                onChange={(e) => this.handleChange(e.target.value, 'description')}/>
+                                          </Form.Item>
+                                      </Col>
 
                                     </Row>
                                     <Row gutter={10}>

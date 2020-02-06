@@ -53,46 +53,53 @@ const renderCell = (object, type, key, color = false) => {
 };
 
 const columns = [
-  {
+  { // 0
     title: "Id",
     key: 'id',
-    width: '25%',
+    width: '10%',
     render: object => renderCell(object, 'TextCell', 'id')
   },
-  {
+  { // 1
     title: <IntlMessages id="antTable.title.name" />,
     key: 'name',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'name')
   },
-  {
+  { // 2
     title: <IntlMessages id="antTable.title.code" />,
     key: 'code',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'code')
   },
-  {
+  { // 3
     title: <IntlMessages id="antTable.title.description" />,
     key: 'description',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'description')
   },
-  {
+  { // 4
     title: <IntlMessages id="antTable.title.state" />,
     key: 'active',
     width: '20%',
     render: object => renderCell(object, 'TextCell', 'active', true)
   },
-  {
+  { // 5
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '20%',
     render: object => renderCell(object, 'MultipleButtonCell', '')
   },
+  { // 6
+    title: <IntlMessages id="antTable.title.category" />,
+    key: 'category',
+    width: '20%',
+    render: object => renderCell(object, 'TextCell', 'category')
+  },
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [columns[1],  columns[6], columns[2], columns[3], columns[4]];
 const sortColumns = [
   { ...columns[0], sorter: true },
+  { ...columns[6], sorter: true },
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
