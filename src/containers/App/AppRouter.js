@@ -647,7 +647,7 @@ const routes_generator = [
     },
     {
         path: 'service_documents/detailed/:id',
-        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments', ), {generator: true})
+        component: asyncComponent(() => import('../AdminCargapp/ServiceDocuments'), {generator: true})
     },
     {
         path: 'service_documents/add/:id',

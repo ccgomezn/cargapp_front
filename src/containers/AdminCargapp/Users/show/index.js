@@ -8,10 +8,13 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import {Card} from 'antd';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
-import IntlMessages from '../../../../components/utility/intlMessages';
+import TextInputCustom from "../../../../components/custom/input/text";
 import {getActiveProfiles, getUser, getMineStatistics, getDocumentsOfUser} from "../../../../helpers/api/users";
 import {getRateServices} from "../../../../helpers/api/services";
 import { TitleLabel, TitleDivider } from './style.js';
+import PdfDocumentCustom from "../../../../components/documents/pdf";
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import ReactDOM from 'react-dom';
 
 export default class TicketShow extends Component {
 
@@ -23,55 +26,93 @@ export default class TicketShow extends Component {
         }
     }
 
+    formatDocumentImages (documents) {
+      let id_documents = ['', ''];
+      let license_documents = ['', ''];
+      let arl_document = '';
+      
+      documents.forEach(document => {
+        switch (document.document_type_id) {
+          case 5:
+            id_documents[0] = document.file;
+            break;
+          case 7:
+            id_documents[1] = document.file;
+            break;
+          case 4:
+            license_documents[0] = document.file;
+            break;
+          case 8:
+            license_documents[1] = document.file;
+            break;
+          case 12:
+            arl_document = document.file;
+          default:
+            break;
+        }
+      });
+
+      return [id_documents, license_documents, arl_document];
+    }
 
     componentWillMount() {
         const {id} = this.props.match.params;
         axios.all([getUser(id), getRateServices(), getActiveProfiles(), getMineStatistics(), getDocumentsOfUser({"user": {"id" : id}})])
-            .then((responses) => {
-              console.log(responses[4].data);
-                let sum_average = 0;
-                let count = 0;
-                
-                if (responses[1].data !== null) {
-                    responses[1].data.map((item) => {
-                        if (item.driver_id === parseInt(id)) {
-                            sum_average += item.driver_point;
-                            count += 1;
-                        }
-                        return item;
-                    });
-                    responses[2].data.map((item) => {
-                        if (item.user_id === parseInt(id)) {
-                          this.setState({
-                                name: item.firt_name + ' ' + item.last_name,
-                                phone: item.phone,
-                                avatar: item.avatar,
-                                identification: item.document_id,
-                            })
-                        }
-                        return item;
-                    });
-                }
-                let average;
-                
-                if (sum_average !== 0) {
-                    average = sum_average/count;
-                } else {
-                    average = 'El usuario no tiene calificaciones'
-                }
-                this.setState({
-                    email: responses[0].data.email,
-                    phone_number: responses[0].data.phone_number,
-                    average: average,
-                    total_services: responses[3].data.total_services,
-                    kilometers: responses[3].data.kilometres,
-                    identification_document: '',
-                    license_document: '',
-                    arl_document: '',
-                });
+          .then((responses) => {
+              let documents = responses[4].data;
+              documents = this.formatDocumentImages(documents);   
+              let id_documents = documents[0];
+              let license_documents = documents[1];
+              let arl_document = documents[2];
+              
+              let sum_average = 0;
+              let count = 0;
+              
+              if (responses[1].data !== null) {
+                  responses[1].data.map((item) => {
+                      if (item.driver_id === parseInt(id)) {
+                          sum_average += item.driver_point;
+                          count += 1;
+                      }
+                      return item;
+                  });
+                  responses[2].data.map((item) => {
+                      if (item.user_id === parseInt(id)) {
+                        this.setState({
+                              name: item.firt_name + ' ' + item.last_name,
+                              phone: item.phone,
+                              avatar: item.avatar,
+                              identification: item.document_id,
+                          })
+                      }
+                      return item;
+                  });
+              }
+              let average;
+              
+              if (sum_average !== 0) {
+                  average = sum_average/count;
+              } else {
+                  average = 'El usuario no tiene calificaciones'
+              }
 
-            }).catch((error) => {
-            console.error(error);
+        
+              if (responses[4].data !== null) {
+                
+              }
+              this.setState({
+                  email: responses[0].data.email,
+                  phone_number: responses[0].data.phone_number,
+                  average: average,
+                  total_services: responses[3].data.total_services,
+                  kilometers: responses[3].data.kilometres,
+                  identification_documents: id_documents,
+                  license_documents: license_documents,
+                  arl_document: arl_document,
+              });
+
+          }).catch((error) => {
+          console.error(error);
         });
     }
 
@@ -102,19 +143,44 @@ export default class TicketShow extends Component {
         const {rowStyle, colStyle} = basicStyle;
         const {redirect} = this.state;
 
+        let id_documents_pdf = '';
+        let license_documents_pdf = '';
+        let arl_document_pdf = '';
+        
+        if (this.state.identification_documents !== undefined) {
+          id_documents_pdf = <PdfDocumentCustom image1={this.state.identification_documents[0]}
+                                                image2={this.state.identification_documents[1]}
+                                                title={`Cedula conductor: ${this.state.name}`}/>
+        }
+        if (this.state.license_documents !== undefined) {
+          license_documents_pdf = <PdfDocumentCustom image1={this.state.license_documents[0]}
+                                                     image2={this.state.license_documents[1]}
+                                                     title={`Licencia de conducción: ${this.state.name}`}/>
+        }
+        if (this.state.arl_document !== undefined) {
+          arl_document_pdf = <PdfDocumentCustom image1={this.state.arl_document}
+                                                title={`Planilla Arl conductor: ${this.state.name}`}/>
+        }
+        
         if (redirect) {
             return <Redirect to='/admin/tickets'/>
         }
-        console.log(this.state)
+        
         return (
+
             <LayoutWrapper>
+
 
                 <Row style={rowStyle} gutter={18} justify="start" block>
                     <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                         <Row>
                             <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                                 <PageHeader>
-                                    <h1> Conductor asignado</h1>
+
+                                    <h1>
+                                        {this.state.name}
+
+                                    </h1>
                                 </PageHeader>
                             </Col>
                         </Row>
@@ -123,7 +189,7 @@ export default class TicketShow extends Component {
                                 <Row gutter={10}>
                                     <Col span={5} style={{textAlign:'center'}}>
                                         <Avatar style={{marginTop: '30px' }} size={160} src= {this.state.avatar} />
-                                        <h3>{this.state.name}</h3>
+
                                     </Col>
                                     <Col span={1}></Col>
                                     <Col span={18}>
@@ -171,12 +237,19 @@ export default class TicketShow extends Component {
                                         <Row>
                                           <Col span={12}>
                                             <Form.Item label="Documento de identidad">
-                                              <a href={this.state.identification_document}><IntlMessages id="general.download" /></a>
+                                              {id_documents_pdf !== '' && <PDFViewer>
+                                                {id_documents_pdf}
+                                              </PDFViewer>}
+                                              <PDFDownloadLink document={id_documents_pdf} fileName={`cc_conductor_${this.state.identification}.pdf`}>
+                                                {({ loading }) => (loading ? 'Cargando documento...' : 'Descargar')}
+                                              </PDFDownloadLink>
                                             </Form.Item>
                                           </Col>
                                           <Col span={12}>
                                             <Form.Item label="Licencia de conducción">
-                                              <a href={this.state.license_document}><IntlMessages id="general.download" /></a>
+                                              <PDFDownloadLink document={license_documents_pdf} fileName={`licencia_conductor_${this.state.identification}.pdf`}>
+                                                {({ loading }) => (loading ? 'Cargando documento...' : 'Descargar')}
+                                              </PDFDownloadLink>
                                             </Form.Item>
                                           </Col>
                                         </Row>
@@ -184,25 +257,31 @@ export default class TicketShow extends Component {
                                         <Row>
                                           <Col span={8}>
                                             <Form.Item label="Planilla de pagos ARL">
-                                              <a href={this.state.arl_document}><IntlMessages id="general.download" /></a>
+                                              <PDFDownloadLink document={arl_document_pdf} fileName={`arl_conductor_${this.state.identification}.pdf`}>
+                                                {({ loading }) => (loading ? 'Cargando documento...' : 'Descargar')}  
+                                              </PDFDownloadLink>
                                             </Form.Item>
                                           </Col>
                                         </Row>
                                       </Row>
+                                  </Col>
+                                </Row>
+                                </Card>
+
+
+                                <Row>
+                                    <Col span={5}>
+                                        <Form.Item wrapperCol={{span: 24}}>
+                                            <PrimaryButton message_id={"general.back"} style={{width: '100%'}}
+                                                           onClick={() => this.goBack()}/>
+                                        </Form.Item>
                                     </Col>
                                 </Row>
-                            </Card>
+                            
 
-                            <Row>
-                                <Col span={24}>
-                                    <Form.Item wrapperCol={{span: 24}}>
-                                        <PrimaryButton message_id={"general.back"} style={{width: '200px'}}
-                                                       onClick={() => this.goBack()}/>
-                                    </Form.Item>
-                                </Col>
-                            </Row>
 
                         </Row>
+
                     </Col>
                 </Row>
 
