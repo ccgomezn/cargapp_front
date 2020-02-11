@@ -72,9 +72,9 @@ const columns = [
   },
   { // 2
     title: <IntlMessages id="antTable.title.documentType" />,
-    key: 'document_type',
+    key: 'document_type.name',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'document_type')
+    render: object => renderCell(object, 'TextCell', 'document_type.name')
   },
   { // 3
     title: <IntlMessages id="antTable.title.service" />,

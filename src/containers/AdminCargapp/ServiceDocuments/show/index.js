@@ -34,6 +34,7 @@ export default class ServiceDocumentShow extends Component {
   componentWillMount() {
     axios.all([getServiceDocument(this.props.match.params.id), getUsers(), getActiveServices()])
       .then((responses) => {
+        console.log(responses[0].data);
         let actualService = responses[0].data;
         if (actualService.active) {
           actualService.active = 'Activo';
@@ -47,7 +48,7 @@ export default class ServiceDocumentShow extends Component {
         
         this.setState({
           name: actualService.name,
-          document_type: actualService.document_type,
+          document_type: actualService.document_type.name,
           document: actualService.document,
           service: data_services[actualService.service_id],
           user: data_users[actualService.user_id],

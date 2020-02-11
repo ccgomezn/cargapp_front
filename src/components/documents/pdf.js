@@ -22,7 +22,6 @@ export default class PdfDocumentCustom extends Component {
       });
 
       let {image1, image2, title} = this.props;
-      console.log(this.props);
       return (
         <Document>
           <Page style={styles.page} size="A4">

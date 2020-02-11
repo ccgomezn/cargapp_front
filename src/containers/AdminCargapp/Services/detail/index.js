@@ -76,8 +76,8 @@ export default class ServiceDetail extends Component {
                     let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
                     let data_status = this.transformDataToMap(responses[6].data, 'name');
                     let data_status_code = this.transformDataToMap(responses[6].data, 'code');
-
-                    let data_status_from_code = this.transformDataToMap(responses[6].data, 'id', 'code');
+                    
+                    let data_status_from_code = this.transformDataToMap(responses[6].data, 'id');
                     
                     this.setState({
                         name: responses[0].data.name,
@@ -240,7 +240,7 @@ export default class ServiceDetail extends Component {
                             <Row style={rowStyle} gutter={10} justify="start">
                                 <Col lg={12} md={12} sm={12} xs={12} style={colStyle}>
                                     <IsoWidgetsWrapper>
-                                        <div className="vehiclesOnTrack" style={{height: 575}}>
+                                        <div className="vehiclesOnTrack" style={{height: 600}}>
                                             <ReportsSmallWidget
                                                 label={<IntlMessages id="widget.serviceDetail"/>}>
                                                 <LayoutWrapper style={{paddingTop: 10}}>
@@ -340,24 +340,6 @@ export default class ServiceDetail extends Component {
 
                                                       <Row>
                                                         <Col span={10}>
-                                                            <Form.Item label="Observaciones" style={{marginBottom: '15px'}}>
-                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.note || 'No hay observaciones'}
-                                                              </div>
-                                                            </Form.Item>
-                                                        </Col>
-                                                        <Col span={2}></Col>
-                                                        <Col span={10}>
-                                                            <Form.Item label="Presentación" style={{marginBottom: '15px'}}>
-                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.packing || 'No aplica'}
-                                                              </div>
-                                                            </Form.Item>
-                                                        </Col>
-                                                      </Row>
-
-                                                      <Row>
-                                                        <Col span={10}>
                                                             <Form.Item label="Nombre responsable" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
                                                                 {this.state.contact_name}
@@ -369,6 +351,25 @@ export default class ServiceDetail extends Component {
                                                             <Form.Item label="Teléfono responsable" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
                                                                 {this.state.contact}
+                                                                {console.log(this.state.contact)}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                      </Row>
+
+                                                      <Row>
+                                                        <Col span={11}>
+                                                            <Form.Item label="Observaciones" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.note || 'No hay observaciones'}
+                                                              </div>
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col span={1}></Col>
+                                                        <Col span={10}>
+                                                            <Form.Item label="Presentación" style={{marginBottom: '15px'}}>
+                                                              <div class="ant-form-item-control" style={{lineHeight: 1}}>
+                                                                {this.state.packing || 'No aplica'}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
@@ -389,7 +390,7 @@ export default class ServiceDetail extends Component {
                                             <MapContainer center={{
                                                               lat: 4.710989,
                                                               lng: -74.072090 }} 
-                                                          block style={{height: 575}}
+                                                          block style={{height: 600}}
                                                           markers={[this.state.origin_marker, this.state.destination_marker, this.state.user_location]}
                                                           directions={this.state.directions}/>
                                         </Col>
@@ -408,7 +409,7 @@ export default class ServiceDetail extends Component {
                                         <Col lg={24} md={24} sm={24} xs={24}>
                                           <StepsWrapper>
                                               {this.state.status_code && <Steps
-                                                  current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]].id - 1}>
+                                                  current={importantVariables.status_road_service_map[this.state.status_code[this.state.statu_id]] - 1}>
                                                   <Step title={<Checkbox onChange={(e) => this.changeStatus('check_0', 7)} checked={(this.state.statu_id !== 10 && this.state.statu_id >6) || check_0 ? true: false} disabled={this.state.statu_id !== 6}>En viaje</Checkbox>} />
                                                   <Step title={<Checkbox onChange={(e) => this.changeStatus('check_1', 8)} checked={(this.state.statu_id !== 10 && this.state.statu_id >7) || check_1? true: false} disabled={this.state.statu_id !== 7}>Cargando</Checkbox>} />
                                                   <Step title={<Checkbox onChange={(e) => this.changeStatus('check_2', 9)} checked={(this.state.statu_id !== 10 && this.state.statu_id >8) || check_2? true: false} disabled={this.state.statu_id !== 8}>Viajando</Checkbox>} />
