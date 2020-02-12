@@ -14,7 +14,6 @@ import { getRateServices } from "../../../../helpers/api/services";
 import { TitleLabel, TitleDivider } from './style.js';
 import PdfDocumentCustom from "../../../../components/documents/pdf";
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
 
 export default class TicketShow extends Component {
 
@@ -324,11 +323,8 @@ export default class TicketShow extends Component {
                   </Form.Item>
                 </Col>
               </Row>
-
-
-
+            
             </Row>
-
           </Col>
         </Row>
 

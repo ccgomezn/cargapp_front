@@ -6,6 +6,7 @@ import FilterDropdown from './filterDropdown';
 import {Button, Popconfirm} from 'antd';
 import Icon from "antd/es/icon";
 import Dropdown from "antd/es/dropdown";
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src}/>;
@@ -15,6 +16,15 @@ const DoubleTextCell = (text1, text2) => <p>{text1} - {text2}</p>;
 const MultipleCell = (text1, text2) => <div><h1>{text1}</h1><h2>{text2}</h2></div>;
 const MultipleLinkedCell = (text1, text2, href) => <div style={{textAlign: 'right'}}><a href={href}>{text1}</a>
     <h2>{text2}</h2></div>;
+
+const DownloadCell = (document, documentName) => {
+  return(
+    <PDFDownloadLink document={document} fileName={`${documentName}.pdf`}>
+      {({ loading }) => (loading ? 'Cargando documento...' : 'Descargar documento')}
+    </PDFDownloadLink>
+  );
+}
+
 const MultipleButtonCell = (text1, text2, function1, function2, type1, type2) => {
     return (
         <div style={{textAlign: 'right'}}>
@@ -113,5 +123,6 @@ export {
     TripleButtonCell,
     DropdownCell,
     ButtonCell,
-    DoubleButtonCell
+    DoubleButtonCell,
+    DownloadCell
 };
