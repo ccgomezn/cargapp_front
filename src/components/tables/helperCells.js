@@ -11,6 +11,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src}/>;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
+const OnClickCell = (link, onClick) => <a href={'#'} onClick={onClick}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
 const DoubleTextCell = (text1, text2) => <p>{text1} - {text2}</p>;
 const MultipleCell = (text1, text2) => <div><h1>{text1}</h1><h2>{text2}</h2></div>;
@@ -124,5 +125,6 @@ export {
     DropdownCell,
     ButtonCell,
     DoubleButtonCell,
-    DownloadCell
+    DownloadCell,
+    OnClickCell
 };

@@ -4,14 +4,14 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
-  LinkCell,
+  OnClickCell,
   TextColorCell,
-  TripleButtonCell,
   DoubleButtonCell,
   DownloadCell
 } from '../../../components/tables/helperCells';
 import {deleteServiceDocument} from "../../../helpers/api/services";
 import PdfDocumentCustom from "../../../components/documents/pdf";
+import {store} from "../../../redux/store";
 
 const deleteFunction = (id, type) => {
   return function () {
@@ -32,22 +32,30 @@ const imgToPdf = (img1, title) => {
   );
 }
 
+const toggleModal = (documentId) => {
+  return {
+      type: 'TOGGLE_DOCUMENT_MODAL',
+      payload: documentId
+  }
+}
+
 const renderCell = (object, type, key, color = false, role_type, link) => {
   let value = object[key];  
-  
+
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
     case 'DateCell':
       return DateCell(value);
     case 'DownloadCell':
-      console.log(object);
       let documentName = object['document_type']['name']
       let imgDocument = imgToPdf(object['document'], documentName);
       return DownloadCell(imgDocument, documentName);
-    case 'LinkCell':
-      let href = object['document'];
-      return LinkCell(link,href);
+    case 'OnClickCell':
+      let modalFunction = function() {
+        store.dispatch(toggleModal(object['id']));
+      };
+      return OnClickCell(link, modalFunction);
     case 'DoubleButtonCell':
       var text1 = 'Editar';
       var text2 = 'Eliminar';
@@ -115,7 +123,7 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '8%',
-    render: object => renderCell(object, 'LinkCell', null, null, 'generator', 'Ver documento')
+    render: object => renderCell(object, 'OnClickCell', null, null, 'generator', 'Ver documento')
   },
   { // 8
     title: <IntlMessages id="antTable.title.datetime" />,
@@ -127,7 +135,7 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '8%',
-    render: object => renderCell(object, 'LinkCell', null, null, 'admin', 'Ver documento')
+    render: object => renderCell(object, 'OnClickCell', null, null, 'admin', 'Ver documento')
   },
   { // 10
     title: <IntlMessages id="antTable.title.options" />,
