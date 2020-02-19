@@ -130,9 +130,6 @@ export default class ServiceDocument extends Component {
     let documentImg = '';
     return (
       <LayoutWrapper>
-        {this.state.service_documents &&
-          console.log(this.state.service_documents.find(doc => doc.id === documentModalData.documentId))}
-        {console.log(documentImg)}
         <Modal
           style={{ paddingTop: 20}}
           closable={true}

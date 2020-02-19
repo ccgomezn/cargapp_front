@@ -135,7 +135,6 @@ export default class ReportCreate extends Component {
     }
 
     handleChange(value, type) {
-      console.log(value, type);
         if (type === 'user_driver_id') {
             this.setState({vehicles: this.state.vehicles_full[transformInputData(value)]});
         }
@@ -480,7 +479,6 @@ export default class ReportCreate extends Component {
                                                                             this.handleChange('', 'price');
                                                                           }
                                                                       });
-                                                                      console.log(this.state.priceDisabled);
                                                                     }}
                                                                     label={'5000000'}
                                                                     label_id={'admin.title.suggested_price'}

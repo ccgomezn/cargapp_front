@@ -117,7 +117,6 @@ export default class ServiceEdit extends Component {
 
     handleChange(value, type) {
         if (type === 'user_driver_id') {
-            console.log(value);
             this.setState({vehicles: this.state.vehicles_full[transformInputData(value)]});
         }
         this.setState(
@@ -437,7 +436,6 @@ export default class ServiceEdit extends Component {
                                                                         this.handleChange('', 'price');
                                                                       }
                                                                   });
-                                                                  console.log(this.state.priceDisabled);
                                                                 }}
                                                                 label={'5000000'}
                                                                 label_id={'admin.title.suggested_price'}

@@ -61,7 +61,6 @@ export default class ServiceDetail extends Component {
                         getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), 
                         getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
                 .then((responses) => {
-                  console.log(responses[0].data);
                     if (responses[0].data.active) {
                         responses[0].data.active = 'Activo';
                     } else {
@@ -351,7 +350,6 @@ export default class ServiceDetail extends Component {
                                                             <Form.Item label="Teléfono responsable" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
                                                                 {this.state.contact}
-                                                                {console.log(this.state.contact)}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
