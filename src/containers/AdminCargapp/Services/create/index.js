@@ -187,7 +187,7 @@ export default class ReportCreate extends Component {
                             company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
                             user_receiver_id: transformInputData(this.state.user_receiver_id),
                             vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-                            statu_id: 10,
+                            statu_id: 49,
                             expiration_date: this.state.expiration_date,
                             contact_name: this.state.contact_name,
                             contact: this.state.contact,
@@ -506,7 +506,6 @@ export default class ReportCreate extends Component {
                                                     <TextInputCustom value={this.state.load_weight}
                                                                      placeholder="peso"
                                                                      onChange={(e) => this.handleChange(e.target.value, 'load_weight')}
-                                                                     required
                                                                      label_id={'admin.title.weight'}/>
                                                 </Form.Item>
                                             </Col>

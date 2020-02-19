@@ -92,6 +92,9 @@ export default class extends Component {
         render: text => {
           let stateClass = 'normalColor';
           switch (text) {
+            case 'Creado':
+                stateClass = 'createdColor';
+                break;
             case 'En espera':
               stateClass = 'waitingColor';
               break;
@@ -110,7 +113,7 @@ export default class extends Component {
             case 'Viaje en curso':
               stateClass = 'goingColor';
               break;
-            case 'Llegando a punto de descargue':
+            case 'En punto de descargue':
               stateClass = 'goingColor';
               break;
             case 'Inicio de descargue':

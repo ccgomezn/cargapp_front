@@ -21,9 +21,21 @@ const deleteFunction = (id, type) => {
     }
 }
 
+const acceptService = (id, type) => {
+    return function () {
+        (putService(id, {statu_id:10})
+            .then((response) => {
+                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
+            }).catch((error) => {
+                console.error(error);
+            }));
+    }
+}
+
 const renderCell = (object, type, key, color = false, link, link_name, type_role, sub_link, boolean_change) => {
     const value = object[key];
     let text1 = 'Editar';
+    let text2 = 'Aprobar';
     let text3 = 'Eliminar';
     let type1 = 'default';
     let type3 = 'danger';
@@ -58,8 +70,11 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
               return null;
             }
         case 'DoubleAndSingleButtonCell':
-            if (type_role === 'super_admin') {
-              return DoubleButtonCell(text1, text3, function1, deleteFunction(object['id'], 'admin'), type1, type3);
+            if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 49) {
+                return DoubleButtonCell(text2, text3, acceptService(object['id'], 'admin'),
+                                        deleteFunction(object['id'], 'admin'), type1, type3);
+            } else if (type_role === 'super_admin') {
+                return DoubleButtonCell(text1, text3, function1, deleteFunction(object['id'], 'admin'), type1, type3);
             } else if (object['statu_id'] === 10 && object['active'] === 'Activo' ){
                 return DoubleButtonCell(text1, text3, function1, deleteFunction(object['id'], type_role), type1, type3);
             } else {
