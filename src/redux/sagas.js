@@ -8,6 +8,7 @@ import todosSagas from './todos/saga';
 import ecommerceSaga from './ecommerce/saga';
 import cardsSagas from './card/saga';
 import appSagas from './app/saga';
+import documentsSagas from './documents/saga';
 
 export default function* rootSaga(getState) {
   yield all([
@@ -19,6 +20,7 @@ export default function* rootSaga(getState) {
     ecommerceSaga(),
     cardsSagas(),
     invoicesSagas(),
-    appSagas()
+    appSagas(),
+    documentsSagas(),
   ]);
 }

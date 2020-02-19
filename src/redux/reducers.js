@@ -15,6 +15,7 @@ import Invoices from './invoice/reducer';
 import LanguageSwitcher from './languageSwitcher/reducer';
 import Articles from './articles/reducers';
 import Investors from './investors/reducers';
+import Documents from './documents/reducers';
 
 export default {
   Auth,
@@ -34,4 +35,5 @@ export default {
   Invoices,
   Articles,
   Investors,
+  Documents,
 };
