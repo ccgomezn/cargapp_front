@@ -16,9 +16,9 @@ import {
   getMineServices
 } from "../../../helpers/api/services";
 import SecondaryButton from "../../../components/custom/button/secondary";
-import Modal from '../../../components/feedback/modal';
+import Modal from '../../../components/documents/imageModal';
 import { store } from "../../../redux/store";
-import toJson from 'enzyme-to-json';
+import './style.css';
 const { TabPane } = Tabs;
 
 export default class ServiceDocument extends Component {
@@ -134,22 +134,16 @@ export default class ServiceDocument extends Component {
           console.log(this.state.service_documents.find(doc => doc.id === documentModalData.documentId))}
         {console.log(documentImg)}
         <Modal
-          style={{ paddingTop: 20 }}
+          style={{ paddingTop: 20}}
           closable={true}
           visible={documentModalData.documentModalActive}
           onCancel={() => store.dispatch(this.toggleModal())}
           cancelText="Cancel"
-          body={
-            <img 
-              src={
-                this.state.service_documents && documentModalData.documentId &&
-                  this.state.service_documents
-                    .find(doc => doc.id === documentModalData.documentId)
-                      .document
-              } 
-              alt="documento" 
-              style={{width: '100%', height: 500}}/>
-          } />
+          image={this.state.service_documents && documentModalData.documentId &&
+            this.state.service_documents
+              .find(doc => doc.id === documentModalData.documentId)
+                .document}
+            />
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row gutter={12}>

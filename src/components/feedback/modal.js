@@ -17,6 +17,7 @@ export default class CustomModal extends Component {
                 footer={false}
                 header={false}
                 style={style}
+                mask={false}
             >
                 <style>{`
                     :root {
