@@ -7,7 +7,7 @@ export function getUsers() {
 }
 
 export function getDocumentsOfUser(data) {
-    return post(httpAddr + `/documents/find_user`, data, true);
+    return post(httpAddr + `/documents/find_user/`, data, true);
 }
 
 export function getFavoriteRoutesOfUser(data) {
@@ -32,6 +32,10 @@ export function checkUser(){
 
 export function getMineUser() {
     return get(httpAddr + `/users/me`, true);
+}
+
+export function getMineStatistics() {
+  return get(httpAddr + `/users/statistics`, true);
 }
 
 export function getDriversFromCompany(company_id) {

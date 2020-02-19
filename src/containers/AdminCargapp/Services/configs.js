@@ -200,6 +200,7 @@ const smallColumns = [
     {...columns[18], sorter: true},
     {...columns[2], sorter: true},
     {...columns[4], sorter: true},
+    {...columns[12], sorter: true},
     {...columns[14], sorter: false}];
 
 const sortColumnsSuperAdmin = [
@@ -207,6 +208,7 @@ const sortColumnsSuperAdmin = [
   {...columns[18], sorter: true},
   {...columns[2], sorter: true},
   {...columns[4], sorter: true},
+  {...columns[12], sorter: true},
   {...columns[7], sorter: false},
   {...columns[6], sorter: false},
   {...columns[15], sorter: false},
@@ -218,6 +220,7 @@ const sortColumnsAdminMultiple = [
     {...columns[1], sorter: true},
     {...columns[2], sorter: true},
     {...columns[4], sorter: true},
+    {...columns[12], sorter: true},
     {...columns[7], sorter: false},
     {...columns[6], sorter: false},
     {...columns[8], sorter: false},
@@ -228,6 +231,7 @@ const sortColumnsAdminDouble = [
   {...columns[18], sorter: true},
   {...columns[2], sorter: true},
   {...columns[4], sorter: true},
+  {...columns[12], sorter: true},
   {...columns[6], sorter: false},
   {...columns[7], sorter: false},
   {...columns[8], sorter: false},

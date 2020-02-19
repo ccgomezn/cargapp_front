@@ -7,7 +7,7 @@ import SignUpStyleWrapper from "./signupCompany.style";
 import TextInputCustom from "../../components/custom/input/text"
 import {Row, Col, Select} from "antd";
 import PrimaryButton from '../../components/custom/button/primary'
-import {Redirect} from "react-router";
+import {Redirect} from "react-router-dom";
 import {getMineUser, postUserPaymentMethod} from "../../helpers/api/users";
 import {getActivePaymentMethods, postBankAccount} from "../../helpers/api/payments";
 import SecondaryButton from "../../components/custom/button/secondary";

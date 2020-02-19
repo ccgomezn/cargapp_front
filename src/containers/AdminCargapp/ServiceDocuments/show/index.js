@@ -47,7 +47,7 @@ export default class ServiceDocumentShow extends Component {
         
         this.setState({
           name: actualService.name,
-          document_type: actualService.document_type,
+          document_type: actualService.document_type.name,
           document: actualService.document,
           service: data_services[actualService.service_id],
           user: data_users[actualService.user_id],

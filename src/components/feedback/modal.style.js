@@ -6,7 +6,7 @@ const ModalHolder = styled.div`
         content: var(--image);
           
         font-size: 10px;
-        color: inherit;
+        color: transparent;
         line-height: 0;
         position: absolute;
         top: -66px;
@@ -18,7 +18,7 @@ const ModalHolder = styled.div`
             content: var(--image_detail);
           
         font-size: 10px;
-        color: inherit;
+        color: transparent;
         line-height: 0;
         position: absolute;
         top: calc(-66px + 46.5px - 22px);

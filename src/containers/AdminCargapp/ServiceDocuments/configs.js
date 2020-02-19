@@ -4,11 +4,14 @@ import IntlMessages from '../../../components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
-  LinkCell,
+  OnClickCell,
   TextColorCell,
-  TripleButtonCell
+  DoubleButtonCell,
+  DownloadCell
 } from '../../../components/tables/helperCells';
 import {deleteServiceDocument} from "../../../helpers/api/services";
+import PdfDocumentCustom from "../../../components/documents/pdf";
+import {store} from "../../../redux/store";
 
 const deleteFunction = (id, type) => {
   return function () {
@@ -21,32 +24,48 @@ const deleteFunction = (id, type) => {
   }
 };
 
+const imgToPdf = (img1, title) => {
+  return(
+    <PdfDocumentCustom
+        image1={img1}
+        title={title} />
+  );
+}
+
+const toggleModal = (documentId) => {
+  return {
+      type: 'TOGGLE_DOCUMENT_MODAL',
+      payload: documentId
+  }
+}
+
 const renderCell = (object, type, key, color = false, role_type, link) => {
-  let value = object[key];
-  
+  let value = object[key];  
+
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
     case 'DateCell':
       return DateCell(value);
-    case 'LinkCell':
-      let href =  window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/show/' + object['id'];
-      return LinkCell(link,href);
-    case 'MultipleButtonCell':
+    case 'DownloadCell':
+      let documentName = object['document_type']['name']
+      let imgDocument = imgToPdf(object['document'], documentName);
+      return DownloadCell(imgDocument, documentName);
+    case 'OnClickCell':
+      let modalFunction = function() {
+        store.dispatch(toggleModal(object['id']));
+      };
+      return OnClickCell(link, modalFunction);
+    case 'DoubleButtonCell':
       var text1 = 'Editar';
-      var text2 = 'Ver';
-      var text3 = 'Eliminar';
+      var text2 = 'Eliminar';
       var type1 = 'default';
-      var type2 = 'default';
-      var type3 = 'danger';
+      var type2 = 'danger';
       var function1 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/edit/' + object['id'];
       }
-      var function2 = function () {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/show/' + object['id'];
-      }
 
-      return TripleButtonCell(text1, text2, text3, function1, function2, deleteFunction(object['id'], role_type), type1, type2, type3)
+      return DoubleButtonCell(text1, text2, function1, deleteFunction(object['id'], role_type), type1, type2)
     default:
       var color_val = '';
 
@@ -72,9 +91,9 @@ const columns = [
   },
   { // 2
     title: <IntlMessages id="antTable.title.documentType" />,
-    key: 'document_type',
+    key: 'document_type.name',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'document_type')
+    render: object => renderCell(object, 'TextCell', 'document_type.name')
   },
   { // 3
     title: <IntlMessages id="antTable.title.service" />,
@@ -98,19 +117,31 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
-    render: object => renderCell(object, 'MultipleButtonCell', '',null, 'admin')
+    render: object => renderCell(object, 'DoubleButtonCell', '',null, 'admin')
   },
   { // 7
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
-    width: '10%',
-    render: object => renderCell(object, 'LinkCell', null, null, 'generator', 'Ver detalle')
+    width: '8%',
+    render: object => renderCell(object, 'OnClickCell', null, null, 'generator', 'Ver documento')
   },
   { // 8
     title: <IntlMessages id="antTable.title.datetime" />,
     key: 'last_update',
-    width: '8%',
+    width: '10%',
     render: object => renderCell(object, 'TextCell', 'last_update')
+  },
+  { // 9
+    title: <IntlMessages id="antTable.title.options" />,
+    key: 'option',
+    width: '8%',
+    render: object => renderCell(object, 'OnClickCell', null, null, 'admin', 'Ver documento')
+  },
+  { // 10
+    title: <IntlMessages id="antTable.title.options" />,
+    key: 'option',
+    width: '8%',
+    render: object => renderCell(object, 'DownloadCell', null, null)
   },
 ];
 
@@ -120,15 +151,15 @@ const sortColumns = [
   { ...columns[4], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
-  { ...columns[4], sorter: true },
+  { ...columns[9], sorter: false },
   { ...columns[6], sorter: false },
 ];
 const sortColumnsGenerator = [
-  { ...columns[8], sorter: true },
-  { ...columns[4], sorter: true },
-  { ...columns[2], sorter: true },
-  { ...columns[3], sorter: true },
+  { ...columns[8], sorter: true, width: '16%' },
+  { ...columns[4], sorter: true, width: '16%' },
+  { ...columns[2], sorter: true, width: '16%' },
   { ...columns[7], sorter: false },
+  { ...columns[10], sorter: false },
 ];
 const editColumns = [
   { ...columns[1], width: 300 },
