@@ -93,7 +93,10 @@ export default class extends Component {
           let stateClass = 'normalColor';
           switch (text) {
             case 'Creado':
-                stateClass = 'createdColor';
+                stateClass = 'pendingColor';
+                break;
+            case 'Rechazado':
+                stateClass = 'pendingColor';
                 break;
             case 'En espera':
               stateClass = 'waitingColor';
@@ -122,7 +125,10 @@ export default class extends Component {
             case 'Descargue finalizado':
               stateClass = 'endingColor';
               break;
-            case 'Viaje finalizado':
+            case 'En proceso de pago':
+              stateClass = 'finishColor';
+              break;
+            case 'Pago efectuado':
               stateClass = 'finishColor';
               break;
             default:

@@ -59,7 +59,7 @@ export default class ServiceDetail extends Component {
             });
             axios.all([getService(this.props.match.params.id), getActiveUsers(), getActiveCities(), 
                         getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(), 
-                        getStatusOfModel(model_id), getDocumentsOfService(this.props.match.params.id)])
+                        getStatusOfModel(model_id)])
                 .then((responses) => {
                     if (responses[0].data.active) {
                         responses[0].data.active = 'Activo';
@@ -67,7 +67,6 @@ export default class ServiceDetail extends Component {
                         responses[0].data.active = 'Desactivado';
                     }
 
-                    this.setState({documents: responses[7].data});
                     let data_users = this.transformDataToMap(responses[1].data, 'email');
                     let data_cities = this.transformDataToMap(responses[2].data, 'name');
                     let data_companies = this.transformDataToMap(responses[3].data, 'name');

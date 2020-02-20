@@ -57,6 +57,10 @@ export function getDocumentType(id) {
     return get(httpAddr + `/document_types/` + id, true);
 }
 
+export function getFilteredDocument(category) {
+    return get(httpAddr + `/document_types/by_category/${category}` , true)
+}
+
 export function putDocumentType(id, data) {
     return put(httpAddr + `/document_types/` + id, data, true);
 }

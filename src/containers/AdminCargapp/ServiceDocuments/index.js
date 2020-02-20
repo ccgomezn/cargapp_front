@@ -16,13 +16,14 @@ import {
   getMineServices
 } from "../../../helpers/api/services";
 import SecondaryButton from "../../../components/custom/button/secondary";
-import Modal from '../../../components/documents/imageModal';
+import ImgModal from '../../../components/documents/imageModal';
+import Modal from '../../../components/feedback/modal';
 import { store } from "../../../redux/store";
 import './style.css';
+import { Document } from '@react-pdf/renderer';
 const { TabPane } = Tabs;
 
 export default class ServiceDocument extends Component {
-
 
   constructor(props) {
     super(props);
@@ -30,9 +31,7 @@ export default class ServiceDocument extends Component {
       reload: false,
       documentModal: false
     }
-
   }
-
 
   transformDataToMap(data, key) {
     var dataTransformed = {};
@@ -68,7 +67,6 @@ export default class ServiceDocument extends Component {
           let service_data = this.transformDataToMap(responses[2].data, 'name');
           let active = [], inactive = [];
           responses[0].data.map((item) => {
-
             item.user = user_data[item.user_id];
             item.service = service_data[item.service_id];
             if (item.active) {
@@ -127,20 +125,36 @@ export default class ServiceDocument extends Component {
       }
     }
     let documentModalData = store.getState().Documents;
-    let documentImg = '';
+    let isImgModal = store.getState().Documents.isImg;
+
     return (
       <LayoutWrapper>
-        <Modal
-          style={{ paddingTop: 20}}
-          closable={true}
+        {isImgModal && 
+          <ImgModal
+            style={{ paddingTop: 20}}
+            closable={true}
+            visible={documentModalData.documentModalActive}
+            onCancel={() => store.dispatch(this.toggleModal())}
+            cancelText="Cancel"
+            image={this.state.service_documents && documentModalData.documentId &&
+              this.state.service_documents
+                .find(doc => doc.id === documentModalData.documentId)
+                  .document}
+        />}
+        {!isImgModal && 
+          <Modal
           visible={documentModalData.documentModalActive}
+          style={{width: '100%'}}
+          closable={true}
           onCancel={() => store.dispatch(this.toggleModal())}
-          cancelText="Cancel"
-          image={this.state.service_documents && documentModalData.documentId &&
-            this.state.service_documents
-              .find(doc => doc.id === documentModalData.documentId)
-                .document}
-            />
+          body={
+            this.state.service_documents && documentModalData.documentId &&
+              <iframe 
+                style={{width: '100%', height: 650}}
+                src={this.state.service_documents
+                  .find(doc => doc.id === documentModalData.documentId)
+                    .document}/>}
+          />}
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row gutter={12}>
@@ -171,7 +185,7 @@ export default class ServiceDocument extends Component {
                   </TabPane>
                   <TabPane tab="Inactivo" key="2">
                     {this.state && this.state.inactive &&
-                      <SortView tableInfo={tableinfos[1]} dataList={this.state.inactive} />
+                      <SortView tableInfo={tableInfos} dataList={this.state.inactive} />
                     }
                   </TabPane>
 

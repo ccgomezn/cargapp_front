@@ -13,7 +13,7 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: transparent;
 
-  .createdColor {
+  .pendingColor {
     color: #737373;
     background-color: #FFE4B9;
     transition: 0.3s;

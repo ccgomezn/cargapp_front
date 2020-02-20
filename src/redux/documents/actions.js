@@ -1,9 +1,9 @@
 const actions = {
   TOGGLE_DOCUMENT_MODAL: 'TOGGLE_DOCUMENT_MODAL',
 
-  toggleDocumentModal: (data) => ({
+  toggleDocumentModal: (documentId, isImg) => ({
     type: actions.TOGGLE_DOCUMENT_MODAL,
-    payload: { data },
+    payload: { documentId: documentId, isImg: isImg },
   }),
 };
 

@@ -7,9 +7,11 @@ import {
   OnClickCell,
   TextColorCell,
   DoubleButtonCell,
-  DownloadCell
+  DownloadPdfCell,
+  DownloadFileCell,
+  ButtonCell,
 } from '../../../components/tables/helperCells';
-import {deleteServiceDocument} from "../../../helpers/api/services";
+import {deleteServiceDocument, putServiceDocument} from "../../../helpers/api/services";
 import PdfDocumentCustom from "../../../components/documents/pdf";
 import {store} from "../../../redux/store";
 
@@ -24,6 +26,18 @@ const deleteFunction = (id, type) => {
   }
 };
 
+const inactiveDocument = (id, type, serviceId) => {
+  return function () {
+    (putServiceDocument(id, {active:false})
+      .then((response) => {
+        window.location.href = window.location.protocol + '//' + window.location.host 
+                                  + '/' + type + '/service_documents/detailed/' + serviceId;
+      }).catch((error) => {
+        console.error(error);
+      }));
+  }
+};
+
 const imgToPdf = (img1, title) => {
   return(
     <PdfDocumentCustom
@@ -32,15 +46,26 @@ const imgToPdf = (img1, title) => {
   );
 }
 
-const toggleModal = (documentId) => {
+const toggleModal = (documentId, isImg) => {
   return {
       type: 'TOGGLE_DOCUMENT_MODAL',
-      payload: documentId
+      payload: { isImg: isImg, documentId: documentId }
+  }
+}
+
+const modalFunction = (documentId, isImg) => {
+  return function () {
+    store.dispatch(toggleModal(documentId, isImg));
   }
 }
 
 const renderCell = (object, type, key, color = false, role_type, link) => {
   let value = object[key];  
+  var text1 = 'Editar';
+  var text2 = 'Eliminar';
+  var type1 = 'default';
+  var type2 = 'danger';
+  let fileType = object['document'].split('.').pop();
 
   switch (type) {
     case 'ImageCell':
@@ -48,19 +73,27 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
     case 'DateCell':
       return DateCell(value);
     case 'DownloadCell':
-      let documentName = object['document_type']['name']
-      let imgDocument = imgToPdf(object['document'], documentName);
-      return DownloadCell(imgDocument, documentName);
+      let documentName = object['document_type']['name'];
+      let document = object['document'];
+
+      if (fileType !== 'pdf') {
+        document = imgToPdf(object['document'], documentName);
+        return DownloadPdfCell(document, documentName);
+      } 
+      return DownloadFileCell('Descargar documento', document, documentName);
     case 'OnClickCell':
-      let modalFunction = function() {
-        store.dispatch(toggleModal(object['id']));
-      };
-      return OnClickCell(link, modalFunction);
+      if (fileType !== 'pdf') {
+        return OnClickCell(link, modalFunction(object['id'], true));
+      } else {
+        return OnClickCell(link, modalFunction(object['id'], false));
+      }
+    case 'ButtonCell':
+      let documentTypeId = object['document_type']['id'];
+      if (documentTypeId >= 18 && documentTypeId <= 22 ) {
+        return ButtonCell(text2, inactiveDocument(object['id'], role_type, object['service_id']), type2)
+      }
+      return '';
     case 'DoubleButtonCell':
-      var text1 = 'Editar';
-      var text2 = 'Eliminar';
-      var type1 = 'default';
-      var type2 = 'danger';
       var function1 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/'+role_type+'/service_documents/edit/' + object['id'];
       }
@@ -143,6 +176,12 @@ const columns = [
     width: '8%',
     render: object => renderCell(object, 'DownloadCell', null, null)
   },
+  { // 11
+    title: <IntlMessages id="antTable.title.options" />,
+    key: 'option',
+    width: '10%',
+    render: object => renderCell(object, 'ButtonCell', '',null, 'generator')
+  },
 ];
 
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
@@ -150,8 +189,8 @@ const sortColumns = [
   { ...columns[8], sorter: true },
   { ...columns[4], sorter: true },
   { ...columns[2], sorter: true },
-  { ...columns[3], sorter: true },
   { ...columns[9], sorter: false },
+  { ...columns[10], sorter: false },
   { ...columns[6], sorter: false },
 ];
 const sortColumnsGenerator = [
@@ -160,6 +199,7 @@ const sortColumnsGenerator = [
   { ...columns[2], sorter: true, width: '16%' },
   { ...columns[7], sorter: false },
   { ...columns[10], sorter: false },
+  { ...columns[11], sorter: false },
 ];
 const editColumns = [
   { ...columns[1], width: 300 },
