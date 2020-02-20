@@ -316,22 +316,22 @@ export default class ServiceDetail extends Component {
                                                        <Col span={12}>
                                                           <Form.Item label="Conductor" style={{marginBottom: '15px'}}>
                                                             <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                              <a href={generator ? '/generator/users/show/' + 
+                                                              {this.state.user_driver_id ? <a href={generator ? '/generator/users/show/' + 
                                                                   this.state.user_driver_id + '/' + id : '/admin/users/show/' 
                                                                   + this.state.user_driver_id}>
                                                                 {'Ver conductor'}
-                                                              </a>
+                                                              </a> : 'No tiene un conductor asignado'}
                                                             </div>
                                                           </Form.Item>
                                                         </Col>
                                                         <Col span={12}>
                                                           <Form.Item label="Vehículo" style={{marginBottom: '15px'}}>
                                                             <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                              <a href={generator ? '/generator/users/show/' + 
+                                                            {this.state.user_driver_id ?<a href={generator ? '/generator/users/show/' + 
                                                                   this.state.user_driver_id + '/' + id : '/admin/users/show/' 
                                                                   + this.state.user_driver_id}>
                                                                 {'Ver vehículo'}
-                                                              </a>
+                                                              </a> : 'No tiene un vehículo asignado'}
                                                             </div>
                                                           </Form.Item>
                                                         </Col>

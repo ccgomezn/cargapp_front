@@ -13,15 +13,26 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: transparent;
 
+  .createdColor {
+    color: #737373;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    float: left;
+    font-size: 15px;
+  }
   .waitingColor {
     color: #FF923C;
     background-color: #FFE4B9;
     transition: 0.3s;
     border-radius: 5px;
     padding: 8px;
-    float: left;
     text-align: center;
-	  width: 150px;
+    width: 170px;
+    float: left;
     font-size: 15px;
   }
 
@@ -31,9 +42,9 @@ const TableWrapper = styled(Table)`
     transition: 0.3s;
     border-radius: 5px;
     padding: 8px;
-    float: left;
     text-align: center;
-    width: 150px;
+    width: 170px;
+    float: left;
     font-size: 15px;
   }
 
@@ -43,10 +54,10 @@ const TableWrapper = styled(Table)`
     transition: 0.3s;
     border-radius: 5px;
     padding: 8px;
-    float: left;
     text-align: center;
-    width: 150px;
+    width: 170px;
     font-size: 15px;
+    float: left;
   }
 
   .endingColor {
@@ -55,9 +66,10 @@ const TableWrapper = styled(Table)`
     transition: 0.3s;
     border-radius: 5px;
     padding: 8px;
-    float: left;
-    width: 150px;
+    text-align: center;
+    width: 170px;
     font-size: 15px;
+    float: left;
   }
 
   .finishColor {
@@ -67,9 +79,9 @@ const TableWrapper = styled(Table)`
     border-radius: 5px;
     padding: 8px;
     text-align: center;
-    float: left;
-    width: 150px;
+    width: 170px;
     font-size: 15px;
+    float: left;
   }
 
   .ant-table-body {

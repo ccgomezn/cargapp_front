@@ -186,7 +186,7 @@ export default class CouponEdit extends Component {
                                                                         value={item.code}>{item.name}</Option>
                                                                 })
                                                                 }
-                                                                label_id={'admin.title.coupon_category'}>
+                                                                label_id={'admin.title.category'}>
                                             </SelectInputCustom>
                                         </Form.Item>
                                       </Col>

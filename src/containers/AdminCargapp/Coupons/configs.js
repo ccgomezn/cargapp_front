@@ -115,7 +115,7 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'company')
   },
   {
-    title: <IntlMessages id="antTable.title.coupon_category" />,
+    title: <IntlMessages id="antTable.title.category" />,
     key: 'category',
     width: '12%',
     render: object => renderCell(object, 'TextCell', 'category')
