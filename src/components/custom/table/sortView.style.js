@@ -13,9 +13,8 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: transparent;
 
-  .pendingColor {
-    color: #737373;
-    background-color: #FFE4B9;
+  .state{
+    background-color: rgba(163, 178, 189, 0.25);
     transition: 0.3s;
     border-radius: 5px;
     padding: 8px;
@@ -23,65 +22,28 @@ const TableWrapper = styled(Table)`
     width: 170px;
     float: left;
     font-size: 15px;
+    border-style: solid;
+    border-width: 2px;
   }
+
+  .pendingColor {
+    border-color: #737373;
+  }
+
   .waitingColor {
-    color: #FF923C;
-    background-color: #FFE4B9;
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 8px;
-    text-align: center;
-    width: 170px;
-    float: left;
-    font-size: 15px;
+    border-color: #F25C05;
   }
 
   .loadingColor {
-    color: #31B33C;
-    background-color: #FFE4B9;
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 8px;
-    text-align: center;
-    width: 170px;
-    float: left;
-    font-size: 15px;
+    border-color: #FFD100;
   }
 
   .goingColor {
-    color: #4677EB;
-    background-color: #FFE4B9;
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 8px;
-    text-align: center;
-    width: 170px;
-    font-size: 15px;
-    float: left;
-  }
-
-  .endingColor {
-    color: #EBC546;
-    background-color: #FFE4B9;
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 8px;
-    text-align: center;
-    width: 170px;
-    font-size: 15px;
-    float: left;
+    border-color: #0EB21A;
   }
 
   .finishColor {
-    color: #EB4132;
-    background-color: #FFE4B9;
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 8px;
-    text-align: center;
-    width: 170px;
-    font-size: 15px;
-    float: left;
+    border-color: #3E17B2;
   }
 
   .ant-table-body {

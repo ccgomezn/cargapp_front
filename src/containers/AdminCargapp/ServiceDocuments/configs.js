@@ -65,8 +65,7 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
   var text2 = 'Eliminar';
   var type1 = 'default';
   var type2 = 'danger';
-  let fileType = object['document'].split('.').pop();
-
+  let fileType = '';
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
@@ -75,6 +74,7 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
     case 'DownloadCell':
       let documentName = object['document_type']['name'];
       let document = object['document'];
+      fileType = object['document'].split('.').pop();
 
       if (fileType !== 'pdf') {
         document = imgToPdf(object['document'], documentName);
@@ -82,6 +82,7 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
       } 
       return DownloadFileCell('Descargar documento', document, documentName);
     case 'OnClickCell':
+      fileType = object['document'].split('.').pop();
       if (fileType !== 'pdf') {
         return OnClickCell(link, modalFunction(object['id'], true));
       } else {

@@ -264,14 +264,14 @@ export default class ServiceDetail extends Component {
                                                         <Col span={12}>
                                                             <Form.Item label="Peso" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.load_weight || 'No aplica'}
+                                                                {`${this.state.load_weight} tons` || 'No aplica'}
                                                               </div>
                                                             </Form.Item>
                                                         </Col>
                                                         <Col span={12}>
                                                             <Form.Item label="Volumen" style={{marginBottom: '15px'}}>
                                                               <div class="ant-form-item-control" style={{lineHeight: 1}}>
-                                                                {this.state.load_volume || 'No aplica'} 
+                                                                {`${this.state.load_volume} m3` || 'No aplica'} 
                                                               </div>
                                                             </Form.Item>
                                                         </Col>

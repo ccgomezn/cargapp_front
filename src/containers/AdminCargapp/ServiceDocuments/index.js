@@ -20,7 +20,6 @@ import ImgModal from '../../../components/documents/imageModal';
 import Modal from '../../../components/feedback/modal';
 import { store } from "../../../redux/store";
 import './style.css';
-import { Document } from '@react-pdf/renderer';
 const { TabPane } = Tabs;
 
 export default class ServiceDocument extends Component {
@@ -41,6 +40,17 @@ export default class ServiceDocument extends Component {
     });
 
     return dataTransformed
+  }
+
+  getGeneratorDocuments(docList) {
+    let generatorDocuments = [];
+
+    docList.forEach(document => {
+      if (document.document_type_id !== 37 && document.document_type_id !== 38) {
+        generatorDocuments.push(document);
+      }
+    });
+    return generatorDocuments;
   }
 
   // change data here!!!!!
@@ -66,7 +76,10 @@ export default class ServiceDocument extends Component {
           let user_data = this.transformDataToMap(responses[1].data, 'email');
           let service_data = this.transformDataToMap(responses[2].data, 'name');
           let active = [], inactive = [];
-          responses[0].data.map((item) => {
+          let docList = this.props.generator ? 
+                          this.getGeneratorDocuments(responses[0].data) : responses[0].data;
+
+          docList.map((item) => {
             item.user = user_data[item.user_id];
             item.service = service_data[item.service_id];
             if (item.active) {

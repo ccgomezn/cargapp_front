@@ -83,12 +83,12 @@ export default class ServiceDocumentCreate extends Component {
       formData.append('service_document[service_id]', transformInputData(this.state.service_id));
       formData.append('service_document[user_id]', this.state.user_id);
       formData.append('service_document[active]', true);
+    }
     
-      postServiceDocument(
-        formData).then(() => {
-          this.setState({ redirect: true })
-        })
-    } 
+    postServiceDocument(
+      formData).then(() => {
+        this.setState({ redirect: true })
+      });
   }
 
   render() {

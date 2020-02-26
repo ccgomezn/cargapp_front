@@ -413,7 +413,7 @@ export default class UserCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Cédula de ciudadania (tracera)">
+                                            <Form.Item label="Cédula de ciudadania (trasera)">
                                                 <div style={{position: 'relative'}}>
                                                     <input type="file"
                                                            id="contained-button-file"
@@ -464,7 +464,7 @@ export default class UserCreate extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
-                                            <Form.Item label="Licencia de conducción (tracera)">
+                                            <Form.Item label="Licencia de conducción (trasera)">
                                                 <div style={{position: 'relative'}}>
                                                     <input type="file"
                                                            id="contained-button-file"

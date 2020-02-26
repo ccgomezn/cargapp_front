@@ -24,8 +24,9 @@ const putFunction = (id, service_id) => {
 };
 
 const acceptFunction = (id, user_id, service_id, type) => {
+    let assignedDriverStatus = 16;
     return function () {
-        acceptUserOfService(id, user_id, service_id).then((response_service) => {
+        acceptUserOfService(id, user_id, service_id, assignedDriverStatus).then((response_service) => {
             axios.all([getMineUser(), getService(service_id)]).then(responses => {
                 createRoom({
                     service_id: service_id,

@@ -229,7 +229,7 @@ const smallColumns = [
   { ...columns[18], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'admin' },
   { ...columns[14], sorter: false }];
 
 const sortColumnsSuperAdmin = [
@@ -237,7 +237,7 @@ const sortColumnsSuperAdmin = [
   { ...columns[18], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'admin' },
   { ...columns[7], sorter: false },
   { ...columns[6], sorter: false },
   { ...columns[15], sorter: false },
@@ -249,7 +249,7 @@ const sortColumnsAdminMultiple = [
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'admin' },
   { ...columns[7], sorter: false },
   { ...columns[6], sorter: false },
   { ...columns[8], sorter: false },
@@ -260,7 +260,7 @@ const sortColumnsAdminDouble = [
   { ...columns[18], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'admin' },
   { ...columns[6], sorter: false },
   { ...columns[7], sorter: false },
   { ...columns[8], sorter: false },
@@ -270,7 +270,7 @@ const sortColumnsGeneratorMultiple = [
   { ...columns[18], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'generator' },
   { ...columns[10], sorter: false },
   { ...columns[11], sorter: false },
   { ...columns[9], sorter: false },
@@ -280,7 +280,7 @@ const sortColumnsGeneratorSingle = [
   { ...columns[18], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[4], sorter: true },
-  { ...columns[12], sorter: true },
+  { ...columns[12], sorter: true, role: 'generator' },
   { ...columns[10], sorter: false },
   { ...columns[11], sorter: false },
   { ...columns[17], sorter: false },
@@ -292,6 +292,7 @@ const sortColumnsVehicleManager = [
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
   { ...columns[4], sorter: true },
+  { ...columns[12], sorter: true, role: 'vehicleManager' },
   { ...columns[13], sorter: false },
 
 ];

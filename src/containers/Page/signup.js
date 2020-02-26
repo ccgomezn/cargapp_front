@@ -149,6 +149,7 @@ class SignUp extends Component {
 
 
     handlePostRegister() {
+        console.log('???');
         if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
             return null;
         }
