@@ -49,7 +49,7 @@ const imgToPdf = (img1, title) => {
 const toggleModal = (documentId, isImg) => {
   return {
       type: 'TOGGLE_DOCUMENT_MODAL',
-      payload: { isImg: isImg, documentId: documentId }
+      payload: { isImg: isImg, id: documentId }
   }
 }
 

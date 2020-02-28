@@ -12,6 +12,7 @@ const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const OnClickCell = (link, onClick) => <a href={'#'} onClick={onClick}>{link}</a>;
+
 const TextCell = text => <p>{text}</p>;
 const DoubleTextCell = (text1, text2) => <p>{text1} - {text2}</p>;
 const MultipleCell = (text1, text2) => <div><h1>{text1}</h1><h2>{text2}</h2></div>;
@@ -66,6 +67,39 @@ const ButtonCell = (text1, function1, type1) => {
   )
 };
 
+const TripleButtonOnClickCell = (text1, text2, text3, onClick, function2, function3, type1, type2, type3) => {
+  return (
+    <div style={{ textAlign: 'left' }}>
+      <a href={'#'} 
+        onClick={onClick} 
+        style={{
+          display: 'inline',
+          width: 75,
+          height: 25,
+          background: '#24a0ed',
+          padding: 8,
+          borderRadius: 5,
+          color: 'white',
+          fontWeight: '400',
+          textAlign: 'center'
+        }}> {text1} </a>
+      <Button type={type2} onClick={function2}>
+        {text2}
+      </Button>
+      <Popconfirm
+        title="Esta seguro?"
+        onConfirm={function3}
+        okText="Si"
+        cancelText="No"
+      >
+        <Button type={type3}>
+          {text3}
+        </Button>
+      </Popconfirm>
+    </div>
+  )
+};
+
 const TripleButtonCell = (text1, text2, text3, function1, function2, function3, type1, type2, type3) => {
   return (
     <div style={{ textAlign: 'left' }}>
@@ -85,9 +119,7 @@ const TripleButtonCell = (text1, text2, text3, function1, function2, function3, 
           {text3}
         </Button>
       </Popconfirm>
-
     </div>
-
   )
 };
 
@@ -133,5 +165,6 @@ export {
   DoubleButtonCell,
   DownloadPdfCell,
   DownloadFileCell,
-  OnClickCell
+  OnClickCell,
+  TripleButtonOnClickCell
 };

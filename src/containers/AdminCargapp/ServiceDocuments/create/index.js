@@ -13,7 +13,7 @@ import { transformInputData } from "../../../../helpers/utility";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import { getMineUser } from "../../../../helpers/api/users";
 import { getActiveServices, getMineServices, postServiceDocument } from "../../../../helpers/api/services";
-import { getActiveDocumentTypes, getFilteredDocument } from "../../../../helpers/api/internals";
+import { getFilteredDocument } from "../../../../helpers/api/internals";
 
 const { Option } = Select;
 

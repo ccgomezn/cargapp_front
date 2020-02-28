@@ -16,7 +16,7 @@ import {
   getMineServices
 } from "../../../helpers/api/services";
 import SecondaryButton from "../../../components/custom/button/secondary";
-import ImgModal from '../../../components/documents/imageModal';
+import { ImageModal } from '../../../components/documents/modal';
 import Modal from '../../../components/feedback/modal';
 import { store } from "../../../redux/store";
 import './style.css';
@@ -54,7 +54,7 @@ export default class ServiceDocument extends Component {
   }
 
   // change data here!!!!!
-  componentWillMount() {
+  componentDidMount() {
     let id = this.props.match.params.id;
     let getDocumentsFunction = function () {
       return getActiveServiceDocuments();
@@ -104,7 +104,6 @@ export default class ServiceDocument extends Component {
       })
   }
 
-
   redirectAdd() {
     let { id } = this.props.match.params;
     id = id ? id : '';
@@ -139,19 +138,19 @@ export default class ServiceDocument extends Component {
     }
     let documentModalData = store.getState().Documents;
     let isImgModal = store.getState().Documents.isImg;
-
+    
     return (
       <LayoutWrapper>
         {isImgModal && 
-          <ImgModal
+          <ImageModal
             style={{ paddingTop: 20}}
             closable={true}
             visible={documentModalData.documentModalActive}
             onCancel={() => store.dispatch(this.toggleModal())}
             cancelText="Cancel"
-            image={this.state.service_documents && documentModalData.documentId &&
+            image={this.state.service_documents && documentModalData.id &&
               this.state.service_documents
-                .find(doc => doc.id === documentModalData.documentId)
+                .find(doc => doc.id === documentModalData.id)
                   .document}
         />}
         {!isImgModal && 
@@ -161,11 +160,11 @@ export default class ServiceDocument extends Component {
           closable={true}
           onCancel={() => store.dispatch(this.toggleModal())}
           body={
-            this.state.service_documents && documentModalData.documentId &&
+            this.state.service_documents && documentModalData.id &&
               <iframe 
                 style={{width: '100%', height: 650}}
                 src={this.state.service_documents
-                  .find(doc => doc.id === documentModalData.documentId)
+                  .find(doc => doc.id === documentModalData.id)
                     .document}/>}
           />}
         <Row style={rowStyle} gutter={18} justify="start" block>

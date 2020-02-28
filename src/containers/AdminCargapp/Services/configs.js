@@ -7,8 +7,11 @@ import {
   ImageCell,
   LinkCell,
   TextColorCell,
+  TripleButtonOnClickCell
 } from '../../../components/tables/helperCells';
 import { putService } from "../../../helpers/api/services";
+import { store } from "../../../redux/store";
+
 
 const deleteFunction = (id, type) => {
   return function () {
@@ -44,12 +47,33 @@ const denyService = (id, type) => {
   }
 }
 
+const toggleModal = (serviceId, isImg) => {
+  return {
+      type: 'TOGGLE_DOCUMENT_MODAL',
+      payload: { isImg: isImg, id: serviceId }
+  }
+}
+
+const modalFunction = (serviceId) => {
+  return function () {
+    store.dispatch(toggleModal(serviceId, false));
+  }
+}
+
+const payService = (id, type) => {
+  let payStatus = 50;
+  return function () {
+    changeStatus(id, type, payStatus);
+  }
+}
+
 const renderCell = (object, type, key, color = false, link, link_name, type_role, sub_link, boolean_change) => {
   const value = object[key];
   let text1 = 'Editar';
   let text2 = 'Aprobar';
-  let text3 = 'Eliminar';
+  let text3 = 'Eliminar'; 
   let text4 = 'Rechazar';
+  let text5 = 'Pagar';
   let type1 = 'default';
   let type3 = 'danger';
 
@@ -82,10 +106,13 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
       } else {
         return null;
       }
-    case 'DoubleAndSingleButtonCell':
+    case 'MultipleAndSingleButton':
       if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 49) {
         return DoubleButtonCell(text2, text4, acceptService(object['id'], 'admin'),
                                   denyService(object['id'], 'admin'), type1, type3);
+      } else if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 11) {
+        return TripleButtonOnClickCell(text5, text1, text3, modalFunction(object['id']),
+                                        function1, deleteFunction(object['id'], 'admin'), type1, type1, type3);
       } else if (type_role === 'super_admin') {
         return DoubleButtonCell(text1, text3, function1, deleteFunction(object['id'], 'admin'), type1, type3);
       } else if (object['statu_id'] === 10 && object['active'] === 'Activo') {
@@ -162,7 +189,7 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '10%',
-    render: object => renderCell(object, 'DoubleAndSingleButtonCell', '', null, null, null, 'admin')
+    render: object => renderCell(object, 'MultipleAndSingleButton', '', null, null, null, 'admin')
   },
   { // 9
     title: <IntlMessages id="antTable.title.options" />,
@@ -204,7 +231,7 @@ const columns = [
     title: <IntlMessages id="antTable.title.options" />,
     key: 'option',
     width: '5%',
-    render: object => renderCell(object, 'DoubleAndSingleButtonCell', '', null, null, null, 'super_admin')
+    render: object => renderCell(object, 'MultipleAndSingleButton', '', null, null, null, 'super_admin')
   },
   { // 16
     title: <IntlMessages id="antTable.title.options" />,
