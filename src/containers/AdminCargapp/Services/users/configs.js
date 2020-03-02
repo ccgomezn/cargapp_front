@@ -24,47 +24,6 @@ const putFunction = (id, service_id) => {
 };
 
 const acceptFunction = (id, user_id, service_id, type) => {
-<<<<<<< Updated upstream
-    return function () {
-        acceptUserOfService(id, user_id, service_id).then((response_service) => {
-            axios.all([getMineUser(), getService(service_id)]).then(responses => {
-                createRoom({
-                    service_id: service_id,
-                    user_id: responses[0].data.user.id,
-                    name: responses[1].data.name,
-                    note: '',
-                    active: true
-                }).then(response_room => {
-                    axios.all([addPersonToRoom({
-                        user_id: user_id,
-                        room_id: response_room.data.id,
-                        service_id: service_id,
-                        active: true
-                    }), addPersonToRoom({
-                        user_id: responses[0].data.user.id,
-                        room_id: response_room.data.id,
-                        service_id: service_id,
-                        active: true
-                    }),]).then(() => {
-                        let calls = [];
-                        getUsersOfService(service_id).then(response => {
-                            response.data.forEach(row => {
-                                if (row.service_user.id !== id) {
-                                    calls.push(putUserOfService(row.service_user.id, {service_user: {approved: false}})
-                                    )
-                                }
-                            });
-
-
-                            axios.all(calls).then(() => {
-
-                                window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
-
-                            })
-                        });
-                    })
-                });
-=======
   let assignedDriverStatus = 16;
   return function () {
     acceptUserOfService(id, user_id, service_id, assignedDriverStatus).then((response_service) => {
@@ -108,7 +67,6 @@ const acceptFunction = (id, user_id, service_id, type) => {
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
 
               })
->>>>>>> Stashed changes
             });
           })
         });
