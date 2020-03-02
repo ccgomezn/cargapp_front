@@ -224,7 +224,7 @@ export function getUser(id) {
     return get(httpAddr + '/users/' + id, true);
 }
 
-export function putUserOfService(id, data) {
+export function putUserOfService(id, data,) {
     return put(httpAddr + '/service_users/' + id, data, true);
 }
 
@@ -232,9 +232,9 @@ export function postUserOfService(data) {
     return post(httpAddr + '/service_users', data, true);
 }
 
-export function acceptUserOfService(user_service_id, user_id, service_id) {
+export function acceptUserOfService(user_service_id, user_id, service_id, status_id) {
     return axios.all([put(httpAddr + '/service_users/' + user_service_id, {approved: true}, true),
-        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: 6}, true)])
+        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: status_id}, true)])
 }
 
 export function verifyEmail(email) {
