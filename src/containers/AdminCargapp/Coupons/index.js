@@ -58,7 +58,6 @@ export default class Coupons extends Component {
                         }
                         return item;
                     });
-                    console.log(active)
                     this.setState({
                         coupons: active, inactive
                     });

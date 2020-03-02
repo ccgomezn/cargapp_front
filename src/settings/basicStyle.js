@@ -4,9 +4,9 @@ const rowStyle = {
   flexFlow: 'row wrap',
 };
 const colStyle = {
-  marginBottom: '16px',
+  marginBottom: '10px',
 };
-const gutter = 16;
+const gutter = 10;
 const basicStyle = {
   rowStyle,
   colStyle,

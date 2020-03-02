@@ -6,18 +6,18 @@ import svgDir from "../../helpers/images_helper";
 export default class CustomModal extends Component {
     render() {
 
-
-        const {visible, onOk, oncancel, cancelText, body, style, image} = this.props;
+        const {visible, onOk, onCancel, cancelText, body, style, image, closable=false} = this.props;
         return (
             <Modal
                 visible={visible}
                 onOk={onOk}
-                onCancel={oncancel}
+                onCancel={onCancel}
                 cancelText={cancelText}
-                closable={false}
+                closable={closable}
                 footer={false}
                 header={false}
                 style={style}
+                mask={false}
             >
                 <style>{`
                     :root {
@@ -26,8 +26,7 @@ export default class CustomModal extends Component {
                       }
                     `}
                 </style>
-                <ModalHolder image={'oval'} style={{paddingTop: '20px'}}>
-
+                <ModalHolder image={'oval'} style={style}>
                     {body}
                 </ModalHolder>
             </Modal>

@@ -13,6 +13,77 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: transparent;
 
+  .createdColor {
+    color: #737373;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    float: left;
+    font-size: 15px;
+  }
+  .waitingColor {
+    color: #FF923C;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    float: left;
+    font-size: 15px;
+  }
+
+  .loadingColor {
+    color: #31B33C;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    float: left;
+    font-size: 15px;
+  }
+
+  .goingColor {
+    color: #4677EB;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    font-size: 15px;
+    float: left;
+  }
+
+  .endingColor {
+    color: #EBC546;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    font-size: 15px;
+    float: left;
+  }
+
+  .finishColor {
+    color: #EB4132;
+    background-color: #FFE4B9;
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 170px;
+    font-size: 15px;
+    float: left;
+  }
+
   .ant-table-body {
     overflow-x: auto;
   }
