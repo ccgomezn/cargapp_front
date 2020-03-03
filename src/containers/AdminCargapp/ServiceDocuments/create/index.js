@@ -13,8 +13,7 @@ import { transformInputData } from "../../../../helpers/utility";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import { getMineUser } from "../../../../helpers/api/users";
 import { getActiveServices, getMineServices, postServiceDocument } from "../../../../helpers/api/services";
-import { getActiveDocumentTypes } from "../../../../helpers/api/internals";
-
+import { getFilteredDocument } from "../../../../helpers/api/internals";
 
 const { Option } = Select;
 
@@ -31,19 +30,26 @@ export default class ServiceDocumentCreate extends Component {
 
   componentWillMount() {
     const service_id = this.props.match.params.id;
-
+    
     let getServices = function () { return getMineServices() };
     if (this.props.admin) {
       getServices = function () { return getActiveServices() };
     }
-    axios.all([getMineUser(), getServices(), getActiveDocumentTypes()])
+    axios.all([getMineUser(), getServices(), getFilteredDocument('ServiceDownload')])
       .then((responses) => {
         let document_types = [];
-        responses[2].data.forEach(type => {
-          if (type.id >= 18 && type.id <= 22) {
+        if (this.props.admin) {
+          responses[2].data.forEach(type => {
             document_types.push(type);
-          }
-        });
+          });
+        }
+        if (this.props.generator) {
+          responses[2].data.forEach(type => {
+            if (type.id >= 18 && type.id <= 22) {
+              document_types.push(type);
+            }
+          });
+        }
         this.setState({
           user_id: responses[0].data.user.id,
           services: responses[1].data,
@@ -69,17 +75,20 @@ export default class ServiceDocumentCreate extends Component {
 
     const formData = new FormData();
     const document_type_id = this.state.document_type_id !== undefined && this.state.document_type_id.key !== undefined ? this.state.document_type_id.key : this.state.document_type_id;
-
-    formData.append('service_document[name]', '');
-    formData.append('service_document[document_type_id]', document_type_id)
-    formData.append('service_document[document]', this.state.document, this.state.document.name);
-    formData.append('service_document[service_id]', transformInputData(this.state.service_id));
-    formData.append('service_document[user_id]', this.state.user_id);
-    formData.append('service_document[active]', true);
+    
+    if (this.state.document && document_type_id) {
+      formData.append('service_document[name]', '');
+      formData.append('service_document[document_type_id]', document_type_id)
+      formData.append('service_document[document]', this.state.document, this.state.document.name);
+      formData.append('service_document[service_id]', transformInputData(this.state.service_id));
+      formData.append('service_document[user_id]', this.state.user_id);
+      formData.append('service_document[active]', true);
+    }
+    
     postServiceDocument(
       formData).then(() => {
         this.setState({ redirect: true })
-      })
+      });
   }
 
   render() {
@@ -89,9 +98,9 @@ export default class ServiceDocumentCreate extends Component {
     const { id } = this.props.match.params;
     if (redirect) {
       if (generator) {
-        return <Redirect to={`/generator/service_documents/${id}`} />
+        return <Redirect to={`/generator/service_documents/detailed/${id}`} />
       } else {
-        return <Redirect to='/admin/service_documents' />
+        return <Redirect to={`/admin/service_documents/detailed/${id}`}/>
       }
     }
     return (
@@ -126,7 +135,6 @@ export default class ServiceDocumentCreate extends Component {
                             this.handleChange(e, 'document_type_id')
                           }}
                           options={this.state && this.state.document_types &&
-
                             this.state.document_types.map((item) => {
                               return <Option
                                 value={item.id}>{item.name}</Option>
@@ -142,7 +150,7 @@ export default class ServiceDocumentCreate extends Component {
                   <Row gutter={10}>
                     {!id && <Col span={12}>
                       <Form.Item label="Servicio">
-                        <SelectInputCustom value={this.state.service_id} placeholder="servicoi"
+                        <SelectInputCustom value={this.state.service_id} placeholder="servicio"
                           style={{ width: '100%' }} onChange={(e) => {
                             this.handleChange(e, 'service_id')
                           }}
@@ -162,6 +170,7 @@ export default class ServiceDocumentCreate extends Component {
                       <Form.Item label="Documento">
                         <div style={{ position: 'relative', width: '100%' }}>
                           <input type="file"
+                            required
                             id="contained-button-file"
                             onChange={(e) => this.handleChange(e.target.files[0], 'document')}
                             style={{

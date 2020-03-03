@@ -61,11 +61,8 @@ const acceptFunction = (id, user_id, service_id, type) => {
                 }
               });
 
-
               axios.all(calls).then(() => {
-
                 window.location.href = window.location.protocol + '//' + window.location.host + '/' + type + '/services/';
-
               })
             });
           })

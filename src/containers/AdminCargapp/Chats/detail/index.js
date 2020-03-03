@@ -8,7 +8,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import { ChatFeed, Message } from 'react-chat-ui'
 import firebase from '../../../../components/firestore/Firestore'
 import { getActiveChats, getMineRooms, getRoom } from "../../../../helpers/api/chat";
-import { getMineProfile, getMineUser } from "../../../../helpers/api/users";
+import { getMineProfile, getMineUser, getProfileOfUser, getProfile } from "../../../../helpers/api/users";
 import axios from "axios"
 import { animateScroll } from "react-scroll";
 import List from "antd/es/list";
@@ -43,26 +43,34 @@ export default class ChatDetail extends Component {
       let role_id = role.role_id;
       let services = this.transformDataToMap(responses[2].data, 'id');
       let chat_ids = [];
+
       responses[0].data.forEach(chat => {
         chat_ids.push(chat.room_id);
       });
 
       let real_chats = [];
-      responses[1].data.forEach(chat => {
+      responses[1].data.forEach(async chat => {
         if (chat_ids.includes(chat.id)) {
           chat.service = services[chat.service_id];
 
           if (chat.service != undefined) {
+            chat.driver_id = chat.service.user_driver_id;
+            
+            let profile = await getProfileOfUser(chat.driver_id);
+            profile = profile.data;
+            chat.driver_avatar = profile.avatar;
+            chat.driver_name = `${profile.firt_name} ${profile.last_name}`;
+
             real_chats.push(chat);
           }
         }
       });
+
       this.setState({
         real_chats: real_chats,
-        role_id: role_id
+        role_id: role_id,
       })
     })
-
   }
 
   enableChat(uid) {
@@ -114,7 +122,6 @@ export default class ChatDetail extends Component {
 
   transformDataToMap(data, key) {
     let dataTransformed = {};
-
     data.forEach(data => {
       dataTransformed[data[key]] = data;
     });
@@ -123,7 +130,6 @@ export default class ChatDetail extends Component {
   }
 
   handleChange(value, type) {
-
     this.setState(
       {
         [type]: value
@@ -152,7 +158,7 @@ export default class ChatDetail extends Component {
   render() {
     const { rowStyle, colStyle } = basicStyle;
     let canMessage = this.state.role_id === 15;
-    
+
     return (
       <LayoutWrapper>
         <Row style={rowStyle} gutter={18} justify="start" block>
@@ -170,23 +176,23 @@ export default class ChatDetail extends Component {
             <Row>
               <Card style={{ marginTop: '50px' }}>
                 <Col span={6} style={{ height: '500px', overflow: 'auto', }}>
+                  {console.log(this.state.real_chats)}
                   {this.state.real_chats && <List
                     className="demo-loadmore-list"
                     itemLayout="horizontal"
                     dataSource={this.state.real_chats}
                     renderItem={item => (
-
                       <Skeleton avatar loading={false} active>
                         <List.Item.Meta
                           avatar={
                             <Avatar
                               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                           }
-                          title={<a href={'#chat'} style={item.id.toString() === this.state.uid ? { color: 'rgb(0, 132, 255)' } : {}} onClick={() => this.enableChat(item.id)}>{item.name}</a>}
-                          description={item.service.origin + ' - ' + item.service.destination}
+                          title={<a href={'#chat'} style={item.id.toString() === this.state.uid ? { color: 'rgb(0, 132, 255)' } : {}} onClick={() => this.enableChat(item.id)}>
+                            {item.service.origin + ' - ' + item.service.destination}</a>}
+                          description={item.driver_name}
                         />
                         <Divider />
-
                       </Skeleton>
                     )}
                   />}

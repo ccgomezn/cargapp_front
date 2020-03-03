@@ -14,7 +14,6 @@ export function getActiveVehicles() {
 
 export function getVehicle(id) {
     return get(httpAddr + `/vehicles/` + id, true);
-
 }
 
 export function putVehicle(id, data) {
