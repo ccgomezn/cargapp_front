@@ -265,7 +265,6 @@ export default class ReportCreate extends Component {
 
                   <h1>
                     <IntlMessages id="services.title" />
-
                   </h1>
                 </PageHeader>
               </Col>
@@ -306,19 +305,14 @@ export default class ReportCreate extends Component {
                         <Form.Item label="Dirección de origen">
                           <TextInputCustom value={this.state.origin_address}
                             placeholder="dirección de origen"
-                            onChange={(e) => this.handleChange(e.target.value, 'origin_address')}
+                            onChange={(e) => {
+                              this.handleChange(e.target.value, 'origin_address');
+                              this.handleSearchLocation(transformInputData(this.state.origin_city_id),
+                                                                            this.state.origin_address, 'origin')
+                              }}
                             required
                             label_id={'admin.title.address'} />
                         </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item wrapperCol={{ span: 24 }}>
-                          <SecondaryButton message_id={"general.findOrigin"}
-                            style={{ width: '200px', marginTop: '46px' }}
-                            onClick={() => this.handleSearchLocation(transformInputData(this.state.origin_city_id),
-                              this.state.origin_address, 'origin')} />
-                        </Form.Item>
-
                       </Col>
                     </Col>
 
@@ -353,17 +347,13 @@ export default class ReportCreate extends Component {
                         <Form.Item label="Dirección de destino">
                           <TextInputCustom value={this.state.destination_address}
                             placeholder="dirección de destino"
-                            onChange={(e) => this.handleChange(e.target.value, 'destination_address')}
+                            onChange={(e) => {
+                              this.handleChange(e.target.value, 'destination_address');
+                              this.handleSearchLocation(transformInputData(this.state.destination_city_id),
+                                                                            this.state.destination_address, 'destination');
+                            }}
                             required
                             label_id={'admin.title.address'} />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item wrapperCol={{ span: 24 }}>
-                          <SecondaryButton message_id={"general.findDestination"}
-                            style={{ width: '200px', marginTop: '46px' }}
-                            onClick={() => this.handleSearchLocation(transformInputData(this.state.destination_city_id),
-                              this.state.destination_address, 'destination')} />
                         </Form.Item>
                       </Col>
                     </Col>

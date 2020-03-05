@@ -889,6 +889,8 @@
   "widget.progresswidget2.details": "80% de clientes satisfechos",
   "widget.progresswidget3.label": "Subir",
   "widget.serviceStatus": "Estado del servicio",
+  "widget.startingStatusTitle": "Proceso de cargue",
+  "widget.onProcessStatusTitle": "Proceso de viaje",
   "widget.progresswidget3.details": "65% Completo",
   "widget.vcardwidget.name": "Jhon Doe",
   "widget.vcardwidget.title": "Sr. Desarrollador iOS",

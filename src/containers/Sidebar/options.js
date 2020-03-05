@@ -36,13 +36,6 @@ export const options = [
         keyName: 'activeServicesBase'
     },
     {
-        key: 'marketplace',
-        label: 'sidebar.marketplace',
-        leftIcon: 'ion-bag',
-        keyName: 'marketplaceBase'
-
-    },
-    {
         key: 'roles_user',
         label: 'sidebar.rolesUsers',
         leftIcon: 'ion-android-person',
