@@ -8,7 +8,6 @@ export default class TextInputCustom extends Component {
     const {value, type, placeholder, onChange, required, disabled} = this.props;
     return (
       <TextWrapper>
-        <label for="input"><IntlMessages id={this.props.label_id} /></label>
         <Input disabled={disabled} 
                type={type} 
                value={value} 

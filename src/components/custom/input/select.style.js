@@ -22,7 +22,7 @@ const SelectWrapper = styled.div`
         {
 
           width: 100% !important;
-          height: 55px !important;
+          height: 50px !important;
           border-radius: 2px !important;
           border: solid 1.2px #ecf0f1 !important;
           background-color: var(--white) !important;
@@ -52,6 +52,8 @@ const SelectWrapper = styled.div`
         }
         
         label {
+          width: 160px !important;
+          overflow-wrap: break-word;
           transition: // not padding
             background 0.2s,
             color 0.2s,
@@ -62,14 +64,14 @@ const SelectWrapper = styled.div`
           position: absolute !important;
           opacity: 0.5 !important;
           font-family: Roboto !important;
-          font-size: 11px !important;
+          font-size: 12px !important;
           font-weight: 500 !important;
           font-style: normal !important;
           font-stretch: normal !important;
           line-height: normal !important;
           letter-spacing: -0.28px !important;
           color: #010935 !important;
-          padding-left: 12px !important;
+          padding-left: 10px !important;
           padding-top: 10px !important;
         }
 

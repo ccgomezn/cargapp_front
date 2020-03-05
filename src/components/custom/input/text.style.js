@@ -15,11 +15,10 @@ textarea {
 
 input
         {
-        margin-top: 3px;
-          padding: 26px 12px 13px 10px !important;
+          padding: 12px 12px 13px 10px !important;
 
           width: 100% !important;
-          height: 55px !important;
+          height: 50px !important;
           border-radius: 2px !important;
           border: solid 1.2px #ecf0f1 !important;
           background-color: var(--white) !important;

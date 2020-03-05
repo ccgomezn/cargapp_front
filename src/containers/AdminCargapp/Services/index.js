@@ -394,7 +394,7 @@ export default class Service extends Component {
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 {
                   !vehicle_manager && <SecondaryButton
-                    message_id={"general.add"}
+                    message_id={"services.add"}
                     style={{ width: '100%' }}
                     onClick={() => this.redirectAdd(generator)} />
                 }

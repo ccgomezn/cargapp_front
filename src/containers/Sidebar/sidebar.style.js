@@ -172,10 +172,10 @@ const SidebarWrapper = styled.div`
 
         i {
           padding-left: 26px important!;
-          font-size: 19px;
+          font-size: 22px;
           color: white;
           margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 0 0 30px' : '0 30px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 20px' : '0 15px 0 0'};
           width: 18.2px;
           ${transition()};
         }
@@ -190,7 +190,7 @@ const SidebarWrapper = styled.div`
 
       .nav-text {
         padding-left: 10px;
-        font-size: 14px;
+        font-size: 16px;
         opacity: 0.8 !important; 
         color: white !important; 
         font-weight: 400;

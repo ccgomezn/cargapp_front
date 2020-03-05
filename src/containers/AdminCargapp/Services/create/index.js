@@ -276,11 +276,10 @@ export default class ReportCreate extends Component {
                 <Col lg={12} md={24} sm={24} xs={24}>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Ciudad de origen ">
+                      <Col span={14}>
+                        <Form.Item label="Origen">
                           <SelectInputCustom 
                             value={this.state.origin_city_id}
-                            placeholder="ciudad de origen"
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'origin_city_id');
                               this.handleChange(e.label, 'origin');
@@ -301,17 +300,16 @@ export default class ReportCreate extends Component {
                   </Row>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Dirección de origen">
+                      <Col span={14}>
+                        <Form.Item>
                           <TextInputCustom value={this.state.origin_address}
-                            placeholder="dirección de origen"
+                            placeholder="Ingrese la dirección de origen"
                             onChange={(e) => {
                               this.handleChange(e.target.value, 'origin_address');
                               this.handleSearchLocation(transformInputData(this.state.origin_city_id),
                                                                             this.state.origin_address, 'origin')
                               }}
-                            required
-                            label_id={'admin.title.address'} />
+                            required/>
                         </Form.Item>
                       </Col>
                     </Col>
@@ -319,10 +317,9 @@ export default class ReportCreate extends Component {
                   </Row>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Ciudad de destino ">
+                      <Col span={14}>
+                        <Form.Item label="Destino ">
                           <SelectInputCustom value={this.state.destination_city_id}
-                            placeholder="ciudad de destino"
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'destination_city_id');
                               this.handleChange(e.label, 'destination');
@@ -343,17 +340,16 @@ export default class ReportCreate extends Component {
                   </Row>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Dirección de destino">
+                      <Col span={14}>
+                        <Form.Item>
                           <TextInputCustom value={this.state.destination_address}
-                            placeholder="dirección de destino"
+                            placeholder="Ingrese la dirección de destino"
                             onChange={(e) => {
                               this.handleChange(e.target.value, 'destination_address');
                               this.handleSearchLocation(transformInputData(this.state.destination_city_id),
                                                                             this.state.destination_address, 'destination');
                             }}
-                            required
-                            label_id={'admin.title.address'} />
+                            required/>
                         </Form.Item>
                       </Col>
                     </Col>
@@ -430,7 +426,7 @@ export default class ReportCreate extends Component {
                       }]} center={this.state.center ? this.state.center : {
                         lat: 4.710989,
                         lng: -74.072090
-                      }} block style={{ height: 500 }} isFreight={false} />
+                      }} block style={{ height: 420 }} isFreight={false} />
                     </Col>
                   </Row>
                 </Col>
@@ -442,6 +438,7 @@ export default class ReportCreate extends Component {
               <Card className="cardContent" style={{ marginTop: '1%' }}>
                 <Form>
 
+                  {/* Price section partially removed
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={6}>
@@ -498,23 +495,21 @@ export default class ReportCreate extends Component {
                         </Form.Item>
                       </Col>
                     </Col>
-                  </Row>
+                  </Row>*/}
 
                   <Row gutter={10}>
                     <Col span={12}>
                       <Form.Item label="Peso de la carga:">
                         <TextInputCustom value={this.state.load_weight}
-                          placeholder="peso (tons)"
-                          onChange={(e) => this.handleChange(e.target.value, 'load_weight')}
-                          label_id={'admin.title.weight'} />
+                          placeholder="Peso (tons)"
+                          onChange={(e) => this.handleChange(e.target.value, 'load_weight')}/>
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <Form.Item label="Volúmen de la carga:">
                         <TextInputCustom value={this.state.load_volume}
-                          placeholder="volúmen (m3)"
-                          onChange={(e) => this.handleChange(e.target.value, 'load_volume')}
-                          label_id={'admin.title.volume'} />
+                          placeholder="Volúmen (m3)"
+                          onChange={(e) => this.handleChange(e.target.value, 'load_volume')}/>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -523,17 +518,15 @@ export default class ReportCreate extends Component {
                     <Col span={12}>
                       <Form.Item label="Dice contener:">
                         <TextInputCustom value={this.state.description}
-                          placeholder="dice contener"
+                          placeholder="Descripción"
                           onChange={(e) => this.handleChange(e.target.value, 'description')}
-                          required
-                          label_id={'admin.title.description'} />
+                          required/>
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <Form.Item label="Observaciones:">
-                        <TextInputCustom value={this.state.note} placeholder="observaciones"
-                          onChange={(e) => this.handleChange(e.target.value, 'note')}
-                          label_id={'admin.title.note'} />
+                        <TextInputCustom value={this.state.note} placeholder="Descripción"
+                          onChange={(e) => this.handleChange(e.target.value, 'note')}/>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -541,9 +534,8 @@ export default class ReportCreate extends Component {
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={12}>
-                        <Form.Item label="Tipo de vehiculo">
+                        <Form.Item label="Vehículo">
                           <SelectInputCustom value={this.state.vehicle_type_id}
-                            placeholder="tipo de vehiculo"
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'vehicle_type_id')
                             }}
@@ -554,15 +546,14 @@ export default class ReportCreate extends Component {
                                   value={item.id}>{item.name}</Option>
                               })
                             }
-                            label_id={'admin.title.type'}>
+                            label_id={'admin.title.vehicleType'}>
 
                           </SelectInputCustom>
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Tipo de empaque">
+                        <Form.Item label="Empaque">
                           <SelectInputCustom value={this.state.packing}
-                            placeholder="tipo de empaque"
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'packing')
                             }}
@@ -573,7 +564,7 @@ export default class ReportCreate extends Component {
                                   value={item.name}>{item.name}</Option>
                               })
                             }
-                            label_id={'admin.title.type'}>
+                            label_id={'admin.title.packingType'}>
 
                           </SelectInputCustom>
                         </Form.Item>
@@ -583,21 +574,19 @@ export default class ReportCreate extends Component {
 
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="nombre del responsable de la carga:">
+                      <Form.Item label="Contacto directo del despacho:">
                         <TextInputCustom value={this.state.contact_name}
-                          placeholder="nombre del responsable"
+                          placeholder="Ingrese nombre del contacto"
                           onChange={(e) => this.handleChange(e.target.value, 'contact_name')}
-                          required
-                          label_id={'admin.title.contact_name'} />
+                          required/>
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Teléfono del responsable de la carga:">
+                      <Form.Item label="Teléfono del contacto:">
                         <TextInputCustom value={this.state.contact}
-                          placeholder="tel del responsable"
+                          placeholder="Ingrese número de teléfono"
                           onChange={(e) => this.handleChange(e.target.value, 'contact')}
-                          required
-                          label_id={'admin.title.contact_phone'} />
+                          required/>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -677,7 +666,7 @@ export default class ReportCreate extends Component {
                   <Row>
                     <Col span={24}>
                       <Form.Item wrapperCol={{ span: 24 }}>
-                        <SecondaryButton htmlType={"submit"} message_id={"general.add"}
+                        <PrimaryButton htmlType={"submit"} message_id={"services.create"}
                           style={{ width: '200px' }}
                           onClick={() => this.handlePost()} />
                       </Form.Item>
