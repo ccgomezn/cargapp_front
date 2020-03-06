@@ -21,7 +21,6 @@ export default class Service extends Component {
     }
   }
 
-
   transformDataToMap(data, key = null) {
     var dataTransformed = {};
     data.map((item) => {
@@ -76,11 +75,12 @@ export default class Service extends Component {
             } else {
               item.color = '#010935';
             }
-            item.service_id = id;
-            console.log(item);
+
             let user_id = item.user_id;
+            item.service_id = id;
             item.user = profiles[user_id].firt_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
             item.document = profiles[user_id].document_id;
+
             if (rate[user_id]) {
               item.score = String(parseInt(rate[user_id].sum / rate[user_id].count)) + ' Puntos';
             } else {

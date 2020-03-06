@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/utility/pageHeader';
 import { Row, Col, Avatar } from 'antd';
 import basicStyle from '../../../../settings/basicStyle';
 import { Form } from "antd";
-import PrimaryButton from "../../../../components/custom/button/primary"
+import PrimaryButton from "../../../../components/custom/button/primary";
 import { Card } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
@@ -12,7 +12,7 @@ import Modal from '../../../../components/feedback/modal';
 import { getActiveProfiles, getUser, getMineStatistics, getDocumentsOfUser } from "../../../../helpers/api/users";
 import { getRateServices } from "../../../../helpers/api/services";
 import { TitleLabel, TitleDivider } from './style.js';
-import PdfDocumentCustom from "../../../../components/documents/pdf";
+import { PdfDocumentCustom } from "../../../../components/documents/pdf";
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 export default class TicketShow extends Component {

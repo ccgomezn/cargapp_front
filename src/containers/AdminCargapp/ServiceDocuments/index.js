@@ -8,7 +8,7 @@ import { Row, Col, Tabs } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import axios from "axios";
 import { Redirect } from 'react-router-dom'
-import { getActiveUsers, getActiveUserRoles } from "../../../helpers/api/users";
+import { getActiveUserRoles } from "../../../helpers/api/users";
 import {
   getActiveServiceDocuments,
   getActiveServices,
@@ -78,7 +78,7 @@ export default class ServiceDocument extends Component {
           let active = [], inactive = [];
           let docList = this.props.generator ? 
                           this.getGeneratorDocuments(responses[0].data) : responses[0].data;
-          console.log(responses[1].data);
+
           docList.map((item) => {
             if (roles_data[item.user_id] === 11) {
               item.user_role = 'Camionero';

@@ -15,12 +15,10 @@ import {
   getVehicleDocumentsByVehicle} from "../../../../helpers/api/vehicles";
 import {getDocumentTypes, getFilteredDocument} from "../../../../helpers/api/internals";
 import SimpleImageSlider from "react-simple-image-slider";
-import { TitleLabel, TitleDivider, SliderContainer, TextItemStyle } from './style.js';
-import PdfDocumentCustom from "../../../../components/documents/pdf";
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import { TitleLabel, TitleDivider, SliderContainer, TextItemStyle, labelItemStyle } from './style.js';
+import PrimaryButton from "../../../../components/custom/button/primary";
 
 export default class VehicleShow extends Component {
-
 
   constructor(props) {
     super();
@@ -97,18 +95,26 @@ export default class VehicleShow extends Component {
   }
 
   goBack() {
-    this.props.history.push('/admin/vehicles')
+    if (this.props.generator) {
+      this.props.history.push('/generator/services');
+    } else {
+      this.props.history.push('/admin/vehicles');
+    }
   }
 
 
   render() {
     const { rowStyle, colStyle } = basicStyle;
     const { redirect } = this.state;
-    let sliderWidth = window.screen.width * 0.4;
-    let sliderHeight = window.screen.height * 0.4;
+    let sliderWidth = window.screen.width * 0.38;
+    let sliderHeight = window.screen.height * 0.38;
 
     if (redirect) {
-      return <Redirect to='/admin/vehicles' />
+      if (this.props.generator) {
+        this.props.history.push('/generator/services');
+      } else {
+      this.props.history.push('/admin/vehicles');
+      }
     }
 
     return (
@@ -148,16 +154,16 @@ export default class VehicleShow extends Component {
                     <TitleLabel>Detalles</TitleLabel>
                     <TitleDivider />
                     
-                    <Row gutter={10} style={{marginTop: '6%'}}>
+                    <Row gutter={10} style={{marginTop: '10%'}}>
                       <Col span={12}>
-                        <Form.Item label="Marca" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Marca" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.brand}
                           </div>
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Color" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Color" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.color}
                           </div>
@@ -167,14 +173,14 @@ export default class VehicleShow extends Component {
 
                     <Row gutter={10}>
                       <Col span={12}>
-                        <Form.Item label="Modelo" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Modelo" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.model}
                           </div>
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Año del modelo" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Año" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.model_year}
                           </div>
@@ -184,14 +190,14 @@ export default class VehicleShow extends Component {
 
                     <Row gutter={10}>
                       <Col span={12}>
-                        <Form.Item label="Placa" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Placa" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.plate}
                           </div>
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="No. Chasis" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="No. Chasis" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.chassis}
                           </div>
@@ -201,7 +207,7 @@ export default class VehicleShow extends Component {
                     
                     <Row gutter={10}>
                       <Col span={12}>
-                        <Form.Item label="Tipo de vehículo" style={{ marginBottom: '15px' }}>
+                        <Form.Item label="Tipo de vehículo" style={labelItemStyle}>
                           <div class="ant-form-item-control" style={TextItemStyle}>
                             {this.state.vehicle_type}
                           </div>
@@ -212,6 +218,15 @@ export default class VehicleShow extends Component {
                   </Col>
                 </Row>
               </Card>
+              
+              <Row>
+                <Col span={5}>
+                  <Form.Item wrapperCol={{ span: 24 }}>
+                    <PrimaryButton message_id={"general.back"} style={{ width: '100%' }}
+                      onClick={() => this.goBack()} />
+                  </Form.Item>
+                </Col>
+              </Row>
 
             </Row>
           </Col>

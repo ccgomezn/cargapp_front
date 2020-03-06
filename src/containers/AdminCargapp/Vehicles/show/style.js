@@ -22,11 +22,18 @@ const TitleDivider = styled.div`
 const SliderContainer = styled.div`
   div {
     border-radius: 5px;
+    background-size: fit !important;
   }
 `;
 
+const labelItemStyle = { lineHeight: 1, 
+  fontSize: '16px',
+  marginBottom: '15px',
+};
+
 const TextItemStyle = { lineHeight: 1, 
   marginBottom: '5%',
+  fontSize: '15px',
 };
 
 
@@ -35,5 +42,6 @@ export {
   TitleLabel,
   TitleDivider,
   SliderContainer,
-  TextItemStyle
+  TextItemStyle,
+  labelItemStyle
 }

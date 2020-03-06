@@ -12,7 +12,7 @@ import {
   ButtonCell,
 } from '../../../components/tables/helperCells';
 import {deleteServiceDocument, putServiceDocument} from "../../../helpers/api/services";
-import PdfDocumentCustom from "../../../components/documents/pdf";
+import { PdfDocumentCustom, TransportationOrderDocument } from "../../../components/documents/pdf";
 import {store} from "../../../redux/store";
 
 const deleteFunction = (id, type) => {
@@ -44,6 +44,10 @@ const imgToPdf = (img1, title) => {
         image1={img1}
         title={title} />
   );
+}
+
+const pdftry = () => {
+  return (<TransportationOrderDocument/>);
 }
 
 const toggleModal = (documentId, isImg) => {

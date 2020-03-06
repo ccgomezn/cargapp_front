@@ -70,6 +70,7 @@
     "react-placeholder": "^2.0.0",
     "react-quill": "^1.2.0",
     "react-redux": "7.1.1",
+    "react-resize-image": "^1.0.4",
     "react-router-dom": "^4.1.0",
     "react-scripts": "2.0.3",
     "react-scroll": "^1.7.14",
