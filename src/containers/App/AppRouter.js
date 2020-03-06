@@ -676,7 +676,11 @@ const routes_generator = [
     {
         path: 'chats',
         component: asyncComponent(() => import('../AdminCargapp/Chats/detail'), {generator: true})
-    }
+    },
+    {
+        path: 'vehicles/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/show'), {generator: true})
+    },
 ];
 
 const routes_vehicle_manager = [

@@ -138,7 +138,7 @@ export default class TicketShow extends Component {
   }
 
   pdfHasImages(pdf) {
-    if (pdf && pdf.props.image1 !== undefined && pdf.props.image2 !== undefined) {
+    if (pdf && pdf.props && (pdf.props.image1 !== undefined || pdf.props.image2 !== undefined)) {
       return true;
     }
     return false;
@@ -175,7 +175,6 @@ export default class TicketShow extends Component {
     }
 
     return (
-
       <LayoutWrapper>
 
         <Row style={rowStyle} gutter={18} justify="start" block>
@@ -183,7 +182,6 @@ export default class TicketShow extends Component {
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
-
                   <h1> Conductor asignado </h1>
                 </PageHeader>
               </Col>
@@ -289,6 +287,7 @@ export default class TicketShow extends Component {
                       <Row>
                         <Col span={8}>
                           <Form.Item label="Planilla de pagos ARL">
+                            {console.log(this.pdfHasImages(arl_document_pdf))}
                           {this.pdfHasImages(arl_document_pdf) && <a style={{ marginRight: 20 }} href="#"
                               onClick={() => this.modalClick('arlModal', this.state.arlModal)}>Vista previa</a>}
                             <Modal

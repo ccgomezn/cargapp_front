@@ -80,7 +80,6 @@ export default class ServiceDetail extends Component {
       getActiveCompanies(), getActiveVehicles(), getActiveVehicleTypes(),
       getStatusOfModel(model_id), getActiveStatus()])
         .then((responses) => {
-
           if (responses[0].data.active) {
             responses[0].data.active = 'Activo';
           } else {
@@ -108,7 +107,6 @@ export default class ServiceDetail extends Component {
           let data_users = this.transformDataToMap(responses[1].data, 'email');
           let data_cities = this.transformDataToMap(responses[2].data, 'name');
           let data_companies = this.transformDataToMap(responses[3].data, 'name');
-          let data_vehicles = this.transformDataToMap(responses[4].data, 'name');
           let data_vehicle_types = this.transformDataToMap(responses[5].data, 'name');
           let data_status = this.transformDataToMap(responses[6].data, 'name');
           let data_status_code = this.transformDataToMap(responses[6].data, 'code');
@@ -138,7 +136,7 @@ export default class ServiceDetail extends Component {
             user_driver_id: responses[0].data.user_driver_id,
             user_receiver: data_users[responses[0].data.user_receiver_id],
             vehicle_type: data_vehicle_types[responses[0].data.vehicle_type_id],
-            vehicle: data_vehicles[responses[0].data.vehicle_id],
+            vehicle_id: responses[0].data.vehicle_id,
             status: data_status[responses[0].data.statu_id],
             statu_id: responses[0].data.statu_id,
             expiration_date: responses[0].data.expiration_date,
@@ -182,7 +180,6 @@ export default class ServiceDetail extends Component {
             }
 
             this.setState({
-
               origin_marker: {
                 position: {
                   lat: parseFloat(this.state.origin_latitude),
@@ -196,7 +193,6 @@ export default class ServiceDetail extends Component {
                 }
               }
             });
-
 
             const DirectionsService = new google.maps.DirectionsService();
 
@@ -218,11 +214,9 @@ export default class ServiceDetail extends Component {
           console.error(error);
         });
     })
-
   }
 
   handleChange(value, type) {
-
     this.setState(
       {
         [type]: value
@@ -264,6 +258,7 @@ export default class ServiceDetail extends Component {
       onProcessStatusIndex = this.state.process_service_status.map(
                                   function (status) { return status.id; }).indexOf(this.state.statu_id);
     }
+    onProcessStatusIndex = (startingStatusIndex === -1 && onProcessStatusIndex === -1) ? 99 : onProcessStatusIndex;
     startingStatusIndex = (onProcessStatusIndex !== -1) ? 99 : startingStatusIndex;
     
     if (redirect) {
@@ -375,9 +370,9 @@ export default class ServiceDetail extends Component {
                               <Col span={12}>
                                 <Form.Item label="Vehículo" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.user_driver_id ? <a href={generator ? '/generator/users/show/' +
-                                      this.state.user_driver_id + '/' + id : '/admin/users/show/'
-                                      + this.state.user_driver_id}>
+                                    {this.state.user_driver_id ? <a href={generator ? '/generator/vehicles/show/' +
+                                      this.state.vehicle_id + '/' : '/admin/vehicles/show/'
+                                      + this.state.vehicle_id}>
                                       {'Ver vehículo'}
                                     </a> : 'No tiene un vehículo asignado'}
                                   </div>

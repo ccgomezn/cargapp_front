@@ -16,6 +16,10 @@ export function getVehicle(id) {
     return get(httpAddr + `/vehicles/` + id, true);
 }
 
+export function getVehicleDocumentsByVehicle(vehicle_id) {
+    return get(httpAddr + `/vehicle_documents/find_by_vehicle/` + vehicle_id, true);
+}
+
 export function putVehicle(id, data) {
     return put(httpAddr + `/vehicles/` + id, data, true);
 }
@@ -34,7 +38,6 @@ export function getActiveVehicleTypes() {
 
 export function getVehicleType(id) {
     return get(httpAddr + `/vehicle_types/` + id, true);
-
 }
 
 export function putVehicleType(id, data) {
