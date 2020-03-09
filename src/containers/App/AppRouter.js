@@ -299,7 +299,7 @@ const routes_admin = [
     },
     {
         path: 'users/edit/:id',
-        component: asyncComponent(() => import('../AdminCargapp/Users/create'))
+        component: asyncComponent(() => import('../AdminCargapp/Users/edit'))
     },
     {
         path: 'users/show/:id',

@@ -3,7 +3,6 @@ import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col, Form, Card, Select, message } from 'antd';
-import Modal from '../../../../components/feedback/modal';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Redirect } from 'react-router-dom'
@@ -13,8 +12,9 @@ import SelectMultipleInputCustom from "../../../../components/custom/input/selec
 import {
   confirmUser,
   getActiveRoles,
-  postUserCompany,
-  postUserRole, resendCode,
+  resendCode,
+  putUserRole,
+  putUserCompany,
   verifyEmail,
   verifyPhoneNumber
 } from "../../../../helpers/api/users";
@@ -22,15 +22,14 @@ import SelectInputCustom from "../../../../components/custom/input/select";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import { getActiveCountries } from "../../../../helpers/api/locations";
 import { transformInputData } from "../../../../helpers/utility";
-import { post } from "../../../../helpers/httpRequest";
+import { put } from "../../../../helpers/httpRequest";
 import httpAddr from "../../../../helpers/http_helper";
 import { getMineCompanies } from "../../../../helpers/api/companies";
-import { postDocument } from "../../../../helpers/api/internals";
-
+import { putDocument } from "../../../../helpers/api/internals";
 
 const { Option } = Select;
 
-export default class UserCreate extends Component {
+export default class UserEdit extends Component {
 
 
   constructor() {
@@ -111,12 +110,12 @@ export default class UserCreate extends Component {
     }
   }
 
-  handlePost() {
+  handleUpdate() {
     if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
       return null;
     }
 
-    post(httpAddr + '/users/email_verify', {
+    put(httpAddr + '/users/email_verify', {
       user: {
         email: this.state.email
       }
@@ -127,7 +126,7 @@ export default class UserCreate extends Component {
         if (this.state.password !== this.state.password_confirmation) {
           message.warning('La contraseña no coincide');
         } else {
-          post(httpAddr + '/users',
+          put(httpAddr + '/users',
             {
               user: {
                 email: this.state.email,
@@ -140,27 +139,24 @@ export default class UserCreate extends Component {
               this.setState({ userId: response.data.id });
               let role_calls = [];
               this.state.role_id.forEach((role) => {
-
-                role_calls.push(postUserRole({
+                role_calls.push(putUserRole({
                   user_role: {
                     role_id: role,
                     user_id: this.state.userId,
                     admin_id: 1,
                     active: true
                   }
-                }
-                ));
-
+                }));
               });
+
               axios.all(role_calls).then(() => {
                 getMineCompanies().then((response) => {
-                  postUserCompany({
+                  putUserCompany({
                     company_user: {
                       user_id: this.state.userId,
                       company_id: response.data[0].id
                     }
                   }).then(() => {
-
                     let setCC = function () {
                     };
                     let setLC = function () {
@@ -175,14 +171,14 @@ export default class UserCreate extends Component {
                         formData.append('document[statu_id]', 13);
                         formData.append('document[active]', true);
                         formData.append('document[user_id]', that.state.userId);
-                        postDocument(formData).then(() => {
+                        putDocument(formData).then(() => {
                           const formDataBack = new FormData();
                           formDataBack.append('document[document_type_id]', 7);
                           formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
                           formDataBack.append('document[statu_id]', 13);
                           formDataBack.append('document[active]', true);
                           formDataBack.append('document[user_id]', this.state.userId);
-                          postDocument(formDataBack)
+                          putDocument(formDataBack)
                         })
                       }
                     }
@@ -196,14 +192,14 @@ export default class UserCreate extends Component {
                         formData.append('document[statu_id]', 13);
                         formData.append('document[active]', true);
                         formData.append('document[user_id]', that.state.userId);
-                        postDocument(formData).then(() => {
+                        putDocument(formData).then(() => {
                           const formDataBack = new FormData();
                           formDataBack.append('document[document_type_id]', 8);
                           formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
                           formDataBack.append('document[statu_id]', 13);
                           formDataBack.append('document[active]', true);
                           formDataBack.append('document[user_id]', that.state.userId);
-                          postDocument(formDataBack)
+                          putDocument(formDataBack)
                         })
                       }
                     }
@@ -219,14 +215,10 @@ export default class UserCreate extends Component {
                   });
                 });
               });
-
-
-            })
-            .catch((error) => {
+            }).catch((error) => {
               message.warning("Error al crear el usuario");
             })
         }
-
       }
     }).catch(error => {
       let errorObject = JSON.parse(JSON.stringify(error));
@@ -234,14 +226,13 @@ export default class UserCreate extends Component {
     });
   }
 
-
-  componentWillMount() {
+  componentDidMount() {
     axios.all([getActiveRoles(), getActiveCountries()])
       .then((responses) => {
         if (responses[0]) {
           this.setState({
             roles: responses[0].data,
-            countries: responses[1].data
+            countries: responses[1].data,
           });
         }
       })
@@ -258,20 +249,18 @@ export default class UserCreate extends Component {
 
       <LayoutWrapper>
 
-
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
-
                   <h1>
                     <IntlMessages id="users.title" />
-
                   </h1>
                 </PageHeader>
               </Col>
             </Row>
+
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Form>
@@ -337,10 +326,9 @@ export default class UserCreate extends Component {
                             onChange={(e) => this.handleChange(e.target.value, 'phone_number')} />
                         </Col>
                       </Form.Item>
-
                     </Col>
-
                   </Row>
+
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={12}>
@@ -373,6 +361,7 @@ export default class UserCreate extends Component {
                       </Col>
                     </Col>
                   </Row>
+
                   <Row>
                     <Col span={12}>
                       <Form.Item label="Cédula de ciudadania (frontal)">
@@ -505,7 +494,7 @@ export default class UserCreate extends Component {
                           htmlType={"submit"}
                           message_id={"general.add"}
                           style={{ width: '200px' }}
-                          onClick={() => this.handlePost()} />
+                          onClick={() => this.handleUpdate()} />
                       </Form.Item>
                     </Col>
                   </Row>

@@ -46,6 +46,10 @@ export function postUserCompany(data) {
     return post(httpAddr + '/company_users', data, true);
 }
 
+export function putUserCompany(data) {
+    return put(httpAddr + '/company_users', data, true);
+}
+
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
 }

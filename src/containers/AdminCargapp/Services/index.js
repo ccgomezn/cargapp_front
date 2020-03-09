@@ -74,12 +74,24 @@ export default class Service extends Component {
     return servicePermissions;
   }
 
-  sortByTargetKey(array, key, targetKey) {
+  sortByTargetKeyAndValue(array, key, targetKey) {
     array.sort(function(a, b){
       if(a[key] === targetKey) { return -1; }
       if(a[key] > b[key]) { return 1; }
       return 0;
     });
+  }
+
+  sortByKey(array, key) {
+    array.sort(function(a, b) {
+      if (a[key] > b[key]) {
+        return -1;
+      }
+      if (a[key] < b[key]) {
+        return 1;
+      }
+      return 0;
+    }); 
   }
 
   findByKeyAndValue(array, key, value) {
@@ -180,7 +192,7 @@ export default class Service extends Component {
               }
               item.status = status_data[item.statu_id];
               item.origin_destination = `${item.origin} - ${item.destination}`;
-
+              item.updated_at = item.updated_at.split('T')[0];
               return item;
             });
 
@@ -280,9 +292,12 @@ export default class Service extends Component {
     let ownerId;
     let ownerAccount;
     let actualServiceId;
-    
+
     if (this.state.services) {
-      this.sortByTargetKey(this.state.services, 'status', 'En proceso de pago');
+      this.sortByKey(this.state.services, 'updated_at');
+      if (!generator && !vehicle_manager) {
+        this.sortByTargetKeyAndValue(this.state.services, 'status', 'En proceso de pago');
+      }
     }
 
     if (this.state.role_id === 24) {

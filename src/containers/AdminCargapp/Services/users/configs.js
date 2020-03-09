@@ -95,7 +95,7 @@ const renderCell = (object, type, key, color, typeUser) => {
       if (object['approved'] !== 'En proceso') {
         return TextColorCell('No se pueden realizar acciones', '');
       }
-      return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], 2, //object['vehicle_id'],
+      return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['vehicle_id'],
                               object['service_id'], typeUser), putFunction(id, object['service_id']), type1, type2);
     case 'ButtonCell':
       let seeProfile = function () {

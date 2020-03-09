@@ -85,27 +85,33 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
+
     case 'DateCell':
       return DateCell(value);
+
     case 'GeneratorLinkCell':
       return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
+
     case 'AdminLinkCell':
       if (boolean_change && object['statu_id'] === 10) {
         return LinkCell('Ver postulados', window.location.protocol + '//' + window.location.host + sub_link + object['id']);
       }
       return LinkCell(link_name, window.location.protocol + '//' + window.location.host + link + value);
+    
     case 'SingleButtonCell':
       if (object['statu_id'] === 10 && object['active'] === 'Activo') {
         return ButtonCell(text1, function1, type1);
       } else {
         return null;
       }
+
     case 'DoubleButtonCell':
       if (object['statu_id'] === 10 && object['active'] === 'Activo') {
         return DoubleButtonCell(text1, text3, function1, deleteFunction(object['id'], type_role), type1, type3);
       } else {
         return null;
       }
+
     case 'MultipleAndSingleButton':
       if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 49) {
         return DoubleButtonCell(text2, text4, acceptService(object['id'], 'admin'),
@@ -120,6 +126,7 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
       } else {
         return ButtonCell(text1, function1, type1);
       }
+      
     case 'ActionSubscribe':
       let signUpFunction = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/' + type_role + '/services/subscribe/' + object['id'];
@@ -247,9 +254,9 @@ const columns = [
   },
   { // 18
     title: <IntlMessages id="antTable.title.date" />,
-    key: 'expiration_date',
+    key: 'updated_at',
     width: '8%',
-    render: object => renderCell(object, 'TextCell', 'expiration_date')
+    render: object => renderCell(object, 'TextCell', 'updated_at')
   },
 ];
 const smallColumns = [
