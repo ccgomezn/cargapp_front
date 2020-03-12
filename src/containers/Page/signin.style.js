@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import bgImage from '../../image/sign.jpg';
+import bgFormImage from '../../image/signin-form-bg.jpg';
 import WithDirection from '../../settings/withDirection';
+import WebFont from 'webfontloader';
+
+WebFont.load({
+  google: {
+    families: ['Roboto:300,400', 'sans-serif']
+  }
+});
 
 const SignInStyleWrapper = styled.div`
   width: 100%;
@@ -14,21 +22,87 @@ const SignInStyleWrapper = styled.div`
   background: url(${bgImage}) no-repeat center center;
   background-size: cover;
 
+  @media only screen and (max-width: 1700px) {
+    .loginTitle {
+      width: 65% !important;
+    }
+    .loginTitle h1 {
+      font-size: 2.5rem !important;
+      width: 250px;
+    }
+    .isoLoginContentWrapper {
+      width: 30% !important;
+    }
+  }
+  @media only screen and (max-width: 1400px) {
+    .loginTitle {
+      width: 63% !important;
+    }
+    .loginTitle h1 {
+      font-size: 2.3rem !important;
+      width: 250px !important;
+    }
+    .isoLoginContentWrapper {
+      width: 35% !important;
+    }
+  }
+  @media only screen and (max-width: 1200px) {
+    .loginTitle h1 {
+      font-size: 2rem !important;
+      width: 250px !important;
+    }
+    .isoLoginContentWrapper {
+      width: 40% !important;
+    }
+  }
+  @media only screen and (max-width: 1030px) {
+    .loginTitle h1 {
+      display: none;
+    }
+    .isoLoginContentWrapper {
+      width: 40% !important;
+    }
+  }
+  @media only screen and (max-width: 780px) {
+    display: block;
+
+    .loginTitle h1 {
+      display: none;
+    }
+    .isoLoginContentWrapper {
+      width: 100% !important;
+    }
+  }
+
+  .loginTitle {
+    width: 60%;
+    text-align: right;
+  }
+  .loginTitle h1{
+    color: #FFF;
+    font-weight: 300 !important;
+    font-size: 3rem;
+    width: 300px;
+    text-align: left;
+    float: right;
+    line-height: 1.25;
+  }
+
   &:before {
     content: '';
     width: 100%;
     height: 100%;
     display: flex;
-    background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     z-index: 1;
     top: 0;
     left: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
     right: ${props => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
+    background-color: rgba(0,0,0,0.1);
   }
 
   .isoLoginContentWrapper {
-    width: 526px;
+    width: 30%;
     height: 100%;
     overflow-y: auto;
     z-index: 10;
@@ -40,22 +114,23 @@ const SignInStyleWrapper = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    background-color: #ffffff;
     padding-left: 15%;
     padding-right: 15%;
-    vertical-align: middle
+    vertical-align: middle;
+    background: url(${bgFormImage}) no-repeat center center !important;
+    background-size: cover !important;
+
     @media only screen and (max-width: 767px) {
       width: 100%;
       padding: 70px 20px;
     }
     .footer {
-              width: 366px !important;
-
-        text-align: center;
+      width: 70% !important;
+      text-align: center;
       span{
         text-align: center;
       }
-      width: 247px;
+      width: 50%;
       height: 14px;
       font-family: Roboto;
       font-size: 12px;
@@ -76,30 +151,29 @@ const SignInStyleWrapper = styled.div`
       margin-bottom: 18px;
       justify-content: start;
       flex-shrink: 0;
+
       .Bienvenido-a-Cargapp {
-        display: inline-block;
-        width: 366px;
-        height: 38px;
-        font-family: Roboto;
-        font-size: 32px;
-        font-weight: bold;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: -0.3px;
-        color: #010935;
+        width: 100%;
+        text-align: center;
+      }
+      .Bienvenido-a-Cargapp img{
+        width: 65%;
+        text-align: center;
       }
       .Bienvenido-a-Cargapp .text-style-1 {
         color: #0068ff;
         display: inline-block;
       }
       .Una-solucin-digital {
-        margin-top: 13px;
-        width: 366px;
+        text-align: center;
+        margin-top: 20px;
+        margin-left: -5px;
+        margin-bottom: 15%;
+        width: 100%;
         height: 21px;
         opacity: 0.5;
         font-family: Roboto;
-        font-size: 18px;
+        font-size: 0.95rem;
         font-weight: normal;
         font-style: normal;
         font-stretch: normal;
@@ -127,8 +201,6 @@ const SignInStyleWrapper = styled.div`
         .button-sign{
           display: inline-block;
         }
-        
-        
       }
 
 
@@ -170,8 +242,7 @@ const SignInStyleWrapper = styled.div`
               height: 17px;
               
             }
-            span {
-                    
+            span {    
               font-family: Roboto;
               font-size: 12px;
               font-weight: normal;
@@ -181,14 +252,12 @@ const SignInStyleWrapper = styled.div`
               letter-spacing: -0.3px;
               color: #010935;
             }
-          }
-          
-
-          
+          } 
         }
+
       .isoInputWrapper {
         position: relative;
-
+        background-color: #FFF;
         overflow: hidden;
         
         a {
@@ -200,7 +269,7 @@ const SignInStyleWrapper = styled.div`
           margin-bottom: 0;
         }
         button {
-          background-color: rgb(51, 95, 246)
+          background-color: rgb(51, 95, 246);
         }
         
         

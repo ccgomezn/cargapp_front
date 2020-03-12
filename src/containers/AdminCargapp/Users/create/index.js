@@ -137,10 +137,10 @@ export default class UserCreate extends Component {
                 password_confirmation: this.state.password_confirmation,
               }
             }, false).then((response) => {
-              this.setState({ userId: response.data.id });
+              this.setState({ userId: response.data.id, pin: response.data.mobile_code },
+                () => this.handleConfirmUser());
               let role_calls = [];
               this.state.role_id.forEach((role) => {
-
                 role_calls.push(postUserRole({
                   user_role: {
                     role_id: role,

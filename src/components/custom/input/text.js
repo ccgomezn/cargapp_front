@@ -16,7 +16,8 @@ export default class TextInputCustom extends Component {
                id="input" 
                onChange={onChange} 
                autoComplete="new-password" 
-               required={required} />
+               required={required} 
+               />
       </TextWrapper>
     )
   }

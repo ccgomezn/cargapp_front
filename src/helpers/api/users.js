@@ -148,6 +148,10 @@ export function postUserRole(data) {
     return post(httpAddr + `/user_roles`, data, true);
 }
 
+export function deleteUser(id) {
+    return del(httpAddr + `/users/` + id, true);
+}
+
 export function deleteUserChallenge(id) {
     return del(httpAddr + `/user_challenges/` + id, true)
 }
@@ -365,7 +369,6 @@ export function deleteFavoriteRoute(id) {
 export function getMinePermissions(){
     return get(httpAddr + '/permissions/me', true)
 }
-
 
 export function getMineProfile(){
     return get(httpAddr + '/profiles/me', true)

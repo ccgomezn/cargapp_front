@@ -10,13 +10,17 @@ import axios from "axios";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectMultipleInputCustom from "../../../../components/custom/input/selectMultiple";
 import {
+  getUser,
   confirmUser,
   getActiveRoles,
   resendCode,
   putUserRole,
   putUserCompany,
   verifyEmail,
-  verifyPhoneNumber
+  verifyPhoneNumber,
+  getProfile,
+  getProfileOfUser,
+  getUserRole
 } from "../../../../helpers/api/users";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import SecondaryButton from "../../../../components/custom/button/secondary";
@@ -30,7 +34,6 @@ import { putDocument } from "../../../../helpers/api/internals";
 const { Option } = Select;
 
 export default class UserEdit extends Component {
-
 
   constructor() {
     super();
@@ -115,124 +118,136 @@ export default class UserEdit extends Component {
       return null;
     }
 
-    put(httpAddr + '/users/email_verify', {
-      user: {
-        email: this.state.email
+    if (this.state.password !== this.state.password_confirmation) {
+      message.warning('La contraseña no coincide');
+    } else {
+      let userJson = {
+        email: this.state.email,
+        identification: this.state.identification,
+        phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
       }
-    }, false).then((response) => {
-      if (response.status === 200) {
-        message.warning('El usuario ya existe en el sistema');
-      } else if (response.status === 302) {
-        if (this.state.password !== this.state.password_confirmation) {
-          message.warning('La contraseña no coincide');
-        } else {
-          put(httpAddr + '/users',
-            {
-              user: {
-                email: this.state.email,
-                password: this.state.password,
-                identification: this.state.identification,
-                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
-                password_confirmation: this.state.password_confirmation,
+      if (this.state.password && this.state.password.length() > 6) {
+        userJson.password = this.state.password;
+        userJson.password_confirmation = this.state.password_confirmation;
+      }
+      put(httpAddr + '/users/' + this.state.user_id,
+        { user: userJson }, false)
+        .then((response) => {
+          this.setState({ userId: response.data.id });
+          let role_calls = [];
+          this.state.role_id.forEach((role) => {
+            role_calls.push(putUserRole({
+              user_role: {
+                role_id: role,
+                user_id: this.state.userId,
+                admin_id: 1,
+                active: true
               }
-            }, false).then((response) => {
-              this.setState({ userId: response.data.id });
-              let role_calls = [];
-              this.state.role_id.forEach((role) => {
-                role_calls.push(putUserRole({
-                  user_role: {
-                    role_id: role,
-                    user_id: this.state.userId,
-                    admin_id: 1,
-                    active: true
+            }));
+          });
+
+          axios.all(role_calls).then(() => {
+            getMineCompanies().then((response) => {
+              putUserCompany({
+                company_user: {
+                  user_id: this.state.userId,
+                  company_id: response.data[0].id
+                }
+              }).then(() => {
+                let setCC = function () {
+                };
+                let setLC = function () {
+                };
+
+                if (this.state.cc_front && this.state.cc_back) {
+                  let that = this;
+                  setCC = function () {
+                    const formData = new FormData();
+                    formData.append('document[document_type_id]', 5);
+                    formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
+                    formData.append('document[statu_id]', 13);
+                    formData.append('document[active]', true);
+                    formData.append('document[user_id]', that.state.userId);
+                    putDocument(formData).then(() => {
+                      const formDataBack = new FormData();
+                      formDataBack.append('document[document_type_id]', 7);
+                      formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
+                      formDataBack.append('document[statu_id]', 13);
+                      formDataBack.append('document[active]', true);
+                      formDataBack.append('document[user_id]', this.state.userId);
+                      putDocument(formDataBack)
+                    })
                   }
-                }));
-              });
+                }
 
-              axios.all(role_calls).then(() => {
-                getMineCompanies().then((response) => {
-                  putUserCompany({
-                    company_user: {
-                      user_id: this.state.userId,
-                      company_id: response.data[0].id
-                    }
-                  }).then(() => {
-                    let setCC = function () {
-                    };
-                    let setLC = function () {
-                    };
+                if (this.state.lc_front && this.state.lc_back) {
+                  let that = this;
+                  setLC = function () {
+                    const formData = new FormData();
+                    formData.append('document[document_type_id]', 4);
+                    formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
+                    formData.append('document[statu_id]', 13);
+                    formData.append('document[active]', true);
+                    formData.append('document[user_id]', that.state.userId);
+                    putDocument(formData).then(() => {
+                      const formDataBack = new FormData();
+                      formDataBack.append('document[document_type_id]', 8);
+                      formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
+                      formDataBack.append('document[statu_id]', 13);
+                      formDataBack.append('document[active]', true);
+                      formDataBack.append('document[user_id]', that.state.userId);
+                      putDocument(formDataBack)
+                    })
+                  }
+                }
 
-                    if (this.state.cc_front && this.state.cc_back) {
-                      let that = this;
-                      setCC = function () {
-                        const formData = new FormData();
-                        formData.append('document[document_type_id]', 5);
-                        formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
-                        formData.append('document[statu_id]', 13);
-                        formData.append('document[active]', true);
-                        formData.append('document[user_id]', that.state.userId);
-                        putDocument(formData).then(() => {
-                          const formDataBack = new FormData();
-                          formDataBack.append('document[document_type_id]', 7);
-                          formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
-                          formDataBack.append('document[statu_id]', 13);
-                          formDataBack.append('document[active]', true);
-                          formDataBack.append('document[user_id]', this.state.userId);
-                          putDocument(formDataBack)
-                        })
-                      }
-                    }
+                axios.all([setCC(), setLC()]).then(() => {
+                  message.success('Usuario creado correctamente');
+                  this.setState({ visible: true });
 
-                    if (this.state.lc_front && this.state.lc_back) {
-                      let that = this;
-                      setLC = function () {
-                        const formData = new FormData();
-                        formData.append('document[document_type_id]', 4);
-                        formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
-                        formData.append('document[statu_id]', 13);
-                        formData.append('document[active]', true);
-                        formData.append('document[user_id]', that.state.userId);
-                        putDocument(formData).then(() => {
-                          const formDataBack = new FormData();
-                          formDataBack.append('document[document_type_id]', 8);
-                          formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
-                          formDataBack.append('document[statu_id]', 13);
-                          formDataBack.append('document[active]', true);
-                          formDataBack.append('document[user_id]', that.state.userId);
-                          putDocument(formDataBack)
-                        })
-                      }
-                    }
-
-                    axios.all([setCC(), setLC()]).then(() => {
-                      message.success('Usuario creado correctamente');
-                      this.setState({ visible: true });
-
-                    }).catch((error) => {
-                      message.warning("Error al crear el usuario");
-                    });
-
-                  });
+                }).catch((error) => {
+                  message.warning("Error al crear el usuario");
                 });
+
               });
-            }).catch((error) => {
-              message.warning("Error al crear el usuario");
-            })
-        }
+            });
+          });
+        }).catch((error) => {
+          message.warning("Error al crear el usuario");
+        });
       }
-    }).catch(error => {
-      let errorObject = JSON.parse(JSON.stringify(error));
-      message.warning(errorObject.message);
-    });
   }
 
   componentDidMount() {
-    axios.all([getActiveRoles(), getActiveCountries()])
+    console.log(this.props);
+    let userId = this.props.match.params.id;
+    axios.all([getActiveRoles(), getActiveCountries(), 
+                getUser(userId), getProfileOfUser(userId)])
       .then((responses) => {
+        console.log(responses[2].data);
+        console.log(responses[3].data);
         if (responses[0]) {
           this.setState({
             roles: responses[0].data,
             countries: responses[1].data,
+          });
+        }
+        if (responses[2] && responses[3]) {
+          let userData = responses[2].data;
+          let profileData = responses[3].data;
+          // only works for country code with 2 numbers
+          let countryCode = userData.phone_number.toString().slice(0, 2);
+          let phoneNumber = userData.phone_number.toString().slice(2);
+
+          this.setState({
+            user_id: userData.id,
+            country_code: countryCode,
+            name: profileData.firt_name,
+            last_name: profileData.last_name,
+            email: userData.email,
+            identification: userData.identification,
+            phone_number: phoneNumber,
+            password_confirmation: this.state.password_confirmation,
           });
         }
       })
