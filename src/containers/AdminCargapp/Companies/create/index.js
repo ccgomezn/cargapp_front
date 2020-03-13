@@ -153,23 +153,6 @@ export default class CompanyCreate extends Component {
                           onChange={(e) => this.handleChange(e.target.value, 'legal_representative')} />
                       </Form.Item>
                     </Col>
-                    <Col span={12}>
-                      <Form.Item label="Usuarios">
-                        <SelectInputCustom value={this.state.user_id} placeholder="usuarios"
-                          style={{ width: '100%' }} onChange={(e) => {
-                            this.handleChange(e, 'user_id')
-                          }}
-                          options={this.state && this.state.users &&
-
-                            this.state.users.map((item) => {
-                              return <Option
-                                value={item.id}>{item.email}</Option>
-                            })
-                          }
-                          label_id={'admin.title.user'}>
-                        </SelectInputCustom>
-                      </Form.Item>
-                    </Col>
                   </Row>
                   <Row gutter={10}>
                     <Col span={12}>

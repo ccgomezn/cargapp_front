@@ -46,7 +46,6 @@ export default class User extends Component {
   }
 
   componentWillMount() {
-
     let getUsersFunction = function () {
       return getUsers();
     };
@@ -76,7 +75,6 @@ export default class User extends Component {
               }
               if (data_user_roles[item.id]) {
                 data_user_roles[item.id].map((role) => {
-
                   if (item.role !== '' && item.role !== undefined) {
                     item.role += ', ' + data_roles[role];
                   } else {
@@ -94,7 +92,6 @@ export default class User extends Component {
           }
         })
     })
-
   }
 
 
