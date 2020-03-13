@@ -154,13 +154,13 @@ export default class UserCreate extends Component {
               });
               axios.all(role_calls).then(() => {
                 getMineCompanies().then((response) => {
+                  console.log(response.data[0]);
                   postUserCompany({
                     company_user: {
                       user_id: this.state.userId,
                       company_id: response.data[0].id
                     }
                   }).then(() => {
-
                     let setCC = function () {
                     };
                     let setLC = function () {
@@ -211,16 +211,13 @@ export default class UserCreate extends Component {
                     axios.all([setCC(), setLC()]).then(() => {
                       message.success('Usuario creado correctamente');
                       this.setState({ visible: true });
-
                     }).catch((error) => {
+                      message.warning("papeles");
                       message.warning("Error al crear el usuario");
                     });
-
                   });
                 });
               });
-
-
             })
             .catch((error) => {
               message.warning("Error al crear el usuario");
@@ -286,9 +283,9 @@ export default class UserCreate extends Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Password">
+                      <Form.Item label="Contraseña">
                         <TextInputCustom type={"password"} value={this.state.password}
-                          placeholder="password"
+                          placeholder="Contraseña"
                           label_id={'admin.title.password'}
                           onChange={(e) => this.handleChange(e.target.value, 'password')}
                           required />
@@ -297,10 +294,10 @@ export default class UserCreate extends Component {
                   </Row>
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Confirmación de password">
+                      <Form.Item label="Confirmación de contraseña">
                         <TextInputCustom type={"password"}
                           value={this.state.password_confirmation}
-                          placeholder="confirmación de password"
+                          placeholder="confirmación de contraseña"
                           label_id={'admin.title.password'}
                           onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
                           required />
@@ -345,9 +342,9 @@ export default class UserCreate extends Component {
                     <Col span={24}>
                       <Col span={12}>
                         <Form.Item
-                          label={"Cédula de ciudadania"}>
+                          label={"Identificación"}>
                           <TextInputCustom value={this.state.identification}
-                            placeholder="cédula de ciudadania"
+                            placeholder="Identificación"
                             onChange={(e) => this.handleChange(e.target.value, 'identification')}
                             label_id={'admin.title.identification'}
                             required />

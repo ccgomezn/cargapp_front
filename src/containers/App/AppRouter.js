@@ -11,7 +11,6 @@ const shared_routes = [
 
 
 const routes_admin = [
-
     {
         path: 'roles',
         component: asyncComponent(() => import('../AdminCargapp/Roles'))
@@ -625,6 +624,10 @@ const routes_admin = [
 ];
 
 const routes_generator = [
+    {
+        path: '',
+        component: asyncComponent(() => import('../AdminCargapp/Dashboard'), {generator: true})
+    },
     {
         path: 'services',
         component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true})

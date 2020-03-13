@@ -48,14 +48,14 @@ const SignInStyleWrapper = styled.div`
   }
   @media only screen and (max-width: 1200px) {
     .loginTitle h1 {
-      font-size: 2rem !important;
-      width: 250px !important;
+      font-size: 1.8rem !important;
+      width: 200px !important;
     }
     .isoLoginContentWrapper {
       width: 40% !important;
     }
   }
-  @media only screen and (max-width: 1030px) {
+  @media only screen and (max-width: 992px) {
     .loginTitle h1 {
       display: none;
     }
@@ -188,6 +188,10 @@ const SignInStyleWrapper = styled.div`
       display: flex;
       flex-shrink: 0;
       flex-direction: column;
+
+      p {
+        margin-top: 4%;
+      }
 
       .sign-buttons {
         padding-top: 35px;
