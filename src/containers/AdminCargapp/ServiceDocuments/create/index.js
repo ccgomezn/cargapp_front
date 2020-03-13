@@ -201,7 +201,7 @@ export default class ServiceDocumentCreate extends Component {
                   <Row>
                     <Col span={24}>
                       <Form.Item wrapperCol={{ span: 24 }}>
-                        <PrimaryButton htmlType={"submit"} message_id={"general.add"}
+                        <PrimaryButton htmlType={"submit"} message_id={"documents.create"}
                           style={{ width: '200px', marginTop: '20px' }}
                           onClick={() => this.handlePost()} />
                       </Form.Item>

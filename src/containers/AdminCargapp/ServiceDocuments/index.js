@@ -8,7 +8,7 @@ import { Row, Col, Tabs } from 'antd';
 import basicStyle from '../../../settings/basicStyle';
 import axios from "axios";
 import { Redirect } from 'react-router-dom'
-import { getActiveUsers } from "../../../helpers/api/users";
+import { getActiveUserRoles } from "../../../helpers/api/users";
 import {
   getActiveServiceDocuments,
   getActiveServices,
@@ -32,10 +32,10 @@ export default class ServiceDocument extends Component {
     }
   }
 
-  transformDataToMap(data, key) {
+  transformDataToMap(data, newKey, keyValue) {
     var dataTransformed = {};
     data.map((item) => {
-      dataTransformed[item.id] = item[key];
+      dataTransformed[item[newKey]] = item[keyValue];
       return item;
     });
 
@@ -70,17 +70,23 @@ export default class ServiceDocument extends Component {
         return getMineServices();
       };
     }
-    axios.all([getDocumentsFunction(), getActiveUsers(), getServicesFunction()])
+    axios.all([getDocumentsFunction(), getActiveUserRoles(), getServicesFunction()])
       .then((responses) => {
         if (responses[0] !== undefined) {
-          let user_data = this.transformDataToMap(responses[1].data, 'email');
-          let service_data = this.transformDataToMap(responses[2].data, 'name');
+          let roles_data = this.transformDataToMap(responses[1].data, 'user_id', 'role_id');
+          let service_data = this.transformDataToMap(responses[2].data, 'id', 'name');
           let active = [], inactive = [];
           let docList = this.props.generator ? 
                           this.getGeneratorDocuments(responses[0].data) : responses[0].data;
 
           docList.map((item) => {
-            item.user = user_data[item.user_id];
+            if (roles_data[item.user_id] === 11) {
+              item.user_role = 'Camionero';
+            } else if (roles_data[item.user_id] === 15) {
+              item.user_role = 'Generador de carga';
+            } else {
+              item.user_role = 'Cargapp admin';
+            }
             item.service = service_data[item.service_id];
             if (item.active) {
               item.active = 'Activo';
@@ -182,7 +188,7 @@ export default class ServiceDocument extends Component {
 
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 <SecondaryButton
-                  message_id={"general.add"}
+                  message_id={"documents.add"}
                   style={{ width: '100%' }}
                   onClick={() => this.redirectAdd()} />
               </Col>

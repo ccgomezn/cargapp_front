@@ -21,7 +21,6 @@ export default class Service extends Component {
     }
   }
 
-
   transformDataToMap(data, key = null) {
     var dataTransformed = {};
     data.map((item) => {
@@ -38,6 +37,7 @@ export default class Service extends Component {
 
   meanRateServices(data) {
     let dataTransformed = {};
+
     data.map((item) => {
       if (dataTransformed[item.user_id] === undefined) {
         dataTransformed[item.user_id] = {
@@ -49,7 +49,6 @@ export default class Service extends Component {
           dataTransformed[item.user_id].sum += item.driver_point;
           dataTransformed[item.user_id].count += 1;
         }
-
       }
       return item;
     });
@@ -63,6 +62,7 @@ export default class Service extends Component {
       .then((responses) => {
         let profiles = this.transformDataToMap(responses[2].data, 'user_id');
         let users = this.transformDataToMap(responses[1].data);
+        //console.log(responses[3].data);
         let rate = this.meanRateServices(responses[3].data);
 
         if (responses[0] !== undefined) {
@@ -75,10 +75,12 @@ export default class Service extends Component {
             } else {
               item.color = '#010935';
             }
-            item.service_id = id;
+
             let user_id = item.user_id;
+            item.service_id = id;
             item.user = profiles[user_id].firt_name + ' ' + profiles[user_id].last_name + ' (' + users[user_id].email + ')';
             item.document = profiles[user_id].document_id;
+
             if (rate[user_id]) {
               item.score = String(parseInt(rate[user_id].sum / rate[user_id].count)) + ' Puntos';
             } else {
@@ -105,23 +107,6 @@ export default class Service extends Component {
         });
 
       })
-  }
-
-  meanRateServices(data) {
-    let dataTransformed = {};
-    data.map((item) => {
-      if (dataTransformed[item.user_id] === undefined) {
-        dataTransformed[item.user_id] = {
-          sum: item.driver_point,
-          count: 1
-        }
-      } else {
-        if (item.driver_point) {
-          dataTransformed[item.user_id].sum += item.driver_point;
-          dataTransformed[item.user_id].count += 1;
-        }
-      }
-    });
   }
 
   redirectAdd(generator) {

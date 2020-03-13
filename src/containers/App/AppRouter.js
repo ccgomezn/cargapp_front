@@ -11,7 +11,6 @@ const shared_routes = [
 
 
 const routes_admin = [
-
     {
         path: 'roles',
         component: asyncComponent(() => import('../AdminCargapp/Roles'))
@@ -299,7 +298,7 @@ const routes_admin = [
     },
     {
         path: 'users/edit/:id',
-        component: asyncComponent(() => import('../AdminCargapp/Users/create'))
+        component: asyncComponent(() => import('../AdminCargapp/Users/edit'))
     },
     {
         path: 'users/show/:id',
@@ -626,6 +625,10 @@ const routes_admin = [
 
 const routes_generator = [
     {
+        path: '',
+        component: asyncComponent(() => import('../AdminCargapp/Dashboard'), {generator: true})
+    },
+    {
         path: 'services',
         component: asyncComponent(() => import('../AdminCargapp/Services'), {generator: true})
     },
@@ -676,7 +679,11 @@ const routes_generator = [
     {
         path: 'chats',
         component: asyncComponent(() => import('../AdminCargapp/Chats/detail'), {generator: true})
-    }
+    },
+    {
+        path: 'vehicles/show/:id',
+        component: asyncComponent(() => import('../AdminCargapp/Vehicles/show'), {generator: true})
+    },
 ];
 
 const routes_vehicle_manager = [

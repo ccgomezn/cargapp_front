@@ -74,12 +74,24 @@ export default class Service extends Component {
     return servicePermissions;
   }
 
-  sortByTargetKey(array, key, targetKey) {
+  sortByTargetKeyAndValue(array, key, targetKey) {
     array.sort(function(a, b){
       if(a[key] === targetKey) { return -1; }
       if(a[key] > b[key]) { return 1; }
       return 0;
     });
+  }
+
+  sortByKey(array, key) {
+    array.sort(function(a, b) {
+      if (a[key] > b[key]) {
+        return -1;
+      }
+      if (a[key] < b[key]) {
+        return 1;
+      }
+      return 0;
+    }); 
   }
 
   findByKeyAndValue(array, key, value) {
@@ -88,6 +100,16 @@ export default class Service extends Component {
     });
 
     return index;
+  }
+
+  getByKeyAndDifValue(array, key, value) {
+    let keyValueElems = [];
+    array.forEach(element => {
+      if (element[key] !== value) {
+        keyValueElems.push(element);
+      }
+    });
+    return keyValueElems;
   }
 
   componentDidMount() {
@@ -126,6 +148,7 @@ export default class Service extends Component {
       axios.all([getServicesFunction(), getStatusOfModel(model_id), getMineUser()])
         .then((responses) => {
           let role = responses[2].data.roles[0];
+          let services = responses[0].data;
           let actualUserId = responses[2].data.user.id;
           let role_id = role.role_id;
           let servicesPermissions = this.getServicesPermissions(role.permissions);
@@ -140,7 +163,7 @@ export default class Service extends Component {
             let activeServices = [];
             let nonActiveServices = [];
             let status_data = this.transformDataToMap(responses[1].data, 'name');
-            responses[0].data.map((item) => {
+            services.map((item) => {
               if (item.active) {
                 // owner bank account missing!!!!
                 if (role_id === 24) {
@@ -169,22 +192,22 @@ export default class Service extends Component {
               }
               item.status = status_data[item.statu_id];
               item.origin_destination = `${item.origin} - ${item.destination}`;
-
+              item.updated_at = item.updated_at.split('T')[0];
               return item;
             });
-            
+
             if (vehicle_manager && (id === null || id === undefined)) {
-              let realServices = [];
-              responses[0].data.forEach(service => {
-                if (service.statu_id === 10 && service.active) {
-                  realServices.push(service);
-                }
-              });
+              let realServices = this.getByKeyAndDifValue(services, 'active', 'Desactivado');
+          
               this.setState({
                 services: realServices
               });
             } else if (active_services) {
-              this.setState({ services: this.getActiveServices(responses[0].data) });
+              let notFinishedServices = [];
+              activeServices = this.getByKeyAndDifValue(services, 'active', 'Desactivado');
+              notFinishedServices = this.getByKeyAndDifValue(activeServices, 'statu_id', 11);
+              notFinishedServices = this.getByKeyAndDifValue(notFinishedServices, 'statu_id', 50);
+              this.setState({ services: notFinishedServices });
             } else {
               this.setState({ services: activeServices, nonActiveServices: nonActiveServices });
             }
@@ -260,6 +283,7 @@ export default class Service extends Component {
     const { reload } = this.state;
     const { id } = this.props.match.params;
     const { generator, vehicle_manager, active_services } = this.props;
+
     let hasUpdatePermission = this.hasPermission('update');
     let hasDeletePermission = this.hasPermission('destroy');
     let tableinforeal;
@@ -268,9 +292,12 @@ export default class Service extends Component {
     let ownerId;
     let ownerAccount;
     let actualServiceId;
-    
+
     if (this.state.services) {
-      this.sortByTargetKey(this.state.services, 'status', 'En proceso de pago');
+      this.sortByKey(this.state.services, 'updated_at');
+      if (!generator && !vehicle_manager) {
+        this.sortByTargetKeyAndValue(this.state.services, 'status', 'En proceso de pago');
+      }
     }
 
     if (this.state.role_id === 24) {
@@ -382,7 +409,7 @@ export default class Service extends Component {
               <Col lg={6} md={24} sm={24} xs={24} style={colStyle}>
                 {
                   !vehicle_manager && <SecondaryButton
-                    message_id={"general.add"}
+                    message_id={"services.add"}
                     style={{ width: '100%' }}
                     onClick={() => this.redirectAdd(generator)} />
                 }

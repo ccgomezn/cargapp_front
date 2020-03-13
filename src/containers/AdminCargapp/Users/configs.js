@@ -5,12 +5,24 @@ import {
   DateCell,
   ImageCell,
   TextColorCell,
-  DropdownCell,
-  DoubleButtonCell, ButtonCell
+  DropdownCell, 
+  ButtonCell,
+  TripleButtonCell,
 } from '../../../components/tables/helperCells';
 import { Link } from "react-router-dom";
 import Menu from "antd/es/menu";
+import { deleteUser } from "../../../helpers/api/users";
 
+const delFunction = (id) => {
+  return function () {
+    (deleteUser(id)
+      .then((response) => {
+        window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/';
+      }).catch((error) => {
+        console.error(error);
+      }));
+  }
+}
 
 const renderCell = (object, type, key, color = false, linkText, menu) => {
   const value = object[key];
@@ -28,7 +40,10 @@ const renderCell = (object, type, key, color = false, linkText, menu) => {
       let function2 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/admin/users/edit/' + object['id'];
       };
-      return DoubleButtonCell('Verificar usuario', 'Editar', function1, function2, 'primary', 'secondary');
+      
+      return TripleButtonCell('Verificar usuario', 'Editar', 'Eliminar', 
+                              function1, function2, delFunction(object['id']), 
+                              'primary', 'secondary', 'danger');
     case 'seeServices':
       function1 = function () {
         window.location.href = window.location.protocol + '//' + window.location.host + '/vehicle_manager/drivers/services/' + object['id'];

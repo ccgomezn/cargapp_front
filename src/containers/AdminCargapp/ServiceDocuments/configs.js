@@ -12,7 +12,7 @@ import {
   ButtonCell,
 } from '../../../components/tables/helperCells';
 import {deleteServiceDocument, putServiceDocument} from "../../../helpers/api/services";
-import PdfDocumentCustom from "../../../components/documents/pdf";
+import { PdfDocumentCustom, TransportationOrderDocument } from "../../../components/documents/pdf";
 import {store} from "../../../redux/store";
 
 const deleteFunction = (id, type) => {
@@ -46,6 +46,10 @@ const imgToPdf = (img1, title) => {
   );
 }
 
+const pdftry = () => {
+  return (<TransportationOrderDocument/>);
+}
+
 const toggleModal = (documentId, isImg) => {
   return {
       type: 'TOGGLE_DOCUMENT_MODAL',
@@ -61,6 +65,7 @@ const modalFunction = (documentId, isImg) => {
 
 const renderCell = (object, type, key, color = false, role_type, link) => {
   let value = object[key];  
+  let userRole = object['user_role'];
   var text1 = 'Editar';
   var text2 = 'Eliminar';
   var type1 = 'default';
@@ -90,7 +95,7 @@ const renderCell = (object, type, key, color = false, role_type, link) => {
       }
     case 'ButtonCell':
       let documentTypeId = object['document_type']['id'];
-      if (documentTypeId >= 18 && documentTypeId <= 22 ) {
+      if ((documentTypeId >= 18 && documentTypeId <= 22) && (userRole === 'Generador de carga')) {
         return ButtonCell(text2, inactiveDocument(object['id'], role_type, object['service_id']), type2)
       }
       return '';
@@ -137,9 +142,9 @@ const columns = [
   },
   { // 4
     title: <IntlMessages id="antTable.title.user" />,
-    key: 'user',
+    key: 'user_role',
     width: '12%',
-    render: object => renderCell(object, 'TextCell', 'user')
+    render: object => renderCell(object, 'TextCell', 'user_role')
   },
   { // 5
     title: <IntlMessages id="antTable.title.state" />,
@@ -160,7 +165,7 @@ const columns = [
     render: object => renderCell(object, 'OnClickCell', null, null, 'generator', 'Ver documento')
   },
   { // 8
-    title: <IntlMessages id="antTable.title.datetime" />,
+    title: <IntlMessages id="antTable.title.last_update" />,
     key: 'last_update',
     width: '10%',
     render: object => renderCell(object, 'TextCell', 'last_update')

@@ -3,7 +3,6 @@ import LayoutWrapper from '../../../../components/utility/layoutWrapper.js';
 import PageHeader from '../../../../components/utility/pageHeader';
 import IntlMessages from '../../../../components/utility/intlMessages';
 import { Row, Col, Form, Card, Select, message } from 'antd';
-import Modal from '../../../../components/feedback/modal';
 import basicStyle from '../../../../settings/basicStyle';
 import PrimaryButton from "../../../../components/custom/button/primary"
 import { Redirect } from 'react-router-dom'
@@ -11,27 +10,30 @@ import axios from "axios";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectMultipleInputCustom from "../../../../components/custom/input/selectMultiple";
 import {
+  getUser,
   confirmUser,
   getActiveRoles,
-  postUserCompany,
-  postUserRole, resendCode,
+  resendCode,
+  putUserRole,
+  putUserCompany,
   verifyEmail,
-  verifyPhoneNumber
+  verifyPhoneNumber,
+  getProfile,
+  getProfileOfUser,
+  getUserRole
 } from "../../../../helpers/api/users";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import SecondaryButton from "../../../../components/custom/button/secondary";
 import { getActiveCountries } from "../../../../helpers/api/locations";
 import { transformInputData } from "../../../../helpers/utility";
-import { post } from "../../../../helpers/httpRequest";
+import { put } from "../../../../helpers/httpRequest";
 import httpAddr from "../../../../helpers/http_helper";
 import { getMineCompanies } from "../../../../helpers/api/companies";
-import { postDocument } from "../../../../helpers/api/internals";
-
+import { putDocument } from "../../../../helpers/api/internals";
 
 const { Option } = Select;
 
-export default class UserCreate extends Component {
-
+export default class UserEdit extends Component {
 
   constructor() {
     super();
@@ -111,134 +113,141 @@ export default class UserCreate extends Component {
     }
   }
 
-  handlePost() {
+  handleUpdate() {
     if (this.state.email === '' || this.state.password === '' || this.state.password_confirmation === '') {
       return null;
     }
 
-    post(httpAddr + '/users/email_verify', {
-      user: {
-        email: this.state.email
+    if (this.state.password !== this.state.password_confirmation) {
+      message.warning('La contraseña no coincide');
+    } else {
+      let userJson = {
+        email: this.state.email,
+        identification: this.state.identification,
+        phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
       }
-    }, false).then((response) => {
-      if (response.status === 200) {
-        message.warning('El usuario ya existe en el sistema');
-      } else if (response.status === 302) {
-        if (this.state.password !== this.state.password_confirmation) {
-          message.warning('La contraseña no coincide');
-        } else {
-          post(httpAddr + '/users',
-            {
-              user: {
-                email: this.state.email,
-                password: this.state.password,
-                identification: this.state.identification,
-                phone_number: parseInt(transformInputData(this.state.country_code) + this.state.phone_number),
-                password_confirmation: this.state.password_confirmation,
+      if (this.state.password && this.state.password.length() > 6) {
+        userJson.password = this.state.password;
+        userJson.password_confirmation = this.state.password_confirmation;
+      }
+      put(httpAddr + '/users/' + this.state.user_id,
+        { user: userJson }, false)
+        .then((response) => {
+          this.setState({ userId: response.data.id });
+          let role_calls = [];
+          this.state.role_id.forEach((role) => {
+            role_calls.push(putUserRole({
+              user_role: {
+                role_id: role,
+                user_id: this.state.userId,
+                admin_id: 1,
+                active: true
               }
-            }, false).then((response) => {
-              this.setState({ userId: response.data.id, pin: response.data.mobile_code },
-                () => this.handleConfirmUser());
-              let role_calls = [];
-              this.state.role_id.forEach((role) => {
-                role_calls.push(postUserRole({
-                  user_role: {
-                    role_id: role,
-                    user_id: this.state.userId,
-                    admin_id: 1,
-                    active: true
+            }));
+          });
+
+          axios.all(role_calls).then(() => {
+            getMineCompanies().then((response) => {
+              putUserCompany({
+                company_user: {
+                  user_id: this.state.userId,
+                  company_id: response.data[0].id
+                }
+              }).then(() => {
+                let setCC = function () {
+                };
+                let setLC = function () {
+                };
+
+                if (this.state.cc_front && this.state.cc_back) {
+                  let that = this;
+                  setCC = function () {
+                    const formData = new FormData();
+                    formData.append('document[document_type_id]', 5);
+                    formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
+                    formData.append('document[statu_id]', 13);
+                    formData.append('document[active]', true);
+                    formData.append('document[user_id]', that.state.userId);
+                    putDocument(formData).then(() => {
+                      const formDataBack = new FormData();
+                      formDataBack.append('document[document_type_id]', 7);
+                      formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
+                      formDataBack.append('document[statu_id]', 13);
+                      formDataBack.append('document[active]', true);
+                      formDataBack.append('document[user_id]', this.state.userId);
+                      putDocument(formDataBack)
+                    })
                   }
                 }
-                ));
 
-              });
-              axios.all(role_calls).then(() => {
-                getMineCompanies().then((response) => {
-                  console.log(response.data[0]);
-                  postUserCompany({
-                    company_user: {
-                      user_id: this.state.userId,
-                      company_id: response.data[0].id
-                    }
-                  }).then(() => {
-                    let setCC = function () {
-                    };
-                    let setLC = function () {
-                    };
+                if (this.state.lc_front && this.state.lc_back) {
+                  let that = this;
+                  setLC = function () {
+                    const formData = new FormData();
+                    formData.append('document[document_type_id]', 4);
+                    formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
+                    formData.append('document[statu_id]', 13);
+                    formData.append('document[active]', true);
+                    formData.append('document[user_id]', that.state.userId);
+                    putDocument(formData).then(() => {
+                      const formDataBack = new FormData();
+                      formDataBack.append('document[document_type_id]', 8);
+                      formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
+                      formDataBack.append('document[statu_id]', 13);
+                      formDataBack.append('document[active]', true);
+                      formDataBack.append('document[user_id]', that.state.userId);
+                      putDocument(formDataBack)
+                    })
+                  }
+                }
 
-                    if (this.state.cc_front && this.state.cc_back) {
-                      let that = this;
-                      setCC = function () {
-                        const formData = new FormData();
-                        formData.append('document[document_type_id]', 5);
-                        formData.append('document[file]', that.state.cc_front, that.state.cc_front.name);
-                        formData.append('document[statu_id]', 13);
-                        formData.append('document[active]', true);
-                        formData.append('document[user_id]', that.state.userId);
-                        postDocument(formData).then(() => {
-                          const formDataBack = new FormData();
-                          formDataBack.append('document[document_type_id]', 7);
-                          formDataBack.append('document[file]', that.state.cc_back, that.state.cc_back.name);
-                          formDataBack.append('document[statu_id]', 13);
-                          formDataBack.append('document[active]', true);
-                          formDataBack.append('document[user_id]', this.state.userId);
-                          postDocument(formDataBack)
-                        })
-                      }
-                    }
+                axios.all([setCC(), setLC()]).then(() => {
+                  message.success('Usuario creado correctamente');
+                  this.setState({ visible: true });
 
-                    if (this.state.lc_front && this.state.lc_back) {
-                      let that = this;
-                      setLC = function () {
-                        const formData = new FormData();
-                        formData.append('document[document_type_id]', 4);
-                        formData.append('document[file]', that.state.lc_front, that.state.lc_front.name);
-                        formData.append('document[statu_id]', 13);
-                        formData.append('document[active]', true);
-                        formData.append('document[user_id]', that.state.userId);
-                        postDocument(formData).then(() => {
-                          const formDataBack = new FormData();
-                          formDataBack.append('document[document_type_id]', 8);
-                          formDataBack.append('document[file]', that.state.lc_back, that.state.lc_back.name);
-                          formDataBack.append('document[statu_id]', 13);
-                          formDataBack.append('document[active]', true);
-                          formDataBack.append('document[user_id]', that.state.userId);
-                          postDocument(formDataBack)
-                        })
-                      }
-                    }
-
-                    axios.all([setCC(), setLC()]).then(() => {
-                      message.success('Usuario creado correctamente');
-                      this.setState({ visible: true });
-                    }).catch((error) => {
-                      message.warning("papeles");
-                      message.warning("Error al crear el usuario");
-                    });
-                  });
+                }).catch((error) => {
+                  message.warning("Error al crear el usuario");
                 });
-              });
-            })
-            .catch((error) => {
-              message.warning("Error al crear el usuario");
-            })
-        }
 
+              });
+            });
+          });
+        }).catch((error) => {
+          message.warning("Error al crear el usuario");
+        });
       }
-    }).catch(error => {
-      let errorObject = JSON.parse(JSON.stringify(error));
-      message.warning(errorObject.message);
-    });
   }
 
-
-  componentWillMount() {
-    axios.all([getActiveRoles(), getActiveCountries()])
+  componentDidMount() {
+    console.log(this.props);
+    let userId = this.props.match.params.id;
+    axios.all([getActiveRoles(), getActiveCountries(), 
+                getUser(userId), getProfileOfUser(userId)])
       .then((responses) => {
+        console.log(responses[2].data);
+        console.log(responses[3].data);
         if (responses[0]) {
           this.setState({
             roles: responses[0].data,
-            countries: responses[1].data
+            countries: responses[1].data,
+          });
+        }
+        if (responses[2] && responses[3]) {
+          let userData = responses[2].data;
+          let profileData = responses[3].data;
+          // only works for country code with 2 numbers
+          let countryCode = userData.phone_number.toString().slice(0, 2);
+          let phoneNumber = userData.phone_number.toString().slice(2);
+
+          this.setState({
+            user_id: userData.id,
+            country_code: countryCode,
+            name: profileData.firt_name,
+            last_name: profileData.last_name,
+            email: userData.email,
+            identification: userData.identification,
+            phone_number: phoneNumber,
+            password_confirmation: this.state.password_confirmation,
           });
         }
       })
@@ -255,20 +264,18 @@ export default class UserCreate extends Component {
 
       <LayoutWrapper>
 
-
         <Row style={rowStyle} gutter={18} justify="start" block>
           <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
-
                   <h1>
                     <IntlMessages id="users.title" />
-
                   </h1>
                 </PageHeader>
               </Col>
             </Row>
+
             <Row>
               <Card className="cardContent" style={{ marginTop: '50px' }}>
                 <Form>
@@ -283,9 +290,9 @@ export default class UserCreate extends Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Contraseña">
+                      <Form.Item label="Password">
                         <TextInputCustom type={"password"} value={this.state.password}
-                          placeholder="Contraseña"
+                          placeholder="password"
                           label_id={'admin.title.password'}
                           onChange={(e) => this.handleChange(e.target.value, 'password')}
                           required />
@@ -294,10 +301,10 @@ export default class UserCreate extends Component {
                   </Row>
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Confirmación de contraseña">
+                      <Form.Item label="Confirmación de password">
                         <TextInputCustom type={"password"}
                           value={this.state.password_confirmation}
-                          placeholder="confirmación de contraseña"
+                          placeholder="confirmación de password"
                           label_id={'admin.title.password'}
                           onChange={(e) => this.handleChange(e.target.value, 'password_confirmation')}
                           required />
@@ -334,17 +341,16 @@ export default class UserCreate extends Component {
                             onChange={(e) => this.handleChange(e.target.value, 'phone_number')} />
                         </Col>
                       </Form.Item>
-
                     </Col>
-
                   </Row>
+
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={12}>
                         <Form.Item
-                          label={"Identificación"}>
+                          label={"Cédula de ciudadania"}>
                           <TextInputCustom value={this.state.identification}
-                            placeholder="Identificación"
+                            placeholder="cédula de ciudadania"
                             onChange={(e) => this.handleChange(e.target.value, 'identification')}
                             label_id={'admin.title.identification'}
                             required />
@@ -370,6 +376,7 @@ export default class UserCreate extends Component {
                       </Col>
                     </Col>
                   </Row>
+
                   <Row>
                     <Col span={12}>
                       <Form.Item label="Cédula de ciudadania (frontal)">
@@ -502,7 +509,7 @@ export default class UserCreate extends Component {
                           htmlType={"submit"}
                           message_id={"general.add"}
                           style={{ width: '200px' }}
-                          onClick={() => this.handlePost()} />
+                          onClick={() => this.handleUpdate()} />
                       </Form.Item>
                     </Col>
                   </Row>

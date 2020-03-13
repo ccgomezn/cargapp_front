@@ -23,10 +23,10 @@ const putFunction = (id, service_id) => {
   }
 };
 
-const acceptFunction = (id, user_id, service_id, type) => {
+const acceptFunction = (id, user_id, vehicle_id, service_id, type) => {
   let assignedDriverStatus = 16;
   return function () {
-    acceptUserOfService(id, user_id, service_id, assignedDriverStatus).then((response_service) => {
+    acceptUserOfService(id, user_id, vehicle_id, service_id, assignedDriverStatus).then((response_service) => {
       axios.all([getMineUser(), getService(service_id)]).then(responses => {
         let serviceGeneratorId = responses[1].data.user_id;
         createRoom({
@@ -78,6 +78,7 @@ const acceptFunction = (id, user_id, service_id, type) => {
 
 const renderCell = (object, type, key, color, typeUser) => {
   const value = object[key];
+  
   switch (type) {
     case 'ImageCell':
       return ImageCell(value);
@@ -94,7 +95,7 @@ const renderCell = (object, type, key, color, typeUser) => {
       if (object['approved'] !== 'En proceso') {
         return TextColorCell('No se pueden realizar acciones', '');
       }
-      return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], 
+      return DoubleButtonCell(text1, text2, acceptFunction(id, object['user_id'], object['vehicle_id'],
                               object['service_id'], typeUser), putFunction(id, object['service_id']), type1, type2);
     case 'ButtonCell':
       let seeProfile = function () {

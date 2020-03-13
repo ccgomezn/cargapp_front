@@ -46,6 +46,10 @@ export function postUserCompany(data) {
     return post(httpAddr + '/company_users', data, true);
 }
 
+export function putUserCompany(data) {
+    return put(httpAddr + '/company_users', data, true);
+}
+
 export function postUser(data) {
     return post(httpAddr + `/users`, data, true);
 }
@@ -144,6 +148,10 @@ export function postUserRole(data) {
     return post(httpAddr + `/user_roles`, data, true);
 }
 
+export function deleteUser(id) {
+    return del(httpAddr + `/users/` + id, true);
+}
+
 export function deleteUserChallenge(id) {
     return del(httpAddr + `/user_challenges/` + id, true)
 }
@@ -232,9 +240,10 @@ export function postUserOfService(data) {
     return post(httpAddr + '/service_users', data, true);
 }
 
-export function acceptUserOfService(user_service_id, user_id, service_id, status_id) {
+export function acceptUserOfService(user_service_id, user_id, vehicle_id, service_id, status_id) {
     return axios.all([put(httpAddr + '/service_users/' + user_service_id, {approved: true}, true),
-        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, statu_id: status_id}, true)])
+        put(httpAddr + '/services/' + service_id, {user_driver_id: user_id, vehicle_id: vehicle_id, 
+            statu_id: status_id}, true)]);
 }
 
 export function verifyEmail(email) {
@@ -360,7 +369,6 @@ export function deleteFavoriteRoute(id) {
 export function getMinePermissions(){
     return get(httpAddr + '/permissions/me', true)
 }
-
 
 export function getMineProfile(){
     return get(httpAddr + '/profiles/me', true)
