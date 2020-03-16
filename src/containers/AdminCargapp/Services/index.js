@@ -299,7 +299,7 @@ export default class Service extends Component {
         this.sortByTargetKeyAndValue(this.state.services, 'status', 'En proceso de pago');
       }
     }
-
+    console.log(this.state.role_id);
     if (this.state.role_id === 24) {
       tableinforeal = tableinfos[6];
     } else if (this.state.role_id === 28 && hasUpdatePermission && hasDeletePermission) {

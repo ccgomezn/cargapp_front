@@ -158,53 +158,48 @@ export default class ReportCreate extends Component {
           payment = model.permission
         }
       });
-      if (!payment) {
-        this.setState({
-          visible: true
-        })
-      } else {
-        getMineUser().then((response) => {
-          let data = {
-            service: {
-              name: this.state.name,
-              origin: this.state.origin,
-              origin_city_id: transformInputData(this.state.origin_city_id),
-              origin_address: this.state.origin_address,
-              origin_longitude: this.state.origin_longitude,
-              origin_latitude: this.state.origin_latitude,
-              destination: this.state.destination,
-              destination_city_id: transformInputData(this.state.destination_city_id),
-              destination_address: this.state.destination_address,
-              destination_latitude: this.state.destination_latitude,
-              destination_longitude: this.state.destination_longitude,
-              price: this.state.price,
-              load_weight: this.state.load_weight,
-              load_volume: this.state.load_volume,
-              description: this.state.description,
-              packing: transformInputData(this.state.packing),
-              note: this.state.note,
-              user_id: response.data.user.id,
-              company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
-              user_receiver_id: transformInputData(this.state.user_receiver_id),
-              vehicle_type_id: transformInputData(this.state.vehicle_type_id),
-              statu_id: 49,
-              expiration_date: this.state.expiration_date,
-              contact_name: this.state.contact_name,
-              contact: this.state.contact,
-              vehicle_id: 2,
-              active: true,
-            }
-          };
-          if (this.props.assign) {
-            data.service.user_driver_id = transformInputData(this.state.user_driver_id);
-            data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+      
+      getMineUser().then((response) => {
+        let data = {
+          service: {
+            name: this.state.name,
+            origin: this.state.origin,
+            origin_city_id: transformInputData(this.state.origin_city_id),
+            origin_address: this.state.origin_address,
+            origin_longitude: this.state.origin_longitude,
+            origin_latitude: this.state.origin_latitude,
+            destination: this.state.destination,
+            destination_city_id: transformInputData(this.state.destination_city_id),
+            destination_address: this.state.destination_address,
+            destination_latitude: this.state.destination_latitude,
+            destination_longitude: this.state.destination_longitude,
+            price: this.state.price,
+            load_weight: this.state.load_weight,
+            load_volume: this.state.load_volume,
+            description: this.state.description,
+            packing: transformInputData(this.state.packing),
+            note: this.state.note,
+            user_id: response.data.user.id,
+            company_id: this.state.company_id ? transformInputData(this.state.company_id) : 19,
+            user_receiver_id: transformInputData(this.state.user_receiver_id),
+            vehicle_type_id: this.state.vehicle_type_id ? transformInputData(this.state.vehicle_type_id) : 8,
+            statu_id: 49,
+            expiration_date: this.state.expiration_date,
+            contact_name: this.state.contact_name,
+            contact: this.state.contact,
+            vehicle_id: 2,
+            active: true,
           }
+        };
+        if (this.props.assign) {
+          data.service.user_driver_id = transformInputData(this.state.user_driver_id);
+          data.service.vehicle_id = transformInputData(this.state.vehicle_id);
+        }
 
-          postService(data).then(() => {
-            this.setState({ redirect: true })
-          })
+        postService(data).then(() => {
+          this.setState({ redirect: true })
         })
-      }
+      })
     });
 
 
@@ -245,7 +240,7 @@ export default class ReportCreate extends Component {
     const { rowStyle, colStyle } = basicStyle;
     const { redirect } = this.state;
     const { assign, admin, generator } = this.props;
-    console.log();
+
     if (redirect) {
       if (admin) {
         return <Redirect to='/admin/services' />
@@ -723,7 +718,7 @@ export default class ReportCreate extends Component {
           </Col>
         </Row>
 
-        <Modal
+        {/* <Modal
           title="Añade metodo de pago"
           visible={this.state.visible}
           cancelText={'Cancelar'}
@@ -780,7 +775,7 @@ export default class ReportCreate extends Component {
             </div>
           }
         />
-
+ */}
       </LayoutWrapper>
     );
   }

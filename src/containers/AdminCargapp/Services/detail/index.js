@@ -258,7 +258,8 @@ export default class ServiceDetail extends Component {
       onProcessStatusIndex = this.state.process_service_status.map(
                                   function (status) { return status.id; }).indexOf(this.state.statu_id);
     }
-    onProcessStatusIndex = (startingStatusIndex === -1 && onProcessStatusIndex === -1) ? 99 : onProcessStatusIndex;
+    onProcessStatusIndex = (startingStatusIndex === -1 && onProcessStatusIndex === -1 && this.state.statu_id !== 49) 
+                            ? 99 : onProcessStatusIndex;
     startingStatusIndex = (onProcessStatusIndex !== -1) ? 99 : startingStatusIndex;
     
     if (redirect) {
