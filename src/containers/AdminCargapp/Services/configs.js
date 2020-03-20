@@ -253,10 +253,10 @@ const columns = [
     render: object => renderCell(object, 'SingleButtonCell', '', null, null, null, 'generator')
   },
   { // 18
-    title: <IntlMessages id="antTable.title.date" />,
-    key: 'updated_at',
+    title: <IntlMessages id="antTable.title.programmed_date" />,
+    key: 'datetime',
     width: '8%',
-    render: object => renderCell(object, 'TextCell', 'updated_at')
+    render: object => renderCell(object, 'TextCell', 'datetime')
   },
 ];
 const smallColumns = [

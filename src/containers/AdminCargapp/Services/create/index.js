@@ -8,14 +8,13 @@ import PrimaryButton from "../../../../components/custom/button/primary"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import moment from 'moment';
-import SecondaryButton from "../../../../components/custom/button/secondary";
 import MapContainer from "../../../../components/maps/map";
 import { midPointLatLong } from "../../../../helpers/geolocalization";
 import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
-import CheckBoxCustom from "../../../../components/custom/input/checkBox";
 import { transformInputData } from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import TimePickerCustom from "../../../../components/custom/input/time";
 import { checkUser, getActiveUsers, getMineUser, postUserPaymentMethod } from "../../../../helpers/api/users";
 import { getActiveCompanies } from "../../../../helpers/api/companies";
 import { postService } from "../../../../helpers/api/services";
@@ -25,11 +24,16 @@ import { getActiveModels, getStatusOfModel, findParameters } from "../../../../h
 import Modal from '../../../../components/feedback/modal';
 import { getActivePaymentMethods } from "../../../../helpers/api/payments";
 import CreditCardInput from "react-credit-card-input";
+import CheckBoxCustom from "../../../../components/custom/input/checkBox";
+import {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import AutocompleteCustom from "../../../../components/custom/input/autocomplete";
 
 require('dotenv').config();
-
 const dateFormat = 'YYYY-MM-DD';
-
+const timeFormat = 'HH:mm';
 const { Option } = Select;
 
 export default class ReportCreate extends Component {
@@ -44,7 +48,8 @@ export default class ReportCreate extends Component {
       long_or: 0,
       long_des: 0,
       error_lat_long: '',
-      visible: false
+      visible: false,
+      origin_address: '',
     }
   }
 
@@ -88,6 +93,17 @@ export default class ReportCreate extends Component {
     return dataTransformed
   }
 
+  findByKeyValue(data, key, value) {
+    let object = -1;
+
+    data.map((item) => {
+      if (item[key] == value) {
+        object = item;
+      }
+    });
+    return object;
+  }
+
   componentWillMount() {
     const { assign } = this.props;
     let getVehiclesFunction = function () {
@@ -110,6 +126,7 @@ export default class ReportCreate extends Component {
       getActiveVehicleTypes(), getStatusOfModel(model_id), getActivePaymentMethods(),
       findParameters('PACKING_TYPES')])
         .then((responses) => {
+          console.log(responses[1].data);
           this.setState({
             users: responses[0].data,
             cities: responses[1].data,
@@ -120,6 +137,8 @@ export default class ReportCreate extends Component {
             status: responses[5].data,
             cities_proc: this.transformDataToMap(responses[1].data, 'name'),
             expiration_date: moment(),
+            programmed_date: moment(),
+            programmed_time: moment(),
             origin_latitude: 4.710989,
             origin_longitude: -74.072090,
             destination_latitude: 4.710989,
@@ -138,6 +157,7 @@ export default class ReportCreate extends Component {
     if (type === 'user_driver_id') {
       this.setState({ vehicles: this.state.vehicles_full[transformInputData(value)] });
     }
+    console.log(value);
     this.setState(
       {
         [type]: value
@@ -149,6 +169,27 @@ export default class ReportCreate extends Component {
     }));
   }
 
+  handleSelect = (address, type) => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        if (type === 'origin') {
+          this.setState({
+            origin_address: address,
+            origin_latitude: latLng.lat,
+            origin_longitude: latLng.lng,
+          })
+        } else {
+          this.setState({
+            destination_address: address,
+            destination_latitude: latLng.lat,
+            destination_longitude: latLng.lng,
+          })
+        }
+      })
+      .catch(error => console.error('Error', error));
+  };
+
   handlePost() {
     checkUser().then((response) => {
       let payment = false;
@@ -158,6 +199,16 @@ export default class ReportCreate extends Component {
           payment = model.permission
         }
       });
+
+      let programmedDatetime = '';
+      if (this.state.programmed_date) {
+        let programmedDate = this.state.programmed_date.toISOString().split('T')[0];
+        let programmedTime = this.state.programmed_time.toString().split(' ');
+        programmedTime = programmedTime[programmedTime.length - 2];
+
+        programmedDatetime = this.state.programmed_time ? 
+          `${programmedDate} ${programmedTime}` : programmedDate;
+      }
       
       getMineUser().then((response) => {
         let data = {
@@ -165,11 +216,17 @@ export default class ReportCreate extends Component {
             name: this.state.name,
             origin: this.state.origin,
             origin_city_id: transformInputData(this.state.origin_city_id),
+            origin_city_lat: transformInputData(this.state.origin_city_lat),
+            origin_city_lng: transformInputData(this.state.origin_city_lng),
+            origin_city_radius:transformInputData(this.state.origin_city_radius),
             origin_address: this.state.origin_address,
             origin_longitude: this.state.origin_longitude,
             origin_latitude: this.state.origin_latitude,
             destination: this.state.destination,
             destination_city_id: transformInputData(this.state.destination_city_id),
+            destination_city_lat: transformInputData(this.state.destination_city_lat),
+            destination_city_lng: transformInputData(this.state.destination_city_lng),
+            destination_city_radius:transformInputData(this.state.destination_city_radius),
             destination_address: this.state.destination_address,
             destination_latitude: this.state.destination_latitude,
             destination_longitude: this.state.destination_longitude,
@@ -185,6 +242,7 @@ export default class ReportCreate extends Component {
             vehicle_type_id: this.state.vehicle_type_id ? transformInputData(this.state.vehicle_type_id) : 8,
             statu_id: 49,
             expiration_date: this.state.expiration_date,
+            datetime: programmedDatetime,
             contact_name: this.state.contact_name,
             contact: this.state.contact,
             vehicle_id: 2,
@@ -201,8 +259,6 @@ export default class ReportCreate extends Component {
         })
       })
     });
-
-
   }
 
   handleSearchLocation(city_id, address, type) {
@@ -233,7 +289,6 @@ export default class ReportCreate extends Component {
             Number(this.state.destination_latitude), Number(this.state.destination_longitude))
         })
       })
-
   }
 
   render() {
@@ -250,6 +305,22 @@ export default class ReportCreate extends Component {
         return <Redirect to='/admin/services' />
       }
     }
+
+    let originOptions;
+    let destinationOptions;
+    if (this.state.origin_city_id) {
+      originOptions = {
+        location: new window.google.maps.LatLng(this.state.origin_city_lat, this.state.origin_city_lng),
+        radius: this.state.origin_city_radius / 2,
+      }
+    } 
+    if (this.state.destination_city_id) {
+      destinationOptions = {
+        location: new window.google.maps.LatLng(this.state.destination_city_lat, this.state.destination_city_lng),
+        radius: this.state.destination_city_radius / 2,
+      }
+    }
+    
     return (
       <LayoutWrapper style={{ paddingTop: 10 }}>
         <Row style={rowStyle} gutter={18} justify="start" block>
@@ -271,13 +342,21 @@ export default class ReportCreate extends Component {
                 <Col lg={12} md={24} sm={24} xs={24}>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={14}>
+                      <Col span={16}>
                         <Form.Item label="Origen">
                           <SelectInputCustom 
                             value={this.state.origin_city_id}
-                            style={{ width: '100%', display: 'inline'}} onChange={(e) => {
+                            style={{ width: '100%', display: 'inline'}} 
+                            onChange={(e) => {
                               this.handleChange(e, 'origin_city_id');
                               this.handleChange(e.label, 'origin');
+                              
+                              let pickedCity = this.findByKeyValue(this.state.cities, 'id', e.key);
+                              this.setState({
+                                origin_city_lat: pickedCity.lat, 
+                                origin_city_lng: pickedCity.lon, 
+                                origin_city_radius: pickedCity.radius / 2, 
+                              });
                             }}
                             options={this.state && this.state.cities &&
                               this.state.cities.map((item) => {
@@ -297,17 +376,13 @@ export default class ReportCreate extends Component {
 
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={14}>
-                        <Form.Item>
-                          <TextInputCustom value={this.state.origin_address}
-                            placeholder="Ingrese la dirección de origen"
-                            onChange={(e) => {
-                              this.handleChange(e.target.value, 'origin_address');
-                              this.handleSearchLocation(transformInputData(this.state.origin_city_id),
-                                                                            this.state.origin_address, 'origin')
-                              }}
-                            required/>
-                        </Form.Item>
+                      <Col span={16}>
+                        <AutocompleteCustom
+                          value={this.state.origin_address}
+                          onChange={(e) => {this.handleChange(e, 'origin_address')}}
+                          onSelect={(s) => {this.handleSelect(s, 'origin')}}
+                          searchOptions={originOptions}
+                        />
                       </Col>
                       <Col span={8}>
                         <span style={{fontSize: '18px', color:'#172158'}}>*</span>
@@ -317,15 +392,21 @@ export default class ReportCreate extends Component {
 
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={14}>
+                      <Col span={16}>
                         <Form.Item label="Destino ">
                           <SelectInputCustom value={this.state.destination_city_id}
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'destination_city_id');
                               this.handleChange(e.label, 'destination');
+
+                              let destCity = this.findByKeyValue(this.state.cities, 'id', e.key);
+                              this.setState({
+                                destination_city_lat: destCity.lat, 
+                                destination_city_lng: destCity.lon, 
+                                destination_city_radius: destCity.radius / 2, 
+                              });
                             }}
                             options={this.state && this.state.cities &&
-
                               this.state.cities.map((item) => {
                                 return <Option
                                   value={item.id}>{item.name}</Option>
@@ -344,17 +425,14 @@ export default class ReportCreate extends Component {
 
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={14}>
-                        <Form.Item>
-                          <TextInputCustom value={this.state.destination_address}
-                            placeholder="Ingrese la dirección de destino"
-                            onChange={(e) => {
-                              this.handleChange(e.target.value, 'destination_address');
-                              this.handleSearchLocation(transformInputData(this.state.destination_city_id),
-                                                                            this.state.destination_address, 'destination');
-                            }}
-                            required/>
-                        </Form.Item>
+                      <Col span={16}>
+                        {console.log(this.state.destination_address)}
+                        <AutocompleteCustom
+                          value={this.state.destination_address}
+                          onChange={(e) => {this.handleChange(e, 'destination_address')}}
+                          onSelect={(s) => {this.handleSelect(s, 'destination')}}
+                          searchOptions={destinationOptions}
+                        />
                       </Col>
                       <Col span={8}>
                         <span style={{fontSize: '18px', color:'#172158'}}>*</span>
@@ -443,8 +521,7 @@ export default class ReportCreate extends Component {
             <Row style={rowStyle} gutter={10}>
               <Card className="cardContent" style={{ marginTop: '1%' }}>
                 <Form>
-
-                  {/* Price section partially removed
+                { admin &&
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={6}>
@@ -501,7 +578,32 @@ export default class ReportCreate extends Component {
                         </Form.Item>
                       </Col>
                     </Col>
-                  </Row>*/}
+                  </Row>}
+                  
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Fecha del viaje">
+                        {
+                          this.state &&
+                          <DatePickerCustom
+                            defaultValue={moment(moment(), dateFormat)}
+                            format={dateFormat}
+                            onChange={(e) => this.handleChange(e, 'programmed_date')} />
+                        }
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Hora del viaje">
+                        {
+                          this.state &&
+                          <TimePickerCustom
+                            defaultValue={moment(moment(), timeFormat)}
+                            format={timeFormat}
+                            onChange={(e) => this.handleChange(e, 'programmed_time')} />
+                        }
+                      </Form.Item>
+                    </Col>
+                  </Row>
 
                   <Row gutter={10}>
                     <Col span={12}>
@@ -651,14 +753,13 @@ export default class ReportCreate extends Component {
                                   })
                                 }
                                 label_id={'admin.title.company'}>
-
                               </SelectInputCustom>
                             </Form.Item>
                           </Col>
+
                         </Col>
-
-
                       </Row>
+
                       <Row gutter={10}>
                         <Col span={24}>
                           <Col span={12}>

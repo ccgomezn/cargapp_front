@@ -192,7 +192,10 @@ export default class Service extends Component {
               }
               item.status = status_data[item.statu_id];
               item.origin_destination = `${item.origin} - ${item.destination}`;
-              item.updated_at = item.updated_at.split('T')[0];
+              
+              let formattedDate = item.updated_at.split('T');
+              let formattedTime = `${formattedDate[1].split(':')[0]}:${formattedDate[1].split(':')[1]}`;
+              item.datetime = `${formattedDate[0]}, ${formattedTime}`;
               return item;
             });
 
@@ -299,7 +302,7 @@ export default class Service extends Component {
         this.sortByTargetKeyAndValue(this.state.services, 'status', 'En proceso de pago');
       }
     }
-    console.log(this.state.role_id);
+
     if (this.state.role_id === 24) {
       tableinforeal = tableinfos[6];
     } else if (this.state.role_id === 28 && hasUpdatePermission && hasDeletePermission) {

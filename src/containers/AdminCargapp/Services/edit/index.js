@@ -18,6 +18,7 @@ import TextInputCustom from "../../../../components/custom/input/text";
 import SelectInputCustom from "../../../../components/custom/input/select";
 import { transformInputData } from "../../../../helpers/utility";
 import DatePickerCustom from "../../../../components/custom/input/date";
+import TimePickerCustom from "../../../../components/custom/input/time";
 import { getUsers } from "../../../../helpers/api/users";
 import { getCompanies } from "../../../../helpers/api/companies";
 import { getService, putService } from "../../../../helpers/api/services";
@@ -25,8 +26,15 @@ import { getVehicles, getVehicleTypes } from "../../../../helpers/api/vehicles";
 import { getCities } from "../../../../helpers/api/locations";
 import { getStatus } from "../../../../helpers/api/internals";
 import CheckBoxCustom from "../../../../components/custom/input/checkBox";
+import {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import AutocompleteCustom from "../../../../components/custom/input/autocomplete";
 
+require('dotenv').config();
 const dateFormat = 'YYYY-MM-DD';
+const timeFormat = 'HH:mm';
 const { Option } = Select;
 
 export default class ServiceEdit extends Component {
@@ -62,10 +70,21 @@ export default class ServiceEdit extends Component {
     return dataTransformed
   }
 
+  findByKeyValue(data, key, value) {
+    let object = -1;
+
+    data.map((item) => {
+      if (item[key] == value) {
+        object = item;
+      }
+    });
+    return object;
+  }
 
   componentWillMount() {
     axios.all([getService(this.props.match.params.id), getUsers(), getCities(), getCompanies(), getVehicles(), getVehicleTypes(), getStatus()])
     .then((responses) => {
+
       this.setState({
         users: responses[1].data,
         cities: responses[2].data,
@@ -79,10 +98,16 @@ export default class ServiceEdit extends Component {
         origin: responses[0].data.origin,
         origin_city_id: responses[0].data.origin_city_id,
         origin_address: responses[0].data.origin_address,
+        origin_city_lat: transformInputData(this.state.origin_city_lat),
+        origin_city_lng: transformInputData(this.state.origin_city_lng),
+        origin_city_radius:transformInputData(this.state.origin_city_radius),
         origin_longitude: responses[0].data.origin_longitude,
         origin_latitude: responses[0].data.origin_latitude,
         destination: responses[0].data.destination,
         destination_city_id: responses[0].data.destination_city_id,
+        destination_city_lat: transformInputData(this.state.destination_city_lat),
+        destination_city_lng: transformInputData(this.state.destination_city_lng),
+        destination_city_radius:transformInputData(this.state.destination_city_radius),
         destination_address: responses[0].data.destination_address,
         destination_latitude: responses[0].data.destination_latitude,
         destination_longitude: responses[0].data.destination_longitude,
@@ -127,8 +152,28 @@ export default class ServiceEdit extends Component {
     }));
   }
 
-  handlePut() {
+  handleSelect = (address, type) => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        if (type === 'origin') {
+          this.setState({
+            origin_address: address,
+            origin_latitude: latLng.lat,
+            origin_longitude: latLng.lng,
+          })
+        } else {
+          this.setState({
+            destination_address: address,
+            destination_latitude: latLng.lat,
+            destination_longitude: latLng.lng,
+          })
+        }
+      })
+      .catch(error => console.error('Error', error));
+  };
 
+  handlePut() {
     putService(this.props.match.params.id,
       {
         service: {
@@ -212,6 +257,21 @@ export default class ServiceEdit extends Component {
       }
     }
 
+    let originOptions;
+    let destinationOptions;
+    if (this.state.origin_city_id) {
+      originOptions = {
+        location: new window.google.maps.LatLng(this.state.origin_city_lat, this.state.origin_city_lng),
+        radius: this.state.origin_city_radius / 2,
+      }
+    } 
+    if (this.state.destination_city_id) {
+      destinationOptions = {
+        location: new window.google.maps.LatLng(this.state.destination_city_lat, this.state.destination_city_lng),
+        radius: this.state.destination_city_radius / 2,
+      }
+    }
+    
     return (
       <LayoutWrapper style={{ paddingTop: 10 }}>
         <Row style={rowStyle} gutter={18} justify="start" block>
@@ -219,6 +279,7 @@ export default class ServiceEdit extends Component {
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
                 <PageHeader>
+
                   <h1>
                     <IntlMessages id="services.title" />
                   </h1>
@@ -232,13 +293,21 @@ export default class ServiceEdit extends Component {
                 <Col lg={12} md={24} sm={24} xs={24}>
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Ciudad de origen ">
-                          <SelectInputCustom value={this.state.origin_city_id}
-                            placeholder="ciudad de origen"
-                            style={{ width: '100%' }} onChange={(e) => {
+                      <Col span={16}>
+                        <Form.Item label="Origen">
+                          <SelectInputCustom 
+                            value={this.state.origin_city_id}
+                            style={{ width: '100%', display: 'inline'}} 
+                            onChange={(e) => {
                               this.handleChange(e, 'origin_city_id');
                               this.handleChange(e.label, 'origin');
+                              
+                              let pickedCity = this.findByKeyValue(this.state.cities, 'id', e.key);
+                              this.setState({
+                                origin_city_lat: pickedCity.lat, 
+                                origin_city_lng: pickedCity.lon, 
+                                origin_city_radius: pickedCity.radius / 2, 
+                              });
                             }}
                             options={this.state && this.state.cities &&
                               this.state.cities.map((item) => {
@@ -247,48 +316,48 @@ export default class ServiceEdit extends Component {
                               })
                             }
                             label_id={'admin.title.city'}>
-
                           </SelectInputCustom>
                         </Form.Item>
                       </Col>
-
-                    </Col>
-                  </Row>
-                  <Row gutter={10}>
-                    <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Dirección de origen">
-                          <TextInputCustom value={this.state.origin_address}
-                            placeholder="dirección de origen"
-                            onChange={(e) => this.handleChange(e.target.value, 'origin_address')}
-                            required
-                            label_id={'admin.title.address'} />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item wrapperCol={{ span: 24 }}>
-                          <SecondaryButton message_id={"general.findOrigin"}
-                            style={{ width: '200px', marginTop: '46px' }}
-                            onClick={() => this.handleSearchLocation(transformInputData(this.state.origin_city_id),
-                              this.state.origin_address, 'origin')} />
-                        </Form.Item>
-
+                      <Col span={8} style={{marginTop: '40px'}}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
                       </Col>
                     </Col>
-
                   </Row>
+
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Ciudad de destino ">
+                      <Col span={16}>
+                        <AutocompleteCustom
+                          value={this.state.origin_address}
+                          onChange={(e) => {this.handleChange(e, 'origin_address')}}
+                          onSelect={(s) => {this.handleSelect(s, 'origin')}}
+                          searchOptions={originOptions}
+                        />
+                      </Col>
+                      <Col span={8}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
+                      </Col>
+                    </Col>
+                  </Row>
+
+                  <Row gutter={10}>
+                    <Col span={24}>
+                      <Col span={16}>
+                        <Form.Item label="Destino ">
                           <SelectInputCustom value={this.state.destination_city_id}
-                            placeholder="ciudad de destino"
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'destination_city_id');
                               this.handleChange(e.label, 'destination');
+
+                              let destCity = this.findByKeyValue(this.state.cities, 'id', e.key);
+                              this.setState({
+                                destination_city_lat: destCity.lat, 
+                                destination_city_lng: destCity.lon, 
+                                destination_city_radius: destCity.radius / 2, 
+                              });
                             }}
                             options={this.state && this.state.cities &&
-
                               this.state.cities.map((item) => {
                                 return <Option
                                   value={item.id}>{item.name}</Option>
@@ -299,29 +368,27 @@ export default class ServiceEdit extends Component {
                           </SelectInputCustom>
                         </Form.Item>
                       </Col>
+                      <Col span={8} style={{marginTop: '40px'}}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
+                      </Col>
                     </Col>
                   </Row>
+
                   <Row gutter={10}>
                     <Col span={24}>
-                      <Col span={12}>
-                        <Form.Item label="Dirección de destino">
-                          <TextInputCustom value={this.state.destination_address}
-                            placeholder="dirección de destino"
-                            onChange={(e) => this.handleChange(e.target.value, 'destination_address')}
-                            required
-                            label_id={'admin.title.address'} />
-                        </Form.Item>
+                      <Col span={16}>
+                        {console.log(this.state.destination_address)}
+                        <AutocompleteCustom
+                          value={this.state.destination_address}
+                          onChange={(e) => {this.handleChange(e, 'destination_address')}}
+                          onSelect={(s) => {this.handleSelect(s, 'destination')}}
+                          searchOptions={destinationOptions}
+                        />
                       </Col>
-                      <Col span={12}>
-                        <Form.Item wrapperCol={{ span: 24 }}>
-                          <SecondaryButton message_id={"general.findDestination"}
-                            style={{ width: '200px', marginTop: '46px' }}
-                            onClick={() => this.handleSearchLocation(transformInputData(this.state.destination_city_id),
-                              this.state.destination_address, 'destination')} />
-                        </Form.Item>
+                      <Col span={8}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
                       </Col>
                     </Col>
-
                   </Row>
 
                   {admin &&
@@ -394,7 +461,7 @@ export default class ServiceEdit extends Component {
                       }]} center={this.state.center ? this.state.center : {
                         lat: 4.710989,
                         lng: -74.072090
-                      }} block style={{ height: 500 }} isFreight={false} />
+                      }} block style={{ height: 420 }} isFreight={false} />
                     </Col>
                   </Row>
                 </Col>
@@ -405,7 +472,7 @@ export default class ServiceEdit extends Component {
             <Row style={rowStyle} gutter={10}>
               <Card className="cardContent" style={{ marginTop: '1%' }}>
                 <Form>
-
+                { admin &&
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={6}>
@@ -435,7 +502,16 @@ export default class ServiceEdit extends Component {
                                   }
                                 });
                             }}
-                            label={'5000000'}
+                            label={
+                              <div style={{display: 'inline'}}>
+                                <span>5000000 </span>
+                                <span style={{fontWeight: 'normal', width: '20%'}}>
+                                  Este valor sugerido se basa en 
+                                  el promedio histórico de los costos de flete
+                                  propuestos por nuestros generadores.
+                                </span>
+                              </div>
+                            }
                             label_id={'admin.title.suggested_price'}
                           />
                         </Form.Item>
@@ -453,108 +529,158 @@ export default class ServiceEdit extends Component {
                         </Form.Item>
                       </Col>
                     </Col>
+                  </Row>}
+                  
+                  <Row gutter={10}>
+                    <Col span={12}>
+                      <Form.Item label="Fecha del viaje">
+                        {
+                          this.state &&
+                          <DatePickerCustom
+                            defaultValue={this.state.programmed_date}
+                            format={dateFormat}
+                            onChange={(e) => this.handleChange(e, 'programmed_date')} />
+                        }
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item label="Hora del viaje">
+                        {
+                          this.state &&
+                          <TimePickerCustom
+                            defaultValue={this.state.programmed_time}
+                            format={timeFormat}
+                            onChange={(e) => this.handleChange(e, 'programmed_time')} />
+                        }
+                      </Form.Item>
+                    </Col>
                   </Row>
 
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Peso de la carga:">
-                        <TextInputCustom value={this.state.load_weight}
-                          placeholder="peso"
-                          onChange={(e) => this.handleChange(e.target.value, 'load_weight')}
-                          required
-                          label_id={'admin.title.weight'} />
-                      </Form.Item>
+                      <Col span={23}>
+                        <Form.Item label="Peso de la carga:">
+                          <TextInputCustom 
+                            type='number'
+                            value={this.state.load_weight}
+                            placeholder="Peso (tons)"
+                            onChange={(e) => this.handleChange(e.target.value, 'load_weight')}/>
+                        </Form.Item>
+                      </Col>
                     </Col>
+
                     <Col span={12}>
-                      <Form.Item label="Volúmen de la carga:">
-                        <TextInputCustom value={this.state.load_volume}
-                          placeholder="volúmen"
-                          onChange={(e) => this.handleChange(e.target.value, 'load_volume')}
-                          label_id={'admin.title.volume'} />
-                      </Form.Item>
+                      <Col span={23}>
+                        <Form.Item label="Volúmen de la carga:">
+                          <TextInputCustom 
+                            value={this.state.load_volume}
+                            type='number'
+                            placeholder="Volúmen (m3)"
+                            onChange={(e) => this.handleChange(e.target.value, 'load_volume')}/>
+                        </Form.Item>
+                      </Col>
                     </Col>
                   </Row>
 
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Dice contener:">
-                        <TextInputCustom value={this.state.description}
-                          placeholder="dice contener"
-                          onChange={(e) => this.handleChange(e.target.value, 'description')}
-                          required
-                          label_id={'admin.title.description'} />
-                      </Form.Item>
+                      <Col span={23}>
+                        <Form.Item label="Dice contener:">
+                            <TextInputCustom value={this.state.description}
+                              placeholder="Descripción"
+                              onChange={(e) => this.handleChange(e.target.value, 'description')}
+                              required/>
+                          </Form.Item>
+                      </Col>
+                      <Col span={1} style={{marginTop: '40px'}}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
+                      </Col>
                     </Col>
+
                     <Col span={12}>
-                      <Form.Item label="Observaciones:">
-                        <TextInputCustom value={this.state.note} placeholder="observaciones"
-                          onChange={(e) => this.handleChange(e.target.value, 'note')}
-                          label_id={'admin.title.note'} />
-                      </Form.Item>
+                      <Col span={23}>
+                        <Form.Item label="Observaciones:">
+                          <TextInputCustom value={this.state.note} placeholder="Descripción"
+                            onChange={(e) => this.handleChange(e.target.value, 'note')}/>
+                        </Form.Item>
+                      </Col>
                     </Col>
                   </Row>
 
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={12}>
-                        <Form.Item label="Tipo de vehiculo">
-                          <SelectInputCustom value={this.state.vehicle_type_id}
-                            placeholder="tipo de vehiculo"
-                            style={{ width: '100%' }} onChange={(e) => {
-                              this.handleChange(e, 'vehicle_type_id')
-                            }}
-                            options={this.state && this.state.vehicle_types &&
+                        <Col span={23}>
+                          <Form.Item label="Vehículo">
+                            <SelectInputCustom value={this.state.vehicle_type_id}
+                              style={{ width: '100%' }} onChange={(e) => {
+                                this.handleChange(e, 'vehicle_type_id')
+                              }}
+                              options={this.state && this.state.vehicle_types &&
 
-                              this.state.vehicle_types.map((item) => {
-                                return <Option
-                                  value={item.id}>{item.name}</Option>
-                              })
-                            }
-                            label_id={'admin.title.type'}>
-
-                          </SelectInputCustom>
-                        </Form.Item>
+                                this.state.vehicle_types.map((item) => {
+                                  return <Option
+                                    value={item.id}>{item.name}</Option>
+                                })
+                              }
+                              label_id={'admin.title.vehicleType'}>
+                            </SelectInputCustom>
+                          </Form.Item>
+                        </Col>
                       </Col>
+
                       <Col span={12}>
-                        <Form.Item label="Tipo de empaque">
-                          <SelectInputCustom value={this.state.packing}
-                            placeholder="tipo de empaque"
-                            style={{ width: '100%' }} onChange={(e) => {
-                              this.handleChange(e, 'packing')
-                            }}
-                            options={this.state && this.state.packing_types &&
+                        <Col span={23}>
+                          <Form.Item label="Empaque">
+                            <SelectInputCustom value={this.state.packing}
+                              style={{ width: '100%' }} onChange={(e) => {
+                                this.handleChange(e, 'packing')
+                              }}
+                              options={this.state && this.state.packing_types &&
 
-                              this.state.packing_types.map((item) => {
-                                return <Option
-                                  value={item.name}>{item.name}</Option>
-                              })
-                            }
-                            label_id={'admin.title.type'}>
-
-                          </SelectInputCustom>
-                        </Form.Item>
+                                this.state.packing_types.map((item) => {
+                                  return <Option
+                                    value={item.name}>{item.name}</Option>
+                                })
+                              }
+                              label_id={'admin.title.packingType'}>
+                            </SelectInputCustom>
+                          </Form.Item>
+                        </Col>
                       </Col>
                     </Col>
                   </Row>
 
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="nombre del responsable de la carga:">
+                      <Col span={23}>
+                      <Form.Item label="Contacto directo del despacho:">
                         <TextInputCustom value={this.state.contact_name}
-                          placeholder="nombre del responsable"
+                          placeholder="Ingrese nombre del contacto"
                           onChange={(e) => this.handleChange(e.target.value, 'contact_name')}
-                          required
-                          label_id={'admin.title.contact_name'} />
+                          required/>
                       </Form.Item>
+                      </Col>
+                      <Col span={1} style={{marginTop: '40px'}}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
+                      </Col>
                     </Col>
+
                     <Col span={12}>
-                      <Form.Item label="Teléfono del responsable de la carga:">
-                        <TextInputCustom value={this.state.contact}
-                          placeholder="tel del responsable"
-                          onChange={(e) => this.handleChange(e.target.value, 'contact')}
-                          required
-                          label_id={'admin.title.contact_phone'} />
-                      </Form.Item>
+                      <Col span={23}>
+                        <Form.Item 
+                          label="Teléfono del contacto:"
+                          >
+                          <TextInputCustom value={this.state.contact}
+                            placeholder="Ingrese número de teléfono"
+                            onChange={(e) => this.handleChange(e.target.value, 'contact')}
+                            required
+                            type='number'/>
+                        </Form.Item>
+                      </Col>
+                      <Col span={1} style={{marginTop: '40px'}}>
+                        <span style={{fontSize: '18px', color:'#172158'}}>*</span>
+                      </Col>
                     </Col>
                   </Row>
 
@@ -578,16 +704,13 @@ export default class ServiceEdit extends Component {
                                   })
                                 }
                                 label_id={'admin.title.company'}>
-
                               </SelectInputCustom>
                             </Form.Item>
                           </Col>
 
-
                         </Col>
-
-
                       </Row>
+
                       <Row gutter={10}>
                         <Col span={24}>
                           <Col span={12}>
@@ -630,9 +753,8 @@ export default class ServiceEdit extends Component {
                           </Col>
                         </Col>
                       </Row>
-                    </div>
-
-                  }
+                    </div>}
+                    
                   <Row>
                     <Col span={24}>
                       <Form.Item wrapperCol={{ span: 24 }}>
@@ -644,10 +766,68 @@ export default class ServiceEdit extends Component {
                   </Row>
                 </Form>
               </Card>
-
             </Row>
           </Col>
         </Row>
+
+        {/* <Modal
+          title="Añade metodo de pago"
+          visible={this.state.visible}
+          cancelText={'Cancelar'}
+          style={{ width: '100%' }}
+          image={'smartphone.svg'}
+          body={
+            <div>
+              <Row type="flex" style={{ textAlign: 'center', justifyContent: 'center' }}>
+                <h1>Añade método de pago</h1>
+              </Row>
+
+              <Row style={{ marginTop: '10px' }}>
+                <Col span={24}>
+                  <CreditCardInput
+                    containerStyle={{ width: '100%', height: '40px' }}
+                    fieldStyle={{ height: '40px' }}
+                    inputStyle={{ height: '40px', border: '13px' }}
+                    cardNumberInputProps={{
+                      value: this.state.number,
+                      onChange: (e) => this.handleChange(e.target.value, 'card_number')
+                    }}
+                    cardExpiryInputProps={{
+                      value: this.state.number,
+                      onChange: (e) => this.handleChange(e.target.value, 'expiration')
+                    }}
+                    cardCVCInputProps={{
+                      value: this.state.number,
+                      onChange: (e) => this.handleChange(e.target.value, 'cvv')
+                    }}
+                    fieldClassName="input"
+                    customTextLabels={{
+                      invalidCardNumber: 'El número de la tarjeta es inválido',
+                      expiryError: {
+                        invalidExpiryDate: 'La fecha de expiración es inválida',
+                        monthOutOfRange: 'El mes de expiración debe estar entre 01 y 12',
+                        yearOutOfRange: 'El año de expiración no puede estar en el pasado',
+                        dateOutOfRange: 'La fecha de expiración no puede estar en el pasado'
+                      },
+                      invalidCvc: 'El código de seguridad es inválido',
+                      invalidZipCode: 'El código postal es inválido',
+                      cardNumberPlaceholder: 'Número de tarjeta',
+                      expiryPlaceholder: 'MM/AA',
+                      cvcPlaceholder: 'CVV',
+                      zipPlaceholder: 'C.P.'
+                    }}
+                  />
+                </Col>
+              </Row>
+
+              <PrimaryButton message_id={'page.add'}
+                onClick={() => this.handleAddPaymentMethod()}
+                style={{ marginTop: '20px', width: '100% ' }} />
+
+            </div>
+          }
+        />
+ */}
       </LayoutWrapper>
     );
   }
