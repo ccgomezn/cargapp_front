@@ -292,14 +292,14 @@ export default class ServiceDetail extends Component {
                               <Col span={12}>
                                 <Form.Item label="Origen" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.origin_city}, {this.state.origin_address}
+                                    {this.state.origin_address}
                                   </div>
                                 </Form.Item>
                               </Col>
                               <Col span={12}>
                                 <Form.Item label="Destino" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.destination_city}, {this.state.destination_address}
+                                    {this.state.destination_address}
                                   </div>
                                 </Form.Item>
                               </Col>
