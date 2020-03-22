@@ -5,7 +5,7 @@ import TextWrapper from './text.style'
 
 export default class TextInputCustom extends Component {
   render() {
-    const {value, type, placeholder, onChange, required, disabled} = this.props;
+    const {value, type, placeholder, onChange, required, disabled, onKeyPress} = this.props;
     return (
       <TextWrapper>
         <Input disabled={disabled} 
@@ -17,6 +17,7 @@ export default class TextInputCustom extends Component {
                onChange={onChange} 
                autoComplete="new-password" 
                required={required} 
+               onKeyPress={onKeyPress}
                />
       </TextWrapper>
     )

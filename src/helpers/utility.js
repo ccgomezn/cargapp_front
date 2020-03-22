@@ -14,7 +14,6 @@ export function transformInputData(input) {
 }
 
 export function encrypt(message) {
-    console.log(CryptoJS.AES.encrypt(message, 'secret key 123').toString())
     return CryptoJS.AES.encrypt(message, 'secret key 123').toString();
 }
 

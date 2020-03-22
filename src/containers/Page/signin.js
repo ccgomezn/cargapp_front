@@ -60,6 +60,12 @@ class SignIn extends Component {
     this.props.history.push("/signup")
   }
 
+  onEnterPress = (e) => {
+    if(e.which === 13) {
+      this.handleLogin(e);
+    }
+  }
+
   render() {
     const from = { pathname: "/dashboard" };
     const { redirectToReferrer } = this.state;
@@ -97,6 +103,7 @@ class SignIn extends Component {
                     <p>Correo electrónico</p>
                     <div className="isoInputWrapper">
                       <TextInputCustom required label_id='page.email' value={this.state.email}
+                        onKeyPress={this.onEnterPress}
                         onChange={(e) => this.handleChange(e.target.value, 'email')}
                         placeholder='Correo eléctronico' />
                     </div>
@@ -106,6 +113,7 @@ class SignIn extends Component {
                     <p>Contraseña</p>
                     <div className="isoInputWrapper">
                       <TextInputCustom required label_id='page.password' placeholder='Contraseña'
+                        onKeyPress={this.onEnterPress}
                         type='password' value={this.state.password}
                         onChange={(e) => this.handleChange(e.target.value, 'password')} />
                     </div>

@@ -258,7 +258,8 @@ export default class ServiceDetail extends Component {
       onProcessStatusIndex = this.state.process_service_status.map(
                                   function (status) { return status.id; }).indexOf(this.state.statu_id);
     }
-    onProcessStatusIndex = (startingStatusIndex === -1 && onProcessStatusIndex === -1) ? 99 : onProcessStatusIndex;
+    onProcessStatusIndex = (startingStatusIndex === -1 && onProcessStatusIndex === -1 && this.state.statu_id !== 49) 
+                            ? 99 : onProcessStatusIndex;
     startingStatusIndex = (onProcessStatusIndex !== -1) ? 99 : startingStatusIndex;
     
     if (redirect) {
@@ -291,14 +292,14 @@ export default class ServiceDetail extends Component {
                               <Col span={12}>
                                 <Form.Item label="Origen" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.origin_city}, {this.state.origin_address}
+                                    {this.state.origin_address}
                                   </div>
                                 </Form.Item>
                               </Col>
                               <Col span={12}>
                                 <Form.Item label="Destino" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.destination_city}, {this.state.destination_address}
+                                    {this.state.destination_address}
                                   </div>
                                 </Form.Item>
                               </Col>

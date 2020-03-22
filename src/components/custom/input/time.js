@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import IntlMessages from "../../utility/intlMessages";
 import TextWrapper from './text.style'
-import {DatePicker} from "antd";
+import {TimePicker} from "antd";
 
-export default class DatePickerCustom extends Component {
+export default class TimePickerCustom extends Component {
   render() {
     const {format, defaultValue, onChange, required} = this.props;
     return (
       <TextWrapper>
-          <DatePicker defaultValue={defaultValue}
+          <TimePicker defaultValue={defaultValue}
                       format={format}
                       required={required}
                       onChange={onChange}/>
