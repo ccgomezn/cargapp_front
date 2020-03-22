@@ -377,7 +377,6 @@ export default class ServiceEdit extends Component {
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={16}>
-                        {console.log(this.state.destination_address)}
                         <AutocompleteCustom
                           value={this.state.destination_address}
                           onChange={(e) => {this.handleChange(e, 'destination_address')}}
@@ -472,7 +471,7 @@ export default class ServiceEdit extends Component {
             <Row style={rowStyle} gutter={10}>
               <Card className="cardContent" style={{ marginTop: '1%' }}>
                 <Form>
-                { admin &&
+                { assign &&
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={6}>

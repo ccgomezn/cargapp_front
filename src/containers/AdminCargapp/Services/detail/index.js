@@ -104,6 +104,13 @@ export default class ServiceDetail extends Component {
           let startingServiceStatus = orderedStatus.slice(0, 5);
           let onProcessServiceStatus = orderedStatus.slice(5, orderedStatus.length);
 
+          let originAddress = responses[0].data.origin_address.split(', Colombia')[0];
+          let destinationAddress = responses[0].data.destination_address.split(', Colombia')[0];
+
+          let formattedDate = responses[0].data.datetime.split('T');
+          let formattedTime = `${formattedDate[1].split(':')[0]}:${formattedDate[1].split(':')[1]}`;
+          let programmedDate = `${formattedDate[0]}, ${formattedTime}`;
+
           let data_users = this.transformDataToMap(responses[1].data, 'email');
           let data_cities = this.transformDataToMap(responses[2].data, 'name');
           let data_companies = this.transformDataToMap(responses[3].data, 'name');
@@ -116,12 +123,12 @@ export default class ServiceDetail extends Component {
             name: responses[0].data.name,
             origin: responses[0].data.origin,
             origin_city: data_cities[responses[0].data.origin_city_id],
-            origin_address: responses[0].data.origin_address,
+            origin_address: originAddress,
             origin_longitude: responses[0].data.origin_longitude,
             origin_latitude: responses[0].data.origin_latitude,
             destination: responses[0].data.destination,
             destination_city: data_cities[responses[0].data.destination_city_id],
-            destination_address: responses[0].data.destination_address,
+            destination_address: destinationAddress,
             destination_latitude: responses[0].data.destination_latitude,
             destination_longitude: responses[0].data.destination_longitude,
             price: responses[0].data.price,
@@ -148,6 +155,7 @@ export default class ServiceDetail extends Component {
             status_from_code: data_status_from_code,
             starting_service_status: startingServiceStatus,
             process_service_status: onProcessServiceStatus,
+            programmed_date: programmedDate,
           });
 
           getUserLocation(this.state.user_driver_id).then((response) => {
@@ -326,7 +334,7 @@ export default class ServiceDetail extends Component {
                               <Col span={12}>
                                 <Form.Item label="Precio" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.price}
+                                    {this.state.price || 'Calculando precio'}
                                   </div>
                                 </Form.Item>
                               </Col>
@@ -341,16 +349,16 @@ export default class ServiceDetail extends Component {
 
                             <Row>
                               <Col span={12}>
-                                <Form.Item label="Distancia" style={{ marginBottom: '15px' }}>
+                                <Form.Item label="Distancia de trayecto" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.distance}
+                                    {this.state.distance || 'No ha iniciado el trayecto'}
                                   </div>
                                 </Form.Item>
                               </Col>
                               <Col span={12}>
-                                <Form.Item label="Duración" style={{ marginBottom: '15px' }}>
+                                <Form.Item label="Fecha programada del viaje" style={{ marginBottom: '15px' }}>
                                   <div class="ant-form-item-control" style={{ lineHeight: 1 }}>
-                                    {this.state.duration}
+                                    {this.state.programmed_date}
                                   </div>
                                 </Form.Item>
                               </Col>
