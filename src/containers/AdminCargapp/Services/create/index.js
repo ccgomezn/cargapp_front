@@ -393,7 +393,7 @@ export default class ReportCreate extends Component {
                   <Row gutter={10}>
                     <Col span={24}>
                       <Col span={16}>
-                        <Form.Item label="Destino ">
+                        <Form.Item label="Destino " style={{ marginTop: '5%' }}>
                           <SelectInputCustom value={this.state.destination_city_id}
                             style={{ width: '100%' }} onChange={(e) => {
                               this.handleChange(e, 'destination_city_id');
@@ -417,7 +417,7 @@ export default class ReportCreate extends Component {
                           </SelectInputCustom>
                         </Form.Item>
                       </Col>
-                      <Col span={8} style={{marginTop: '40px'}}>
+                      <Col span={8} style={{marginTop: '70px'}}>
                         <span style={{fontSize: '18px', color:'#172158'}}>*</span>
                       </Col>
                     </Col>
@@ -582,7 +582,7 @@ export default class ReportCreate extends Component {
                   
                   <Row gutter={10}>
                     <Col span={12}>
-                      <Form.Item label="Fecha del viaje">
+                      <Form.Item label="Fecha de despacho">
                         {
                           this.state &&
                           <DatePickerCustom
@@ -593,7 +593,7 @@ export default class ReportCreate extends Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item label="Hora del viaje">
+                      <Form.Item label="Hora de despacho">
                         {
                           this.state &&
                           <TimePickerCustom
