@@ -3,7 +3,9 @@ import clone from 'clone';
 import IntlMessages from '../../../components/utility/intlMessages';
 import {
   ButtonCell,
-  DateCell, DoubleButtonCell,
+  DateCell, 
+  DoubleButtonCell,
+  TripleButtonCell,
   ImageCell,
   LinkCell,
   TextColorCell,
@@ -114,8 +116,8 @@ const renderCell = (object, type, key, color = false, link, link_name, type_role
 
     case 'MultipleAndSingleButton':
       if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 49) {
-        return DoubleButtonCell(text2, text4, acceptService(object['id'], 'admin'),
-                                  denyService(object['id'], 'admin'), type1, type3);
+        return TripleButtonCell(text2, text1, text4, acceptService(object['id'], 'admin'),
+                                function1, denyService(object['id'], 'admin'), type1, type1, type3);
       } else if ((type_role === 'admin' || type_role === 'super_admin') && object['statu_id'] === 11) {
         return TripleButtonOnClickCell(text5, text1, text3, modalFunction(object['id']),
                                         function1, deleteFunction(object['id'], 'admin'), type1, type1, type3);

@@ -421,7 +421,7 @@ export default class Service extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {!vehicle_manager && !active_services &&
+                {!vehicle_manager && !generator && !active_services &&
                   <Tabs defaultActiveKey="1">
                     <TabPane tab="Activo" key="1">
                       {this.state && this.state.services &&
