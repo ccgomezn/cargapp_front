@@ -193,7 +193,7 @@ export default class Service extends Component {
               item.status = status_data[item.statu_id];
               item.origin_destination = `${item.origin} - ${item.destination}`;
               
-              let formattedDate = item.updated_at.split('T');
+              let formattedDate = item.datetime ? item.datetime.split('T') : item.created_at.split('T');
               let formattedTime = `${formattedDate[1].split(':')[0]}:${formattedDate[1].split(':')[1]}`;
               item.datetime = `${formattedDate[0]}, ${formattedTime}`;
               return item;
@@ -421,7 +421,7 @@ export default class Service extends Component {
             </Row>
             <Row>
               <Col lg={24} md={24} sm={24} xs={24} style={colStyle}>
-                {!vehicle_manager && !active_services &&
+                {!vehicle_manager && !generator && !active_services &&
                   <Tabs defaultActiveKey="1">
                     <TabPane tab="Activo" key="1">
                       {this.state && this.state.services &&
