@@ -1,4 +1,4 @@
-const httpAddr = 'https://api.cargapp.co/api/v1';
-const httpAddrNoApi = 'https://api.cargapp.co';
+const httpAddr = 'http://3.138.236.56:3000/api/v1';
+const httpAddrNoApi = 'http://3.138.236.56:3000';
 export default httpAddr;
 export { httpAddrNoApi, httpAddr };
